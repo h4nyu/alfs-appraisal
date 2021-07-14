@@ -1,12 +1,10 @@
 import { v4 as uuid } from 'uuid';
 import { Lock, ErrorKind, Store } from "@sivic/core";
 import { uniq } from "lodash"
-import { 
-  FilterFn as FilterImageFn,
-  DeleteFn as DeleteImageFn
-} from "@sivic/core/image"
-
 import CreateFn from "@sivic/core/workspace/create"
+import UpdateFn from "@sivic/core/workspace/update"
+import FindFn from "@sivic/core/workspace/find"
+import DeleteFn from "@sivic/core/workspace/delete"
 
 export type Workspace = {
   id: string
@@ -14,22 +12,6 @@ export type Workspace = {
   imageIds: string[]
   createdAt: Date
 }
-
-
-export type UpdatePayload = {
-  id: string;
-  name: string;
-};
-
-
-export type DeletePayload = {
-  id: string;
-};
-
-export type AddImagePayload = {
-  workspaceId: string;
-  imageId: string;
-};
 
 export const Workspace = (args?: {
   id?: string,
@@ -63,50 +45,14 @@ export const FilterFn = (props: {
   }
 }
 
-export type FindPayload = {
-  id: string;
-};
-export type FindFn = (payload: FindPayload) => Promise<Workspace | Error>
-export const FindFn = (props: {
-  store: Store,
-}):FindFn => {
-  return async (payload: FindPayload) => {
-    const workspace = await props.store.workspace.find(payload)
-    if(workspace instanceof Error) { return workspace }
-    if(workspace === undefined) { return new Error(ErrorKind.WorkspaceNotFound) }
-    return workspace
-  }
-}
 
-export type DeleteFn = (payload: DeletePayload) => Promise<void | Error>
-export const DeleteFn = (props: {
-  store: Store,
-  deleteImage: DeleteImageFn,
-  filterImage: FilterImageFn,
-}) => {
-  const find = FindFn(props)
-  return async (payload: FindPayload) => {
-    const workspace = await find(payload)
-    if(workspace instanceof Error) { return workspace }
-
-    const images = await props.filterImage({workspaceId: workspace.id})
-    if(images instanceof Error) { return images}
-    for(const image of images){
-      const err = await props.deleteImage({id: image.id})
-      if (err instanceof Error) { return err; }
-    }
-
-    let err = await props.store.workspace.delete({id: payload.id})
-    if(err instanceof Error) { return err }
-  }
-}
 
 export type Service = {
   create: CreateFn,
   find: FindFn,
   filter: FilterFn,
   delete: DeleteFn,
-  // update: UpdateFn
+  update: UpdateFn
 };
 
 // export const Service = (args: { 

@@ -7,3 +7,4 @@ export enum ErrorKind {
   ZeroSizeBox = "ZeroSizeBox",
   FileNotFound="FileNotFound",
 }
+export default ErrorKind;
