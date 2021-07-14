@@ -21,6 +21,7 @@ export type Image = {
   parentId?: string
   tagId?: string,
   fileId?: string,
+  boxId?:string,
   createdAt: Date,
 }
 export const Image = (args?:{
@@ -30,15 +31,17 @@ export const Image = (args?:{
   parentId?: string,
   tagId?:string,
   fileId?: string,
+  boxId?: string,
   createdAt?: Date,
 }):Image => {
-  const id = args?.id || uuid()
-  const name = args?.name || ""
+  const id = args?.id ?? uuid()
+  const name = args?.name ?? ""
   const workspaceId = args?.workspaceId
   const parentId = args?.parentId
   const tagId = args?.tagId
   const createdAt = args?.createdAt || new Date()
   const fileId = args?.fileId
+  const boxId = args?.boxId
   return {
     id,
     name,
@@ -47,6 +50,7 @@ export const Image = (args?:{
     tagId,
     fileId,
     createdAt,
+    boxId,
   }
 }
 

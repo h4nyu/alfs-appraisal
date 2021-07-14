@@ -5,8 +5,9 @@ import { Image } from "@sivic/core/image"
 
 export type Payload = {
   name: string;
-  workspaceId: string;
+  workspaceId?: string;
   data: string; //base64
+  boxId?: string;
 };
 export type CreateFn = (payload: Payload) => Promise<Image | Error>
 export const CreateFn = (props: {
@@ -22,6 +23,7 @@ export const CreateFn = (props: {
       name: payload.name,
       fileId: file.id,
       workspaceId: payload.workspaceId,
+      boxId: payload.boxId,
     })
     const imageErr = await props.store.image.insert(image)
     if(imageErr instanceof Error) { return imageErr}

@@ -2,7 +2,12 @@ import { Lock, ErrorKind, Store } from "@sivic/core";
 import { Workspace } from "@sivic/core/workspace";
 import FindFn from "@sivic/core/workspace/find"
 import { Image } from "@sivic/core/image"
-import { Payload, CreateFn } from "@sivic/core/image/create"
+import { CreateFn } from "@sivic/core/image/create"
+export type Payload = {
+  workspaceId: string;
+  data:string;
+  name:string;
+} 
 
 export type Fn = (payload: Payload) => Promise<Image | Error>
 export const Fn = (props: {
