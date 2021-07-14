@@ -5,6 +5,7 @@ import { File } from "@sivic/core/file"
 import FilterFn from "./filter"
 import DeleteFn from "./delete"
 import FindFn from "./find"
+import CropFn from "./crop"
 
 export const ImageTag = {
   Source: "Source",
@@ -93,40 +94,5 @@ export type Service = {
   filter: FindFn;
   delete: DeleteFn;
   find: FindFn;
+  crop: CropFn;
 };
-
-// export const Service = (args: { store: Store; lock: Lock }): Service => {
-//   const { store, lock } = args;
-//   const filter = async (payload:FilterPayload) => {
-//     return await store.image.filter(payload);
-//   }
-//   const find = async (payload: FindPayload) => {
-//     const image = await store.image.find(payload);
-//     if (image instanceof Error) {
-//       return image;
-//     }
-//     if (image === undefined) {
-//       return new Error(ErrorKind.ImageNotFound);
-//     }
-//     return image;
-//   };
-
-//   const delete_ = async (payload: DeletePayload) => {
-//     return await lock.auto(async () => {
-//       const { id } = payload;
-//       const row = await find({ id });
-//       if (row instanceof Error) { return row; }
-//       let err = await store.image.delete({ id });
-//       if (err instanceof Error) { return err; }
-//       err = await store.file.delete({ id: row.fileId });
-//       if (err instanceof Error) { return err; }
-//       return row.id
-//     });
-//   };
-
-//   return {
-//     find,
-//     filter,
-//     delete: delete_,
-//   };
-// };
