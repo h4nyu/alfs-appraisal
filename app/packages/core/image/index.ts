@@ -3,7 +3,8 @@ import ErrorKind  from "@sivic/core/error"
 export { default as FilterFn } from "./filter"
 export { default as DeleteFn } from "./delete"
 export { default as FindFn } from "./find"
-export { default as CropFn } from "./crop"
+export { default as ReplaceBoxesFn } from "./replaceBoxes"
+export { default as ReplaceLinesFn } from "./replaceLines"
 
 export const ImageTag = {
   Source: "Source",

@@ -5,7 +5,8 @@ import {
   FindFn,
   DeleteFn,
   FilterFn,
-  CropFn,
+  ReplaceBoxesFn,
+  ReplaceLinesFn,
 } from "@sivic/core/image";
 
 export const Routes = (props: {
@@ -16,12 +17,9 @@ export const Routes = (props: {
   const find = FindFn(props)
   const filter = FilterFn(props)
   const delete_ = DeleteFn(props)
-  const crop = CropFn(props)
+  const replaceBoxes = ReplaceBoxesFn(props)
+  const replaceLines = ReplaceLinesFn(props)
   return function (app, opts, done) {
-    app.post<{ Body: Parameters<typeof crop>[0] }>("/crop", {}, async (req, reply) => {
-      const res = await crop(req.body);
-      reply.send(res);
-    });
     app.post<{ Body: Parameters<typeof delete_>[0] }>("/delete", {}, async (req, reply) => {
       const res = await delete_(req.body);
       reply.send(res);
@@ -32,6 +30,14 @@ export const Routes = (props: {
     });
     app.post<{ Body: Parameters<typeof filter>[0] }>("/filter", {}, async (req, reply) => {
       const res = await filter(req.body);
+      reply.send(res);
+    });
+    app.post<{ Body: Parameters<typeof replaceBoxes>[0] }>("/box/replace", {}, async (req, reply) => {
+      const res = await replaceBoxes(req.body);
+      reply.send(res);
+    });
+    app.post<{ Body: Parameters<typeof replaceLines>[0] }>("/line/replace", {}, async (req, reply) => {
+      const res = await replaceLines(req.body);
       reply.send(res);
     });
     done();

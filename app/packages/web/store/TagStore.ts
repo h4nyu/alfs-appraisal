@@ -1,5 +1,5 @@
 import { observable, computed } from "mobx";
-import { Tag, FilterPayload } from "@sivic/core/tag";
+import Tag, { FilterFn } from "@sivic/core/tag";
 import { Map, List } from "immutable";
 import { Images } from ".";
 import { ToastStore } from "./toast";
@@ -9,23 +9,22 @@ import { saveAs } from 'file-saver';
 import { keyBy } from "lodash";
 
 export type TagStore = {
-  tags: Map<string, Tag>;
-  fetch: (payload: FilterPayload) => Promise<void>
+  tags: Tag[];
+  fetch: FilterFn
 };
 
 export const TagStore = (args: {
   api: RootApi;
-  loading: <T>(fn: () => Promise<T>) => Promise<T>;
-  toast: ToastStore;
 }): TagStore => {
-  const { api, loading, toast } = args;
-  const fetch = async (paylaod: FilterPayload) => {
+  const { api } = args;
+  const fetch:FilterFn = async (paylaod) => {
     const tags = await api.tag.filter(paylaod)
-    if(tags instanceof Error) { return }
-    self.tags = self.tags.merge(Map(keyBy(tags, x => x.id)))
+    if(tags instanceof Error) { return tags }
+    self.tags = tags
+    return self.tags
   }
-  const self = observable({
-    tags: Map<string, Tag>(),
+  const self = observable<TagStore>({
+    tags: [],
     fetch,
   })
   return self

@@ -4,7 +4,7 @@ import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
 import Workspace from "@sivic/core/workspace";
-import { Image, } from "@sivic/core/image";
+import Image from "@sivic/core/image";
 import { saveAs } from 'file-saver';
 import { MemoryRouter } from "react-router";
 import { take, flow, sortBy, map } from "lodash/fp";
@@ -104,9 +104,9 @@ export const WorkspaceFrom = (args: {
 
   const _delete = async (id:string):Promise<void> => {
     await loading(async () => {
-      const row = await api.workspace.delete({id});
+      await api.workspace.delete({id});
       if (row instanceof Error) { return; }
-      onDelete && onDelete(row)
+      onDelete && onDelete(id)
       toast.show("Success", Level.Success);
     })
   }
@@ -114,7 +114,7 @@ export const WorkspaceFrom = (args: {
     return []
   }
 
-  const self = observable({
+  const self = observable<WorkspaceFrom>({
     id:"", 
     name:"",
     imageForm,
