@@ -22,5 +22,4 @@ export const DeleteFn = (props: {
     if(err instanceof Error) { return err }
   }
 }
-
 export default DeleteFn

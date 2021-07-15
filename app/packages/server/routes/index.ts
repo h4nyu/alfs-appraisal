@@ -3,6 +3,7 @@ import { Lock, Store } from "@sivic/core";
 import path from "path";
 import WorkspaceRoutes from "./workspace";
 import ImageRoutes from "./image";
+import BoxRoutes from "./box";
 // import { ImageRoutes } from "./image";
 // import { DetectRoutes } from "./detect";
 // import { BoxRoutes } from "./box";
@@ -31,9 +32,11 @@ export const App = (args: { store: Store; lock: Lock }) => {
   app.register(ImageRoutes({ store, lock }), {
     prefix: `${prefix}/image`,
   });
-  // app.register(ImageRoutes({ store, lock }), {
-  //   prefix: `${prefix}/image`,
-  // });
+  app.register(BoxRoutes({ store, lock }), {
+    prefix: `${prefix}/box`,
+  });
+
+
   // app.register(DetectRoutes({ store, lock }), {
   //   prefix: `${prefix}/detect`,
   // });

@@ -34,10 +34,6 @@ export const Routes = (props: {
       const res = await filter(req.body);
       reply.send(res);
     });
-    app.post<{ Body: Parameters<typeof find>[0] }>("/delete", {}, async (req, reply) => {
-      const res = await delete_(req.body);
-      reply.send(res);
-    });
     done();
   };
 };
