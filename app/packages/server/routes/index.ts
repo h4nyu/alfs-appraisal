@@ -4,6 +4,8 @@ import path from "path";
 import WorkspaceRoutes from "./workspace";
 import ImageRoutes from "./image";
 import BoxRoutes from "./box";
+import FileRoutes from "./file";
+import TagRoutes from "./tag"
 // import { ImageRoutes } from "./image";
 // import { DetectRoutes } from "./detect";
 // import { BoxRoutes } from "./box";
@@ -35,7 +37,12 @@ export const App = (args: { store: Store; lock: Lock }) => {
   app.register(BoxRoutes({ store, lock }), {
     prefix: `${prefix}/box`,
   });
-
+  app.register(FileRoutes({ store, lock }), {
+    prefix: `${prefix}/file`,
+  });
+  app.register(TagRoutes({ store, lock }), {
+    prefix: `${prefix}/tag`,
+  });
 
   // app.register(DetectRoutes({ store, lock }), {
   //   prefix: `${prefix}/detect`,

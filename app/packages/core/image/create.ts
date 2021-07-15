@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { Lock, Store, ErrorKind } from "@sivic/core"
-import { File } from "@sivic/core/file"
+import CreateFileFn from "@sivic/core/file/create"
 import { Image } from "@sivic/core/image"
 
 export type Payload = {
@@ -13,12 +13,10 @@ export type CreateFn = (payload: Payload) => Promise<Image | Error>
 export const CreateFn = (props: {
   store: Store,
 }):CreateFn => {
+  const createFile = CreateFileFn(props)
   return async (payload: Payload) => {
-    const file = File({
-      data:payload.data,
-    })
-    const fileErr = await props.store.file.insert(file)
-    if(fileErr instanceof Error) { return fileErr }
+    const file = await createFile({ data: payload.data })
+    if(file instanceof Error) { return file }
     const image = Image({
       name: payload.name,
       fileId: file.id,

@@ -51,6 +51,7 @@ export const Image = (args?:{
     boxId,
   }
 }
+export default Image
 
 
 export type DetectBoxPayload = {imageId: string}

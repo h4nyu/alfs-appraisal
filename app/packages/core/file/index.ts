@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import FindFn from './find'
+export { default as FindFn } from './find'
 
 export type File = {
   id: string,
@@ -7,26 +7,18 @@ export type File = {
   createdAt: Date,
 }
 
-export const File = (args?:{
+export const File = (props?:{
   id?: string,
   data?: string,
   createdAt?: Date,
 }) => {
-  const id = args?.id ?? uuid()
-  const data = args?.data ?? ""
-  const createdAt = args?.createdAt ?? new Date()
+  const id = props?.id ?? uuid()
+  const data = props?.data ?? ""
+  const createdAt = props?.createdAt ?? new Date()
   return {
     id,
     data,
     createdAt,
   }
 }
-
-export type CreatePayload = {
-  id?: string,
-  data?: string,
-  createdAt?: Date,
-}
-export type Service = {
-  find: FindFn
-}
+export default File

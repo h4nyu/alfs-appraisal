@@ -34,3 +34,4 @@ export const Workspace = (args?: {
     createdAt,
   }
 }
+export default Workspace

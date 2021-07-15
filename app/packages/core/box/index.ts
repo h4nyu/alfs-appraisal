@@ -45,3 +45,4 @@ export const Box = (args?:{
   }
   return self
 }
+export default Box

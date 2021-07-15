@@ -15,7 +15,6 @@ export const Routes = (props: {
   store: Store;
   lock: Lock;
 }): FastifyPlugin<{ prefix: string }> => {
-  const { store, lock } = props;
   const create = CreateFn(props)
   const update = UpdateFn(props)
   const find = FindFn(props)
