@@ -13,16 +13,6 @@ import { WorkspaceRoutes } from "./workspace";
 
 import fastifyStatic from "fastify-static";
 
-const urlRoutes: FastifyPlugin<{ prefix: string }> = function (
-  app,
-  opts,
-  done
-) {
-  app.get("/image-store-url", {}, async (request) => {
-    return process.env.IMAGE_STORE_URL;
-  });
-  done();
-};
 
 export const App = (args: { store: Store; lock: Lock }) => {
   const { store, lock } = args;
@@ -31,7 +21,6 @@ export const App = (args: { store: Store; lock: Lock }) => {
     logger: true,
   });
   const prefix = path.join("/", process.env.PREFIX || "", "/api/v1");
-  app.register(urlRoutes, { prefix });
   app.register(fastifyStatic, {
     root: "/srv/packages/web/dist",
   });
