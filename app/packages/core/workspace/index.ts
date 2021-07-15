@@ -5,6 +5,7 @@ export { CreateFn } from "@sivic/core/workspace/create"
 export { UpdateFn } from "@sivic/core/workspace/update"
 export { FindFn }from "@sivic/core/workspace/find"
 export { DeleteFn } from "@sivic/core/workspace/delete"
+export { FilterFn } from "@sivic/core/workspace/filter"
 
 export type Workspace = {
   id: string
@@ -28,19 +29,5 @@ export const Workspace = (args?: {
     name,
     imageIds,
     createdAt,
-  }
-}
-
-export type FilterPayload = {
-  ids?: string[];
-};
-export type FilterFn = (payload: FilterPayload) => Promise<Workspace[] | Error>
-export const FilterFn = (props: {
-  store: Store,
-}):FilterFn => {
-  return async (payload: FilterPayload) => {
-    const workspaces = await props.store.workspace.filter(payload)
-    if(workspaces instanceof Error) { return workspaces }
-    return workspaces
   }
 }
