@@ -1,8 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { uniq } from "lodash"
 import ErrorKind from "@sivic/core/error"
-export { default as CreateFn } from "./create"
-export { default as DeleteFn } from "./delete"
 export { default as FilterFn } from "./filter"
 
 export type Box = {
@@ -24,11 +21,11 @@ export const Box = (args?:{
   imageId?: string,
   tagId?:string,
 }):Box => {
-  const id = args?.id || uuid()
-  const x0 = args?.x0 || 0
-  const y0 = args?.y0 || 0
-  const x1 = args?.x1 || 0
-  const y1 = args?.y1 || 0
+  const id = args?.id ?? uuid()
+  const x0 = args?.x0 ?? 0
+  const y0 = args?.y0 ?? 0
+  const x1 = args?.x1 ?? 0
+  const y1 = args?.y1 ?? 0
   const imageId = args?.imageId
   const tagId = args?.tagId
   const validate = () => {

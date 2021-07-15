@@ -6,6 +6,7 @@ import {
   UpdateFn,
   FindFn,
   DeleteFn,
+  CreateImageFn,
 } from "@sivic/core/workspace";
 
 export const Routes = (props: {
@@ -17,11 +18,17 @@ export const Routes = (props: {
   const update = UpdateFn(props)
   const find = FindFn(props)
   const delete_ = DeleteFn(props)
+  const createImage = CreateImageFn(props)
   return function (app, opts, done) {
     app.post<{ Body: Parameters<typeof create>[0] }>("/create", {}, async (req, reply) => {
       const res = await create(req.body);
       reply.send(res);
     });
+    app.post<{ Body: Parameters<typeof createImage>[0] }>("/image/create", {}, async (req, reply) => {
+      const res = await createImage(req.body);
+      reply.send(res);
+    });
+
     app.post<{ Body: Parameters<typeof update>[0] }>("/update", {}, async (req, reply) => {
       const res = await update(req.body);
       reply.send(res);

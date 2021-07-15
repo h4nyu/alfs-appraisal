@@ -3,6 +3,7 @@ import { Workspace } from "@sivic/core/workspace";
 import FindFn from "@sivic/core/workspace/find"
 import { Image } from "@sivic/core/image"
 import { CreateFn } from "@sivic/core/image/create"
+
 export type Payload = {
   workspaceId: string;
   data:string;
@@ -24,5 +25,4 @@ export const Fn = (props: {
     return image
   }
 }
-
 export default Fn

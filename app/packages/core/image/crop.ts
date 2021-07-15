@@ -28,8 +28,10 @@ export const Fn = (props:{
     if(baseFile instanceof Error) { return baseFile }
     let err = await deleteBoxFn({imageId: baseImage.id})
     if(err instanceof Error) { return err }
+    const boxes = payload.boxes.filter(b => b.imageId === baseImage.id)
     const cropedImages:Image[] = []
-    for(const [i, box] of payload.boxes.entries()){
+    const cropedBoxes: Box[] = []
+    for(const [i, box] of boxes.entries()){
       const croped = await props.store.transform.crop({imageData: baseFile.data, box})
       if(croped instanceof Error) { return croped }
       const cropedImage = await create({
@@ -40,10 +42,9 @@ export const Fn = (props:{
       })
       if(cropedImage instanceof Error) { return cropedImage }
       cropedImages.push(cropedImage)
+      cropedBoxes.push(box)
     }
-    const createBoxErr = await createBox(
-      payload.boxes.filter(b => cropedImages.map(im => im.id).includes(b.id))
-    )
+    const createBoxErr = await createBox(cropedBoxes)
     if(createBoxErr instanceof Error) { return createBoxErr }
     return cropedImages
   }
