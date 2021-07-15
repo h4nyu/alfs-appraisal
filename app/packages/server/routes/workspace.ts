@@ -5,6 +5,7 @@ import {
   CreateFn,
   UpdateFn,
   FindFn,
+  FilterFn,
   DeleteFn,
   CreateImageFn,
   CreateTagFn,
@@ -17,11 +18,12 @@ export const Routes = (props: {
 }): FastifyPlugin<{ prefix: string }> => {
   const create = CreateFn(props)
   const update = UpdateFn(props)
-  const find = FindFn(props)
   const delete_ = DeleteFn(props)
   const createImage = CreateImageFn(props)
   const createTag = CreateTagFn(props)
   const updateTag = UpdateTagFn(props)
+  const find = FindFn(props)
+  const filter = FilterFn(props)
   return function (app, opts, done) {
     app.post<{ Body: Parameters<typeof create>[0] }>("/create", {}, async (req, reply) => {
       const res = await create(req.body);
@@ -29,10 +31,6 @@ export const Routes = (props: {
     });
     app.post<{ Body: Parameters<typeof update>[0] }>("/update", {}, async (req, reply) => {
       const res = await update(req.body);
-      reply.send(res);
-    });
-    app.post<{ Body: Parameters<typeof find>[0] }>("/find", {}, async (req, reply) => {
-      const res = await find(req.body);
       reply.send(res);
     });
     app.post<{ Body: Parameters<typeof delete_>[0] }>("/delete", {}, async (req, reply) => {
@@ -49,6 +47,14 @@ export const Routes = (props: {
     });
     app.post<{ Body: Parameters<typeof updateTag>[0] }>("/tag/update", {}, async (req, reply) => {
       const res = await updateTag(req.body);
+      reply.send(res);
+    });
+    app.post<{ Body: Parameters<typeof find>[0] }>("/find", {}, async (req, reply) => {
+      const res = await find(req.body);
+      reply.send(res);
+    });
+    app.post<{ Body: Parameters<typeof filter>[0] }>("/filter", {}, async (req, reply) => {
+      const res = await filter(req.body);
       reply.send(res);
     });
     done();

@@ -1,20 +1,15 @@
 import { AxiosInstance } from "axios";
 import { toError } from ".";
-import {
-  File,
-  FindPayload,
-  CreatePayload,
-  Service,
+import File, {
+  FindFn
 } from "@sivic/core/file";
 
-export type FileApi = Service;
-
-export const FileApi = (arg: {
+export const Api = (arg: {
   http: AxiosInstance;
   prefix: string;
-}): Service => {
+}) => {
   const { http, prefix } = arg;
-  const find = async (payload: FindPayload) => {
+  const find:FindFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/find`, payload);
       return File(res.data);
@@ -22,9 +17,8 @@ export const FileApi = (arg: {
       return toError(err);
     }
   };
-
   return {
     find,
   };
 };
-export default FileApi
+export default Api

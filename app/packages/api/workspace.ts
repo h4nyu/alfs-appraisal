@@ -1,71 +1,82 @@
 import { AxiosInstance } from "axios";
 import { toError } from ".";
-import {
-  FilterPayload,
-  CreatePayload,
-  UpdatePayload,
-  DeletePayload,
-  FindPayload,
-  AddImagePayload,
-  DeleteImagePayload,
-  Service,
-  Workspace,
+import Tag from "@sivic/core/tag"
+import Image from "@sivic/core/image"
+import Workspace, {
+  CreateFn,
+  UpdateFn,
+  DeleteFn,
+  CreateImageFn,
+  CreateTagFn,
+  UpdateTagFn,
+  FindFn,
+  FilterFn,
 } from "@sivic/core/workspace";
-import { parseISO } from "date-fns";
 
-export type WorkspaceApi = Service;
-
-export const WorkspaceApi = (arg: {
+export const Api = (arg: {
   http: AxiosInstance;
   prefix: string;
-}): Service => {
+}) => {
   const { http, prefix } = arg;
-  const to = (res: any) => {
-    return {
-      ...res,
-      createdAt: new Date(res.createdAt),
-    };
-  };
-
-  const filter = async (payload: FilterPayload) => {
-    try {
-      const res = await http.post(`${prefix}/filter`, payload);
-      return res.data.map(to);
-    } catch (err) {
-      return toError(err);
-    }
-  };
-
-  const find = async (payload: FindPayload) => {
-    try {
-      const res = await http.post(`${prefix}/find`, payload);
-      return to(res.data);
-    } catch (err) {
-      return toError(err);
-    }
-  };
-  const create = async (payload: CreatePayload) => {
+  const create:CreateFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/create`, payload);
-      return to(res.data);
+      return Workspace(res.data);
     } catch (err) {
       return toError(err);
     }
   };
-
-  const update = async (payload: UpdatePayload) => {
+  const update:UpdateFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/update`, payload);
-      return to(res.data);
+      return Workspace(res.data);
     } catch (err) {
       return toError(err);
     }
   };
-
-  const delete_ = async (payload: DeletePayload) => {
+  const delete_:DeleteFn = async (payload) => {
     try {
-      const res = await http.post(`${prefix}/delete`, payload);
-      return res.data;
+      await http.post(`${prefix}/update`, payload);
+    } catch (err) {
+      return toError(err);
+    }
+  };
+  const createImage:CreateImageFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/image/create`, payload);
+      return Image(res.data);
+    } catch (err) {
+      return toError(err);
+    }
+  };
+  const createTag:CreateTagFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/image/create`, payload);
+      return Tag(res.data);
+    } catch (err) {
+      return toError(err);
+    }
+  };
+  const updateTag:UpdateTagFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/tag/update`, payload);
+      return Tag(res.data);
+    } catch (err) {
+      return toError(err);
+    }
+  };
+  const find:FindFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/find`, payload);
+      return Workspace(res.data);
+    } catch (err) {
+      return toError(err);
+    }
+  };
+  const filter:FilterFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/filter`, payload);
+      return res.data.map(Workspace);
     } catch (err) {
       return toError(err);
     }
@@ -73,8 +84,12 @@ export const WorkspaceApi = (arg: {
   return {
     create,
     update,
+    delete: delete_,
+    createImage,
+    updateTag,
+    createTag,
     find,
     filter,
-    delete: delete_,
   };
 };
+export default Api
