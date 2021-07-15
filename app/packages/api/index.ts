@@ -1,4 +1,3 @@
-// import { ImageApi } from "./image";
 // import { DetectApi } from "./detect";
 // import { BoxApi } from "./box";
 // import { PointApi } from "./point";
@@ -6,6 +5,7 @@
 // import { LineApi } from "./line"
 import FileApi from "./file"
 import WorkspaceApi from "./workspace";
+import ImageApi from "./image";
 // import TagApi from "./tag"
 import axios from "axios";
 
@@ -30,6 +30,7 @@ export type RootApi = {
   // transform: TransformApi;
   file: ReturnType<typeof FileApi>;
   workspace: ReturnType<typeof WorkspaceApi>;
+  image: ReturnType<typeof ImageApi>;
   // tag: TagApi;
 };
 
@@ -37,7 +38,7 @@ export const RootApi = (): RootApi => {
   const http = axios.create();
   const prefix = "api/v1";
   const workspace = WorkspaceApi({ http, prefix: `${prefix}/workspace` });
-  // const image = ImageApi({ http, prefix: `${prefix}/image` });
+  const image = ImageApi({ http, prefix: `${prefix}/image` });
   // const detect = DetectApi({ http, prefix: `${prefix}/detect` });
   // const box = BoxApi({ http, prefix: `${prefix}/box` });
   // const line = LineApi({ http, prefix: `${prefix}/line` });
@@ -62,7 +63,7 @@ export const RootApi = (): RootApi => {
     setUrl,
     getImageStoreUrl,
     workspace,
-    // image,
+    image,
     // detect,
     // box,
     // line,
