@@ -1,11 +1,11 @@
 // import { DetectApi } from "./detect";
-// import { BoxApi } from "./box";
 // import { PointApi } from "./point";
 // import { TransformApi } from "./transform";
 // import { LineApi } from "./line"
 import FileApi from "./file"
 import WorkspaceApi from "./workspace";
 import ImageApi from "./image";
+import BoxApi from "./box";
 // import TagApi from "./tag"
 import axios from "axios";
 
@@ -21,8 +21,6 @@ export function toError(err: any): Error {
 export type RootApi = {
   setUrl: (url: string) => void;
   getImageStoreUrl: () => Promise<string|Error>;
-  // workspace: WorkspaceApi;
-  // image: ImageApi;
   // detect: DetectApi;
   // box: BoxApi;
   // line: LineApi,
@@ -31,6 +29,7 @@ export type RootApi = {
   file: ReturnType<typeof FileApi>;
   workspace: ReturnType<typeof WorkspaceApi>;
   image: ReturnType<typeof ImageApi>;
+  box: ReturnType<typeof BoxApi>;
   // tag: TagApi;
 };
 
@@ -40,7 +39,7 @@ export const RootApi = (): RootApi => {
   const workspace = WorkspaceApi({ http, prefix: `${prefix}/workspace` });
   const image = ImageApi({ http, prefix: `${prefix}/image` });
   // const detect = DetectApi({ http, prefix: `${prefix}/detect` });
-  // const box = BoxApi({ http, prefix: `${prefix}/box` });
+  const box = BoxApi({ http, prefix: `${prefix}/box` });
   // const line = LineApi({ http, prefix: `${prefix}/line` });
   // const point = PointApi({ http, prefix: `${prefix}/point` });
   // const transform = TransformApi({ http, prefix: `${prefix}/transform` });
@@ -65,7 +64,7 @@ export const RootApi = (): RootApi => {
     workspace,
     image,
     // detect,
-    // box,
+    box,
     // line,
     // point,
     // transform,
