@@ -16,6 +16,7 @@ describe("image", () => {
       id: uuid(),
       workspaceId: uuid(),
       parentId: uuid(),
+      boxId: uuid(),
     })
   })
   beforeAll(async () => {

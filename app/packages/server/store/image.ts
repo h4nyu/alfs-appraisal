@@ -14,6 +14,7 @@ const COLUMNS = [
   "parent_id",
   "tag_id", 
   "file_id", 
+  "box_id", 
   "created_at",
 ] as const
 export const Store = (
@@ -27,6 +28,7 @@ export const Store = (
       tagId: r.tag_id ?? undefined,
       parentId: r.parent_id ?? undefined,
       fileId: r.file_id ?? undefined,
+      boxId: r.box_id ?? undefined,
       createdAt: r.created_at,
     });
   };
@@ -39,6 +41,7 @@ export const Store = (
       parent_id: r.parentId ?? null,
       tag_id: r.tagId ?? null,
       file_id: r.fileId ?? null,
+      box_id: r.boxId ?? null,
       created_at: r.createdAt,
     };
   };

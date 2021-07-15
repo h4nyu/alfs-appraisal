@@ -11,6 +11,7 @@ CREATE TABLE images (
     tag_id text,
     parent_id text,
     file_id text,
+    box_id text,
     created_at timestamp NOT NULL
 );
 
