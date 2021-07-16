@@ -5,14 +5,14 @@ import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
 import {
-  FilterPayload,
+  FilterFn,
 } from "@sivic/core/point";
 import { Point } from "@sivic/core/point"
 import { keyBy } from "lodash";
 
 export type PointStore = {
-  points: Map<string, Point>;
-  fetch: (payload: FilterPayload) => Promise<void>
+  points: readonly Point[];
+  fetch: (payload: Parameters<FilterFn>) => Promise<void>
 };
 
 export const PointStore = (args: {
