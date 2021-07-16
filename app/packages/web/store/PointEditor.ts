@@ -145,10 +145,16 @@ export const Editor = (root: {
   };
 
   const save = async () => {
-    let err = await api.point.replace({imageId: self.imageId, points:self.points.toList().toJS()})
-    if(err instanceof Error) { return err }
-    err = await api.line.replace({imageId: self.imageId, lines:lineEditor.lines.toList().toJS()})
-    if(err instanceof Error) { return err }
+    const pointErr = await api.image.replacePoints({
+      imageId: self.imageId, 
+      points:self.points.toList().toArray()
+    })
+    if(pointErr instanceof Error) { return pointErr }
+    const lineErr = await api.image.replaceLines({
+      imageId: self.imageId, 
+      lines: lineEditor.lines.toList().toArray(),
+    })
+    if(lineErr instanceof Error) { return lineErr }
   };
 
   const next = () => {

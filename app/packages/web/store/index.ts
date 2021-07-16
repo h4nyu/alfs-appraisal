@@ -62,10 +62,10 @@ export const RootStore = (): RootStore => {
   const loadingStore = LoadingStore();
   const loading = loadingStore.loading;
   const toast = ToastStore();
-  const lineStore = LineStore({api})
-  const fileStore = FileStore({api})
+  const lineStore = LineStore({ api })
+  const fileStore = FileStore({ api })
   const workspaceStore = WorkspaceStore({ api, loading, toast });
-  const imageStore = ImageStore({ api, loading, toast})
+  const imageStore = ImageStore({ api })
   const pointStore = PointStore({ api })
   const boxStore = BoxStore({ api, loading, toast})
   const history = createHashHistory();

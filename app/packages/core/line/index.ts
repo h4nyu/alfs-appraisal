@@ -17,7 +17,7 @@ export const Line  = (props?:{
   x1?:number,
   y1?:number,
   imageId?:string,
-}) => {
+}):Line => {
   const id = props?.id ?? uuid()
   const x0 = props?.x0 ?? 0
   const y0 = props?.y0 ?? 0
