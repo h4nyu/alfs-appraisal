@@ -3,16 +3,15 @@ import { Map, List } from "immutable";
 import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
-import { Image, FilterPayload } from "@sivic/core/image";
+import Image, { FilterFn } from "@sivic/core/image";
 import { saveAs } from 'file-saver';
 import { MemoryRouter } from "react-router";
 import { parseISO } from "date-fns";
 import { Level } from "@sivic/web/store"
-import { ImageForm } from "@sivic/web/store/ImageForm"
 
 export type ImageStore = {
   images: Map<string, Image>;
-  fetch: (payload:FilterPayload) => Promise<void>
+  fetch: FilterFn,
   delete: (payload: {
     parentId?: string,
     workspaceId?:string, 
@@ -22,14 +21,13 @@ export type ImageStore = {
 
 export const ImageStore = (args: {
   api: RootApi;
-  loading: <T>(fn: () => Promise<T>) => Promise<T>;
-  toast: ToastStore;
 }): ImageStore => {
-  const { api, loading, toast } = args;
-  const fetch = async (payload: FilterPayload) => {
+  const { api } = args;
+  const fetch:FilterFn = async (payload) => {
     const images = await api.image.filter(payload)
-    if(images instanceof Error) { return }
+    if(images instanceof Error) { return images }
     self.images = self.images.merge(Map(images.map(x => [x.id, x])))
+    return images
   }
   const delete_ = (payload:{
     workspaceId?: string,

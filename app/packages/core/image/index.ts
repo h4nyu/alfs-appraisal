@@ -5,6 +5,7 @@ export { default as DeleteFn } from "./delete"
 export { default as FindFn } from "./find"
 export { default as ReplaceBoxesFn } from "./replaceBoxes"
 export { default as ReplaceLinesFn } from "./replaceLines"
+export { default as ReplacePointsFn } from "./replacePoints"
 
 export const ImageTag = {
   Source: "Source",

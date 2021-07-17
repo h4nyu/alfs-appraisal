@@ -43,12 +43,12 @@ export const Editor = (root: {
 
   const init = async (imageId: string) => {
     await lineStore.fetch({imageId})
-    self.lines = Map()
+    self.lines = Map<string, Line>()
     onInit && onInit(imageId)
   };
 
   const clear = () => {
-    self.lines =  Map()
+    self.lines =  Map<string, Line>()
   };
 
   const getLine = (points: Point[]) => {
@@ -63,7 +63,7 @@ export const Editor = (root: {
     const secondLine = getBaseline(rows)
     if(secondLine === undefined){return}
 
-    self.lines = Map()
+    self.lines = Map<string, Line>()
     self.lines = self.lines.set(uuid(), line)
     self.lines = self.lines.set(uuid(), secondLine)
   }

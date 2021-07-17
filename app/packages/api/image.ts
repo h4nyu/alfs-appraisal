@@ -4,7 +4,9 @@ import Image, {
   FilterFn,
   DeleteFn,
   FindFn,
-  CropFn,
+  ReplaceBoxesFn,
+  ReplaceLinesFn,
+  ReplacePointsFn,
 } from "@sivic/core/image";
 
 export const Api = (arg: {
@@ -19,9 +21,25 @@ export const Api = (arg: {
       return toError(err);
     }
   };
-  const crop:CropFn = async (payload) => {
+  const replaceBoxes:ReplaceBoxesFn = async (payload) => {
     try {
-      const res = await http.post(`${prefix}/tag/update`, payload);
+      const res = await http.post(`${prefix}/image/replace-boxes`, payload);
+      return res.data.map(Image)
+    } catch (err) {
+      return toError(err);
+    }
+  };
+  const replaceLines:ReplaceLinesFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/image/replace-lines`, payload);
+      return res.data.map(Image)
+    } catch (err) {
+      return toError(err);
+    }
+  };
+  const replacePoints:ReplacePointsFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/image/replace-points`, payload);
       return res.data.map(Image)
     } catch (err) {
       return toError(err);
@@ -47,7 +65,9 @@ export const Api = (arg: {
     filter,
     delete: delete_,
     find,
-    crop,
+    replaceBoxes,
+    replacePoints,
+    replaceLines,
   };
 };
 export default Api

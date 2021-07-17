@@ -6,24 +6,25 @@ import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
 import {
-  FilterPayload,
+  FilterFn
 } from "@sivic/core/line";
 import { saveAs } from 'file-saver';
 import { keyBy } from "lodash";
 
 export type LineStore = {
   lines: Map<string, Line>;
-  fetch: (payload: FilterPayload) => Promise<void>
+  fetch: FilterFn
 };
 
 export const LineStore = (args: {
   api: RootApi;
 }): LineStore => {
   const { api } = args;
-  const fetch = async (payload:FilterPayload) => {
+  const fetch:FilterFn = async (payload) => {
     const lines = await api.line.filter(payload)
-    if(lines instanceof Error) { return }
+    if(lines instanceof Error) { return lines }
     self.lines = self.lines.merge(Map(keyBy(lines, x => x.id)))
+    return lines
   }
   const self = observable({
     lines: Map<string, Line>(),

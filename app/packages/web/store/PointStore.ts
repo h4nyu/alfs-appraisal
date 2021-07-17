@@ -5,21 +5,21 @@ import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
 import {
-  FilterPayload,
+  FilterFn,
 } from "@sivic/core/point";
 import { Point } from "@sivic/core/point"
 import { keyBy } from "lodash";
 
 export type PointStore = {
   points: Map<string, Point>;
-  fetch: (payload: FilterPayload) => Promise<void>
+  fetch: (payload: Parameters<FilterFn>[0]) => Promise<void>
 };
 
 export const PointStore = (args: {
   api: RootApi;
 }): PointStore => {
   const { api } = args;
-  const fetch = async (payload:FilterPayload) => {
+  const fetch = async (payload) => {
     const points = await api.point.filter(payload)
     if(points instanceof Error) { return }
     self.points = self.points.merge(Map(keyBy(points, x => x.id)))

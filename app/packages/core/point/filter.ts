@@ -1,17 +1,17 @@
 import { Lock, ErrorKind, Store } from "@sivic/core";
-import Line from ".";
+import Point from ".";
 
 export type Payload = {
   imageId: string;
 };
-export type Fn = (payload: Payload) => Promise<Line[] | Error>
+export type Fn = (payload: Payload) => Promise<Point[] | Error>
 export const Fn = (props: {
   store: Store;
 }) => {
   return async (payload: Payload) => {
-    const lines = await props.store.line.filter(payload)
-    if(lines instanceof Error) { return lines }
-    return lines
+    const points = await props.store.point.filter(payload)
+    if(points instanceof Error) { return points }
+    return points
   }
 }
 export default Fn
