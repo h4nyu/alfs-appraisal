@@ -90,11 +90,11 @@ export const ImageForm = (args: {
           toast.error(data);
           continue;
         }
-        const imageId = await api.workspace.createImage( { 
+        const image = await api.image.create({ 
           data, name:f.name, workspaceId
         });
-        if (imageId instanceof Error) {
-          toast.error(imageId);
+        if (image instanceof Error) {
+          toast.error(image);
           continue;
         }
       }

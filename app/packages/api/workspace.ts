@@ -6,7 +6,6 @@ import Workspace, {
   CreateFn,
   UpdateFn,
   DeleteFn,
-  CreateImageFn,
   CreateTagFn,
   UpdateTagFn,
   FindFn,
@@ -47,14 +46,6 @@ export const Api = (arg: {
       return toError(err);
     }
   };
-  const createImage:CreateImageFn = async (payload) => {
-    try {
-      const res = await http.post(`${prefix}/image/create`, payload);
-      return Image(res.data);
-    } catch (err) {
-      return toError(err);
-    }
-  };
   const createTag:CreateTagFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/image/create`, payload);
@@ -91,7 +82,6 @@ export const Api = (arg: {
     create,
     update,
     delete: delete_,
-    createImage,
     updateTag,
     createTag,
     find,
