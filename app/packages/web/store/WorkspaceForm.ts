@@ -104,8 +104,8 @@ export const WorkspaceFrom = (args: {
 
   const _delete = async (id:string):Promise<void> => {
     await loading(async () => {
-      await api.workspace.delete({id});
-      if (row instanceof Error) { return; }
+      const deleteErr = await api.workspace.delete({id});
+      if (deleteErr instanceof Error) { return; }
       onDelete && onDelete(id)
       toast.show("Success", Level.Success);
     })

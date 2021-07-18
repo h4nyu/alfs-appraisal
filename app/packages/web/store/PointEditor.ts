@@ -150,9 +150,16 @@ export const Editor = (root: {
       points:self.points.toList().toArray()
     })
     if(pointErr instanceof Error) { return pointErr }
+    const lines:{
+      id: string,
+      x0: number,
+      y0: number,
+      x1: number,
+      y1: number,
+    }[] = lineEditor.lines.toList().toArray()
     const lineErr = await api.image.replaceLines({
       imageId: self.imageId, 
-      lines: lineEditor.lines.toList().toArray(),
+      lines,
     })
     if(lineErr instanceof Error) { return lineErr }
   };

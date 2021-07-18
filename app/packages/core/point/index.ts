@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+export { default as FilterFn } from "./filter"
 
 export type Point = {
   id: string;

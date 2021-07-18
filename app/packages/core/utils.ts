@@ -1,5 +1,6 @@
 import { range, values, uniq, first, sortBy  } from 'lodash'
-import { Point } from "@sivic/core/point"
+import Point from "@sivic/core/point"
+import Line from "@sivic/core/line"
 
 
 const combinations = (size0:number, size1:number) =>  {
@@ -14,7 +15,6 @@ const combinations = (size0:number, size1:number) =>  {
   return uniq(res)
 }
 
-export type Line = [ Point, Point ]
 
 export const getBaseline = (points: Point[]): undefined | Line =>
 {
@@ -27,14 +27,21 @@ export const getBaseline = (points: Point[]): undefined | Line =>
   .map(p => {
     return [ p, Math.sqrt( Math.pow( p[1].x -p[0].x, 2 ) + Math.pow( p[1].y -p[0].y, 2 ))]
   })
-
-  const line = first(sortBy(combPaints, x => - x[1]).map(p => p[0]))
-  return line as any
+  const line = first(sortBy(combPaints, x => - x[1]).map(
+    p => Line({
+      imageId: p[0][0].imageId,
+      x0: p[0][0].x,
+      y0: p[0][0].y,
+      x1: p[0][1].x,
+      y1: p[0][1].y,
+    })
+  ))
+  return line
 }
 
 export const rotatePoint = (point: Point, originPoint:Point, angle:number):Point => {
     angle = angle * Math.PI / 180.0;
     const x = Math.cos(angle) * (point.x- originPoint.x) - Math.sin(angle) * (point.y - originPoint.x) + originPoint.x
     const y = Math.sin(angle) * (point.x-originPoint.x) + Math.cos(angle) * (point.y- originPoint.y) + originPoint.y 
-    return { ...point, x, y }
+    return Point({ ...point, x, y })
 }

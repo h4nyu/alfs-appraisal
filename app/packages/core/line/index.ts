@@ -3,11 +3,11 @@ export { default as FilterFn } from './filter'
 
 export type Line = {
   id: string
-  imageId?: string;
   x0: number;
   y0: number;
   x1: number;
   y1: number;
+  imageId?: string;
 }
 
 export const Line  = (props?:{

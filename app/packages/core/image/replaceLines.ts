@@ -7,11 +7,11 @@ import CreateLineFn from "@sivic/core/line/create"
 export type Fn = (payload:{
   imageId: string,
   lines: {
-    id: string
-    x0: number;
-    y0: number;
-    x1: number;
-    y1: number;
+    id: string,
+    x0: number,
+    y0: number,
+    x1: number,
+    y1: number,
   }[]
 }) => Promise<Line[] | Error>
 

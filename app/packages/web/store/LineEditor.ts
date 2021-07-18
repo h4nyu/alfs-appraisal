@@ -6,7 +6,8 @@ import { Point } from "@sivic/core/point";
 import { Map, Set } from "immutable";
 import { v4 as uuid } from "uuid";
 import { keyBy, zip } from "lodash";
-import { rotatePoint, getBaseline, Line } from "@sivic/core/utils";
+import { rotatePoint, getBaseline } from "@sivic/core/utils";
+import Line from "@sivic/core/line"
 import LineStore from "@sivic/web/store/LineStore"
 
 export enum InputMode {

@@ -1,7 +1,7 @@
 import { Store } from "@sivic/server"; 
 import fs from "fs"; 
 import { v4 as uuid } from "uuid";
-import { Line } from "@sivic/core/line";
+import Line from "@sivic/core/line";
 
 const rootStore = Store();
 
