@@ -2,7 +2,7 @@ import { observable } from "mobx";
 import { RootApi } from "@sivic/api";
 import { LoadingStore } from "./loading";
 import { ToastStore } from "./toast";
-import { Box } from "@sivic/core/box";
+import  Box from "@sivic/core/box";
 import { Map, Set } from "immutable";
 import { v4 as uuid } from "uuid";
 import { keyBy, zip } from "lodash";
@@ -49,7 +49,7 @@ export const Editor = (root: {
   const init = async (id: string) => {
   };
   const clear = () => {
-    self.boxes = Map();
+    self.boxes = Map<string, Box>();
   };
 
   const setMode = (mode: InputMode) => {
@@ -161,7 +161,10 @@ export const Editor = (root: {
   };
 
   const save = async (imageId:string) => {
-    const err = await api.box.replace({imageId, boxes:self.boxes.toList().toJS()})
+    const err = await api.image.replaceBoxes({
+      imageId, 
+      boxes:self.boxes.toList().toArray()
+    })
     if(err instanceof Error) { return err }
   };
 

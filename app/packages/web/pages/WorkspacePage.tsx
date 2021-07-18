@@ -61,7 +61,7 @@ const Content = observer(() => {
         {
           <TagTable  
             images={workspaceForm.rootImages}
-            files={fileStore.files.toList().toJS()}
+            files={fileStore.files.toList().toArray()}
           />
         }
       </div>

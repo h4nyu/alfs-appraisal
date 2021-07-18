@@ -38,7 +38,7 @@ export const ImageProcess = (args: {
 
   const init = async (imageId:string) => {
     await loading(async () => {
-      const image = await api.image.find({id:imageId, hasData:true})
+      const image = await api.image.find({id:imageId})
       if(image instanceof Error) { return image }
       self.image = image
       const boxes = await api.box.filter({imageId})
@@ -54,29 +54,28 @@ export const ImageProcess = (args: {
     const { data } = file
     if(data === undefined) { return}
     await loading(async () => {
-      const boxes = await api.detect.box({data})
-      if(boxes instanceof Error) { return boxes }
-      editor.boxes = Map(boxes.map(x => {
-        return [uuid(), x]
-      }))
+      // const boxes = await api.detect.box({data})
+      // if(boxes instanceof Error) { return boxes }
+      // editor.boxes = Map(boxes.map(x => {
+      //   return [uuid(), x]
+      // }))
     })
   }
 
   const save = async () =>{
     const { image } = self
     if(image === undefined){ return }
-    const boxes = editor.boxes.toList().toJS()
+    const boxes = editor.boxes.toList().toArray()
     await loading(async () => {
       const imageId = image.id
-      const err = await api.box.replace({
+      const cropedImages = await api.image.replaceBoxes({
         imageId,
         boxes: boxes.map(x => Box({...x, imageId})),
       })
-      if(err instanceof Error){
-        toast.error(err)
+      if(cropedImages instanceof Error){
+        toast.error(cropedImages)
         return
       }
-      const imageIds = boxes.map(x => x.id)
       imageStore.delete({parentId: self.image?.id || ""})
       await imageStore.fetch({parentId: self.image?.id})
       toast.info("saved")

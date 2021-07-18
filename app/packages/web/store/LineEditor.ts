@@ -53,20 +53,20 @@ export const Editor = (root: {
   };
 
   const getLine = (points: Point[]) => {
-    let rows = points;
-    const line = getBaseline(rows);
-    if(line === undefined){return}
-    const [start, end] = line
-    rows = rows.filter(p => (
-      (p.x !== start.x && p.y !== start.y) 
-      && (p.x !== end.x && p.y !== end.y) 
-    ))
-    const secondLine = getBaseline(rows)
-    if(secondLine === undefined){return}
+    // let rows = points;
+    // const line = getBaseline(rows);
+    // if(line === undefined){return}
+    // const [start, end] = line
+    // rows = rows.filter(p => (
+    //   (p.x !== start.x && p.y !== start.y) 
+    //   && (p.x !== end.x && p.y !== end.y) 
+    // ))
+    // const secondLine = getBaseline(rows)
+    // if(secondLine === undefined){return}
 
-    self.lines = Map<string, Line>()
-    self.lines = self.lines.set(uuid(), line)
-    self.lines = self.lines.set(uuid(), secondLine)
+    // self.lines = Map<string, Line>()
+    // self.lines = self.lines.set(uuid(), line)
+    // self.lines = self.lines.set(uuid(), secondLine)
   }
 
   const toggleDrag = (id: string) => {

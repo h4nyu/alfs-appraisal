@@ -40,7 +40,8 @@ const Content = observer(() => {
         >
           Reset
         </a>
-        <a className="button is-success is-light" onClick={() => lineEditor.getLine(pointEditor.points.toList().toJS())}>
+        <a className="button is-success is-light" 
+          onClick={() => lineEditor.getLine(pointEditor.points.toList().toArray())}>
           BaseLine 
         </a>
         <a className="button is-info is-light" onClick={() => pointEditor.save()}>

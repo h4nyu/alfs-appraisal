@@ -3,7 +3,7 @@ import { Box } from "@sivic/core/box";
 import { Point } from "@sivic/core/point";
 import { InputMode } from "@sivic/web/store/BoxEditor"
 import { InputMode as PointMode } from "@sivic/web/store/PointEditor"
-import { Line } from "@sivic/core/utils";
+import Line from "@sivic/core/line";
 import { Map, Set } from "immutable"
 
 export const SvgCharPlot = (props: {

@@ -4,7 +4,7 @@ import Box from "@sivic/core/box"
 
 export const SvgCharPlot = (props: {
   data?: string;
-  boxes?: Map<string, Box>;
+  boxes?: Box[];
   lineWidth?:number;
   selectedId?: string; 
   onBoxClick?: (id: string) => void;
@@ -30,7 +30,7 @@ export const SvgCharPlot = (props: {
     if(!ctx){ return }
     ctx.strokeStyle = "#FF0000"
     ctx.fillStyle = "#FF0000";
-    boxes?.forEach((b, id) => {
+    boxes?.forEach((b) => {
       ctx.lineWidth = lineWidth;
       ctx.strokeRect(b.x0, b.y0, b.x1 - b.x0, b.y1 - b.y0);
       const edges = [
@@ -43,7 +43,7 @@ export const SvgCharPlot = (props: {
         ctx.arc(p[0], p[1], 3, 0, 2 * Math.PI);
         ctx.fill();
       })
-      if(selectedId === id){
+      if(selectedId === b.id){
         ctx.globalAlpha = 0.2;
         ctx.fillRect(b.x0, b.y0, b.x1 - b.x0, b.y1 - b.y0);
       }
@@ -69,11 +69,11 @@ export const SvgCharPlot = (props: {
     if(!onBoxClick){return}
     const rect = e.target.getBoundingClientRect();
     const [x, y] = [e.clientX - rect.left, e.clientY - rect.top];
-    for(const [id, b] of boxes || Map()){
+    for(const  b of boxes || []){
       const canvas = canvasRef.current;
       if(!canvas){return}
       if(b.x0 <= x && x <= b.x1 && b.y0 < y && y <= b.y1){
-        onBoxClick(id)
+        onBoxClick(b.id)
       }else{
         console.log("box out")
       }

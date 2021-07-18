@@ -8,9 +8,9 @@ import { File } from "@sivic/core/file"
 import { Box } from "@sivic/core/box";
 import { v4 as uuid } from "uuid";
 import { keyBy, zip } from "lodash";
-import { rotatePoint, getBaseline, Line } from "@sivic/core/utils"; import { Image } from "@sivic/core/image"
+import { rotatePoint, getBaseline} from "@sivic/core/utils"; import { Image } from "@sivic/core/image"
+import Line from "@sivic/core/line"
 import { ImageStore } from "@sivic/web/store/ImageStore"
-
 import PointStore from "@sivic/web/store/PointStore"
 import LineEditor from "@sivic/web/store/LineEditor"
 export enum InputMode {

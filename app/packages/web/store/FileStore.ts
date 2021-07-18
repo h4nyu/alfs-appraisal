@@ -3,7 +3,7 @@ import { Map, List } from "immutable";
 import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
-import { File, FindPayload } from "@sivic/core/file";
+import { File, FindFn } from "@sivic/core/file";
 import { saveAs } from 'file-saver';
 import { MemoryRouter } from "react-router";
 import { parseISO } from "date-fns";
@@ -11,7 +11,7 @@ import { Level } from "@sivic/web/store"
 
 export type FileStore = {
   files: Map<string, File>;
-  fetch: (payload:FindPayload) => Promise<void>
+  fetch: FindFn
   delete: (payload: { id: string }) => void
 };
 
@@ -19,10 +19,11 @@ export const FileStore = (args: {
   api: RootApi;
 }): FileStore => {
   const { api } = args;
-  const fetch = async (payload: FindPayload) => {
+  const fetch:FindFn = async (payload) => {
     const file = await api.file.find(payload)
-    if(file instanceof Error) { return }
+    if(file instanceof Error) { return file }
     self.files = self.files.set(file.id, file)
+    return file
   }
   const delete_ = (payload:{
     id:string
