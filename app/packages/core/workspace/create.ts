@@ -6,20 +6,20 @@ export type Payload = {
   id?: string;
   name: string;
 };
-export type CreateFn = (payload: Payload) => Promise<Workspace | Error>
-export const CreateFn = (props: {
+export type Fn = (payload: Payload) => Promise<Workspace | Error>
+export const Fn = (props: {
   store: Store;
   lock: Lock;
-}) => {
+}):Fn => {
   const unique = UniqueFn(props)
   return async (payload: Payload) => {
     return await props.lock.auto(async () => {
       const workspace = Workspace(payload)
       const uniqueErr = await unique(workspace)
       if(uniqueErr instanceof Error) { return uniqueErr }
-
+      return workspace
     })
   }
 }
 
-export default CreateFn
+export default Fn
