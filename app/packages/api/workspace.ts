@@ -1,13 +1,10 @@
 import { AxiosInstance } from "axios";
 import { toError } from ".";
-import Tag from "@sivic/core/tag"
 import Image from "@sivic/core/image"
 import Workspace, {
   CreateFn,
   UpdateFn,
   DeleteFn,
-  CreateTagFn,
-  UpdateTagFn,
   FindFn,
   FilterFn,
 } from "@sivic/core/workspace";
@@ -46,22 +43,6 @@ export const Api = (arg: {
       return toError(err);
     }
   };
-  const createTag:CreateTagFn = async (payload) => {
-    try {
-      const res = await http.post(`${prefix}/image/create`, payload);
-      return Tag(res.data);
-    } catch (err) {
-      return toError(err);
-    }
-  };
-  const updateTag:UpdateTagFn = async (payload) => {
-    try {
-      const res = await http.post(`${prefix}/tag/update`, payload);
-      return Tag(res.data);
-    } catch (err) {
-      return toError(err);
-    }
-  };
   const find:FindFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/find`, payload);
@@ -82,8 +63,6 @@ export const Api = (arg: {
     create,
     update,
     delete: delete_,
-    updateTag,
-    createTag,
     find,
     filter,
   };

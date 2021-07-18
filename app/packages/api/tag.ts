@@ -1,6 +1,8 @@
 import { AxiosInstance } from "axios";
 import { toError } from ".";
 import Tag, {
+  CreateFn,
+  UpdateFn,
   DeleteFn,
   FilterFn,
   FindFn,
@@ -11,6 +13,23 @@ export const Api = (arg: {
   prefix: string;
 }) => {
   const { http, prefix } = arg;
+  const create:CreateFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/create`, payload);
+      return Tag(res.data);
+    } catch (err) {
+      return toError(err);
+    }
+  };
+  const update:UpdateFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/update`, payload);
+      return Tag(res.data);
+    } catch (err) {
+      return toError(err);
+    }
+  };
+
   const delete_:DeleteFn = async (payload) => {
     try {
       await http.post(`${prefix}/update`, payload);
@@ -35,6 +54,8 @@ export const Api = (arg: {
     }
   };
   return {
+    create,
+    update,
     delete: delete_,
     filter,
     find,
