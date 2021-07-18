@@ -7,8 +7,6 @@ import {
   FindFn,
   FilterFn,
   DeleteFn,
-  CreateTagFn,
-  UpdateTagFn,
 } from "@sivic/core/workspace";
 
 export const Routes = (props: {
@@ -18,8 +16,6 @@ export const Routes = (props: {
   const create = CreateFn(props)
   const update = UpdateFn(props)
   const delete_ = DeleteFn(props)
-  const createTag = CreateTagFn(props)
-  const updateTag = UpdateTagFn(props)
   const find = FindFn(props)
   const filter = FilterFn(props)
   return function (app, opts, done) {
@@ -33,14 +29,6 @@ export const Routes = (props: {
     });
     app.post<{ Body: Parameters<DeleteFn>[0] }>("/delete", {}, async (req, reply) => {
       const res = await delete_(req.body);
-      reply.send(res);
-    });
-    app.post<{ Body: Parameters<CreateTagFn>[0] }>("/tag/create", {}, async (req, reply) => {
-      const res = await createTag(req.body);
-      reply.send(res);
-    });
-    app.post<{ Body: Parameters<UpdateTagFn>[0] }>("/tag/update", {}, async (req, reply) => {
-      const res = await updateTag(req.body);
       reply.send(res);
     });
     app.post<{ Body: Parameters<FindFn>[0] }>("/find", {}, async (req, reply) => {

@@ -3,6 +3,7 @@ import { toError } from ".";
 import Tag, {
   DeleteFn,
   FilterFn,
+  FindFn,
 } from "@sivic/core/tag";
 
 export const Api = (arg: {
@@ -25,9 +26,18 @@ export const Api = (arg: {
       return toError(err);
     }
   };
+  const find:FindFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/find`, payload);
+      return Tag(res.data);
+    } catch (err) {
+      return toError(err);
+    }
+  };
   return {
     delete: delete_,
     filter,
+    find,
   };
 };
 export default Api

@@ -10,10 +10,6 @@ import TagRoutes from "./tag"
 // import { DetectRoutes } from "./detect";
 // import { BoxRoutes } from "./box";
 // import { LineRoutes } from "./line";
-// import { PointRoutes } from "./point";
-// import { TrasnformRoutes } from "./transform";
-// import TagRoutes from "./tag"
-// import FileRoutes from "./file"
 
 import fastifyStatic from "fastify-static";
 
@@ -21,7 +17,7 @@ import fastifyStatic from "fastify-static";
 export const App = (args: { store: Store; lock: Lock }) => {
   const { store, lock } = args;
   const app = fastify({
-    bodyLimit: 10048576,
+    bodyLimit: 12485760,
     logger: true,
   });
   const prefix = path.join("/", process.env.PREFIX || "", "/api/v1");

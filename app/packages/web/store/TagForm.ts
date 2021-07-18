@@ -1,0 +1,78 @@
+import { observable, computed } from "mobx";
+import { Map, List } from "immutable";
+import { ToastStore } from "./toast";
+import { LoadingStore } from "./loading";
+import { RootApi } from "@sivic/api";
+import Workspace from "@sivic/core/workspace";
+import Image from "@sivic/core/image";
+import { saveAs } from 'file-saver';
+import { MemoryRouter } from "react-router";
+import { take, flow, sortBy, map } from "lodash/fp";
+import { parseISO } from "date-fns";
+import { Level } from "@sivic/web/store"
+import { ImageForm } from "@sivic/web/store/ImageForm"
+import { ImageStore } from "@sivic/web/store/ImageStore"
+import { BoxStore } from "@sivic/web/store/BoxStore"
+import { Tag } from "@sivic/core/tag"
+import FileStore from "@sivic/web/store/FileStore"
+
+
+export type Form = {
+  id: string,
+  name: string,
+  workspaceId?: string,
+  init: () => Promise<void|Error>
+  save: () => Promise<void|Error>
+  setName: (value:string) => void;
+  setWorkspaceId: (value?: string) => void;
+};
+
+export const Form = (props: {
+  api: RootApi;
+}): Form => {
+  const init = async (id?:string) => {
+    self.id = ""
+    self.name = ""
+    self.workspaceId = undefined
+    if(id !== undefined) {
+      const tag = await props.api.tag.find({id})
+      if(tag instanceof Error) { return tag }
+      self.id = tag.id
+      self.name = tag.name
+      self.workspaceId = tag.workspaceId
+    }
+  }
+  const setName = (value:string) => {
+    self.name = value
+  }
+  const setWorkspaceId = (value?: string) =>{
+    self.workspaceId = value
+  }
+  const save = async () =>{
+    const tag = await (async () => {
+      if(self.id){
+        return await props.api.tag.create({
+          name: self.name,
+          workspaceId: self.workspaceId,
+        })
+      }else{
+        return await props.api.tag.update({
+          id: self.id,
+          name: self.name,
+          workspaceId: self.workspaceId
+        })
+      }
+    })
+  }
+  const self = observable<Form>({
+    id:"", 
+    name:"",
+    workspaceId: undefined,
+    setName,
+    setWorkspaceId,
+    init,
+    save,
+  })
+  return self
+};
+export default Form

@@ -2,20 +2,25 @@ import { Lock, Store } from "@sivic/core";
 import ErrorKind from "@sivic/core/error"
 import { Tag } from ".";
 import UniqueFn from "./unique"
+import FindWorkspaceFn from "@sivic/core/workspace/find"
 
-export type Payload = {
+
+export type Fn = (payload: {
   id?: string;
   name: string;
   workspaceId?: string
-};
-
-export type Fn = (payload: Payload) => Promise<Tag | Error>
+}) => Promise<Tag | Error>
 export const Fn = (props: {
   store: Store;
   lock: Lock;
 }):Fn => {
   const unique = UniqueFn(props)
-  return async (payload: Payload) => {
+  const findWorkspace = FindWorkspaceFn(props)
+  return async (payload) => {
+    if(payload.workspaceId){
+      const workspace = await findWorkspace({ id: payload.workspaceId })
+      if(workspace instanceof Error) { return workspace }
+    }
     const tag = Tag(payload)
     const uniqueErr = await unique(tag)
     if(uniqueErr instanceof Error) { return uniqueErr }
