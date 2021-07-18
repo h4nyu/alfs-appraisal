@@ -2,6 +2,7 @@ import { Sql } from "postgres";
 import { Store, Lock } from "@sivic/core";
 import { FastifyPlugin } from "fastify";
 import {
+  CreateFn,
   FindFn,
   DeleteFn,
   FilterFn,
@@ -15,6 +16,7 @@ export const Routes = (props: {
   lock: Lock;
 }): FastifyPlugin<{ prefix: string }> => {
   const { store, lock } = props;
+  const create = CreateFn(props)
   const find = FindFn(props)
   const filter = FilterFn(props)
   const delete_ = DeleteFn(props)
@@ -22,6 +24,10 @@ export const Routes = (props: {
   const replaceLines = ReplaceLinesFn(props)
   const replacePoints = ReplacePointsFn(props)
   return function (app, opts, done) {
+    app.post<{ Body: Parameters<CreateFn>[0] }>("/create", {}, async (req, reply) => {
+      const res = await create(req.body);
+      reply.send(res);
+    });
     app.post<{ Body: Parameters<typeof delete_>[0] }>("/delete", {}, async (req, reply) => {
       const res = await delete_(req.body);
       reply.send(res);

@@ -7,7 +7,6 @@ import {
   FindFn,
   FilterFn,
   DeleteFn,
-  CreateImageFn,
   CreateTagFn,
   UpdateTagFn,
 } from "@sivic/core/workspace";
@@ -19,7 +18,6 @@ export const Routes = (props: {
   const create = CreateFn(props)
   const update = UpdateFn(props)
   const delete_ = DeleteFn(props)
-  const createImage = CreateImageFn(props)
   const createTag = CreateTagFn(props)
   const updateTag = UpdateTagFn(props)
   const find = FindFn(props)
@@ -35,10 +33,6 @@ export const Routes = (props: {
     });
     app.post<{ Body: Parameters<DeleteFn>[0] }>("/delete", {}, async (req, reply) => {
       const res = await delete_(req.body);
-      reply.send(res);
-    });
-    app.post<{ Body: Parameters<CreateImageFn>[0] }>("/image/create", {}, async (req, reply) => {
-      const res = await createImage(req.body);
       reply.send(res);
     });
     app.post<{ Body: Parameters<CreateTagFn>[0] }>("/tag/create", {}, async (req, reply) => {

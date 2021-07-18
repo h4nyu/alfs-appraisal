@@ -2,19 +2,25 @@ import { v4 as uuid } from 'uuid';
 import { Lock, Store, ErrorKind } from "@sivic/core"
 import CreateFileFn from "@sivic/core/file/create"
 import { Image } from "@sivic/core/image"
+import FindWorkspaceFn from "@sivic/core/workspace/find"
 
-export type Payload = {
+export type Fn = (payload: {
   name: string;
   workspaceId?: string;
   data: string; //base64
   boxId?: string;
-};
-export type CreateFn = (payload: Payload) => Promise<Image | Error>
-export const CreateFn = (props: {
+}) => Promise<Image | Error>
+
+export const Fn = (props: {
   store: Store,
-}):CreateFn => {
+}):Fn => {
   const createFile = CreateFileFn(props)
-  return async (payload: Payload) => {
+  const findWorkspace = FindWorkspaceFn(props)
+  return async (payload) => {
+    if(payload.workspaceId){
+      const workspace = await findWorkspace({ id: payload.workspaceId })
+      if(workspace instanceof Error) { return workspace }
+    }
     const file = await createFile({ data: payload.data })
     if(file instanceof Error) { return file }
     const image = Image({
@@ -29,4 +35,4 @@ export const CreateFn = (props: {
   }
 }
 
-export default CreateFn
+export default Fn
