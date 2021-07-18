@@ -11,12 +11,12 @@ const COLUMNS = [
 ] as const
 export const Store = (sql: Sql<any>): WorkspaceStore => {
   const to = (r: Row): Workspace => {
-    return {
+    return Workspace({
       id: r.id,
       name: r.name,
       imageIds: [],
       createdAt: r.created_at,
-    };
+    });
   };
 
   const from = (r: Workspace): Row => {

@@ -17,6 +17,8 @@ export const Fn = (props: {
       const workspace = Workspace(payload)
       const uniqueErr = await unique(workspace)
       if(uniqueErr instanceof Error) { return uniqueErr }
+      const insertErr = await props.store.workspace.insert(workspace)
+      if(insertErr instanceof Error) { return insertErr }
       return workspace
     })
   }

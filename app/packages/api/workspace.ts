@@ -18,10 +18,16 @@ export const Api = (arg: {
   prefix: string;
 }) => {
   const { http, prefix } = arg;
+  const to = (x:any): Workspace => {
+    return  Workspace({
+      ...x,
+      createdAt: new Date(x.createdAt)
+    })
+  }
   const create:CreateFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/create`, payload);
-      return Workspace(res.data);
+      return to(res.data);
     } catch (err) {
       return toError(err);
     }
@@ -29,7 +35,7 @@ export const Api = (arg: {
   const update:UpdateFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/update`, payload);
-      return Workspace(res.data);
+      return to(res.data);
     } catch (err) {
       return toError(err);
     }
@@ -76,7 +82,7 @@ export const Api = (arg: {
   const filter:FilterFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/filter`, payload);
-      return res.data.map(Workspace);
+      return res.data.map(to);
     } catch (err) {
       return toError(err);
     }
