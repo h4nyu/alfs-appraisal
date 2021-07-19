@@ -18,10 +18,13 @@ import LineEditor from "@sivic/web/store/LineEditor"
 import PointStore from "@sivic/web/store/PointStore"
 import FileStore from "@sivic/web/store/FileStore"
 import LineStore from "@sivic/web/store/LineStore"
+import TagStore from "@sivic/web/store/TagStore"
+
 
 configure({
   enforceActions: "never",
 });
+
 
 export type Workspaces = List<Workspace>;
 export type Images = List<Image>;
@@ -55,6 +58,7 @@ export type RootStore = {
   imageProcess: ImageProcess;
   pointStore: PointStore;
   fileStore: FileStore;
+  tagStore: TagStore;
   init: () => Promise<void>;
 };
 export const RootStore = (): RootStore => {
@@ -69,6 +73,7 @@ export const RootStore = (): RootStore => {
   const pointStore = PointStore({ api })
   const boxStore = BoxStore({ api, loading, toast})
   const history = createHashHistory();
+  const tagStore = TagStore({api})
   const editor = Editor({ api, loading, toast })
 
   const lineEditor = LineEditor({ 
@@ -154,6 +159,7 @@ export const RootStore = (): RootStore => {
     imageProcess,
     lineStore,
     fileStore,
+    tagStore,
   };
 };
 

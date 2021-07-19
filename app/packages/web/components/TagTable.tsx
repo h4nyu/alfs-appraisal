@@ -2,6 +2,7 @@ import React from "react"
 import { Tag } from "@sivic/core/tag"
 import { Image } from "@sivic/core/image"
 import { File } from "@sivic/core/file"
+import AddBtn from "@sivic/web/components/AddBtn"
 
 const centerStyle = {
   display: "grid",
@@ -13,9 +14,10 @@ export const TagTable = (props: {
   tags?: Tag[],
   images?: Image[],
   files?: File[],
+  onImageAdd?:() => void,
+  onTagAdd?:() => void,
   onImageClick?: (imageId:string) => void,
   onTagClick?:(tagId:string) => void,
-  onTagNameChange?:(tagName: string) => void,
 }) => {
   const tags = props.tags || []
   const images = props.images || []
@@ -30,12 +32,13 @@ export const TagTable = (props: {
       }}
     >
       <div
-        className="card"
-        style={centerStyle}
+        className="card p-1 has-text-weight-semibold"
+        style={{
+          ...centerStyle,
+          minHeight: "1em",
+        }}
       >
-        <div className="control">
-          <input className="input" type="text" placeholder="Text input"/>
-        </div>
+        Images / Tags
       </div>
       {
         tags.map((t, i) => {

@@ -15,13 +15,13 @@ import { ImageStore } from "@sivic/web/store/ImageStore"
 import { BoxStore } from "@sivic/web/store/BoxStore"
 import { Tag } from "@sivic/core/tag"
 import FileStore from "@sivic/web/store/FileStore"
-
+import TagStore from "@sivic/web/store/TagStore"
 
 export type WorkspaceFrom = {
   id: string,
   name: string,
   imageForm: ImageForm,
-  tags: Tag[],
+  tags?: Tag[],
   rootImages: Image[],
   create: () => void;
   update: (id:string) => void;
@@ -30,13 +30,14 @@ export type WorkspaceFrom = {
   delete: (id:string) => Promise<void>;
 };
 
-export const WorkspaceFrom = (args: {
+export const WorkspaceFrom = (props: {
   api: RootApi;
   loading: <T>(fn: () => Promise<T>) => Promise<T>;
   toast: ToastStore;
   imageForm: ImageForm;
   imageStore: ImageStore;
   fileStore?: FileStore;
+  tagStore?: TagStore;
   boxStore:BoxStore;
   onInit?: (workspace:Workspace) => void;
   onCreate?:() => void;
@@ -54,7 +55,7 @@ export const WorkspaceFrom = (args: {
     boxStore, 
     onCreate,
     fileStore,
-  } = args;
+  } = props;
   const reset = () => {
     self.id = ""
     self.name = ""
@@ -111,7 +112,7 @@ export const WorkspaceFrom = (args: {
     })
   }
   const getTags = () => {
-    return []
+    return props.tagStore?.tags
   }
 
   const self = observable<WorkspaceFrom>({

@@ -69,13 +69,23 @@ const Content = observer(() => {
       </div>
       <div 
         style={{
-          gridRow: "3"
+          gridRow: "3",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr"
         }}
       >
         <FileUpload
           accept={"application/json, image/*"}
           onChange={store.imageForm.uploadFiles}
         />
+        <div 
+          className="button" 
+          style={{
+            height: "100%"
+          }}
+        > 
+          Add Tag 
+        </div>
       </div>
     </div>
   );
