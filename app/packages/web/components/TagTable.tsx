@@ -19,11 +19,11 @@ export const TagTable = (props: {
   onImageClick?: (imageId:string) => void,
   onTagClick?:(tagId:string) => void,
 }) => {
-  const tags = props.tags || []
-  const images = props.images || []
+  const tags = props.tags ?? []
+  const images = props.images ?? []
   const parentImages = images.filter(x => x.parentId === undefined)
   const cropedImages = images.filter(x => x.parentId !== undefined)
-  const files = props.files || []
+  const files = props.files ?? []
   return (
     <div
       style={{

@@ -74,6 +74,7 @@ export const WorkspaceFrom = (props: {
       self.name = row.name
       await imageForm.init(row)
       await imageStore.fetch({workspaceId})
+      await props.tagStore?.fetch({workspaceId})
       const imageIds = imageStore.images.filter(x => x.parentId === undefined).toList()
       for (const image of imageIds){
         await boxStore.fetch(image.id)

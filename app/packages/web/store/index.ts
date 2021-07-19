@@ -127,6 +127,7 @@ export const RootStore = (): RootStore => {
     toast,
     imageForm,
     imageStore,
+    tagStore,
     boxStore,
     fileStore,
     onInit: (workspace) => {
