@@ -142,7 +142,7 @@ export const RootStore = (): RootStore => {
       workspaceStore.fetch()
     }
   })
-  const tagForm = TagForm({ api, tagStore })
+  const tagForm = TagForm({ api, tagStore, toast })
 
   return {
     api,

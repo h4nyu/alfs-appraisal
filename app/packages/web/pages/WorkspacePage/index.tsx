@@ -84,7 +84,7 @@ const Content = observer(() => {
             height: "100%"
           }}
           onClick={() => {
-            store.tagForm.init()
+            store.tagForm.init({workspaceId: workspaceForm.id})
             store.history.push("/tag")
           }}
         > 
