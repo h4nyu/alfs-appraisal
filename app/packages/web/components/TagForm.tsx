@@ -10,7 +10,7 @@ export const TagForm = (props: {
   onCancel?: () => void
 }) => {
   return (
-    <div> 
+    <div className="box"> 
       <div className="field">
         <label className="label">Name</label>
         <div className="control">
@@ -31,7 +31,7 @@ export const TagForm = (props: {
         </div>
         <div className="control">
           {
-            props.onSave && <CancelBtn onClick={e => props.onCancel?.()} />
+            props.onCancel && <CancelBtn onClick={e => props.onCancel?.()} />
           }
         </div>
       </div>

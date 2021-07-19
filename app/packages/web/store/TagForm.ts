@@ -15,6 +15,7 @@ import { ImageStore } from "@sivic/web/store/ImageStore"
 import { BoxStore } from "@sivic/web/store/BoxStore"
 import { Tag } from "@sivic/core/tag"
 import FileStore from "@sivic/web/store/FileStore"
+import TagStore from "@sivic/web/store/TagStore"
 
 
 export type Form = {
@@ -29,6 +30,7 @@ export type Form = {
 
 export const Form = (props: {
   api: RootApi;
+  tagStore?: TagStore;
 }): Form => {
   const init = async (id?:string) => {
     self.id = ""

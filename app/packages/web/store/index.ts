@@ -19,6 +19,7 @@ import PointStore from "@sivic/web/store/PointStore"
 import FileStore from "@sivic/web/store/FileStore"
 import LineStore from "@sivic/web/store/LineStore"
 import TagStore from "@sivic/web/store/TagStore"
+import TagForm from "@sivic/web/store/TagForm"
 
 
 configure({
@@ -59,6 +60,7 @@ export type RootStore = {
   pointStore: PointStore;
   fileStore: FileStore;
   tagStore: TagStore;
+  tagForm: TagForm;
   init: () => Promise<void>;
 };
 export const RootStore = (): RootStore => {
@@ -140,6 +142,7 @@ export const RootStore = (): RootStore => {
       workspaceStore.fetch()
     }
   })
+  const tagForm = TagForm({ api, tagStore })
 
   return {
     api,
@@ -160,6 +163,7 @@ export const RootStore = (): RootStore => {
     lineStore,
     fileStore,
     tagStore,
+    tagForm,
   };
 };
 
