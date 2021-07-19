@@ -8,6 +8,7 @@ const Content = observer((props: {
 }) => {
   return (
     <TagFormView 
+      onNameChange={props.tagForm.setName}
       onSave={props.tagForm.save}
     />
   );

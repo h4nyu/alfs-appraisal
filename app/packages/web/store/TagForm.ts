@@ -70,6 +70,7 @@ export const Form = (props: {
       props.toast?.error(tag)
       return tag 
     }
+    props.tagStore?.fetch({workspaceId: self.workspaceId})
   }
   const self = observable<Form>({
     id:"", 
