@@ -22,6 +22,8 @@ export const Fn = (props: {
       if(workspace instanceof Error) { return workspace }
     }
     const tag = Tag(payload)
+    const validateErr = tag.validate()
+    if(validateErr instanceof Error) { return validateErr }
     const uniqueErr = await unique(tag)
     if(uniqueErr instanceof Error) { return uniqueErr }
     return tag

@@ -24,12 +24,14 @@ export const Fn = (props: {
     }
     const tag = await find({id: payload.id})
     if(tag instanceof Error) {return tag}
-    const uniqueErr = await unique(tag)
-    if(uniqueErr instanceof Error) { return uniqueErr}
     const newTag = Tag({
       ...tag,
       ...payload,
     })
+    const validateErr = newTag.validate()
+    if(validateErr instanceof Error) { return validateErr }
+    const uniqueErr = await unique(newTag)
+    if(uniqueErr instanceof Error) { return uniqueErr}
     let err = await props.store.tag.update(newTag);
     if (err instanceof Error) {
       return err;

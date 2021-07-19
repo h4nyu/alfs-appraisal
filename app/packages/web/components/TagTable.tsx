@@ -14,7 +14,8 @@ export const TagTable = (props: {
   images?: Image[],
   files?: File[],
   onImageClick?: (imageId:string) => void,
-  onTagClick?:(tagId:string) => void
+  onTagClick?:(tagId:string) => void,
+  onTagNameChange?:(tagName: string) => void,
 }) => {
   const tags = props.tags || []
   const images = props.images || []
@@ -32,7 +33,9 @@ export const TagTable = (props: {
         className="card"
         style={centerStyle}
       >
-        <div className="button"> + tag </div>
+        <div className="control">
+          <input className="input" type="text" placeholder="Text input"/>
+        </div>
       </div>
       {
         tags.map((t, i) => {

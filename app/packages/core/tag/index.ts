@@ -10,6 +10,7 @@ export type Tag = {
   id: string,
   name: string,
   workspaceId?: string,
+  validate: () => void | Error
 }
 
 export const Tag = (props?: {
@@ -18,12 +19,18 @@ export const Tag = (props?: {
   workspaceId?: string
 }):Tag => {
   const id = props?.id ?? v4()
-  const name = props?.name ?? ""
+  const name = props?.name ?? "-"
   const workspaceId = props?.workspaceId
+  const validate = () => {
+    if(self.name.length !== 1){
+      return new Error(ErrorKind.InvalidTagNameFormat)
+    }
+  }
   return {
     id,
     name,
-    workspaceId
+    workspaceId,
+    validate,
   }
 }
 export default Tag
