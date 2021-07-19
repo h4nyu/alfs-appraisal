@@ -83,6 +83,10 @@ const Content = observer(() => {
           style={{
             height: "100%"
           }}
+          onClick={() => {
+            store.tagForm.init()
+            store.history.push("/tag")
+          }}
         > 
           Add Tag 
         </div>
