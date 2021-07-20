@@ -66,47 +66,46 @@ export const TagTable = (props: {
           return (
             <div
               key={p.id}
+              className="card p-1 has-text-weight-semibold"
+              style={{
+                ...centerStyle,
+                gridRow: rowIdx + 2,
+                gridColumn: 1,
+              }}
             >
-              <div
-                className="card p-1 has-text-weight-semibold"
-                style={{
-                  ...centerStyle,
-                  gridRow: rowIdx + 2,
-                  gridColumn: 1,
-                }}
-              >
-                <a onClick={() => props.onImageClick && props.onImageClick(p.id)}> 
-                  { p.name } 
-                </a>
-              </div>
-              {
-                tags.map((t, colIdx) => {
-                  const cropedImages = images.filter(i => i.parentId === p.id && i.tagId === t.id)
-                  return (
-                    <div
-                      className="card"
-                      key={t.id}
-                      style={{
-                        gridRow: rowIdx + 2,
-                        gridColumn: colIdx + 2,
-                      }}
-                    >
-                      {
-                        cropedImages.map(c => {
-                          const file = files.find(x => x.id === c.fileId)
-                          return(
-                            file && <img 
-                              src={`data:image;base64,${file.data}`}
-                            /> 
-                          )
-                        })
-                      }
-                    </div>
-                  )
-                })
-              }
+              <a onClick={() => props.onImageClick && props.onImageClick(p.id)}> 
+                { p.name } 
+              </a>
             </div>
           )
+        })
+      }
+      {
+        parentImages.map((p, rowIdx) => {
+          return tags.map((t, colIdx) => {
+            const cropedImages = images.filter(i => i.parentId === p.id && i.tagId === t.id)
+            return (
+              <div
+                className="card"
+                key={`${rowIdx}-${colIdx}`}
+                style={{
+                  gridRow: rowIdx + 2,
+                  gridColumn: colIdx + 2,
+                }}
+              >
+                {
+                  cropedImages.map(c => {
+                    const file = files.find(x => x.id === c.fileId)
+                    return(
+                      file && <img 
+                        src={`data:image;base64,${file.data}`}
+                      /> 
+                    )
+                  })
+                }
+              </div>
+            )
+          })
         })
       }
     </div>
