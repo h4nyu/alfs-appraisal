@@ -63,6 +63,7 @@ const images = [
   }),
 ]
 export const Primary = (args) => <TagTable 
+  {...args}
   tags={tags}
   images={images}
   files={files}
