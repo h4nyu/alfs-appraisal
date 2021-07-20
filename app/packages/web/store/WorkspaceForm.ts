@@ -22,7 +22,7 @@ export type WorkspaceFrom = {
   name: string,
   imageForm: ImageForm,
   tags?: Tag[],
-  rootImages: Image[],
+  images?: Image[],
   create: () => void;
   update: (id:string) => void;
   setName: (value:string) => void;
@@ -73,20 +73,17 @@ export const WorkspaceFrom = (props: {
       self.id = row.id
       self.name = row.name
       await imageForm.init(row)
-      await imageStore.fetch({workspaceId})
+      const images = await imageStore.fetch({workspaceId})
+      if(images instanceof Error) { return images }
       await props.tagStore?.fetch({workspaceId})
-      const imageIds = imageStore.images.filter(x => x.parentId === undefined).toList()
-      for (const image of imageIds){
-        await boxStore.fetch(image.id)
+      for (const image of images){
+        await boxStore.fetch({imageId:image.id})
         await fileStore?.fetch({id: image.fileId})
       }
       onInit && onInit(row)
     })
   }
 
-  const getRootImages = () => {
-    return imageStore.images.toList().filter(x => x.workspaceId === self.id && x.boxId === undefined).toJS()
-  }
 
   const setName = (value:string) => {
     self.name = value
@@ -116,6 +113,10 @@ export const WorkspaceFrom = (props: {
     return props.tagStore?.tags
   }
 
+  const getImages = () => {
+    return imageStore.images.filter(x => x.workspaceId === self.id)
+  }
+
   const self = observable<WorkspaceFrom>({
     id:"", 
     name:"",
@@ -124,8 +125,8 @@ export const WorkspaceFrom = (props: {
     update,
     setName,
     save,
-    get rootImages() { return getRootImages() },
     get tags() { return getTags() },
+    get images() { return getImages() },
     delete: _delete
   })
   return self

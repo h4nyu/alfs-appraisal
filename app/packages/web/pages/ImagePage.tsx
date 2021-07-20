@@ -7,6 +7,7 @@ import { InputMode } from "@sivic/web/store/BoxEditor"
 import CharPlot from "@sivic/web/components/CharPlot";
 import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
 import CropedBox from "@sivic/web/components/CropedBox"
+import TagSelector from "@sivic/web/components/TagSelector"
 
 const Content = observer(() => {
   const { imageProcess, editor, pointEditor } = store;
@@ -20,6 +21,11 @@ const Content = observer(() => {
       }}
     >
       <div className="buttons">
+        <TagSelector 
+          tags={store.workspaceForm.tags}
+          value={store.editor.tagId}
+          onChange={store.editor.setTagId}
+        />
         <a className="button is-info is-light" onClick={imageProcess.detectBoxes}>
           Auto Fill
         </a>

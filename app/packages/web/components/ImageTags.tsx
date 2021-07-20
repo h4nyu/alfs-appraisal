@@ -6,7 +6,7 @@ const Tags = (props:{
   onClick?: ({id: string, tag:ImageTag}) => void;
 }) => {
   const { image, onClick } = props;
-  const { id, tagId } = image
+  const { id } = image
   return <div> TODO </div>
   // return (
   //   <div className="buttons has-addons m-0">

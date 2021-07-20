@@ -70,11 +70,10 @@ export const Editor = (root: {
     onInit && onInit(imageId)
   };
   const getImages = () => {
-    const currentImage = imageStore.images.get(self.imageId)
+    const currentImage = imageStore.images.find(x => x.id === self.imageId)
     return imageStore
       .images
       .filter(x => x.parentId === currentImage?.parentId)
-      .toList()
   }
   const getPoints = () => {
   }

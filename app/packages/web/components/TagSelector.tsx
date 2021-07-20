@@ -8,7 +8,7 @@ export const TagSelector = (props: {
 }) => {
   const tag = props.tags?.find(x => x.id === props.value)
   return (
-    <div className="dropdown is-hoverable is-fullwidth">
+    <div className="mr-2 dropdown is-hoverable is-fullwidth">
       <div className="dropdown-trigger">
         <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
           <span>

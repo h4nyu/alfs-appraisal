@@ -68,3 +68,4 @@ export const RootApi = (): RootApi => {
     tag,
   };
 };
+export default RootApi

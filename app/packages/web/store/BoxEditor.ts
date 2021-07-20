@@ -18,11 +18,13 @@ export enum InputMode {
 export type Editor = {
   boxes: Map<string, Box>;
   draggingId: string | undefined;
+  tagId?: string;
   pos: {x:number, y:number},
   size: number;
   mode: InputMode;
   toggleDrag: (id: string, mode: InputMode) => void;
   setMode: (mode: InputMode) => void;
+  setTagId: (tagId: string) => void;
   add: () => void;
   move: (pos: { x: number; y: number }) => void;
   del: () => void;
@@ -144,6 +146,7 @@ export const Editor = (root: {
         y0: pos.y,
         x1: pos.x,
         y1: pos.y,
+        tagId: self.tagId,
       }))
       setMode(InputMode.BR);
     }
@@ -159,6 +162,10 @@ export const Editor = (root: {
   const changeSize = (value: number) => {
     self.size = value;
   };
+
+  const setTagId = (value: string) => {
+    self.tagId = value;
+  }
 
   const save = async (imageId:string) => {
     const err = await api.image.replaceBoxes({
@@ -182,6 +189,7 @@ export const Editor = (root: {
     del,
     init,
     clear,
+    setTagId,
     save,
   })
 

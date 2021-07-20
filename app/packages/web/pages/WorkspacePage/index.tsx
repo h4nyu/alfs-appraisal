@@ -60,9 +60,10 @@ const Content = observer(() => {
       >
         {
           <TagTable  
-            images={workspaceForm.rootImages}
+            images={workspaceForm.images}
             tags={workspaceForm.tags}
             files={fileStore.files.toList().toArray()}
+            boxes={store.boxStore.boxes}
             onImageClick={imageId => {
               store.imageProcess.init(imageId)
               store.history.push("/image")

@@ -24,6 +24,7 @@ export type ImageProcess = {
   image?: Image;
   file?: File;
   lineWidth: number;
+  tagId?:string;
   init: (imageId:string) => Promise<void|Error>;
   save: () => void
   detectBoxes: () => void;

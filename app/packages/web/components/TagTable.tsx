@@ -3,6 +3,7 @@ import { Tag } from "@sivic/core/tag"
 import { Image } from "@sivic/core/image"
 import { File } from "@sivic/core/file"
 import AddBtn from "@sivic/web/components/AddBtn"
+import Box from "@sivic/core/box"
 
 const centerStyle = {
   display: "grid",
@@ -14,15 +15,16 @@ export const TagTable = (props: {
   tags?: Tag[],
   images?: Image[],
   files?: File[],
+  boxes?: Box[],
   onImageAdd?:() => void,
   onTagAdd?:() => void,
   onImageClick?: (imageId:string) => void,
   onTagClick?:(tagId:string) => void,
 }) => {
   const tags = props.tags ?? []
+  const boxes = props.boxes ?? []
   const images = props.images ?? []
-  const parentImages = images.filter(x => x.parentId === undefined)
-  const cropedImages = images.filter(x => x.parentId !== undefined)
+  const parentImages = images.filter(x => x.boxId === undefined)
   const files = props.files ?? []
   return (
     <div
@@ -83,7 +85,8 @@ export const TagTable = (props: {
       {
         parentImages.map((p, rowIdx) => {
           return tags.map((t, colIdx) => {
-            const cropedImages = images.filter(i => i.boxId && i.parentId === p.id && i.tagId === t.id)
+            const boxIds = boxes.filter(b => b.tagId === t.id).map(x => x.id)
+            const cropedImages = images.filter(i => i.parentId === p.id && i.boxId && boxIds.includes(i.boxId) )
             return (
               <div
                 className="card"

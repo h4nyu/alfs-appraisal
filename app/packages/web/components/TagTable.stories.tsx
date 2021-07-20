@@ -3,6 +3,7 @@ import TagTable from "./TagTable";
 import { Tag } from "@sivic/core/tag"
 import { Image } from "@sivic/core/image"
 import annot from "/srv/data/annto.json";
+import Box from "@sivic/core/box"
 import { File } from "@sivic/core/file"
 
 
@@ -31,6 +32,13 @@ const files = [
     data: annot.imageData,
   })
 ]
+
+const boxes = [
+  Box({
+    id: "b0",
+    tagId: "t0",
+  })
+]
 const images = [
   Image({
     id: "i0",
@@ -44,21 +52,20 @@ const images = [
     id: "c1",
     name: "croped-0",
     parentId: "i0",
-    tagId:  "t2",
     fileId: "f0",
+    boxId: "b0",
   }),
   Image({
     id: "c2",
     name: "croped-0",
     parentId: "i0",
-    tagId:  "t2",
     fileId: "f0",
+    boxId: "b0",
   }),
   Image({
     id: "c3",
     name: "croped-0",
     parentId: "i1",
-    tagId:  "t0",
     fileId: "f0",
   }),
 ]
@@ -67,4 +74,5 @@ export const Primary = (args) => <TagTable
   tags={tags}
   images={images}
   files={files}
+  boxes={boxes}
 /> 
