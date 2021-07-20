@@ -55,6 +55,7 @@ const Content = observer(() => {
               data={imageProcess.file.data} 
               boxes={editor.boxes}
               mode={editor.mode}
+              tags={store.workspaceForm.tags}
               selectedId={editor.draggingId}
               onSelect={editor.toggleDrag}
               onAdd={editor.add}
