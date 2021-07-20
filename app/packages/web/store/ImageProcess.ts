@@ -15,7 +15,8 @@ import { Level } from "@sivic/web/store"
 import { Box } from "@sivic/core/box";
 import Editor from "@sivic/web/store/BoxEditor"
 import ImageStore from "@sivic/web/store/ImageStore"
-import { File } from "@sivic/core/file"
+import File from "@sivic/core/file"
+import FileStore from "@sivic/web/store/FileStore"
 
 export type ImageProcess = {
   image?: Image;
@@ -26,21 +27,27 @@ export type ImageProcess = {
   detectBoxes: () => void;
 };
 
-export const ImageProcess = (args: {
+export const ImageProcess = (props: {
   api: RootApi;
   loading: <T>(fn: () => Promise<T>) => Promise<T>;
   imageStore: ImageStore,
   toast: ToastStore;
   onInit?: (imageId:string) => void
   editor: Editor
+  fileStore?:FileStore,
 }): ImageProcess => {
-  const { api, loading, toast, onInit, editor, imageStore } = args;
+  const { api, loading, toast, onInit, editor, imageStore } = props;
 
   const init = async (imageId:string) => {
     await loading(async () => {
       const image = await api.image.find({id:imageId})
       if(image instanceof Error) { return image }
       self.image = image
+      if(image.fileId){
+        const file = await props.fileStore?.fetch({id: image.fileId})
+        if(file instanceof Error) { return file }
+        self.file = file
+      }
       const boxes = await api.box.filter({imageId})
       if(boxes instanceof Error) { return boxes }
       editor.boxes = Map(boxes.map(x => [uuid(), x]))

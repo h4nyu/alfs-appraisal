@@ -35,7 +35,7 @@ export const Api = (arg: {
   };
   const replaceBoxes:ReplaceBoxesFn = async (payload) => {
     try {
-      const res = await http.post(`${prefix}/image/replace-boxes`, payload);
+      const res = await http.post(`${prefix}/replace-boxes`, payload);
       return res.data.map(Image)
     } catch (err) {
       return toError(err);
@@ -43,7 +43,7 @@ export const Api = (arg: {
   };
   const replaceLines:ReplaceLinesFn = async (payload) => {
     try {
-      const res = await http.post(`${prefix}/image/replace-lines`, payload);
+      const res = await http.post(`${prefix}/replace-lines`, payload);
       return res.data.map(Image)
     } catch (err) {
       return toError(err);
@@ -51,7 +51,7 @@ export const Api = (arg: {
   };
   const replacePoints:ReplacePointsFn = async (payload) => {
     try {
-      const res = await http.post(`${prefix}/image/replace-points`, payload);
+      const res = await http.post(`${prefix}/replace-points`, payload);
       return res.data.map(Image)
     } catch (err) {
       return toError(err);

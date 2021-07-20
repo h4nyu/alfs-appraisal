@@ -83,7 +83,7 @@ export const TagTable = (props: {
       {
         parentImages.map((p, rowIdx) => {
           return tags.map((t, colIdx) => {
-            const cropedImages = images.filter(i => i.parentId === p.id && i.tagId === t.id)
+            const cropedImages = images.filter(i => i.boxId && i.parentId === p.id && i.tagId === t.id)
             return (
               <div
                 className="card"

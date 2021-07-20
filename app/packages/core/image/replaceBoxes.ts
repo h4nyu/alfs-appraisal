@@ -24,7 +24,7 @@ export const Fn = (props:{
   return async (payload: Payload) => {
     const baseImage = await find({id: payload.imageId})
     if(baseImage instanceof Error){ return baseImage }
-    const baseFile = await findFile({id: baseImage.id})
+    const baseFile = await findFile({id: baseImage.fileId })
     if(baseFile instanceof Error) { return baseFile }
     let err = await deleteBoxFn({imageId: baseImage.id})
     if(err instanceof Error) { return err }
@@ -35,8 +35,9 @@ export const Fn = (props:{
       const croped = await props.store.transform.crop({imageData: baseFile.data, box})
       if(croped instanceof Error) { return croped }
       const cropedImage = await create({
-        name: `${baseImage.name}-{i}`,
+        name: `${baseImage.name}-${i}`,
         workspaceId: baseImage.workspaceId,
+        parentId: baseImage.id,
         data: croped,
         boxId: box.id,
       })

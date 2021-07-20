@@ -85,7 +85,7 @@ export const WorkspaceFrom = (props: {
   }
 
   const getRootImages = () => {
-    return imageStore.images.toList().filter(x => x.workspaceId === self.id && x.parentId === undefined).toJS()
+    return imageStore.images.toList().filter(x => x.workspaceId === self.id && x.boxId === undefined).toJS()
   }
 
   const setName = (value:string) => {
