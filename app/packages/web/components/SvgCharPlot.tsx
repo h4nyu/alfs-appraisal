@@ -4,14 +4,16 @@ import { Point } from "@sivic/core/point";
 import { InputMode } from "@sivic/web/store/BoxEditor"
 import { InputMode as PointMode } from "@sivic/web/store/PointEditor"
 import Line from "@sivic/core/line";
+import Tag from "@sivic/core/tag"
 import { Map, Set } from "immutable"
 
 export const SvgCharPlot = (props: {
   data?: string;
   mode?: InputMode;
-  boxes?: Map<string, Box>;
-  points?: Map<string, Point>;
-  lines?:Map<string, Line>;
+  boxes?: Box[];
+  points?: Point[];
+  lines?:Line[];
+  tags?: Tag[];
   size?: number;
   selectedId?: string;
   lineId?:string;
@@ -93,98 +95,109 @@ export const SvgCharPlot = (props: {
         height={width * aspect}
       />
 
-      {boxes?.map((b, i) => (
-        <g key={i}>
-          <rect
-            x={b.x0 * scale }
-            y={b.y0 * scale }
-            width={(b.x1 - b.x0) * scale }
-            height={(b.y1 - b.y0) * scale }
-            fill="none"
-            stroke={selectedId === i ? "green" : "red"}
-            strokeWidth={pointSize / 4}
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect && onSelect(i, InputMode.Box);
-            }}
-          />
-          <circle
-            style={{cursor: "crosshair"}}
-            cx={b.x0 * scale}
-            cy={b.y0 * scale}
-            r={pointSize}
-            stroke="none"
-            fill={selectedId === i ? "green" : "red"}
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect && onSelect(i, InputMode.TL);
-            }}
-          />
-          <circle
-            style={{cursor: "crosshair"}}
-            cx={b.x1 * scale}
-            cy={b.y0 * scale}
-            r={pointSize}
-            fill={selectedId === i ? "green" : "red"}
-            stroke="none"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect && onSelect(i, InputMode.TR);
-            }}
-          />
-          <circle
-            style={{cursor: "crosshair"}}
-            cx={b.x0 * scale}
-            cy={b.y1 * scale}
-            r={pointSize}
-            fill={selectedId === i ? "green" : "red"}
-            stroke="none"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect && onSelect(i, InputMode.BL);
-            }}
-          />
-          <circle
-            style={{cursor: "crosshair"}}
-            cx={b.x1 * scale}
-            cy={b.y1 * scale}
-            r={pointSize}
-            stroke="none"
-            fill={selectedId === i ? "green" : "red"}
-            onClick={(e) => {
-              onSelect && onSelect(i, InputMode.BR);
-              e.stopPropagation();
-            }}
-          />
-        </g>
-      ))
-      .toList()}
-      {points?.map((p, i) => (
-        <g key={i}>
+      {boxes?.map(b => {
+        const tag = props.tags?.find(x => x.id === b.tagId)
+        return (
+          <g key={b.id}>
+            {
+              tag && <text 
+                x={b.x0 * scale }
+                y={b.y0 * scale }
+                font-size="35" 
+              >
+                Hello
+              </text>
+            }
+            <rect
+              x={b.x0 * scale }
+              y={b.y0 * scale }
+              width={(b.x1 - b.x0) * scale }
+              height={(b.y1 - b.y0) * scale }
+              fill="none"
+              stroke={selectedId === b.id ? "green" : "red"}
+              strokeWidth={pointSize / 4}
+              onClick={(e) => {
+                e.stopPropagation();
+                props.onSelect?.(b.id, InputMode.Box)
+              }}
+            />
+            <circle
+              style={{cursor: "crosshair"}}
+              cx={b.x0 * scale}
+              cy={b.y0 * scale}
+              r={pointSize}
+              stroke="none"
+              fill={selectedId === b.id ? "green" : "red"}
+              onClick={(e) => {
+                e.stopPropagation();
+                props.onSelect?.(b.id, InputMode.TL)
+              }}
+            />
+            <circle
+              style={{cursor: "crosshair"}}
+              cx={b.x1 * scale}
+              cy={b.y0 * scale}
+              r={pointSize}
+              fill={selectedId === b.id ? "green" : "red"}
+              stroke="none"
+              onClick={(e) => {
+                e.stopPropagation();
+                props.onSelect?.(b.id, InputMode.TR)
+              }}
+            />
+            <circle
+              style={{cursor: "crosshair"}}
+              cx={b.x0 * scale}
+              cy={b.y1 * scale}
+              r={pointSize}
+              fill={selectedId === b.id ? "green" : "red"}
+              stroke="none"
+              onClick={(e) => {
+                e.stopPropagation();
+                props.onSelect?.(b.id, InputMode.BL)
+              }}
+            />
+            <circle
+              style={{cursor: "crosshair"}}
+              cx={b.x1 * scale}
+              cy={b.y1 * scale}
+              r={pointSize}
+              stroke="none"
+              fill={selectedId === b.id ? "green" : "red"}
+              onClick={(e) => {
+                e.stopPropagation();
+                props.onSelect?.(b.id, InputMode.BR)
+              }}
+            />
+          </g>
+        )
+      })
+      }
+      {points?.map((p) => (
+        <g key={p.id}>
           <circle
             style={{cursor: "crosshair"}}
             cx={p.x * scale}
             cy={p.y * scale}
             r={pointSize}
-            fill={selectedId === i ? "green" : "red"}
+            fill={selectedId === p.id ? "green" : "red"}
             stroke="none"
             onClick={(e) => {
               e.stopPropagation();
-              onPointSelect && onPointSelect(i, PointMode.Edit);
+              props.onPointSelect?.(p.id, PointMode.Edit)
             }}
           />
         </g>
-      ))
-      .toList()}
+      ))}
       {
-        lines?.map((l, i) => (
-          <g key={i}>
+        lines?.map((l) => (
+          <g key={l.id}>
             <line 
               x1={l[0].x * scale}
               y1={l[0].y * scale}
               x2={l[1].x * scale}
               y2={l[1].y * scale}
-              stroke={lineId === i ? "green" : "blue"}
+              stroke={l.id === lineId ? "green" : "blue"}
               storole-width={1}
             />
             <circle
@@ -193,10 +206,10 @@ export const SvgCharPlot = (props: {
               cy={l[0].y * scale}
               r={pointSize * 1.5}
               stroke="none"
-              fill={lineId === i ? "green" : "blue"}
+              fill={lineId === l.id ? "green" : "blue"}
               onClick={(e) => {
                 e.stopPropagation();
-                onLineSelect && onLineSelect(i);
+                props.onLineSelect?.(l.id);
               }}
             />
             <circle
@@ -205,14 +218,14 @@ export const SvgCharPlot = (props: {
               cy={l[1].y * scale}
               r={pointSize * 1.5}
               stroke="none"
-              fill={lineId === i ? "green" : "blue"}
+              fill={lineId === l.id ? "green" : "blue"}
               onClick={(e) => {
                 e.stopPropagation();
-                onLineSelect && onLineSelect(i);
+                props.onLineSelect?.(l.id);
               }}
             />
           </g>
-        )).toList()
+        ))
       }
     </svg>
   );

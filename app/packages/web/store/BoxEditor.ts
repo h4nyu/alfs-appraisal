@@ -5,7 +5,7 @@ import { ToastStore } from "./toast";
 import  Box from "@sivic/core/box";
 import { Map, Set } from "immutable";
 import { v4 as uuid } from "uuid";
-import { keyBy, zip } from "lodash";
+import { keyBy, zip, uniqBy } from "lodash";
 
 export enum InputMode {
   Box = "Box",
@@ -16,7 +16,7 @@ export enum InputMode {
 }
 
 export type Editor = {
-  boxes: Map<string, Box>;
+  boxes: Box[];
   draggingId: string | undefined;
   tagId?: string;
   pos: {x:number, y:number},
@@ -51,7 +51,7 @@ export const Editor = (root: {
   const init = async (id: string) => {
   };
   const clear = () => {
-    self.boxes = Map<string, Box>();
+    self.boxes = [];
   };
 
   const setMode = (mode: InputMode) => {
@@ -74,54 +74,60 @@ export const Editor = (root: {
     if (draggingId === undefined) {
       return;
     }
-    if (mode === InputMode.TL) {
-      const box = boxes.get(draggingId);
+    const newBox = (() => {
+      const box = boxes.find(x => x.id === draggingId);
       if (box === undefined) {
         return;
       }
-      if (pos.x > box.x1) {
-        return setMode(InputMode.TR);
+      if (mode === InputMode.TL) {
+        if (pos.x > box.x1) {
+          setMode(InputMode.TR);
+          return 
+        }
+        if (pos.y > box.y1) {
+          setMode(InputMode.BL);
+          return 
+        }
+        return Box({...box, x0: pos.x, y0: pos.y})
+      } else if (mode === InputMode.BR) {
+        if (pos.x < box.x0) {
+          setMode(InputMode.BL);
+          return 
+        }
+        if (pos.y < box.y0) {
+          setMode(InputMode.TR);
+          return 
+        }
+        return Box({...box, x1: pos.x, y1: pos.y})
+      } else if (mode === InputMode.BL) {
+        if (pos.x > box.x1) {
+          setMode(InputMode.BR);
+          return 
+        }
+        if (pos.y < box.y0) {
+          setMode(InputMode.TL);
+          return 
+        }
+        return Box({...box, x0: pos.x, y1: pos.y})
+      } else if (mode === InputMode.TR) {
+        if (pos.x < box.x0) {
+          setMode(InputMode.TL);
+          return 
+        }
+        if (pos.y > box.y1) {
+          setMode(InputMode.BR);
+          return 
+        }
+        return Box({...box, x1: pos.x, y0: pos.y})
       }
-      if (pos.y > box.y1) {
-        return setMode(InputMode.BL);
-      }
-      self.boxes = boxes.set(draggingId, { ...box, x0: pos.x, y0: pos.y });
-    } else if (mode === InputMode.BR) {
-      const box = boxes.get(draggingId);
-      if (box === undefined) {
-        return;
-      }
-      if (pos.x < box.x0) {
-        return setMode(InputMode.BL);
-      }
-      if (pos.y < box.y0) {
-        return setMode(InputMode.TR);
-      }
-      self.boxes = boxes.set(draggingId, { ...box, x1: pos.x, y1: pos.y });
-    } else if (mode === InputMode.BL) {
-      const box = boxes.get(draggingId);
-      if (box === undefined) {
-        return;
-      }
-      if (pos.x > box.x1) {
-        return setMode(InputMode.BR);
-      }
-      if (pos.y < box.y0) {
-        return setMode(InputMode.TL);
-      }
-      self.boxes = boxes.set(draggingId, { ...box, x0: pos.x, y1: pos.y });
-    } else if (mode === InputMode.TR) {
-      const box = boxes.get(draggingId);
-      if (box === undefined) {
-        return;
-      }
-      if (pos.x < box.x0) {
-        return setMode(InputMode.TL);
-      }
-      if (pos.y > box.y1) {
-        return setMode(InputMode.BR);
-      }
-      self.boxes = boxes.set(draggingId, { ...box, x1: pos.x, y0: pos.y });
+    })()
+    if(newBox !== undefined){
+      self.boxes = uniqBy([
+        Box({
+          ...newBox,
+        }),
+        ...boxes,
+      ], x => x.id)
     }
   };
 
@@ -141,13 +147,16 @@ export const Editor = (root: {
         InputMode.BR,
       ].includes(mode)
     ) {
-      self.boxes = self.boxes.set(newId, Box({
-        x0: pos.x,
-        y0: pos.y,
-        x1: pos.x,
-        y1: pos.y,
-        tagId: self.tagId,
-      }))
+      self.boxes = [...self.boxes, 
+        Box({
+          id: newId,
+          x0: pos.x,
+          y0: pos.y,
+          x1: pos.x,
+          y1: pos.y,
+          tagId: self.tagId,
+        })
+      ]
       setMode(InputMode.BR);
     }
     self.draggingId = newId;
@@ -155,7 +164,7 @@ export const Editor = (root: {
 
   const del = () => {
     const { boxes, draggingId } = self;
-    self.boxes = boxes.filter((v, k) => k !== draggingId);
+    self.boxes = boxes.filter(x => x.id !== draggingId);
     self.draggingId = undefined;
   };
 
@@ -168,15 +177,15 @@ export const Editor = (root: {
   }
 
   const save = async (imageId:string) => {
-    const err = await api.image.replaceBoxes({
+    const err = self.tagId && await api.image.replaceBoxes({
       imageId, 
-      boxes:self.boxes.toList().toArray()
+      boxes:self.boxes
     })
     if(err instanceof Error) { return err }
   };
 
   const self = observable<Editor>({
-    boxes: Map<string,Box>(),
+    boxes: [],
     draggingId: undefined,
     size: 10,
     pos: { x: 0, y:0 },

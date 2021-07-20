@@ -52,7 +52,7 @@ export const ImageProcess = (props: {
       }
       const boxes = await api.box.filter({imageId})
       if(boxes instanceof Error) { return boxes }
-      editor.boxes = Map(boxes.map(x => [uuid(), x]))
+      editor.boxes = boxes
       onInit && onInit(imageId)
     })
   }
@@ -73,7 +73,7 @@ export const ImageProcess = (props: {
   const save = async () =>{
     const { image } = self
     if(image === undefined){ return }
-    const boxes = editor.boxes.toList().toArray()
+    const boxes = editor.boxes
     await loading(async () => {
       const imageId = image.id
       const cropedImages = await api.image.replaceBoxes({

@@ -1,31 +1,23 @@
 import { observable, computed } from "mobx";
-import { Map, List } from "immutable";
-import { Images } from ".";
-import { ToastStore } from "./toast";
-import { LoadingStore } from "./loading";
-import { RootApi } from "@sivic/api";
-import {
-  FilterFn,
-} from "@sivic/core/point";
-import { Point } from "@sivic/core/point"
-import { keyBy } from "lodash";
+import Api from "@sivic/api";
+import Point, { FilterFn, } from "@sivic/core/point";
+import { uniqBy } from "lodash";
 
 export type PointStore = {
-  points: Map<string, Point>;
+  points: Point[];
   fetch: (payload: Parameters<FilterFn>[0]) => Promise<void>
 };
 
-export const PointStore = (args: {
-  api: RootApi;
+export const PointStore = (props: {
+  api: Api;
 }): PointStore => {
-  const { api } = args;
   const fetch = async (payload) => {
-    const points = await api.point.filter(payload)
+    const points = await props.api.point.filter(payload)
     if(points instanceof Error) { return }
-    self.points = self.points.merge(Map(keyBy(points, x => x.id)))
+    self.points = uniqBy([...self.points, ...points], x => x.id)
   }
-  const self = observable({
-    points: Map<string, Point>(),
+  const self = observable<PointStore>({
+    points: [],
     fetch,
   })
   return self

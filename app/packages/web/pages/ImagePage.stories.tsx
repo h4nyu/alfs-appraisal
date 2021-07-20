@@ -6,6 +6,7 @@ import { Image } from "@sivic/core/image";
 import { Map } from "immutable"
 import { Box } from "@sivic/core/box"
 import { v4 as uuid } from "uuid"
+import File from "@sivic/core/file"
 import store from "@sivic/web/store"
 import annot from "/srv/data/annto.json";
 
@@ -26,11 +27,16 @@ export default {
 };
 
 store.imageProcess.image = Image()
-store.editor.boxes = Map([Box({
-  x0: 5, 
-  y0: 5,
-  x1: 10,
-  y1: 10,
-})].map(x => [uuid(), x]))
+store.imageProcess.file = File({
+  data: annot.imageData,
+})
+store.editor.boxes = [
+  Box({
+    x0: 5, 
+    y0: 5,
+    x1: 10,
+    y1: 10,
+  })
+]
 
 export const Primary = (args) => <ImagePage /> 
