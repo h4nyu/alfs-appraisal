@@ -53,8 +53,9 @@ export const TagTable = (props: {
               }}
             >
               <a
-                onClick={() => props.onTagClick && props.onTagClick(t.id)}
-              > { t.name } 
+                onClick={() => props.onTagClick?.(t.id)}
+              > 
+                { t.name } 
               </a>
             </div>
           )

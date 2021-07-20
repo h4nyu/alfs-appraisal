@@ -63,6 +63,10 @@ const Content = observer(() => {
             images={workspaceForm.rootImages}
             tags={workspaceForm.tags}
             files={fileStore.files.toList().toArray()}
+            onTagClick={id => {
+              store.tagForm.init({id, workspaceId: workspaceForm.id})
+              store.history.push("/tag")
+            }}
           />
         }
       </div>
