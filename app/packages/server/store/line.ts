@@ -53,6 +53,7 @@ export const Store = (
   };
 
   const load = async (payload: Line[]) => {
+    if(payload.length === 0){ return }
     try{
       await sql` INSERT INTO lines ${sql(
         payload.map(from),
