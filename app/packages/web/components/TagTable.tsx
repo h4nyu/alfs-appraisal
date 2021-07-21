@@ -123,8 +123,8 @@ export const TagTable = (props: {
       }
       {
         parentImages.map((p, rowIdx) => {
-          return tags.map((t, colIdx) => {
-            const boxIds = boxes.filter(b => b.tagId === t.id).map(x => x.id)
+          return [undefined, ...tags].map((t, colIdx) => {
+            const boxIds = boxes.filter(b => b.tagId === t?.id).map(x => x.id)
             const cropedImages = images.filter(i => i.parentId === p.id && i.boxId && boxIds.includes(i.boxId) )
             return (
               <div
@@ -132,7 +132,7 @@ export const TagTable = (props: {
                 key={`${rowIdx}-${colIdx}`}
                 style={{
                   gridRow: rowIdx + 2,
-                  gridColumn: colIdx + 3,
+                  gridColumn: colIdx + 2,
                 }}
               >
                 {

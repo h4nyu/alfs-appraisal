@@ -20,10 +20,6 @@ const tags = [
     id: "t1",
     name: "い"
   }),
-  Tag({
-    id: "t2",
-    name: "う"
-  }),
 ]
 
 const files = [
@@ -37,6 +33,13 @@ const boxes = [
   Box({
     id: "b0",
     tagId: "t0",
+  }),
+  Box({
+    id: "b1",
+    tagId: "t1",
+  }),
+  Box({
+    id: "b2",
   })
 ]
 const images = [
@@ -60,13 +63,14 @@ const images = [
     name: "croped-0",
     parentId: "i0",
     fileId: "f0",
-    boxId: "b0",
+    boxId: "b1",
   }),
   Image({
     id: "c3",
     name: "croped-0",
     parentId: "i1",
     fileId: "f0",
+    boxId: "b2",
   }),
 ]
 export const Primary = (args) => <TagTable 
