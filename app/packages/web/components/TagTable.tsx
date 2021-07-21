@@ -42,6 +42,17 @@ export const TagTable = (props: {
       >
         Images / Tags
       </div>
+      <div
+        className="card p-1 has-text-weight-semibold"
+        style={{
+          ...centerStyle,
+          minHeight: "1em",
+          gridRow: 1,
+          gridColumn: 2,
+        }}
+      >
+        NoTag
+      </div>
       {
         tags.map((t, i) => {
           return (
@@ -51,7 +62,7 @@ export const TagTable = (props: {
               style={{
                 ...centerStyle,
                 gridRow: 1,
-                gridColumn: i + 2,
+                gridColumn: i + 3,
               }}
             >
               <a
@@ -85,6 +96,34 @@ export const TagTable = (props: {
       {
         parentImages.map((p, rowIdx) => {
           return tags.map((t, colIdx) => {
+            const cropedImages = images.filter(i => i.parentId === p.id && i.boxId === undefined )
+            return (
+              <div
+                className="card"
+                key={`${rowIdx}-${colIdx}`}
+                style={{
+                  gridRow: rowIdx + 2,
+                  gridColumn: 2,
+                }}
+              >
+                {
+                  cropedImages.map(c => {
+                    const file = files.find(x => x.id === c.fileId)
+                    return(
+                      file && <img key={c.id}
+                        src={`data:image;base64,${file.data}`}
+                      /> 
+                    )
+                  })
+                }
+              </div>
+            )
+          })
+        })
+      }
+      {
+        parentImages.map((p, rowIdx) => {
+          return tags.map((t, colIdx) => {
             const boxIds = boxes.filter(b => b.tagId === t.id).map(x => x.id)
             const cropedImages = images.filter(i => i.parentId === p.id && i.boxId && boxIds.includes(i.boxId) )
             return (
@@ -93,7 +132,7 @@ export const TagTable = (props: {
                 key={`${rowIdx}-${colIdx}`}
                 style={{
                   gridRow: rowIdx + 2,
-                  gridColumn: colIdx + 2,
+                  gridColumn: colIdx + 3,
                 }}
               >
                 {
