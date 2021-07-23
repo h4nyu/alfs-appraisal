@@ -125,6 +125,7 @@ export const Editor = (root: {
       self.boxes = uniqBy([
         Box({
           ...newBox,
+          tagId: self.tagId,
         }),
         ...boxes,
       ], x => x.id)

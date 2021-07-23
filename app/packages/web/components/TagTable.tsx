@@ -95,34 +95,6 @@ export const TagTable = (props: {
       }
       {
         parentImages.map((p, rowIdx) => {
-          return tags.map((t, colIdx) => {
-            const cropedImages = images.filter(i => i.parentId === p.id && i.boxId === undefined )
-            return (
-              <div
-                className="card"
-                key={`${rowIdx}-${colIdx}`}
-                style={{
-                  gridRow: rowIdx + 2,
-                  gridColumn: 2,
-                }}
-              >
-                {
-                  cropedImages.map(c => {
-                    const file = files.find(x => x.id === c.fileId)
-                    return(
-                      file && <img key={c.id}
-                        src={`data:image;base64,${file.data}`}
-                      /> 
-                    )
-                  })
-                }
-              </div>
-            )
-          })
-        })
-      }
-      {
-        parentImages.map((p, rowIdx) => {
           return [undefined, ...tags].map((t, colIdx) => {
             const boxIds = boxes.filter(b => b.tagId === t?.id).map(x => x.id)
             const cropedImages = images.filter(i => i.parentId === p.id && i.boxId && boxIds.includes(i.boxId) )
@@ -140,6 +112,7 @@ export const TagTable = (props: {
                     const file = files.find(x => x.id === c.fileId)
                     return(
                       file && <img 
+                        key={file.id}
                         src={`data:image;base64,${file.data}`}
                       /> 
                     )
