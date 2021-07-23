@@ -19,11 +19,11 @@ export enum InputMode {
 }
 
 export type Editor = {
-  images: List<Image>;
+  images: Image[];
   files: File[];
   imageId: string;
   cursor:number;
-  points: Map<string, Point>;
+  points: Point[];
   draggingId: string | undefined;
   pos: {x:number, y:number},
   size: number;
@@ -70,11 +70,10 @@ export const Editor = (root: {
     onInit && onInit(imageId)
   };
   const getImages = () => {
-    const currentImage = imageStore.images.get(self.imageId)
+    const currentImage = imageStore.images.find(x => x.id === self.imageId)
     return imageStore
       .images
       .filter(x => x.parentId === currentImage?.parentId)
-      .toList()
   }
   const getPoints = () => {
   }
@@ -147,7 +146,7 @@ export const Editor = (root: {
   const save = async () => {
     const pointErr = await api.image.replacePoints({
       imageId: self.imageId, 
-      points:self.points.toList().toArray()
+      points: self.points
     })
     if(pointErr instanceof Error) { return pointErr }
     const lines:{
@@ -156,7 +155,7 @@ export const Editor = (root: {
       y0: number,
       x1: number,
       y1: number,
-    }[] = lineEditor.lines.toList().toArray()
+    }[] = lineEditor.lines;
     const lineErr = await api.image.replaceLines({
       imageId: self.imageId, 
       lines,
@@ -184,7 +183,7 @@ export const Editor = (root: {
     imageId: "",
     get images(){ return getImages() },
     cursor:0,
-    points: Map<string, Point>(),
+    points: [],
     draggingId: undefined,
     size: 10,
     files: [],

@@ -26,6 +26,8 @@ export const Fn = (props: {
     if(validateErr instanceof Error) { return validateErr }
     const uniqueErr = await unique(tag)
     if(uniqueErr instanceof Error) { return uniqueErr }
+    const insertErr = await props.store.tag.insert(tag)
+    if(insertErr instanceof Error) { return insertErr }
     return tag
   }
 }

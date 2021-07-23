@@ -38,6 +38,7 @@ export default function App() {
               <Route exact path={"/workspace/id/:id/image-id/:imageId"} component={ImagePage} />
               <Route exact path={"/point"} component={PointPage} />
               <Route exact path={"/tag"} component={ () => <TagFormPage {...rootStore} />} />
+              <Route exact path={"/image"} component={ ImagePage } />
             </Suspense>
           }
         />

@@ -49,6 +49,9 @@ export const Store = (
   };
 
   const load = async (payload: Point[]) => {
+    if(payload.length === 0){
+      return
+    }
     try {
       await sql`INSERT INTO ${sql(TABLE)} ${sql(payload.map(from), ...COLUMNS)}`
     }catch(e){

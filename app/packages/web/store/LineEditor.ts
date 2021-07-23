@@ -16,7 +16,7 @@ export enum InputMode {
 }
 
 export type Editor = {
-  lines: Map<string, Line>;
+  lines: Line[];
   draggingId: string | undefined;
   init: (id: string) => void;
   del: () => void;
@@ -44,12 +44,12 @@ export const Editor = (root: {
 
   const init = async (imageId: string) => {
     await lineStore.fetch({imageId})
-    self.lines = Map<string, Line>()
+    self.lines = []
     onInit && onInit(imageId)
   };
 
   const clear = () => {
-    self.lines =  Map<string, Line>()
+    self.lines =  []
   };
 
   const getLine = (points: Point[]) => {
@@ -80,12 +80,12 @@ export const Editor = (root: {
 
   const del = () => {
     const { lines, draggingId } = self;
-    self.lines = lines.filter((v, k) => k !== draggingId);
+    self.lines = lines.filter(x => x.id !== draggingId);
     self.draggingId = undefined;
   };
 
   const self = observable<Editor>({
-    lines: Map<string,Line>(),
+    lines: [],
     draggingId: undefined,
     init,
     clear,

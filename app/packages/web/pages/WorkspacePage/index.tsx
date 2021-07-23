@@ -60,8 +60,18 @@ const Content = observer(() => {
       >
         {
           <TagTable  
-            images={workspaceForm.rootImages}
+            images={workspaceForm.images}
+            tags={workspaceForm.tags}
             files={fileStore.files.toList().toArray()}
+            boxes={store.boxStore.boxes}
+            onImageClick={imageId => {
+              store.imageProcess.init(imageId)
+              store.history.push("/image")
+            }}
+            onTagClick={id => {
+              store.tagForm.init({id, workspaceId: workspaceForm.id})
+              store.history.push("/tag")
+            }}
           />
         }
       </div>
@@ -83,7 +93,10 @@ const Content = observer(() => {
           style={{
             height: "100%"
           }}
-          onClick={() => store.tagForm.init()}
+          onClick={() => {
+            store.tagForm.init({workspaceId: workspaceForm.id})
+            store.history.push("/tag")
+          }}
         > 
           Add Tag 
         </div>

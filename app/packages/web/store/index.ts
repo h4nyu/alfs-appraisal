@@ -9,7 +9,7 @@ import { Image } from "@sivic/core/image";
 import WorkspaceForm from "@sivic/web/store/WorkspaceForm"
 import { WorkspaceStore } from "@sivic/web/store/WorkspaceStore"
 import { ImageStore } from "@sivic/web/store/ImageStore"
-import { BoxStore } from "@sivic/web/store/BoxStore"
+import BoxStore from "@sivic/web/store/BoxStore"
 import ImageForm from "@sivic/web/store/ImageForm"
 import ImageProcess from "@sivic/web/store/ImageProcess"
 import Editor from "@sivic/web/store/BoxEditor"
@@ -73,7 +73,7 @@ export const RootStore = (): RootStore => {
   const workspaceStore = WorkspaceStore({ api, loading, toast });
   const imageStore = ImageStore({ api })
   const pointStore = PointStore({ api })
-  const boxStore = BoxStore({ api, loading, toast})
+  const boxStore = BoxStore({ api })
   const history = createHashHistory();
   const tagStore = TagStore({api})
   const editor = Editor({ api, loading, toast })
@@ -116,9 +116,7 @@ export const RootStore = (): RootStore => {
     loading,
     toast,
     imageStore,
-    onInit: (imageId) => {
-      history.push(`/workspace/id/${workspaceForm.id}/image-id/${imageId}`)
-    },
+    fileStore,
     editor,
   })
   const workspaceForm = WorkspaceForm({
@@ -127,6 +125,7 @@ export const RootStore = (): RootStore => {
     toast,
     imageForm,
     imageStore,
+    tagStore,
     boxStore,
     fileStore,
     onInit: (workspace) => {
@@ -142,13 +141,7 @@ export const RootStore = (): RootStore => {
       workspaceStore.fetch()
     }
   })
-  const tagForm = TagForm({ 
-    api, 
-    tagStore,
-    onInit: () => {
-      history.push(`/tag`)
-    }
-  })
+  const tagForm = TagForm({ api, tagStore, toast })
 
   return {
     api,

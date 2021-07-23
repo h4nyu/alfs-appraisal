@@ -1,34 +1,29 @@
 import { observable, computed } from "mobx";
-import { Box } from "@sivic/core/box";
-import { Map, List } from "immutable";
-import { Images } from ".";
-import { ToastStore } from "./toast";
+import { Box, FilterFn } from "@sivic/core/box";
 import { LoadingStore } from "./loading";
-import { RootApi } from "@sivic/api";
+import Api from "@sivic/api";
 import {
   Image,
 } from "@sivic/core/image";
 import { saveAs } from 'file-saver';
-import { keyBy } from "lodash";
+import { uniqBy } from "lodash";
 
 export type BoxStore = {
-  boxes: Map<string, Box>;
-  fetch: (imageId:string) => Promise<void>
+  boxes: Box[];
+  fetch: FilterFn
 };
 
-export const BoxStore = (args: {
-  api: RootApi;
-  loading: <T>(fn: () => Promise<T>) => Promise<T>;
-  toast: ToastStore;
+export const BoxStore = (props: {
+  api: Api;
 }): BoxStore => {
-  const { api, loading, toast } = args;
-  const fetch = async (imageId:string) => {
-    const boxes = await api.box.filter({imageId})
-    if(boxes instanceof Error) { return }
-    self.boxes = self.boxes.merge(Map(keyBy(boxes, x => x.id)))
+  const fetch = async (payload) => {
+    const boxes = await props.api.box.filter(payload)
+    if(boxes instanceof Error) { return boxes }
+    self.boxes = uniqBy([...self.boxes, ...boxes], x => x.id);
+    return boxes
   }
-  const self = observable({
-    boxes: Map<string, Box>(),
+  const self = observable<BoxStore>({
+    boxes: [],
     fetch,
   })
   return self

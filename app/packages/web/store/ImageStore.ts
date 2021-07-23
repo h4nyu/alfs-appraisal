@@ -1,16 +1,10 @@
 import { observable, computed } from "mobx";
-import { Map, List } from "immutable";
-import { ToastStore } from "./toast";
-import { LoadingStore } from "./loading";
-import { RootApi } from "@sivic/api";
+import RootApi from "@sivic/api";
 import Image, { FilterFn } from "@sivic/core/image";
-import { saveAs } from 'file-saver';
-import { MemoryRouter } from "react-router";
-import { parseISO } from "date-fns";
-import { Level } from "@sivic/web/store"
+import { uniqBy } from "lodash"
 
 export type ImageStore = {
-  images: Map<string, Image>;
+  images: Image[];
   fetch: FilterFn,
   delete: (payload: {
     parentId?: string,
@@ -26,7 +20,7 @@ export const ImageStore = (args: {
   const fetch:FilterFn = async (payload) => {
     const images = await api.image.filter(payload)
     if(images instanceof Error) { return images }
-    self.images = self.images.merge(Map(images.map(x => [x.id, x])))
+    self.images = [...self.images, ...images]
     return images
   }
   const delete_ = (payload:{
@@ -43,8 +37,8 @@ export const ImageStore = (args: {
       self.images = self.images.filter(x => x.parentId !== parentId)
     }
   }
-  const self = observable({
-    images: Map<string, Image>(),
+  const self = observable<ImageStore>({
+    images: [],
     fetch,
     delete: delete_
   })

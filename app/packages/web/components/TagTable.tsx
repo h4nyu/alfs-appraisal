@@ -3,6 +3,7 @@ import { Tag } from "@sivic/core/tag"
 import { Image } from "@sivic/core/image"
 import { File } from "@sivic/core/file"
 import AddBtn from "@sivic/web/components/AddBtn"
+import Box from "@sivic/core/box"
 
 const centerStyle = {
   display: "grid",
@@ -14,16 +15,17 @@ export const TagTable = (props: {
   tags?: Tag[],
   images?: Image[],
   files?: File[],
+  boxes?: Box[],
   onImageAdd?:() => void,
   onTagAdd?:() => void,
   onImageClick?: (imageId:string) => void,
   onTagClick?:(tagId:string) => void,
 }) => {
-  const tags = props.tags || []
-  const images = props.images || []
-  const parentImages = images.filter(x => x.parentId === undefined)
-  const cropedImages = images.filter(x => x.parentId !== undefined)
-  const files = props.files || []
+  const tags = props.tags ?? []
+  const boxes = props.boxes ?? []
+  const images = props.images ?? []
+  const parentImages = images.filter(x => x.boxId === undefined)
+  const files = props.files ?? []
   return (
     <div
       style={{
@@ -40,6 +42,17 @@ export const TagTable = (props: {
       >
         Images / Tags
       </div>
+      <div
+        className="card p-1 has-text-weight-semibold"
+        style={{
+          ...centerStyle,
+          minHeight: "1em",
+          gridRow: 1,
+          gridColumn: 2,
+        }}
+      >
+        NoTag
+      </div>
       {
         tags.map((t, i) => {
           return (
@@ -49,12 +62,13 @@ export const TagTable = (props: {
               style={{
                 ...centerStyle,
                 gridRow: 1,
-                gridColumn: i + 2,
+                gridColumn: i + 3,
               }}
             >
               <a
-                onClick={() => props.onTagClick && props.onTagClick(t.id)}
-              > { t.name } 
+                onClick={() => props.onTagClick?.(t.id)}
+              > 
+                { t.name } 
               </a>
             </div>
           )
@@ -65,47 +79,75 @@ export const TagTable = (props: {
           return (
             <div
               key={p.id}
+              className="card p-1 has-text-weight-semibold"
+              style={{
+                ...centerStyle,
+                gridRow: rowIdx + 2,
+                gridColumn: 1,
+              }}
             >
-              <div
-                className="card p-1 has-text-weight-semibold"
-                style={{
-                  ...centerStyle,
-                  gridRow: rowIdx + 2,
-                  gridColumn: 1,
-                }}
-              >
-                <a onClick={() => props.onImageClick && props.onImageClick(p.id)}> 
-                  { p.name } 
-                </a>
-              </div>
-              {
-                tags.map((t, colIdx) => {
-                  const cropedImages = images.filter(i => i.parentId === p.id && i.tagId === t.id)
-                  return (
-                    <div
-                      className="card"
-                      key={t.id}
-                      style={{
-                        gridRow: rowIdx + 2,
-                        gridColumn: colIdx + 2,
-                      }}
-                    >
-                      {
-                        cropedImages.map(c => {
-                          const file = files.find(x => x.id === c.fileId)
-                          return(
-                            file && <img 
-                              src={`data:image;base64,${file.data}`}
-                            /> 
-                          )
-                        })
-                      }
-                    </div>
-                  )
-                })
-              }
+              <a onClick={() => props.onImageClick && props.onImageClick(p.id)}> 
+                { p.name } 
+              </a>
             </div>
           )
+        })
+      }
+      {
+        parentImages.map((p, rowIdx) => {
+          return tags.map((t, colIdx) => {
+            const cropedImages = images.filter(i => i.parentId === p.id && i.boxId === undefined )
+            return (
+              <div
+                className="card"
+                key={`${rowIdx}-${colIdx}`}
+                style={{
+                  gridRow: rowIdx + 2,
+                  gridColumn: 2,
+                }}
+              >
+                {
+                  cropedImages.map(c => {
+                    const file = files.find(x => x.id === c.fileId)
+                    return(
+                      file && <img key={c.id}
+                        src={`data:image;base64,${file.data}`}
+                      /> 
+                    )
+                  })
+                }
+              </div>
+            )
+          })
+        })
+      }
+      {
+        parentImages.map((p, rowIdx) => {
+          return [undefined, ...tags].map((t, colIdx) => {
+            const boxIds = boxes.filter(b => b.tagId === t?.id).map(x => x.id)
+            const cropedImages = images.filter(i => i.parentId === p.id && i.boxId && boxIds.includes(i.boxId) )
+            return (
+              <div
+                className="card"
+                key={`${rowIdx}-${colIdx}`}
+                style={{
+                  gridRow: rowIdx + 2,
+                  gridColumn: colIdx + 2,
+                }}
+              >
+                {
+                  cropedImages.map(c => {
+                    const file = files.find(x => x.id === c.fileId)
+                    return(
+                      file && <img 
+                        src={`data:image;base64,${file.data}`}
+                      /> 
+                    )
+                  })
+                }
+              </div>
+            )
+          })
         })
       }
     </div>

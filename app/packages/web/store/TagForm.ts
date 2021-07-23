@@ -22,7 +22,7 @@ export type Form = {
   id: string,
   name: string,
   workspaceId?: string,
-  init: () => Promise<void|Error>
+  init: (props?:{id?:string, workspaceId?: string}) => Promise<void|Error>
   save: () => Promise<void|Error>
   setName: (value:string) => void;
   setWorkspaceId: (value?: string) => void;
@@ -31,15 +31,14 @@ export type Form = {
 export const Form = (props: {
   api: RootApi;
   tagStore?: TagStore;
-  onInit?: () => void;
+  toast?: ToastStore;
 }): Form => {
-  const  { onInit } = props
-  const init = async (id?:string) => {
-    self.id = ""
+  const init = async (state?:{id?: string, workspaceId?:string}) => {
+    self.id = state?.id ?? ""
     self.name = ""
-    self.workspaceId = undefined
-    if(id !== undefined) {
-      const tag = await props.api.tag.find({id})
+    self.workspaceId = state?.workspaceId
+    if(self.id !== "") {
+      const tag = await props.api.tag.find({id: self.id})
       if(tag instanceof Error) { return tag }
       self.id = tag.id
       self.name = tag.name
@@ -55,7 +54,7 @@ export const Form = (props: {
   }
   const save = async () =>{
     const tag = await (async () => {
-      if(self.id){
+      if(self.id === ""){
         return await props.api.tag.create({
           name: self.name,
           workspaceId: self.workspaceId,
@@ -67,7 +66,13 @@ export const Form = (props: {
           workspaceId: self.workspaceId
         })
       }
-    })
+    })()
+    if(tag instanceof Error) { 
+      props.toast?.error(tag)
+      return tag 
+    }
+    await props.tagStore?.fetch({workspaceId: self.workspaceId})
+    props.toast?.info("Success")
   }
   const self = observable<Form>({
     id:"", 

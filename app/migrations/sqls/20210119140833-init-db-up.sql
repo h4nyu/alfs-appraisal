@@ -8,7 +8,6 @@ CREATE TABLE images (
     id text NOT NULL,
     name text NOT NULL,
     workspace_id text,
-    tag_id text,
     parent_id text,
     file_id text,
     box_id text,

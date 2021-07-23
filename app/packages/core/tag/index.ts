@@ -22,7 +22,7 @@ export const Tag = (props?: {
   const name = props?.name ?? "-"
   const workspaceId = props?.workspaceId
   const validate = () => {
-    if(self.name.length !== 1){
+    if(name.length !== 1){
       return new Error(ErrorKind.InvalidTagNameFormat)
     }
   }
