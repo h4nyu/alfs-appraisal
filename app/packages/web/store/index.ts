@@ -142,7 +142,13 @@ export const RootStore = (): RootStore => {
       workspaceStore.fetch()
     }
   })
-  const tagForm = TagForm({ api, tagStore })
+  const tagForm = TagForm({ 
+    api, 
+    tagStore,
+    onInit: () => {
+      history.push(`/tag`)
+    }
+  })
 
   return {
     api,

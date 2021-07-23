@@ -32,7 +32,7 @@ export const Api = (arg: {
 
   const delete_:DeleteFn = async (payload) => {
     try {
-      await http.post(`${prefix}/update`, payload);
+      await http.post(`${prefix}/delete`, payload);
     } catch (err) {
       return toError(err);
     }

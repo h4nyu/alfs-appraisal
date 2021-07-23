@@ -31,7 +31,9 @@ export type Form = {
 export const Form = (props: {
   api: RootApi;
   tagStore?: TagStore;
+  onInit?: () => void;
 }): Form => {
+  const  { onInit } = props
   const init = async (id?:string) => {
     self.id = ""
     self.name = ""
@@ -43,6 +45,7 @@ export const Form = (props: {
       self.name = tag.name
       self.workspaceId = tag.workspaceId
     }
+    onInit && onInit()
   }
   const setName = (value:string) => {
     self.name = value
