@@ -4,7 +4,6 @@ export { default as FilterFn } from "./filter"
 export { default as DeleteFn } from "./delete"
 export { default as FindFn } from "./find"
 export { default as CreateFn } from "./create"
-export { default as ReplaceBoxesFn } from "./replaceBoxes"
 export { default as ReplaceLinesFn } from "./replaceLines"
 export { default as ReplacePointsFn } from "./replacePoints"
 
@@ -19,35 +18,27 @@ export type Image = {
   id: string,
   name: string,
   workspaceId?: string,
-  parentId?: string
   fileId?: string,
-  boxId?:string,
   createdAt: Date,
 }
 export const Image = (args?:{
   id?:string,
   name?: string,
   workspaceId?:string,
-  parentId?: string,
   fileId?: string,
-  boxId?: string,
   createdAt?: Date,
 }):Image => {
   const id = args?.id ?? uuid()
   const name = args?.name ?? ""
   const workspaceId = args?.workspaceId
-  const parentId = args?.parentId
   const createdAt = args?.createdAt || new Date()
   const fileId = args?.fileId
-  const boxId = args?.boxId
   return {
     id,
     name,
     workspaceId,
-    parentId,
     fileId,
     createdAt,
-    boxId,
   }
 }
 export default Image

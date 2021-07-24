@@ -10,7 +10,6 @@ CREATE TABLE images (
     workspace_id text,
     parent_id text,
     file_id text,
-    box_id text,
     created_at timestamp NOT NULL
 );
 
@@ -20,6 +19,7 @@ CREATE TABLE boxes (
     y0 double precision NOT NULL,
     x1 double precision NOT NULL,
     y1 double precision NOT NULL,
+    file_id text,
     image_id text,
     tag_id text
 );

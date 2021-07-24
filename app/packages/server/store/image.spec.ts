@@ -15,8 +15,6 @@ describe("image", () => {
     return Image({
       id: uuid(),
       workspaceId: uuid(),
-      parentId: uuid(),
-      boxId: uuid(),
     })
   })
   beforeAll(async () => {
@@ -35,10 +33,5 @@ describe("image", () => {
       ...rows[0],
     })
     if(err instanceof Error) { throw err }
-  });
-  test("filter.parentId", async () => {
-    let res = await store.filter({ parentId: rows[0].parentId })
-    if(res instanceof Error) { throw res }
-    expect(res[0].id).toBe(rows[0].id)
   });
 });

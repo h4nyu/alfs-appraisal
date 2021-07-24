@@ -6,6 +6,7 @@ export enum ErrorKind {
   ImageNotFound = "ImageNotFound",
   ZeroSizeBox = "ZeroSizeBox",
   FileNotFound="FileNotFound",
+  BoxNotFound="BoxNotFound",
   InvalidTagNameFormat="InvalidTagNameFormat",
 }
 export default ErrorKind;

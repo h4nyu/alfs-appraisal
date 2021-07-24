@@ -2,14 +2,14 @@ import { File } from '.'
 import { Store } from '@sivic/core'
 import ErrorKind from '@sivic/core/error'
 
-export type Payload = {
+export type Fn = (payload: {
   id?: string;
-}
-export type Fn = (payload: Payload) => Promise<File | Error>
+}) => Promise<File | Error>
+
 export const Fn = (props: {
   store:Store
 }):Fn => {
-  return async (payload: Payload) => {
+  return async (payload) => {
     const file = await  props.store.file.find(payload)
     if(file instanceof Error) { return file }
     if(file === undefined) { return new Error(ErrorKind.FileNotFound) }

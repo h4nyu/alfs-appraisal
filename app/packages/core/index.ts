@@ -55,9 +55,10 @@ export type DetectStore = {
 };
 
 export type BoxStore = {
+  find: (payload: {id?: string;}) => Promise<Box | undefined | Error>;
   filter: (payload: {imageId?: string;}) => Promise<Box[] | Error>;
   load: (payload: Box[]) => Promise<void | Error>;
-  delete: (payload: {imageId?: string, id?:string}) => Promise<void | Error>;
+  delete: (payload: {id?:string}) => Promise<void | Error>;
 };
 
 export type PointStore = {

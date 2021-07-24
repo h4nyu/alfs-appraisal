@@ -6,7 +6,6 @@ import {
   FindFn,
   DeleteFn,
   FilterFn,
-  ReplaceBoxesFn,
   ReplaceLinesFn,
   ReplacePointsFn,
 } from "@sivic/core/image";
@@ -20,7 +19,6 @@ export const Routes = (props: {
   const find = FindFn(props)
   const filter = FilterFn(props)
   const delete_ = DeleteFn(props)
-  const replaceBoxes = ReplaceBoxesFn(props)
   const replaceLines = ReplaceLinesFn(props)
   const replacePoints = ReplacePointsFn(props)
   return function (app, opts, done) {
@@ -38,10 +36,6 @@ export const Routes = (props: {
     });
     app.post<{ Body: Parameters<typeof filter>[0] }>("/filter", {}, async (req, reply) => {
       const res = await filter(req.body);
-      reply.send(res);
-    });
-    app.post<{ Body: Parameters<typeof replaceBoxes>[0] }>("/replace-boxes", {}, async (req, reply) => {
-      const res = await replaceBoxes(req.body);
       reply.send(res);
     });
     app.post<{ Body: Parameters<typeof replaceLines>[0] }>("/replace-lines", {}, async (req, reply) => {

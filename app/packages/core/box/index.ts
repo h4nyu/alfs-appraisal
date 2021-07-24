@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import ErrorKind from "@sivic/core/error"
 export { default as FilterFn } from "./filter"
+export { default as CreateFn } from "./create"
 
 export type Box = {
   id: string;
@@ -10,6 +11,7 @@ export type Box = {
   y1: number;
   tagId? :string,
   imageId?: string,
+  fileId?: string,
   validate: () => void | Error;
 }
 export const Box = (args?:{
@@ -20,6 +22,7 @@ export const Box = (args?:{
   y1?: number,
   imageId?: string,
   tagId?:string,
+  fileId?: string,
 }):Box => {
   const id = args?.id ?? uuid()
   const x0 = args?.x0 ?? 0
@@ -28,6 +31,7 @@ export const Box = (args?:{
   const y1 = args?.y1 ?? 0
   const imageId = args?.imageId
   const tagId = args?.tagId
+  const fileId = args?.fileId
   const validate = () => {
     if (self.x0 >= self.x1 || self.y0 >= self.y1) {
       return new Error(ErrorKind.ZeroSizeBox);
@@ -41,6 +45,7 @@ export const Box = (args?:{
     y1,
     imageId,
     tagId,
+    fileId,
     validate,
   }
   return self

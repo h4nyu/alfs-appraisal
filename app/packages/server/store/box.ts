@@ -1,6 +1,7 @@
 import { Row, Sql } from "postgres";
 import { Box } from "@sivic/core/box";
 import { BoxStore } from "@sivic/core";
+import { first } from "lodash"
 
 
 const TABLE = "boxes"
@@ -12,6 +13,7 @@ const COLUMNS = [
   "y1",
   "image_id", 
   "tag_id", 
+  "file_id", 
 ] as const
 
 export const Store = (
@@ -24,8 +26,9 @@ export const Store = (
       y0: r.y0,
       x1: r.x1,
       y1: r.y1,
-      imageId: r.image_id || undefined,
-      tagId: r.tag_id || undefined,
+      imageId: r.image_id ?? undefined,
+      tagId: r.tag_id ?? undefined,
+      fileId: r.file_id ?? undefined,
     });
   };
 
@@ -36,9 +39,27 @@ export const Store = (
       y0: r.y0,
       x1: r.x1,
       y1: r.y1,
-      tag_id: r.tagId || null,
-      image_id: r.imageId || null,
+      tag_id: r.tagId ?? null,
+      image_id: r.imageId ?? null,
+      file_id: r.fileId ?? null,
     };
+  };
+
+  const find = async (payload: {
+    id?: string;
+  }) => {
+    try{
+      const { id } = payload
+      const rows = await(async () => {
+        if(id !== undefined){
+          return await sql`SELECT * FROM ${sql(TABLE)} WHERE id = ${id} LIMIT 1`
+        }
+        return []
+      })()
+      return first(rows.map(to))
+    }catch(e){
+      return e
+    }
   };
 
   const filter = async (payload: {
@@ -69,11 +90,11 @@ export const Store = (
     }
   };
 
-  const delete_ = async (payload: {imageId?: string}) => {
-    const { imageId } = payload
+  const delete_ = async (payload: {id?: string}) => {
+    const { id } = payload
     try {
-      if(imageId !== undefined) { 
-        await sql`DELETE FROM ${sql(TABLE)} WHERE image_id = ${imageId}`
+      if(id !== undefined) { 
+        await sql`DELETE FROM ${sql(TABLE)} WHERE id = ${id}`
       }
     }catch(e) {
       return e
@@ -81,6 +102,7 @@ export const Store = (
   };
 
   return {
+    find,
     filter,
     load,
     delete: delete_,
