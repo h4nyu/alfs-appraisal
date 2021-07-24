@@ -89,9 +89,7 @@ export const ImageProcess = (props: {
       await props.imageStore?.fetch({parentId: self.image?.id})
       toast.info("saved")
 
-      if(image.workspaceId){
-        onSave && onSave(image.workspaceId)
-      }
+      image.workspaceId && onSave?.(image.workspaceId)
     })
   }
 
