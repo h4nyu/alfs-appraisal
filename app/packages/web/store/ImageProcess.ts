@@ -77,9 +77,9 @@ export const ImageProcess = (props: {
     const boxes = editor.boxes
     await loading(async () => {
       const imageId = image.id
-      const cropedImages = await api.image.replaceBoxes({
+      const cropedImages = await api.box.create({
         imageId,
-        boxes: boxes.map(x => Box({...x, imageId})),
+        boxes,
       })
       if(cropedImages instanceof Error){
         toast.error(cropedImages)

@@ -32,14 +32,20 @@ const files = [
 const boxes = [
   Box({
     id: "b0",
+    imageId: "i0",
     tagId: "t0",
+    fileId: "f0",
   }),
   Box({
     id: "b1",
+    imageId: "i0",
     tagId: "t1",
+    fileId: "f0",
   }),
   Box({
     id: "b2",
+    imageId: "i1",
+    fileId: "f0",
   })
 ]
 const images = [
@@ -50,27 +56,6 @@ const images = [
   Image({
     id: "i1",
     name: "bbb.jpg"
-  }),
-  Image({
-    id: "c1",
-    name: "croped-0",
-    parentId: "i0",
-    fileId: "f0",
-    boxId: "b0",
-  }),
-  Image({
-    id: "c2",
-    name: "croped-0",
-    parentId: "i0",
-    fileId: "f0",
-    boxId: "b1",
-  }),
-  Image({
-    id: "c3",
-    name: "croped-0",
-    parentId: "i1",
-    fileId: "f0",
-    boxId: "b2",
   }),
 ]
 export const Primary = (args) => <TagTable 

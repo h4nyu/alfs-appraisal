@@ -180,7 +180,7 @@ export const Editor = (root: {
   }
 
   const save = async (imageId:string) => {
-    const err = self.tagId && await api.image.replaceBoxes({
+    const err = self.tagId && await api.box.create({
       imageId, 
       boxes:self.boxes
     })

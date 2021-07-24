@@ -76,12 +76,12 @@ export const WorkspaceFrom = (props: {
       const images = await imageStore.fetch({workspaceId})
       if(images instanceof Error) { return images }
       await props.tagStore?.fetch({workspaceId})
-      for (const image of images){
-        if(image.boxId === undefined){
-          await boxStore.fetch({imageId:image.id})
-        }
-        await fileStore?.fetch({id: image.fileId})
-      }
+      // for (const image of images){
+      //   if(image.boxId === undefined){
+      //     await boxStore.fetch({imageId:image.id})
+      //   }
+      //   await fileStore?.fetch({id: image.fileId})
+      // }
       onInit && onInit(row)
     })
   }

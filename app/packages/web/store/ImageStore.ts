@@ -27,16 +27,13 @@ export const ImageStore = (args: {
 
   const delete_ = (payload:{
     workspaceId?: string,
-    parentId?: string,
     ids?: string[]
   }) => {
-    const { ids, workspaceId, parentId } = payload
+    const { ids, workspaceId } = payload
     if(workspaceId !== undefined){
       self.images = self.images.filter(x => x.workspaceId !== workspaceId)
     }else if(ids) {
-      self.images = self.images.filter(x => !(ids.includes(x.id) || ids.includes(x.parentId || "")))
-    }else if(parentId) {
-      self.images = self.images.filter(x => x.parentId !== parentId)
+      self.images = self.images.filter(x => !ids.includes(x.id))
     }
   }
   const self = observable<ImageStore>({

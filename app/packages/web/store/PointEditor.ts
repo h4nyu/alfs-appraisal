@@ -71,9 +71,7 @@ export const Editor = (root: {
   };
   const getImages = () => {
     const currentImage = imageStore.images.find(x => x.id === self.imageId)
-    return imageStore
-      .images
-      .filter(x => x.parentId === currentImage?.parentId)
+    return imageStore.images
   }
   const getPoints = () => {
   }

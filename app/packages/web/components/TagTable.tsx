@@ -21,16 +21,11 @@ export const TagTable = (props: {
   onImageClick?: (imageId:string) => void,
   onTagClick?:(tagId:string) => void,
 }) => {
-  const tags = props.tags ?? []
-  const boxes = props.boxes ?? []
-  const images = props.images ?? []
-  const parentImages = images.filter(x => x.boxId === undefined)
-  const files = props.files ?? []
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `auto repeat(${tags.length}, 1fr)`,
+        gridTemplateColumns: `auto repeat(${props.tags?.length ?? 0}, 1fr)`,
       }}
     >
       <div
@@ -54,7 +49,7 @@ export const TagTable = (props: {
         NoTag
       </div>
       {
-        tags.map((t, i) => {
+        props.tags?.map((t, i) => {
           return (
             <div
               className="card p-1 has-text-weight-semibold"
@@ -75,7 +70,7 @@ export const TagTable = (props: {
         })
       }
       {
-        parentImages.map((p, rowIdx) => {
+        props.images?.map((p, rowIdx) => {
           return (
             <div
               key={p.id}
@@ -94,10 +89,9 @@ export const TagTable = (props: {
         })
       }
       {
-        parentImages.map((p, rowIdx) => {
-          return [undefined, ...tags].map((t, colIdx) => {
-            const boxIds = boxes.filter(b => b.tagId === t?.id).map(x => x.id)
-            const cropedImages = images.filter(i => i.parentId === p.id && i.boxId && boxIds.includes(i.boxId) )
+        props.images?.map((p, rowIdx) => {
+          return [undefined, ...(props.tags ?? [])].map((t, colIdx) => {
+            const boxes = props.boxes?.filter(b => b.tagId === t?.id && b.imageId === p.id)
             return (
               <div
                 className="card"
@@ -108,8 +102,8 @@ export const TagTable = (props: {
                 }}
               >
                 {
-                  cropedImages.map(c => {
-                    const file = files.find(x => x.id === c.fileId)
+                  boxes?.map(b => {
+                    const file = props.files?.find(x => x.id === b.fileId)
                     return(
                       file && <img 
                         key={file.id}
