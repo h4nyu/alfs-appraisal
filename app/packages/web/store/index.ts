@@ -76,7 +76,12 @@ export const RootStore = (): RootStore => {
   const boxStore = BoxStore({ api })
   const history = createHashHistory();
   const tagStore = TagStore({api})
-  const editor = Editor({ api, loading, toast })
+
+  const editor = Editor({ 
+    api, 
+    loading,
+    toast,
+  })
 
   const lineEditor = LineEditor({ 
     api, 
@@ -118,6 +123,9 @@ export const RootStore = (): RootStore => {
     imageStore,
     fileStore,
     editor,
+    onSave: async (workspaceId:string) => {
+      workspaceForm.update(workspaceId)
+    }
   })
   const workspaceForm = WorkspaceForm({
     api,

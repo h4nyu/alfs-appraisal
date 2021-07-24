@@ -1,6 +1,7 @@
 import { observable, computed } from "mobx";
 import RootApi from "@sivic/api";
 import Image, { FilterFn } from "@sivic/core/image";
+import { Set } from "immutable";
 import { uniqBy } from "lodash"
 
 export type ImageStore = {
@@ -19,10 +20,11 @@ export const ImageStore = (args: {
   const { api } = args;
   const fetch:FilterFn = async (payload) => {
     const images = await api.image.filter(payload)
-    if(images instanceof Error) { return images }
-    self.images = [...self.images, ...images]
+    if(images instanceof Error) { return images}
+    self.images = images
     return images
   }
+
   const delete_ = (payload:{
     workspaceId?: string,
     parentId?: string,

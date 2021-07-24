@@ -40,6 +40,7 @@ export const Editor = (root: {
   toast: ToastStore;
   onInit?: (id: string) => void;
   onDelete?: (id: string) => void;
+  onSave?: (id: string) => void;
 }): Editor => {
   const {
     api,
@@ -47,6 +48,7 @@ export const Editor = (root: {
     toast,
     onInit,
     onDelete,
+    onSave,
   } = root;
   const init = async (id: string) => {
   };
@@ -183,6 +185,8 @@ export const Editor = (root: {
       boxes:self.boxes
     })
     if(err instanceof Error) { return err }
+    console.log(onSave)
+    onSave && onSave(imageId)
   };
 
   const self = observable<Editor>({

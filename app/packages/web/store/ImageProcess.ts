@@ -36,10 +36,11 @@ export const ImageProcess = (props: {
   imageStore?: ImageStore,
   toast: ToastStore;
   onInit?: (imageId:string) => void
+  onSave?: (workspaceId:string) => void
   editor: Editor
   fileStore?:FileStore,
 }): ImageProcess => {
-  const { api, loading, toast, onInit, editor, imageStore } = props;
+  const { api, loading, toast, onInit, onSave, editor, imageStore } = props;
   const init = async (imageId:string) => {
     await loading(async () => {
       const image = await api.image.find({id:imageId})
@@ -87,6 +88,10 @@ export const ImageProcess = (props: {
       props.imageStore?.delete({parentId: self.image?.id || ""})
       await props.imageStore?.fetch({parentId: self.image?.id})
       toast.info("saved")
+
+      if(image.workspaceId){
+        onSave && onSave(image.workspaceId)
+      }
     })
   }
 
