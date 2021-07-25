@@ -121,6 +121,7 @@ export const RootStore = (): RootStore => {
     toast,
     imageStore,
     fileStore,
+    boxStore,
     editor,
     onSave: async (workspaceId:string) => {
       workspaceForm.update(workspaceId)
