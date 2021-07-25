@@ -34,6 +34,7 @@ export const Form = (props: {
   tagStore?: TagStore;
   toast?: ToastStore;
   onInit?: () => void;
+  onDelete?: (tagId:string) => void;
 }): Form => {
   const init = async (state?:{id?: string, workspaceId?:string}) => {
     self.id = state?.id ?? ""
@@ -86,6 +87,7 @@ export const Form = (props: {
       }
       props.tagStore?.delete({id:self.id})
       props.toast?.info("Success")
+      props.onDelete?.(self.id)
     }
   } 
   const self = observable<Form>({
