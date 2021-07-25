@@ -72,6 +72,9 @@ const Content = observer(() => {
               store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
               store.history.push("/tag")
             }}
+            onBoxClick={box => {
+              store.history.push("/point")
+            }}
           />
         }
       </div>

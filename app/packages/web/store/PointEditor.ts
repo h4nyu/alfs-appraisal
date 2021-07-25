@@ -3,11 +3,11 @@ import { Map, List } from "immutable";
 import { RootApi } from "@sivic/api";
 import { LoadingStore } from "./loading";
 import { ToastStore } from "./toast";
-import { Point } from "@sivic/core/point";
+import Point from "@sivic/core/point";
 import { File } from "@sivic/core/file"
 import { Box } from "@sivic/core/box";
 import { v4 as uuid } from "uuid";
-import { keyBy, zip } from "lodash";
+import { keyBy, zip, uniqBy } from "lodash";
 import { rotatePoint, getBaseline} from "@sivic/core/utils"; import { Image } from "@sivic/core/image"
 import Line from "@sivic/core/line"
 import { ImageStore } from "@sivic/web/store/ImageStore"
@@ -19,10 +19,8 @@ export enum InputMode {
 }
 
 export type Editor = {
-  images: Image[];
   files: File[];
   imageId: string;
-  cursor:number;
   points: Point[];
   draggingId: string | undefined;
   pos: {x:number, y:number},
@@ -37,13 +35,10 @@ export type Editor = {
   init: (imageId: string) => void;
   clear: () => void;
   save:() => void;
-  next: () => undefined | string;
-  prev: () => undefined | string;
 };
 
-export const Editor = (root: {
+export const Editor = (props: {
   api: RootApi;
-  imageStore: ImageStore;
   pointStore: PointStore;
   lineEditor: LineEditor;
   loading: <T>(fn: () => Promise<T>) => Promise<T>;
@@ -57,27 +52,18 @@ export const Editor = (root: {
     toast,
     onInit,
     onDelete,
-    imageStore,
     pointStore,
     lineEditor,
-  } = root;
+  } = props;
 
-  const init = async (imageId:string) => {
-    self.imageId = imageId
-    self.cursor = self.images.findIndex((x) => x.id === imageId);
-    await pointStore.fetch({imageId})
-    self.points = pointStore.points.filter(x => x.imageId === self.imageId)
-    onInit && onInit(imageId)
+  const init = async (boxId:string) => {
+    props.onInit?.(boxId)
   };
-  const getImages = () => {
-    const currentImage = imageStore.images.find(x => x.id === self.imageId)
-    return imageStore.images
-  }
   const getPoints = () => {
   }
 
   const clear = () => {
-    self.points = Map();
+    self.points = [];
   };
 
   const setMode = (mode: InputMode) => {
@@ -101,11 +87,15 @@ export const Editor = (root: {
       return;
     }
     if (mode === InputMode.Edit) {
-      const point = points.get(draggingId);
+      const point = points.find(p => p.id === draggingId);
       if (point === undefined) {
         return;
       }
-      self.points = points.set(draggingId, { ...point, x: pos.x, y: pos.y });
+      const newPoint = Point({...point, x: pos.x, y: pos.y})
+      self.points = uniqBy([
+        ...self.points,
+        newPoint,
+      ], x => x.id)
     } 
   };
 
@@ -122,18 +112,19 @@ export const Editor = (root: {
         InputMode.Edit,
       ].includes(mode)
     ) {
-      self.points = self.points.set(newId, Point({
+      const newPoint = Point({
         x: pos.x,
         y: pos.y,
-      }))
+      })
+      self.points = [...self.points, newPoint]
+      self.draggingId = newPoint.id;
       setMode(InputMode.Edit);
     }
-    self.draggingId = newId;
   };
 
   const del = () => {
     const { points, draggingId } = self;
-    self.points = points.filter((v, k) => k !== draggingId);
+    self.points = points.filter(p => p.id !== draggingId);
     self.draggingId = undefined;
   };
 
@@ -142,45 +133,27 @@ export const Editor = (root: {
   };
 
   const save = async () => {
-    const pointErr = await api.image.replacePoints({
-      imageId: self.imageId, 
-      points: self.points
-    })
-    if(pointErr instanceof Error) { return pointErr }
-    const lines:{
-      id: string,
-      x0: number,
-      y0: number,
-      x1: number,
-      y1: number,
-    }[] = lineEditor.lines;
-    const lineErr = await api.image.replaceLines({
-      imageId: self.imageId, 
-      lines,
-    })
-    if(lineErr instanceof Error) { return lineErr }
-  };
-
-  const next = () => {
-    const img = self.images.get(self.cursor + 1);
-    if (img) {
-      self.cursor = self.cursor + 1;
-    }
-    return img?.id;
-  };
-
-  const prev = () => {
-    const img = self.images.get(self.cursor - 1);
-    if (img) {
-      self.cursor = self.cursor - 1;
-    }
-    return img?.id;
+    // const pointErr = await api.image.replacePoints({
+    //   imageId: self.imageId, 
+    //   // points: self.points
+    // })
+    // if(pointErr instanceof Error) { return pointErr }
+    // const lines:{
+    //   id: string,
+    //   x0: number,
+    //   y0: number,
+    //   x1: number,
+    //   y1: number,
+    // }[] = lineEditor.lines;
+    // const lineErr = await api.image.replaceLines({
+    //   imageId: self.imageId, 
+    //   lines,
+    // })
+    // if(lineErr instanceof Error) { return lineErr }
   };
 
   const self = observable<Editor>({
     imageId: "",
-    get images(){ return getImages() },
-    cursor:0,
     points: [],
     draggingId: undefined,
     size: 10,
@@ -196,8 +169,6 @@ export const Editor = (root: {
     init,
     clear,
     save,
-    next,
-    prev,
   })
 
   return self

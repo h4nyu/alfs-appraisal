@@ -20,12 +20,6 @@ const Content = observer(() => {
       }}
     >
       <div className="buttons">
-        <a className="button is-info is-light" onClick={pointEditor.prev}>
-          ⇦
-        </a>
-        <a className="button is-info is-light" onClick={pointEditor.next}>
-          ⇨
-        </a>
         <a 
           className="button is-light" 
         >
@@ -65,7 +59,6 @@ const Content = observer(() => {
         {
           pointEditor.files &&  
             <SvgCharPlot 
-              data={pointEditor.files?.[pointEditor.cursor]?.data} 
               points={pointEditor.points}
               lines={lineEditor.lines}
               selectedId={pointEditor.draggingId}

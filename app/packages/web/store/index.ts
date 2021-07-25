@@ -95,7 +95,6 @@ export const RootStore = (): RootStore => {
     loading, 
     toast,
     pointStore,
-    imageStore,
     lineEditor,
     onInit: (id) => {
       history.push(`/point`)
