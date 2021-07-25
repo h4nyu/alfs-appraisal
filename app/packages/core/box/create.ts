@@ -48,6 +48,7 @@ export const Fn = (props: {
         x1: box.x1,
         y1: box.y1,
         fileId: file.id,
+        tagId: box.tagId,
       }))
     }
     const createBoxErr = await props.store.box.load(cropedBoxes)
