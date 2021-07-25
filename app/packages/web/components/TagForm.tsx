@@ -26,21 +26,24 @@ export const TagForm = (props: {
         </div>
       </div>
       <div className="field is-grouped is-fullwidth">
-        <div className="control">
-          {
-            props.onSave && <SaveBtn onClick={e => props.onSave?.()} />
-          }
-        </div>
-        <div className="control">
-          {
-            props.onDelete && <DeleteBtn onClick={e => props.onDelete?.()} />
-          }
-        </div>
-        <div className="control">
-          {
-            props.onCancel && <CancelBtn onClick={e => props.onCancel?.()} />
-          }
-        </div>
+        {
+          props.onSave && 
+            <div className="control">
+              <SaveBtn onClick={e => props.onSave?.()} />
+            </div>
+        }
+        {
+          props.onDelete && 
+            <div className="control">
+              <DeleteBtn onClick={e => props.onDelete?.()} />
+            </div>
+        }
+        {
+          props.onCancel && 
+            <div className="control">
+              <CancelBtn onClick={e => props.onCancel?.()} />
+            </div>
+        }
       </div>
     </div>
   )
