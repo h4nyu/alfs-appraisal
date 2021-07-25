@@ -20,24 +20,24 @@ const Content = observer(() => {
         height: "100%",
       }}
     >
-      <div className="buttons">
+      <div style={{display:"flex"}}>
         <TagSelector 
           tags={store.workspaceForm.tags}
           value={store.editor.tagId}
           onChange={store.editor.setTagId}
         />
-        <a className="button is-info is-light" onClick={imageProcess.detectBoxes}>
-          Auto Fill
-        </a>
-        <a className="button is-light" onClick={editor.clear}>
-          Reset
-        </a>
-        <a className="button is-info is-light" onClick={imageProcess.save}>
-          Save
-        </a>
-        <a className="button is-danger is-light" onClick={imageProcess.delete}>
-          Delete
-        </a>
+          <a className="button is-info is-light" onClick={imageProcess.detectBoxes}>
+            Auto Fill
+          </a>
+          <a className="button is-light" onClick={editor.clear}>
+            Reset
+          </a>
+          <a className="button is-info is-light" onClick={imageProcess.save}>
+            Save
+          </a>
+          <a className="button is-danger is-light" style={{marginLeft:"auto"}} onClick={imageProcess.delete}>
+            Delete
+          </a>
       </div>
       <div
         tabIndex={0}
