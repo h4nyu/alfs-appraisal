@@ -3,6 +3,7 @@ import { Store } from "@sivic/core"
 
 export type Payload = {
   imageId?: string;
+  tagId?:string,
 }
 export type Fn = (payload:Payload) => Promise<Box[] | Error>
 export const Fn = (props: {

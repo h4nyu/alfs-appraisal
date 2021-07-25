@@ -79,6 +79,14 @@ export const Store = (
     }
   };
 
+  const update = async (payload:  Box) => {
+    try {
+      await sql`UPDATE ${sql(TABLE)} SET ${sql(from(payload), ...COLUMNS)} WHERE id = ${payload.id}`
+    }catch(e){
+      return e
+    }
+  };
+
   const load = async (payload:  Box[]) => {
     if(payload.length === 0){
       return
@@ -105,6 +113,7 @@ export const Store = (
     find,
     filter,
     load,
+    update,
     delete: delete_,
   };
 };
