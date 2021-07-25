@@ -85,6 +85,7 @@ export const Form = (props: {
         return
       }
       props.tagStore?.delete({id:self.id})
+      props.toast?.info("Success")
     }
   } 
   const self = observable<Form>({
