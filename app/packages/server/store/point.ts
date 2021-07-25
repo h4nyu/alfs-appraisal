@@ -58,11 +58,11 @@ export const Store = (
       return e
     }
   };
-  const delete_ = async (payload: {boxId?:string}) => {
-    const { boxId } = payload
+  const delete_ = async (payload: {id?:string}) => {
+    const { id } = payload
     try {
-      if(boxId !== undefined) { 
-        await sql`DELETE FROM ${sql(TABLE)} WHERE box_id = ${boxId}`
+      if(id !== undefined) { 
+        await sql`DELETE FROM ${sql(TABLE)} WHERE id = ${id}`
       }
     }catch(e) {
       return e
