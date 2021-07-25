@@ -26,7 +26,8 @@ export type ImageProcess = {
   lineWidth: number;
   tagId?:string;
   init: (imageId:string) => Promise<void|Error>;
-  save: () => void
+  save: () => void;
+  delete:() => void;
   detectBoxes: () => void;
 };
 
@@ -37,10 +38,11 @@ export const ImageProcess = (props: {
   toast: ToastStore;
   onInit?: (imageId:string) => void
   onSave?: (workspaceId:string) => void
+  onDelete?: (workspaceId:string) => void
   editor: Editor
   fileStore?:FileStore,
 }): ImageProcess => {
-  const { api, loading, toast, onInit, onSave, editor, imageStore } = props;
+  const { api, loading, toast, onInit, onSave, onDelete, editor, imageStore } = props;
   const init = async (imageId:string) => {
     await loading(async () => {
       const image = await api.image.find({id:imageId})
@@ -93,13 +95,31 @@ export const ImageProcess = (props: {
     })
   }
 
+  const delete_ = async () =>{
+    console.log("delete")
+    const { image } = self
+    if(image === undefined){ return }
+    await loading(async () => {
+      const imageId = image.id
+      const err = await props.api?.image.delete({id:imageId})
+      if(err instanceof Error) { return err }
+      props.imageStore?.delete({parentId: self.image?.id || ""})
+
+      toast.info("delete")
+      image.workspaceId && onDelete?.(image.workspaceId)
+
+    })
+  }
+
   const self = observable<ImageProcess>({
     image: undefined,
     lineWidth: 10,
     init,
     detectBoxes,
     save,
+    delete: delete_
   })
   return self
 };
+
 export default ImageProcess 

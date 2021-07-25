@@ -125,6 +125,9 @@ export const RootStore = (): RootStore => {
     editor,
     onSave: async (workspaceId:string) => {
       workspaceForm.update(workspaceId)
+    },
+    onDelete: async (workspaceId:string) => {
+      workspaceForm.update(workspaceId)
     }
   })
   const workspaceForm = WorkspaceForm({

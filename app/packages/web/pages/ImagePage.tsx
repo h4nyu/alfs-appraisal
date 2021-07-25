@@ -29,11 +29,14 @@ const Content = observer(() => {
         <a className="button is-info is-light" onClick={imageProcess.detectBoxes}>
           Auto Fill
         </a>
-        <a className="button is-danger is-light" onClick={editor.clear}>
+        <a className="button is-light" onClick={editor.clear}>
           Reset
         </a>
         <a className="button is-info is-light" onClick={imageProcess.save}>
           Save
+        </a>
+        <a className="button is-danger is-light" onClick={imageProcess.delete}>
+          Delete
         </a>
       </div>
       <div
