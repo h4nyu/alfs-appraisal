@@ -18,8 +18,9 @@ export const TagTable = (props: {
   boxes?: Box[],
   onImageAdd?:() => void,
   onTagAdd?:() => void,
-  onImageClick?: (imageId:string) => void,
-  onTagClick?:(tagId:string) => void,
+  onImageClick?:(image:Image) => void,
+  onTagClick?:(tag:Tag) => void,
+  onBoxClick?:(box: Box) => void;
 }) => {
   return (
     <div
@@ -61,7 +62,7 @@ export const TagTable = (props: {
               }}
             >
               <a
-                onClick={() => props.onTagClick?.(t.id)}
+                onClick={() => props.onTagClick?.(t)}
               > 
                 { t.name } 
               </a>
@@ -81,7 +82,7 @@ export const TagTable = (props: {
                 gridColumn: 1,
               }}
             >
-              <a onClick={() => props.onImageClick && props.onImageClick(p.id)}> 
+              <a onClick={() => props.onImageClick?.(p)}> 
                 { p.name } 
               </a>
             </div>
@@ -106,8 +107,9 @@ export const TagTable = (props: {
                     const file = props.files?.find(x => x.id === b.fileId)
                     return(
                       file && <img 
-                        className="p-1"
-                        key={file.id}
+                        onClick={() => props.onBoxClick?.(b)}
+                        className="p-1 is-clickable"
+                        key={b.id}
                         src={`data:image;base64,${file.data}`}
                       /> 
                     )

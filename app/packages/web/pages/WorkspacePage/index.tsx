@@ -64,12 +64,12 @@ const Content = observer(() => {
             tags={workspaceForm.tags}
             files={fileStore.files.toList().toArray()}
             boxes={store.boxStore.boxes}
-            onImageClick={imageId => {
-              store.imageProcess.init(imageId)
+            onImageClick={image => {
+              store.imageProcess.init(image.id)
               store.history.push("/image")
             }}
-            onTagClick={id => {
-              store.tagForm.init({id, workspaceId: workspaceForm.id})
+            onTagClick={tag => {
+              store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
               store.history.push("/tag")
             }}
           />
