@@ -104,7 +104,7 @@ export const SvgCharPlot = (props: {
                 x={b.x0 * scale }
                 y={b.y0 * scale }
                 fill={selectedId === b.id ? "green" : "red"}
-                fontSsize={ 20 / scale }
+                fontSize={ 20 / scale }
               >
                 {tag.name}
               </text>
