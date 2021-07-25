@@ -10,7 +10,8 @@ import { uniqBy } from "lodash";
 
 export type BoxStore = {
   boxes: Box[];
-  fetch: FilterFn
+  fetch: FilterFn;
+  delete: (payload: { id?: string, imageId?: string, ids?:string[] }) => void;
 };
 
 export const BoxStore = (props: {
@@ -22,9 +23,25 @@ export const BoxStore = (props: {
     self.boxes = uniqBy([...self.boxes, ...boxes], x => x.id);
     return boxes
   }
+
+  const delete_ = async (payload:{
+    id?: string,
+    imageId?:string,
+    ids?: string[],
+  }) => {
+    if(payload.id){
+      self.boxes = self.boxes.filter(x => x.id !== payload.id)
+    }else if (payload.imageId){
+      self.boxes = self.boxes.filter(x => x.imageId !== payload.imageId)
+    }else if(payload.ids){
+      self.boxes = self.boxes.filter(x => !payload.ids?.includes(x.id))
+    }
+  }
+
   const self = observable<BoxStore>({
     boxes: [],
     fetch,
+    delete: delete_
   })
   return self
 }
