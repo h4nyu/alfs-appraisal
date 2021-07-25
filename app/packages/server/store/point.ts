@@ -7,7 +7,7 @@ const COLUMNS = [
   "id", 
   "x",
   "y",
-  "image_id", 
+  "box_id", 
 ] as const
 
 
@@ -19,7 +19,7 @@ export const Store = (
       id: r.id,
       x: r.x,
       y: r.y,
-      imageId: r.image_id || undefined,
+      boxId: r.box_id || undefined,
     });
   };
 
@@ -28,17 +28,17 @@ export const Store = (
       id: r.id,
       x: r.x,
       y: r.y,
-      image_id: r.imageId || null,
+      box_id: r.boxId || null,
     };
   };
   const filter = async (payload: {
-    imageId?: string;
+    boxId?: string;
   }) => {
-    try{
-      const { imageId } = payload
+    try {
+      const { boxId } = payload
       const rows = await(async () => {
-        if(imageId !== undefined){
-          return await sql`SELECT * FROM ${sql(TABLE)} WHERE image_id = ${imageId}`
+        if(boxId !== undefined){
+          return await sql`SELECT * FROM ${sql(TABLE)} WHERE box_id = ${boxId}`
         }
         return []
       })()
@@ -58,11 +58,11 @@ export const Store = (
       return e
     }
   };
-  const delete_ = async (payload: {imageId?:string}) => {
-    const { imageId } = payload
+  const delete_ = async (payload: {boxId?:string}) => {
+    const { boxId } = payload
     try {
-      if(imageId !== undefined) { 
-        await sql`DELETE FROM ${sql(TABLE)} WHERE image_id = ${imageId}`
+      if(boxId !== undefined) { 
+        await sql`DELETE FROM ${sql(TABLE)} WHERE box_id = ${boxId}`
       }
     }catch(e) {
       return e

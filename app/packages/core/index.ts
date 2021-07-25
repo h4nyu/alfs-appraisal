@@ -63,9 +63,9 @@ export type BoxStore = {
 };
 
 export type PointStore = {
-  filter: (payload: {imageId?: string;}) => Promise<Point[] | Error>;
+  filter: (payload: {boxId?: string;}) => Promise<Point[] | Error>;
   load: (payload: Point[]) => Promise<void | Error>;
-  delete: (payload: {imageId?: string}) => Promise<void | Error>;
+  delete: (payload: {id?:string}) => Promise<void | Error>;
 };
 
 export type LineStore = {

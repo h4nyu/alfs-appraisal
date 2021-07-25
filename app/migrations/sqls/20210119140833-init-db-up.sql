@@ -28,7 +28,7 @@ CREATE TABLE points (
     id text NOT NULL,
     x double precision NOT NULL,
     y double precision NOT NULL,
-    image_id text
+    box_id text
 );
 
 CREATE TABLE lines ( 

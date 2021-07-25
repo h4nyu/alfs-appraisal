@@ -6,7 +6,6 @@ import Image, {
   FindFn,
   CreateFn,
   ReplaceLinesFn,
-  ReplacePointsFn,
 } from "@sivic/core/image";
 
 export const Api = (arg: {
@@ -40,14 +39,6 @@ export const Api = (arg: {
       return toError(err);
     }
   };
-  const replacePoints:ReplacePointsFn = async (payload) => {
-    try {
-      const res = await http.post(`${prefix}/replace-points`, payload);
-      return res.data.map(Image)
-    } catch (err) {
-      return toError(err);
-    }
-  };
   const find:FindFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/find`, payload);
@@ -69,7 +60,6 @@ export const Api = (arg: {
     filter,
     delete: delete_,
     find,
-    replacePoints,
     replaceLines,
   };
 };

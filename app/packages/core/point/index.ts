@@ -5,7 +5,7 @@ export type Point = {
   id: string;
   x: number;
   y: number;
-  imageId?: string;
+  boxId?: string;
   equals: (other:Point) => boolean;
 };
 
@@ -13,10 +13,10 @@ export const Point = (props?: {
   id?: string;
   x?: number;
   y?: number,
-  imageId?: string,
+  boxId?: string,
 }): Point => {
   const id = props?.id ?? uuid()
-  const imageId = props?.imageId
+  const boxId = props?.boxId
   const x = props?.x ?? 0
   const y = props?.y ?? 0
   const equals = (other: Point): boolean => {
@@ -28,7 +28,7 @@ export const Point = (props?: {
     id,
     x,
     y,
-    imageId,
+    boxId,
     equals,
   }
   return self
