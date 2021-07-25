@@ -12,6 +12,7 @@ import ImageTable from "@sivic/web/components/ImageTable"
 import ImageTags from "@sivic/web/components/ImageTags";
 import BoxView from "@sivic/web/components/BoxView"
 import TagTable from "@sivic/web/components/TagTable"
+import TagSelector from "@sivic/web/components/TagSelector"
 
 
 const Content = observer(() => {
@@ -52,6 +53,11 @@ const Content = observer(() => {
             onChange={e => store.workspaceForm.setName(e.target.value)}
           />
         </div>
+        <TagSelector 
+          tags={store.workspaceForm.tags}
+          value={store.editor.tagId}
+          onChange={store.editor.setTagId}
+        />
       </div>
       <div 
         style={{
@@ -72,6 +78,7 @@ const Content = observer(() => {
               store.tagForm.init({id, workspaceId: workspaceForm.id})
               store.history.push("/tag")
             }}
+            onBoxClick= { id => store.editor.addTag(id) }
           />
         }
       </div>

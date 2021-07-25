@@ -6,6 +6,7 @@ import  Box from "@sivic/core/box";
 import { Map, Set } from "immutable";
 import { v4 as uuid } from "uuid";
 import { keyBy, zip, uniqBy } from "lodash";
+import BoxStore from "@sivic/web/store/BoxStore"
 
 export enum InputMode {
   Box = "Box",
@@ -32,12 +33,14 @@ export type Editor = {
   init: (id: string) => void;
   clear: () => void;
   save:(imageId:string) => void;
+  addTag: (boxId: string) => void;
 };
 
 export const Editor = (root: {
   api: RootApi;
   loading: <T>(fn: () => Promise<T>) => Promise<T>;
   toast: ToastStore;
+  boxStore?:BoxStore;
   onInit?: (id: string) => void;
   onDelete?: (id: string) => void;
   onSave?: (id: string) => void;
@@ -46,6 +49,7 @@ export const Editor = (root: {
     api,
     loading,
     toast,
+    boxStore,
     onInit,
     onDelete,
     onSave,
@@ -193,9 +197,27 @@ export const Editor = (root: {
       boxes:self.boxes
     })
     if(err instanceof Error) { return err }
-    console.log(onSave)
     onSave && onSave(imageId)
   };
+
+  const addTag = async (boxId:string) => {
+    const box = boxStore?.boxes.find(x => x.id === boxId);
+
+    if (box === undefined) {
+      return;
+    }
+    const newBox = Box({
+      ...box,
+      tagId: self.tagId,
+    })
+
+    // const err = await api.box.update({
+    //   box: newBox
+    // })
+    // if(err instanceof Error) { return err }
+    boxStore?.delete({id:newBox.id})
+
+  }
 
   const self = observable<Editor>({
     boxes: [],
@@ -213,6 +235,7 @@ export const Editor = (root: {
     clear,
     setTagId,
     save,
+    addTag,
   })
 
   return self

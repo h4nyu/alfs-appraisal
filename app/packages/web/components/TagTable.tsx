@@ -20,6 +20,7 @@ export const TagTable = (props: {
   onTagAdd?:() => void,
   onImageClick?: (imageId:string) => void,
   onTagClick?:(tagId:string) => void,
+  onBoxClick?:(boxId:string) => void,
 }) => {
   return (
     <div
@@ -109,6 +110,7 @@ export const TagTable = (props: {
                         className="p-1"
                         key={file.id}
                         src={`data:image;base64,${file.data}`}
+                        onClick={() => props.onBoxClick && props.onBoxClick(b.id)}
                       /> 
                     )
                   })

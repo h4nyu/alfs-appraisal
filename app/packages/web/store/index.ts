@@ -80,6 +80,7 @@ export const RootStore = (): RootStore => {
   const editor = Editor({ 
     api, 
     loading,
+    boxStore,
     toast,
   })
 

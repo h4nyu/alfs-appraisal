@@ -3,6 +3,7 @@ import { toError } from ".";
 import box, {
   FilterFn,
   CreateFn,
+  UpdateFn,
 } from "@sivic/core/box";
 
 export const Api = (arg: {
@@ -26,9 +27,18 @@ export const Api = (arg: {
       return toError(err);
     }
   };
+  const update:UpdateFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/update`, payload);
+      return res.data.map(box);
+    } catch (err) {
+      return toError(err);
+    }
+  };
   return {
     filter,
     create,
+    update
   };
 };
 export default Api
