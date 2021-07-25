@@ -24,6 +24,7 @@ export type Form = {
   workspaceId?: string,
   init: (props?:{id?:string, workspaceId?: string}) => Promise<void|Error>
   save: () => Promise<void|Error>
+  delete?: () => Promise<void | Error>;
   setName: (value:string) => void;
   setWorkspaceId: (value?: string) => void;
 };
@@ -75,6 +76,17 @@ export const Form = (props: {
     await props.tagStore?.fetch({workspaceId: self.workspaceId})
     props.toast?.info("Success")
   }
+  const getDelete = () => {
+    if(self.id === "") { return }
+    return async () => {
+      const err = await props.api.tag.delete({id:self.id})
+      if(err instanceof Error) {
+        props.toast?.error(err)
+        return
+      }
+      props.tagStore?.delete({id:self.id})
+    }
+  } 
   const self = observable<Form>({
     id:"", 
     name:"",
@@ -82,6 +94,7 @@ export const Form = (props: {
     setName,
     setWorkspaceId,
     init,
+    get delete() { return getDelete() },
     save,
   })
   return self

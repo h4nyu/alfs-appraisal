@@ -64,12 +64,15 @@ export const Store = (
 
   const filter = async (payload: {
     imageId?: string;
+    tagId?:string;
   }) => {
     try{
-      const { imageId } = payload
+      const { imageId, tagId } = payload
       const rows = await(async () => {
         if(imageId !== undefined){
           return await sql`SELECT * FROM ${sql(TABLE)} WHERE image_id = ${imageId}`
+        }else if( tagId !== undefined){
+          return await sql`SELECT * FROM ${sql(TABLE)} WHERE tag_id = ${tagId}`
         }
         return []
       })()

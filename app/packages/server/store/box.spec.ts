@@ -20,7 +20,17 @@ describe("box", () => {
     if(err instanceof Error) { throw err }
     let savedRows = await boxStore.filter({imageId})
     if(savedRows instanceof Error) { throw savedRows }
+    console.log(savedRows)
     expect(JSON.stringify([box])).toBe(JSON.stringify(savedRows))
+
+    box.tagId = undefined
+    let updateErr = await boxStore.update(box)
+    if(updateErr instanceof Error) { throw updateErr }
+    savedRows = await boxStore.filter({imageId})
+    if(savedRows instanceof Error) { throw savedRows }
+    console.log(savedRows)
+    expect(JSON.stringify([box])).toBe(JSON.stringify(savedRows))
+
     err = await boxStore.delete({id: box.id})
     if(err instanceof Error) { throw err }
     savedRows = await boxStore.filter({imageId})

@@ -1,6 +1,7 @@
 import React from "react"
 import SaveBtn from "@sivic/web/components/SaveBtn"
 import CancelBtn from "@sivic/web/components/CancelBtn"
+import DeleteBtn from "@sivic/web/components/DeleteBtn"
 
 export const TagForm = (props: {
   name?: string
@@ -8,6 +9,7 @@ export const TagForm = (props: {
   onNameChange?: (value:string) => void
   onSave?:() => void
   onCancel?: () => void
+  onDelete?: () => void
 }) => {
   return (
     <div className="box"> 
@@ -23,10 +25,15 @@ export const TagForm = (props: {
           />
         </div>
       </div>
-      <div className="field is-grouped">
+      <div className="field is-grouped is-fullwidth">
         <div className="control">
           {
             props.onSave && <SaveBtn onClick={e => props.onSave?.()} />
+          }
+        </div>
+        <div className="control">
+          {
+            props.onDelete && <DeleteBtn onClick={e => props.onDelete?.()} />
           }
         </div>
         <div className="control">

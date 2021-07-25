@@ -1,5 +1,5 @@
 import { observable, computed } from "mobx";
-import Tag, { FilterFn } from "@sivic/core/tag";
+import Tag, { FilterFn, DeleteFn } from "@sivic/core/tag";
 import { Map, List } from "immutable";
 import { Images } from ".";
 import { ToastStore } from "./toast";
@@ -11,6 +11,7 @@ import { keyBy } from "lodash";
 export type TagStore = {
   tags: Tag[];
   fetch: FilterFn
+  delete: DeleteFn
 };
 
 export const TagStore = (args: {
@@ -23,9 +24,13 @@ export const TagStore = (args: {
     self.tags = tags
     return self.tags
   }
+  const delete_ = async (payload) => {
+    self.tags = self.tags.filter(x => x.id !== payload.id)
+  }
   const self = observable<TagStore>({
     tags: [],
     fetch,
+    delete: delete_
   })
   return self
 }
