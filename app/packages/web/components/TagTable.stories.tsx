@@ -39,7 +39,7 @@ const boxes = [
   Box({
     id: "b1",
     imageId: "i0",
-    tagId: "t1",
+    tagId: "t0",
     fileId: "f0",
   }),
   Box({

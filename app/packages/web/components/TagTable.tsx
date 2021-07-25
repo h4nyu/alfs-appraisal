@@ -106,6 +106,7 @@ export const TagTable = (props: {
                     const file = props.files?.find(x => x.id === b.fileId)
                     return(
                       file && <img 
+                        className="p-1"
                         key={file.id}
                         src={`data:image;base64,${file.data}`}
                       /> 

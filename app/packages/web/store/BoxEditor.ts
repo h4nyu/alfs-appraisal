@@ -66,6 +66,17 @@ export const Editor = (root: {
       self.draggingId = undefined;
     } else {
       self.draggingId = id;
+      const box = self.boxes.find(x => x.id === id);
+      if (box === undefined) {
+        return;
+      }
+      self.boxes = uniqBy([
+        Box({
+          ...box,
+          tagId: self.tagId,
+        }),
+        ...self.boxes,
+      ], x => x.id)
     }
     setMode(mode);
   };
@@ -125,10 +136,7 @@ export const Editor = (root: {
     })()
     if(newBox !== undefined){
       self.boxes = uniqBy([
-        Box({
-          ...newBox,
-          tagId: self.tagId,
-        }),
+        newBox,
         ...boxes,
       ], x => x.id)
     }
