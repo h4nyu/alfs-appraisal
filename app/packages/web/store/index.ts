@@ -142,6 +142,7 @@ export const RootStore = (): RootStore => {
     tagStore,
     boxStore,
     fileStore,
+    pointStore,
     onInit: (workspace) => {
       history.push(`/workspace/id/${workspace.id}`)
     },
@@ -156,7 +157,13 @@ export const RootStore = (): RootStore => {
     }
   })
   const tagForm = TagForm({ api, tagStore, toast })
-  const featureForm = FeatureForm({ api, fileStore, })
+  const featureForm = FeatureForm({ 
+    api, 
+    fileStore, 
+    pointStore,
+    pointEditor,
+    toast,
+  })
 
   return {
     api,

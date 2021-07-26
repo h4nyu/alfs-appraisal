@@ -30,7 +30,7 @@ export type Editor = {
   move: (pos: { x: number; y: number }) => void;
   del: () => void;
   changeSize: (size: number) => void;
-  init: (imageId: string) => void;
+  init: (points?:Point[]) => void;
   clear: () => void;
 };
 
@@ -53,8 +53,8 @@ export const Editor = (props: {
     lineEditor,
   } = props;
 
-  const init = async (boxId:string) => {
-    props.onInit?.(boxId)
+  const init = async (points) => {
+    self.points = points ?? []
   };
   const getPoints = () => {
   }
@@ -90,8 +90,8 @@ export const Editor = (props: {
       }
       const newPoint = Point({...point, x: pos.x, y: pos.y})
       self.points = uniqBy([
-        ...self.points,
         newPoint,
+        ...self.points,
       ], x => x.id)
     } 
   };
@@ -144,7 +144,6 @@ export const Editor = (props: {
     init,
     clear,
   })
-
   return self
 };
 export default Editor

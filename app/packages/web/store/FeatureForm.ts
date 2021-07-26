@@ -7,6 +7,8 @@ import BoxStore from "@sivic/web/store/BoxStore"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
 import PointEditor from "@sivic/web/store/PointEditor"
+import PointStore from "@sivic/web/store/PointStore"
+import Toast from "@sivic/web/store/toast"
 
 
 export type Form = {
@@ -18,13 +20,17 @@ export type Form = {
 
 export const Form = (props: {
   api: RootApi,
-  pointEditor?: PointEditor,
-  boxStore?: BoxStore,
+  pointEditor: PointEditor,
   fileStore?: FileStore,
+  pointStore?: PointStore,
+  toast?: Toast,
 }): Form => {
   const init = async (box:Box) => {
     self.box = box
     box.fileId && await props.fileStore?.fetch({id: box.fileId})
+    const points = await props.pointStore?.fetch({boxId: box.id})
+    if(points instanceof Error) { return points }
+    props.pointEditor?.init(points)
   }
 
   const getFile = () => {
@@ -34,13 +40,16 @@ export const Form = (props: {
   const save = async () => {
     const { box } = self
     if(box === undefined) { return }
-    const points = props.pointEditor?.points.map(x => {
-      return Point({
-        ...x,
-        boxId: box.id
-      })
+    const points = props.pointEditor?.points ?? []
+    const err = await props.api.point.load({
+      boxId: box.id,
+      points
     })
-    // props.api.point.l
+    if(err instanceof Error) {
+      props.toast?.error(err)
+      return
+    }
+    props.toast?.info("Success")
   }
 
   const self = observable<Form>({

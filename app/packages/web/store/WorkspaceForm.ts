@@ -16,6 +16,7 @@ import { BoxStore } from "@sivic/web/store/BoxStore"
 import { Tag } from "@sivic/core/tag"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
+import PointStore from "@sivic/web/store/PointStore"
 
 export type WorkspaceFrom = {
   id: string,
@@ -39,6 +40,7 @@ export const WorkspaceFrom = (props: {
   fileStore?: FileStore;
   tagStore?: TagStore;
   boxStore:BoxStore;
+  pointStore?: PointStore,
   onInit?: (workspace:Workspace) => void;
   onCreate?:() => void;
   onSave?: (workspace:Workspace) => void;
@@ -81,6 +83,7 @@ export const WorkspaceFrom = (props: {
         if(boxes instanceof Error) { return boxes }
         for(const b of boxes){
           b.fileId && await fileStore?.fetch({id: b.fileId})
+          await props.pointStore?.fetch({boxId: b.id})
         }
         await fileStore?.fetch({id: image.fileId})
       }

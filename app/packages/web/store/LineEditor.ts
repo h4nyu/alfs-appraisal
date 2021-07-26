@@ -18,11 +18,10 @@ export enum InputMode {
 export type Editor = {
   lines: Line[];
   draggingId: string | undefined;
-  init: (id: string) => void;
+  init: (lines?: Line[]) => void;
   del: () => void;
   clear: () => void;
   toggleDrag: (id: string) => void;
-  getLine: (points: Point[]) => void;
 };
 
 export const Editor = (root: {
@@ -42,32 +41,30 @@ export const Editor = (root: {
     lineStore,
   } = root;
 
-  const init = async (imageId: string) => {
-    await lineStore.fetch({imageId})
-    self.lines = []
-    onInit && onInit(imageId)
+  const init = async (lines?: Line[]) => {
+    self.lines = lines ?? []
   };
 
   const clear = () => {
     self.lines =  []
   };
 
-  const getLine = (points: Point[]) => {
-    // let rows = points;
-    // const line = getBaseline(rows);
-    // if(line === undefined){return}
-    // const [start, end] = line
-    // rows = rows.filter(p => (
-    //   (p.x !== start.x && p.y !== start.y) 
-    //   && (p.x !== end.x && p.y !== end.y) 
-    // ))
-    // const secondLine = getBaseline(rows)
-    // if(secondLine === undefined){return}
+  // const getLine = (points: Point[]) => {
+  //   // let rows = points;
+  //   // const line = getBaseline(rows);
+  //   // if(line === undefined){return}
+  //   // const [start, end] = line
+  //   // rows = rows.filter(p => (
+  //   //   (p.x !== start.x && p.y !== start.y) 
+  //   //   && (p.x !== end.x && p.y !== end.y) 
+  //   // ))
+  //   // const secondLine = getBaseline(rows)
+  //   // if(secondLine === undefined){return}
 
-    // self.lines = Map<string, Line>()
-    // self.lines = self.lines.set(uuid(), line)
-    // self.lines = self.lines.set(uuid(), secondLine)
-  }
+  //   // self.lines = Map<string, Line>()
+  //   // self.lines = self.lines.set(uuid(), line)
+  //   // self.lines = self.lines.set(uuid(), secondLine)
+  // }
 
   const toggleDrag = (id: string) => {
     const { draggingId } = self;
@@ -89,7 +86,6 @@ export const Editor = (root: {
     draggingId: undefined,
     init,
     clear,
-    getLine,
     toggleDrag,
     del,
   })

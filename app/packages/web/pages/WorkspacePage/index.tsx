@@ -65,6 +65,7 @@ const Content = observer(() => {
             tags={workspaceForm.tags}
             files={fileStore.files.toList().toArray()}
             boxes={store.boxStore.boxes}
+            points={store.pointStore.points}
             onImageClick={image => {
               store.imageProcess.init(image.id)
               store.history.push("/image")

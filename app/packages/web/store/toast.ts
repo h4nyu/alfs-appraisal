@@ -56,3 +56,4 @@ export const ToastStore = (): ToastStore => {
     error,
   };
 };
+export default ToastStore;

@@ -2,6 +2,7 @@ import React from "react"
 import { Tag } from "@sivic/core/tag"
 import { Image } from "@sivic/core/image"
 import { File } from "@sivic/core/file"
+import Point from "@sivic/core/point"
 import AddBtn from "@sivic/web/components/AddBtn"
 import Box from "@sivic/core/box"
 
@@ -16,6 +17,7 @@ export const TagTable = (props: {
   images?: Image[],
   files?: File[],
   boxes?: Box[],
+  points?: Point[],
   onImageAdd?:() => void,
   onTagAdd?:() => void,
   onImageClick?:(image:Image) => void,
@@ -97,6 +99,10 @@ export const TagTable = (props: {
                 className="card"
                 key={`${rowIdx}-${colIdx}`}
                 style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: "wrap",
+                  alignContent: "start",
                   gridRow: rowIdx + 2,
                   gridColumn: colIdx + 2,
                 }}
@@ -104,16 +110,30 @@ export const TagTable = (props: {
                 {
                   boxes?.map(b => {
                     const file = props.files?.find(x => x.id === b.fileId)
+                    const points = props.points?.filter(x => x.boxId === b.id)
                     return(
-                      file && <img 
-                        onClick={() => props.onBoxClick?.(b)}
-                        className="p-1 is-clickable"
-                        style={{
-                          height: 50
-                        }}
-                        key={b.id}
-                        src={`data:image;base64,${file.data}`}
-                      /> 
+                      file && 
+                        <div
+                          key={b.id}
+                          className="is-clickable p-1"
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                          }}
+                          onClick={() => props.onBoxClick?.(b)}
+                        >
+                          <img 
+                            style={{
+                              height: 50,
+                            }}
+                            src={`data:image;base64,${file.data}`}
+                          /> 
+                          <div>
+                            {
+                              points && <span className="tag is-rounded is-danger is-small is-light">{points.length}</span>
+                            }
+                          </div>
+                        </div>
                     )
                   })
                 }

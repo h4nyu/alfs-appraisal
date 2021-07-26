@@ -2,6 +2,7 @@ import React from "react";
 import TagTable from "./TagTable";
 import { Tag } from "@sivic/core/tag"
 import { Image } from "@sivic/core/image"
+import Point from "@sivic/core/point"
 import annot from "/srv/data/annto.json";
 import Box from "@sivic/core/box"
 import { File } from "@sivic/core/file"
@@ -58,10 +59,18 @@ const images = [
     name: "bbb.jpg"
   }),
 ]
+
+const points = [
+  Point({
+    id: "p0",
+    boxId: "b0"
+  }),
+]
 export const Primary = (args) => <TagTable 
   {...args}
   tags={tags}
   images={images}
   files={files}
   boxes={boxes}
+  points={points}
 /> 

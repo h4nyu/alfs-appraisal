@@ -5,7 +5,7 @@ import { uniqBy } from "lodash";
 
 export type PointStore = {
   points: Point[];
-  fetch: (payload: Parameters<FilterFn>[0]) => Promise<void>
+  fetch: FilterFn
 };
 
 export const PointStore = (props: {
@@ -13,8 +13,9 @@ export const PointStore = (props: {
 }): PointStore => {
   const fetch = async (payload) => {
     const points = await props.api.point.filter(payload)
-    if(points instanceof Error) { return }
+    if(points instanceof Error) { return points; }
     self.points = uniqBy([...self.points, ...points], x => x.id)
+    return points;
   }
   const self = observable<PointStore>({
     points: [],

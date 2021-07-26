@@ -7,6 +7,7 @@ import { InputMode } from "@sivic/web/store/BoxEditor"
 import CharPlot from "@sivic/web/components/CharPlot";
 import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
 import ResetBtn from "@sivic/web/components/ResetBtn"
+import SaveBtn from "@sivic/web/components/SaveBtn"
 
 const Content = observer(() => {
   const { imageProcess, pointEditor, lineEditor } = store;
@@ -20,16 +21,13 @@ const Content = observer(() => {
       }}
     >
       <div className="buttons">
-        <ResetBtn 
-          onClick={() => {
-            pointEditor.clear()
-            lineEditor.clear()
-          }}
-        />
         <a className="button is-success is-light" 
-          onClick={() => lineEditor.getLine(pointEditor.points)}>
+        >
           BaseLine 
         </a>
+        <SaveBtn 
+          onClick={store.featureForm.save}
+        />
       </div>
       <div
         tabIndex={0}

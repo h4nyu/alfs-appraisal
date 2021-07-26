@@ -6,6 +6,7 @@ import ImageRoutes from "./image";
 import BoxRoutes from "./box";
 import FileRoutes from "./file";
 import TagRoutes from "./tag"
+import PointRoutes from "./point";
 // import { ImageRoutes } from "./image";
 // import { DetectRoutes } from "./detect";
 // import { BoxRoutes } from "./box";
@@ -39,18 +40,15 @@ export const App = (args: { store: Store; lock: Lock }) => {
   app.register(TagRoutes({ store, lock }), {
     prefix: `${prefix}/tag`,
   });
+  app.register(PointRoutes({ store, lock }), {
+    prefix: `${prefix}/point`,
+  });
 
   // app.register(DetectRoutes({ store, lock }), {
   //   prefix: `${prefix}/detect`,
   // });
-  // app.register(BoxRoutes({ store, lock }), {
-  //   prefix: `${prefix}/box`,
-  // });
   // app.register(LineRoutes({ store, lock }), {
   //   prefix: `${prefix}/line`,
-  // });
-  // app.register(PointRoutes({ store, lock }), {
-  //   prefix: `${prefix}/point`,
   // });
   // app.register(TrasnformRoutes({ store, lock }), {
   //   prefix: `${prefix}/transform`,
