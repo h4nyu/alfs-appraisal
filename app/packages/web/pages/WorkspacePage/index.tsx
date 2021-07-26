@@ -53,11 +53,6 @@ const Content = observer(() => {
             onChange={e => store.workspaceForm.setName(e.target.value)}
           />
         </div>
-        <TagSelector 
-          tags={store.workspaceForm.tags}
-          value={store.editor.tagId}
-          onChange={store.editor.setTagId}
-        />
       </div>
       <div 
         style={{
@@ -79,7 +74,9 @@ const Content = observer(() => {
               store.history.push("/tag")
             }}
             onBoxClick={box => {
-              store.history.push("/point")
+              if(box.tagId){
+                store.history.push("/point")
+              }
             }}
           />
         }

@@ -6,7 +6,7 @@ import store from "@sivic/web/store";
 import { InputMode } from "@sivic/web/store/BoxEditor"
 import CharPlot from "@sivic/web/components/CharPlot";
 import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
-import CropedBox from "@sivic/web/components/CropedBox"
+import ResetBtn from "@sivic/web/components/ResetBtn"
 
 const Content = observer(() => {
   const { imageProcess, pointEditor, lineEditor } = store;
@@ -20,26 +20,15 @@ const Content = observer(() => {
       }}
     >
       <div className="buttons">
-        <a 
-          className="button is-light" 
-        >
-          Detect
-        </a>
-        <a 
-          className="button is-danger is-light" 
+        <ResetBtn 
           onClick={() => {
             pointEditor.clear()
             lineEditor.clear()
           }}
-        >
-          Reset
-        </a>
+        />
         <a className="button is-success is-light" 
           onClick={() => lineEditor.getLine(pointEditor.points)}>
           BaseLine 
-        </a>
-        <a className="button is-info is-light" onClick={() => pointEditor.save()}>
-          Save
         </a>
       </div>
       <div
@@ -57,18 +46,17 @@ const Content = observer(() => {
         }}
       >
         {
-          pointEditor.files &&  
-            <SvgCharPlot 
-              points={pointEditor.points}
-              lines={lineEditor.lines}
-              selectedId={pointEditor.draggingId}
-              lineId={lineEditor.draggingId}
-              onPointSelect={pointEditor.toggleDrag}
-              onLineSelect={lineEditor.toggleDrag}
-              onAdd={pointEditor.add}
-              onMove={pointEditor.move}
-              size={pointEditor.size}
-              width={512}
+          <SvgCharPlot 
+            points={pointEditor.points}
+            lines={lineEditor.lines}
+            selectedId={pointEditor.draggingId}
+            lineId={lineEditor.draggingId}
+            onPointSelect={pointEditor.toggleDrag}
+            onLineSelect={lineEditor.toggleDrag}
+            onAdd={pointEditor.add}
+            onMove={pointEditor.move}
+            size={pointEditor.size}
+            width={512}
           />
         }
       </div>

@@ -48,12 +48,12 @@ export const Store = (
     }
   };
 
-  const load = async (payload: Point[]) => {
-    if(payload.length === 0){
-      return
-    }
+  const create = async (payload: Point) => {
     try {
-      await sql`INSERT INTO ${sql(TABLE)} ${sql(payload.map(from), ...COLUMNS)}`
+      await sql`
+      INSERT INTO ${sql(TABLE)} ${sql(
+        from(payload),...COLUMNS
+      )}`;
     }catch(e){
       return e
     }
@@ -71,7 +71,7 @@ export const Store = (
 
   return {
     filter,
-    load,
+    create,
     delete: delete_,
   };
 };

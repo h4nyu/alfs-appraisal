@@ -19,8 +19,6 @@ export enum InputMode {
 }
 
 export type Editor = {
-  files: File[];
-  imageId: string;
   points: Point[];
   draggingId: string | undefined;
   pos: {x:number, y:number},
@@ -34,7 +32,6 @@ export type Editor = {
   changeSize: (size: number) => void;
   init: (imageId: string) => void;
   clear: () => void;
-  save:() => void;
 };
 
 export const Editor = (props: {
@@ -132,32 +129,10 @@ export const Editor = (props: {
     self.size = value;
   };
 
-  const save = async () => {
-    // const pointErr = await api.image.replacePoints({
-    //   imageId: self.imageId, 
-    //   // points: self.points
-    // })
-    // if(pointErr instanceof Error) { return pointErr }
-    // const lines:{
-    //   id: string,
-    //   x0: number,
-    //   y0: number,
-    //   x1: number,
-    //   y1: number,
-    // }[] = lineEditor.lines;
-    // const lineErr = await api.image.replaceLines({
-    //   imageId: self.imageId, 
-    //   lines,
-    // })
-    // if(lineErr instanceof Error) { return lineErr }
-  };
-
   const self = observable<Editor>({
-    imageId: "",
     points: [],
     draggingId: undefined,
     size: 10,
-    files: [],
     pos: { x: 0, y:0 },
     mode: InputMode.Add,
     setMode,
@@ -168,7 +143,6 @@ export const Editor = (props: {
     del,
     init,
     clear,
-    save,
   })
 
   return self

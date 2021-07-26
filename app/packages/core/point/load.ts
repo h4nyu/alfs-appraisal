@@ -6,13 +6,7 @@ import DeleteFn from "./delete"
 
 export type Fn = (payload:{
   boxId: string,
-  points: {
-    id: string
-    x0: number;
-    y0: number;
-    x1: number;
-    y1: number;
-  }[]
+  points: Point[], 
 }) => Promise<Point[] | Error>
 
 export const Fn = (props:{
@@ -21,8 +15,6 @@ export const Fn = (props:{
   const findBox = FindBoxFn(props)
   const filter = FilterFn(props)
   const delete_ = DeleteFn(props)
-  // const deletePoint = DeletePointFn(props)
-  // const createPoint = CreatePointFn(props)
   return async (payload) => {
     const box = await findBox({id: payload.boxId})
     if(box instanceof Error) { return box }
@@ -32,16 +24,15 @@ export const Fn = (props:{
       const err = await props.store.point.delete({id: op.id})
       if(err instanceof Error) { return err }
     }
-    // const deleteErr = await deletePoint({imageId: image.id})
-    // if(deletePoint instanceof Error) { return deletePoint }
-    // const points = payload.points.map(x => Point({
-    //   ...x,
-    //   imageId: image.id
-    // }))
-    // const createErr = await createPoint(points)
-    // if(createPoint instanceof Error) { return createPoint }
-    // return points
-    return []
+    const points = payload.points.map(x => Point({
+      ...x,
+      boxId: box.id
+    }))
+    for(const point of points){
+      const err = await props.store.point.create(point)
+      if(err instanceof Error) { return err }
+    }
+    return points
   }
 }
 export default Fn

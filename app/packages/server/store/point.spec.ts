@@ -14,9 +14,9 @@ describe("point", () => {
   const pointStore = rootStore.point;
   const boxId = uuid()
   const point = Point({x: 30,  y: 80, boxId})
-  test("load and delete", async () => {
-    let loadErr = await pointStore.load([point])
-    if(loadErr instanceof Error) { throw loadErr }
+  test("create and delete", async () => {
+    let createErr = await pointStore.create(point)
+    if(createErr instanceof Error) { throw createErr }
     let savedRows = await pointStore.filter({boxId})
     if(savedRows instanceof Error) { throw savedRows }
     expect(JSON.stringify(savedRows)).toEqual(JSON.stringify([point]))
