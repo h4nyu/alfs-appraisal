@@ -9,7 +9,7 @@ import FilterFn from "./filter"
 export type Fn = (payload:{
   imageId: string,
   boxes: {
-    id: string,
+    id?: string,
     x0: number,
     y0: number,
     x1: number,
