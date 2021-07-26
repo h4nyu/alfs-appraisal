@@ -75,6 +75,7 @@ const Content = observer(() => {
             }}
             onBoxClick={box => {
               if(box.tagId){
+                store.featureForm.init(box)
                 store.history.push("/point")
               }
             }}

@@ -20,6 +20,7 @@ import FileStore from "@sivic/web/store/FileStore"
 import LineStore from "@sivic/web/store/LineStore"
 import TagStore from "@sivic/web/store/TagStore"
 import TagForm from "@sivic/web/store/TagForm"
+import FeatureForm from "@sivic/web/store/FeatureForm"
 
 
 configure({
@@ -61,6 +62,7 @@ export type RootStore = {
   fileStore: FileStore;
   tagStore: TagStore;
   tagForm: TagForm;
+  featureForm: FeatureForm;
   init: () => Promise<void>;
 };
 export const RootStore = (): RootStore => {
@@ -154,6 +156,7 @@ export const RootStore = (): RootStore => {
     }
   })
   const tagForm = TagForm({ api, tagStore, toast })
+  const featureForm = FeatureForm({ api, fileStore, })
 
   return {
     api,
@@ -175,6 +178,7 @@ export const RootStore = (): RootStore => {
     fileStore,
     tagStore,
     tagForm,
+    featureForm,
   };
 };
 

@@ -22,12 +22,13 @@ export const Form = (props: {
   boxStore?: BoxStore,
   fileStore?: FileStore,
 }): Form => {
-  const init = (value:Box) => {
-    self.box = value
+  const init = async (box:Box) => {
+    self.box = box
+    box.fileId && await props.fileStore?.fetch({id: box.fileId})
   }
 
   const getFile = () => {
-    return props.boxStore?.boxes.find(x => x.id === self.box?.fileId)
+    return props.fileStore?.files.find(x => x.id === self.box?.fileId)
   }
 
   const save = async () => {
