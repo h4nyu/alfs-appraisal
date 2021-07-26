@@ -15,21 +15,21 @@ describe("box", () => {
   const imageId = uuid()
   const box = Box({x0: 30, y0: 30, x1: 80, y1: 80, imageId, tagId:"t0"})
   const valErr = box.validate() 
-  test("load and delete", async () => {
-    let err = await boxStore.load([box])
+  test("create and delete", async () => {
+    let err = await boxStore.create(box)
     if(err instanceof Error) { throw err }
     let savedRows = await boxStore.filter({imageId})
     if(savedRows instanceof Error) { throw savedRows }
-    console.log(savedRows)
-    expect(JSON.stringify([box])).toBe(JSON.stringify(savedRows))
+    expect(savedRows.length).toBe(1)
+    expect(box.equals(savedRows[0])).toBe(true)
 
     box.tagId = undefined
     let updateErr = await boxStore.update(box)
     if(updateErr instanceof Error) { throw updateErr }
     savedRows = await boxStore.filter({imageId})
     if(savedRows instanceof Error) { throw savedRows }
-    console.log(savedRows)
-    expect(JSON.stringify([box])).toBe(JSON.stringify(savedRows))
+    expect(savedRows.length).toBe(1)
+    expect(box.equals(savedRows[0])).toBe(true)
 
     err = await boxStore.delete({id: box.id})
     if(err instanceof Error) { throw err }

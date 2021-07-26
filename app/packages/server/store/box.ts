@@ -90,14 +90,14 @@ export const Store = (
     }
   };
 
-  const load = async (payload:  Box[]) => {
-    if(payload.length === 0){
-      return
-    }
+  const create = async (payload: Box): Promise<void | Error> => {
     try {
-      await sql`INSERT INTO ${sql(TABLE)} ${sql(payload.map(from), ...COLUMNS)}`
-    }catch(e){
-      return e
+      await sql`
+      INSERT INTO ${sql(TABLE)} ${sql(
+        from(payload),...COLUMNS
+      )}`;
+    } catch (err) {
+      return err;
     }
   };
 
@@ -115,7 +115,7 @@ export const Store = (
   return {
     find,
     filter,
-    load,
+    create,
     update,
     delete: delete_,
   };

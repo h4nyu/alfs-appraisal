@@ -4,6 +4,7 @@ import Box, {
   FilterFn,
   CreateFn,
   UpdateFn,
+  LoadFn,
 } from "@sivic/core/box";
 
 export const Api = (arg: {
@@ -27,6 +28,14 @@ export const Api = (arg: {
       return toError(err);
     }
   };
+  const load:LoadFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/load`, payload);
+      return res.data.map(Box);
+    } catch (err) {
+      return toError(err);
+    }
+  };
   const update:UpdateFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/update`, payload);
@@ -38,7 +47,8 @@ export const Api = (arg: {
   return {
     filter,
     create,
-    update
+    update,
+    load,
   };
 };
 export default Api

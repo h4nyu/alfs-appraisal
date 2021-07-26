@@ -38,10 +38,15 @@ export const Store = (
   };
 
   const find = async (payload: {
-    id: string;
+    id?: string;
   }): Promise<Image | Error> => {
     const { id } = payload
-    const rows = await sql`SELECT * FROM ${sql(TABLE)} WHERE id = ${id} LIMIT 1`
+    const rows = await (async () => {
+      if(id !== undefined){
+        return await sql`SELECT * FROM ${sql(TABLE)} WHERE id = ${id} LIMIT 1`
+      }
+      return []
+    })()
     const row = first(rows.map(to))
     if(row === undefined) { return new Error(ErrorKind.ImageNotFound)}
     return row

@@ -26,7 +26,7 @@ export const TagTable = (props: {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `auto repeat(${props.tags?.length ?? 0}, 1fr)`,
+        gridTemplateColumns: `auto repeat(${props.tags?.length ?? 0}, auto)`,
       }}
     >
       <div
@@ -42,7 +42,6 @@ export const TagTable = (props: {
         className="card p-1 has-text-weight-semibold"
         style={{
           ...centerStyle,
-          minHeight: "1em",
           gridRow: 1,
           gridColumn: 2,
         }}

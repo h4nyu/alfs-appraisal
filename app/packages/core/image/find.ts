@@ -3,7 +3,7 @@ import ErrorKind from "@sivic/core/error"
 import { Image } from "./"
 
 export type Payload = {
-  id: string;
+  id?: string;
 };
 export type FindFn = (payload:Payload) => Promise<Image | Error>
 export const FindFn = (props: {

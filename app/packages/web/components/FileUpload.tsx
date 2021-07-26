@@ -26,7 +26,7 @@ export const FileUpload = (props: {
         }}
       >
         <i className="fas fa-upload fa-3x"></i>
-        Drag and drop
+        Add Image
       </div>
     </div>
   );

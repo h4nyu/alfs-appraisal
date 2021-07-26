@@ -3,6 +3,7 @@ import ErrorKind from "@sivic/core/error"
 export { default as FilterFn } from "./filter"
 export { default as CreateFn } from "./create"
 export { default as UpdateFn } from "./update"
+export { default as LoadFn } from "./load"
 
 export type Box = {
   id: string;
@@ -14,6 +15,8 @@ export type Box = {
   imageId?: string,
   fileId?: string,
   validate: () => void | Error;
+  equals:(other: Box) => boolean
+  posEquals:(other: Box) => boolean
 }
 export const Box = (args?:{
   id?: string,
@@ -38,6 +41,18 @@ export const Box = (args?:{
       return new Error(ErrorKind.ZeroSizeBox);
     }
   }
+  const equals = (other:Box) => {
+    return JSON.stringify(self) === JSON.stringify(other)
+  }
+  const posEquals = (other:Box) => {
+    return (
+      self.x0 === other.x0
+      && self.y0 === other.y0
+      && self.x1 === other.x1
+      && self.y1 === other.y1
+      && self.imageId === other.imageId
+    )
+  }
   const self = {
     id,
     x0,
@@ -48,6 +63,8 @@ export const Box = (args?:{
     tagId,
     fileId,
     validate,
+    equals,
+    posEquals,
   }
   return self
 }

@@ -20,7 +20,10 @@ export const Fn = (props: {
     const boxes = await filterBox({tagId: payload.id})
     if(boxes instanceof Error) { return boxes }
     for(const b of boxes){
-      const err = await updateBox(Box({...b, tagId: undefined}))
+      const err = await updateBox({
+        box: Box({...b, tagId: undefined}),
+        oldBox: b
+      })
       if(err instanceof Error) { return err }
     }
     let err = await props.store.tag.delete({id:payload.id})

@@ -43,7 +43,7 @@ export type TagStore = {
 };
 
 export type ImageStore = {
-  find: (payload: {id :string, hasData?:boolean}) => Promise<Image | Error>;
+  find: (payload: {id? :string}) => Promise<Image | Error>;
   filter: (payload:{workspaceId? :string, parentId?: string, ids?: string[]}) => Promise<Image[] | Error>
   insert: (payload: Image ) => Promise<void | Error>
   update: (payload: Image ) => Promise<void | Error>
@@ -58,7 +58,7 @@ export type BoxStore = {
   find: (payload: {id?: string;}) => Promise<Box | undefined | Error>;
   filter: (payload: {imageId?: string; tagId?:string}) => Promise<Box[] | Error>;
   update: (payload: Box) => Promise<void | Error>
-  load: (payload: Box[]) => Promise<void | Error>;
+  create: (payload: Box) => Promise<void | Error>;
   delete: (payload: {id?:string}) => Promise<void | Error>;
 };
 
