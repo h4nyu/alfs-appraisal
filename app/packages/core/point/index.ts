@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 export { default as FilterFn } from "./filter"
+export { default as LoadFn } from "./load"
 
 export type Point = {
   id: string;
