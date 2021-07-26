@@ -109,7 +109,7 @@ export const TagTable = (props: {
                         onClick={() => props.onBoxClick?.(b)}
                         className="p-1 is-clickable"
                         style={{
-                          height: 60
+                          height: 50
                         }}
                         key={b.id}
                         src={`data:image;base64,${file.data}`}

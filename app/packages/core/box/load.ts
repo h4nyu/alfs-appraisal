@@ -30,7 +30,10 @@ export const Fn = (props: {
     if(file instanceof Error) { return file }
     const oldBoxes = await filter({imageId: image.id})
     if(oldBoxes instanceof Error) { return oldBoxes }
-    const boxes = payload.boxes.filter(x => x.imageId === image.id)
+    const boxes = payload.boxes.filter(b => Box({
+      ...b,
+      imageId: image.id,
+    }))
     for(const oldBox of oldBoxes){
       const matched = boxes.find(b => b.id === oldBox.id)
       if(!matched){
