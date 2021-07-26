@@ -50,6 +50,8 @@ export const Form = (props: {
       return
     }
     props.toast?.info("Success")
+    props.pointStore?.delete({boxId: box.id})
+    props.pointStore?.fetch({boxId: box.id})
   }
 
   const self = observable<Form>({
