@@ -32,8 +32,6 @@ export type Editor = {
   changeSize: (size: number) => void;
   init: (id: string) => void;
   clear: () => void;
-  save:(imageId:string) => void;
-  addTag: (boxId: string) => void;
 };
 
 export const Editor = (root: {
@@ -43,7 +41,6 @@ export const Editor = (root: {
   boxStore?:BoxStore;
   onInit?: (id: string) => void;
   onDelete?: (id: string) => void;
-  onSave?: (id: string) => void;
 }): Editor => {
   const {
     api,
@@ -52,7 +49,6 @@ export const Editor = (root: {
     boxStore,
     onInit,
     onDelete,
-    onSave,
   } = root;
   const init = async (id: string) => {
   };
@@ -191,33 +187,6 @@ export const Editor = (root: {
     self.tagId = value;
   }
 
-  const save = async (imageId:string) => {
-    const err = self.tagId && await api.box.load({
-      imageId, 
-      boxes:self.boxes
-    })
-    if(err instanceof Error) { return err }
-    onSave && onSave(imageId)
-  };
-
-  const addTag = async (boxId:string) => {
-    const box = boxStore?.boxes.find(x => x.id === boxId);
-
-    if (box === undefined) {
-      return;
-    }
-    const newBox = Box({
-      ...box,
-      tagId: self.tagId,
-    })
-
-    // const err = await api.box.update({
-    //   box: newBox
-    // })
-    // if(err instanceof Error) { return err }
-    boxStore?.delete({id:newBox.id})
-
-  }
 
   const self = observable<Editor>({
     boxes: [],
@@ -234,8 +203,6 @@ export const Editor = (root: {
     init,
     clear,
     setTagId,
-    save,
-    addTag,
   })
 
   return self
