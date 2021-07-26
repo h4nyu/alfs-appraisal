@@ -9,6 +9,7 @@ import FilterFn from "./filter"
 export type Fn = (payload:{
   imageId: string,
   boxes: {
+    id: string,
     x0: number,
     y0: number,
     x1: number,
@@ -42,6 +43,7 @@ export const Fn = (props: {
       const file = await createFile({ data })
       if(file instanceof Error) { continue }
       cropedBoxes.push(Box({
+        id: box.id,
         imageId: payload.imageId,
         x0: box.x0,
         y0: box.y0,

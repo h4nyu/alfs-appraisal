@@ -33,8 +33,8 @@ export const WorkspaceTable = (props: {
       ...x,
       Name: x.name,
       Create:x.createdAt,
-      onClick: () => onClick && onClick(x.id),
-      onDelete: () => onDelete && onDelete(x.id),
+      onClick: () => props.onClick?.(x.id),
+      onDelete: () => props.onDelete?.(x.id),
     }
   })
   return (
@@ -49,7 +49,7 @@ export const WorkspaceTable = (props: {
         >
           <div className="p-1" > 
             {
-              onNameChange && <input className="input is-small" value={props.name} onChange={e => onNameChange(e.target.value)} /> 
+              onNameChange && <input className="input" value={props.name} onChange={e => onNameChange(e.target.value)} /> 
             }
           </div>
           <div className="p-1" > 
