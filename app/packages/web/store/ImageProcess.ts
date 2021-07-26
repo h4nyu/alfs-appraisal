@@ -81,7 +81,7 @@ export const ImageProcess = (props: {
     const boxes = editor.boxes
     await loading(async () => {
       const imageId = image.id
-      const cropedImages = await api.box.create({
+      const cropedImages = await api.box.load({
         imageId,
         boxes,
       })

@@ -192,7 +192,7 @@ export const Editor = (root: {
   }
 
   const save = async (imageId:string) => {
-    const err = self.tagId && await api.box.create({
+    const err = self.tagId && await api.box.load({
       imageId, 
       boxes:self.boxes
     })
