@@ -2,6 +2,7 @@ import { AxiosInstance } from "axios";
 import { toError } from ".";
 import point, {
   FilterFn,
+  LoadFn,
 } from "@sivic/core/point";
 
 export const Api = (arg: {
@@ -17,8 +18,17 @@ export const Api = (arg: {
       return toError(err);
     }
   };
+  const load:LoadFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/load`, payload);
+      return res.data.map(point);
+    } catch (err) {
+      return toError(err);
+    }
+  };
   return {
     filter,
+    load,
   };
 };
 export default Api
