@@ -40,6 +40,12 @@ export const TagTable = (props: {
       >
         <div className="buttons" >
           {
+            props.onAddTag && 
+              <button className="button" onClick={() => props.onAddTag?.()}>
+                +Tag
+              </button>
+          }
+          {
             props.onAddImage && 
               <FileUpload 
                 accept="image/*"
@@ -50,20 +56,14 @@ export const TagTable = (props: {
                 </button>
               </FileUpload>
           }
-          {
-            props.onAddTag && 
-              <button className="button" onClick={() => props.onAddTag?.()}>
-                +Tag
-              </button>
-          }
         </div>
       </div>
       <div
         className="card p-1 has-text-weight-semibold"
         style={{
           ...centerStyle,
-          gridRow: 1,
-          gridColumn: 2,
+          gridRow: 2,
+          gridColumn: 1,
         }}
       >
         None
@@ -76,8 +76,8 @@ export const TagTable = (props: {
               key={t.id}
               style={{
                 ...centerStyle,
-                gridRow: 1,
-                gridColumn: i + 3,
+                gridColumn: 1,
+                gridRow: i + 3,
               }}
             >
               <a
@@ -97,8 +97,8 @@ export const TagTable = (props: {
               className="card p-1 has-text-weight-semibold"
               style={{
                 ...centerStyle,
-                gridRow: rowIdx + 2,
-                gridColumn: 1,
+                gridColumn: rowIdx + 2,
+                gridRow: 1,
               }}
             >
               <a onClick={() => props.onImageClick?.(p)}> 
@@ -109,8 +109,8 @@ export const TagTable = (props: {
         })
       }
       {
-        props.images?.map((p, rowIdx) => {
-          return [undefined, ...(props.tags ?? [])].map((t, colIdx) => {
+        props.images?.map((p, colIdx) => {
+          return [undefined, ...(props.tags ?? [])].map((t, rowIdx) => {
             const boxes = props.boxes?.filter(b => b.tagId === t?.id && b.imageId === p.id)
             return (
               <div
@@ -121,8 +121,8 @@ export const TagTable = (props: {
                   flexDirection: 'row',
                   flexWrap: "wrap",
                   alignContent: "start",
-                  gridRow: rowIdx + 2,
                   gridColumn: colIdx + 2,
+                  gridRow: rowIdx + 2,
                 }}
               >
                 {
