@@ -16,7 +16,7 @@ const combinations = (size0:number, size1:number) =>  {
 }
 
 
-export const getBaseline = (points: Point[]): undefined | Line =>
+export const getRefLine = (points: readonly Point[]): undefined | Line =>
 {
   let preDistance = 0
   const combPaints = combinations(points.length, points.length)
@@ -29,7 +29,6 @@ export const getBaseline = (points: Point[]): undefined | Line =>
   })
   const line = first(sortBy(combPaints, x => - x[1]).map(
     p => Line({
-      imageId: p[0][0].imageId,
       x0: p[0][0].x,
       y0: p[0][0].y,
       x1: p[0][1].x,

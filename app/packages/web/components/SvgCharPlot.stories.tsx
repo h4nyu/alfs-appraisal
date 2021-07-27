@@ -2,6 +2,7 @@ import React from "react";
 import Component from "./SvgCharPlot";
 import { Box } from "@sivic/core/box";
 import { Point } from "@sivic/core/point";
+import Line from "@sivic/core/line";
 import { Map } from "immutable";
 import Tag from "@sivic/core/tag"
 import annot from "/srv/data/annto.json";
@@ -28,7 +29,7 @@ const points = Map(
     Point({x: 30,  y: 80}),
   ].map((x, i) => [`${i}`, x])
 );
-const line = [ {...Point(), x:10, y:10 }, {...Point(), x:50, y:50} ]
+const lines = [ Line({x0: 30, y0: 40, x1: 50, y1: 60}) ]
 
 export const Primary = (args) => (
   <Component {...args} data={imageData} />
@@ -50,6 +51,15 @@ export const WithPoint = (args) => (
     data={imageData}
     size={512}
     points={points}
-    line={line}
+  />
+);
+
+export const WithLines = (args) => (
+  <Component
+    {...args}
+    data={imageData}
+    size={512}
+    points={points}
+    lines={lines}
   />
 );

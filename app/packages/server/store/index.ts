@@ -1,11 +1,10 @@
 import postgres from "postgres";
-import { Store as WorkspaceStore } from "./workspace";
-import { Store as ImageStore } from "./image"
-import { Store as DetectStore } from "./detect"
-import { Store as BoxStore } from "./box"
-import { Store as PointStore } from "./point"
-import { Store as TransformStore } from "./transform"
-import { Store as LineStore } from "./line"
+import WorkspaceStore from "./workspace";
+import ImageStore from "./image"
+import DetectStore from "./detect"
+import BoxStore from "./box"
+import PointStore from "./point"
+import TransformStore from "./transform"
 import TagStore from "./tag"
 import FileStore from "./file"
 
@@ -27,7 +26,6 @@ export const Store = (args: {
   const point = PointStore(sql)
   const transform = TransformStore()
   const detect = DetectStore(args.detectUrl)
-  const line = LineStore(sql)
   const tag = TagStore(sql)
   const file = FileStore(sql)
   return {
@@ -37,7 +35,6 @@ export const Store = (args: {
     detect,
     box,
     point,
-    line,
     tag,
     file,
     close,

@@ -5,7 +5,6 @@ import Image, {
   DeleteFn,
   FindFn,
   CreateFn,
-  ReplaceLinesFn,
 } from "@sivic/core/image";
 
 export const Api = (arg: {
@@ -31,14 +30,6 @@ export const Api = (arg: {
       return toError(err);
     }
   };
-  const replaceLines:ReplaceLinesFn = async (payload) => {
-    try {
-      const res = await http.post(`${prefix}/replace-lines`, payload);
-      return res.data.map(Image)
-    } catch (err) {
-      return toError(err);
-    }
-  };
   const find:FindFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/find`, payload);
@@ -60,7 +51,6 @@ export const Api = (arg: {
     filter,
     delete: delete_,
     find,
-    replaceLines,
   };
 };
 export default Api

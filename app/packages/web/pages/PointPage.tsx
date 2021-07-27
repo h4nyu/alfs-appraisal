@@ -47,7 +47,7 @@ const Content = observer(() => {
           <SvgCharPlot 
             data={store.featureForm.file?.data}
             points={pointEditor.points}
-            lines={lineEditor.lines}
+            lines={store.featureForm.refLines}
             selectedId={pointEditor.draggingId}
             lineId={lineEditor.draggingId}
             onPointSelect={pointEditor.toggleDrag}

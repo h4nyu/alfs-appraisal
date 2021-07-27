@@ -68,12 +68,6 @@ export type PointStore = {
   delete: (payload: {id?:string}) => Promise<void | Error>;
 };
 
-export type LineStore = {
-  filter: (payload: {imageId: string;}) => Promise<Line[] | Error>;
-  delete: (payload: {imageId: string}) => Promise<void | Error>
-  load: (payload: Line[]) => Promise<void | Error>;
-};
-
 export type FileStore = {
   find: (payload: {id?: string;}) => Promise<File | undefined | Error>;
   insert: (payload: File) => Promise<void | Error>;
@@ -95,7 +89,6 @@ export type Store = {
   detect: DetectStore,
   box:BoxStore,
   point: PointStore,
-  line: LineStore,
   tag: TagStore,
   file: FileStore,
 }

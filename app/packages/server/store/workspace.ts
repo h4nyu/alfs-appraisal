@@ -133,3 +133,4 @@ export const Store = (sql: Sql<any>): WorkspaceStore => {
     delete: delete_,
   };
 };
+export default Store

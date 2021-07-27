@@ -30,3 +30,5 @@ export const Store = (url: string): DetectStore => {
     box,
   };
 };
+
+export default Store

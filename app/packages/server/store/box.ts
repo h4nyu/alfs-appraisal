@@ -120,3 +120,4 @@ export const Store = (
     delete: delete_,
   };
 };
+export default Store

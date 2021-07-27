@@ -8,7 +8,6 @@ import { File } from "@sivic/core/file"
 import { Box } from "@sivic/core/box";
 import { v4 as uuid } from "uuid";
 import { keyBy, zip, uniqBy } from "lodash";
-import { rotatePoint, getBaseline} from "@sivic/core/utils"; import { Image } from "@sivic/core/image"
 import Line from "@sivic/core/line"
 import { ImageStore } from "@sivic/web/store/ImageStore"
 import PointStore from "@sivic/web/store/PointStore"

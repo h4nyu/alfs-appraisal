@@ -194,36 +194,12 @@ export const SvgCharPlot = (props: {
         lines?.map((l) => (
           <g key={l.id}>
             <line 
-              x1={l[0].x * scale}
-              y1={l[0].y * scale}
-              x2={l[1].x * scale}
-              y2={l[1].y * scale}
+              x1={l.x0 * scale}
+              y1={l.y0 * scale}
+              x2={l.x1 * scale}
+              y2={l.y1 * scale}
               stroke={l.id === lineId ? "green" : "blue"}
               storole-width={1}
-            />
-            <circle
-              style={{cursor: "crosshair"}}
-              cx={l[0].x * scale}
-              cy={l[0].y * scale}
-              r={pointSize * 1.5}
-              stroke="none"
-              fill={lineId === l.id ? "green" : "blue"}
-              onClick={(e) => {
-                e.stopPropagation();
-                props.onLineSelect?.(l.id);
-              }}
-            />
-            <circle
-              style={{cursor: "crosshair"}}
-              cx={l[1].x * scale}
-              cy={l[1].y * scale}
-              r={pointSize * 1.5}
-              stroke="none"
-              fill={lineId === l.id ? "green" : "blue"}
-              onClick={(e) => {
-                e.stopPropagation();
-                props.onLineSelect?.(l.id);
-              }}
             />
           </g>
         ))

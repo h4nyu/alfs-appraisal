@@ -2,6 +2,7 @@ import { observable } from "mobx";
 import RootApi from "@sivic/api";
 import File from "@sivic/core/file"
 import Box from "@sivic/core/box"
+import Line from "@sivic/core/line"
 import Point from "@sivic/core/point"
 import BoxStore from "@sivic/web/store/BoxStore"
 import FileStore from "@sivic/web/store/FileStore"
@@ -9,11 +10,13 @@ import TagStore from "@sivic/web/store/TagStore"
 import PointEditor from "@sivic/web/store/PointEditor"
 import PointStore from "@sivic/web/store/PointStore"
 import Toast from "@sivic/web/store/toast"
+import { getRefLine } from "@sivic/core/utils"
 
 
 export type Form = {
   box?:Box;
-  file?: File
+  file?: File,
+  refLines?: Line[],
   init: (box:Box) => void
   save: () => void;
 };
@@ -53,9 +56,26 @@ export const Form = (props: {
     props.pointStore?.delete({boxId: box.id})
     props.pointStore?.fetch({boxId: box.id})
   }
+  const getRefLines = () => {
+    let points = props.pointEditor?.points ?? []
+    const firstLine = getRefLine(points)
+    if(!firstLine) { return }
+    points = points.filter(p => {
+      return (
+        p.x !== firstLine.x0
+        && p.y !== firstLine.y0
+        && p.y !== firstLine.x1
+        && p.y !== firstLine.y1
+      )
+    })
+    const secondLine = getRefLine(points)
+    if(!secondLine) { return [firstLine] }
+    return [firstLine, secondLine]
+  }
 
   const self = observable<Form>({
-    get file() { return getFile()},
+    get file() { return getFile() },
+    get refLines() { return getRefLines() },
     init,
     save,
   })
