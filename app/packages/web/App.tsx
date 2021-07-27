@@ -6,22 +6,17 @@ import Toast from "./connectors/Toast";
 import { createHashHistory } from "history";
 import PageLayout from "@sivic/web/components/PageLayout";
 import Header from "@sivic/web/components/Header";
-import Sidebar from "@sivic/web/components/Sidebar";
 import Loading_ from "@sivic/web/components/Loading"
 
 const history = createHashHistory();
 const MainPage = lazy(() => import("@sivic/web/pages/MainPage"));
 const WorkspacePage = lazy(() => import("@sivic/web/pages/WorkspacePage"));
-const ImagePage = lazy(() => import("@sivic/web/pages/ImagePage"));
-const PointPage = lazy(() => import("@sivic/web/pages/PointPage"));
-const TagFormPage = lazy(() => import("@sivic/web/pages/TagFormPage"));
-
 const Loading = observer(() => <Loading_ isActive={rootStore.loadingStore.isActive}/>)
 
 export default function App() {
   React.useEffect(() => {
     rootStore.init();
-    history.push("/workspace");
+    history.push("/");
   });
   return (
     <>
@@ -30,15 +25,10 @@ export default function App() {
         <Toast />
         <PageLayout
           header={<Header/>}
-          sidebar={<Sidebar/>}
           content={
             <Suspense fallback={<div>Loading...</div>}>
-              <Route exact path={"/workspace"} component={MainPage} />
-              <Route exact path={"/workspace/summary"} component={WorkspacePage} />
-              <Route exact path={"/box"} component={ImagePage} />
-              <Route exact path={"/point"} component={PointPage} />
-              <Route exact path={"/tag"} component={ () => <TagFormPage {...rootStore} />} />
-              <Route exact path={"/image"} component={ ImagePage } />
+              <Route exact path={"/"} component={MainPage} />
+              <Route path={"/workspace"} component={WorkspacePage} />
             </Suspense>
           }
         />

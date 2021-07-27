@@ -21,7 +21,7 @@ const Content = observer(() => {
         workspaces={workspaceStore.workspaces.toList().toArray()} 
         onClick={(id) => {
           workspaceForm.init(id)
-          history.push("/workspace/summary")
+          history.push("/workspace")
         }} 
         onDelete={(id) => workspaceForm.delete(id)} 
         onCreate={() => {

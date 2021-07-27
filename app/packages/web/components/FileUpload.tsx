@@ -1,9 +1,11 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
+export type ChangeFn = (files: File[]) => void
 export const FileUpload = (props: {
+  children?: React.ReactNode
   accept?: string;
-  onChange?: (files: File[]) => void;
+  onChange?: ChangeFn;
 }) => {
   const { onChange, accept } = props;
   const onDrop = useCallback((acceptedFiles) => {
@@ -12,22 +14,10 @@ export const FileUpload = (props: {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
   return (
     <div
-      className="button is-light is-fullwidth"
       {...getRootProps()}
-      style={{ height: 105 }}
     >
       <input {...getInputProps()} accept={accept} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <i className="fas fa-upload fa-3x"></i>
-        Add Image
-      </div>
+      { props.children }
     </div>
   );
 }

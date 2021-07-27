@@ -1,5 +1,5 @@
 import React from "react";
-import ImagePage from "./ImagePage";
+import ImagePage from "./BoxPage";
 import { Router, Switch, Route } from "react-router-dom";
 import { createHashHistory } from "history";
 import { Image } from "@sivic/core/image";

@@ -3,9 +3,6 @@ import { observer } from "mobx-react-lite";
 import { Map } from "immutable";
 import FileUpload from "@sivic/web/components/FileUpload";
 import store from "@sivic/web/store";
-import {
-  useParams
-} from "react-router-dom";
 import SaveBtn from "@sivic/web/components/SaveBtn"
 import { Image } from "@sivic/core/image";
 import ImageTable from "@sivic/web/components/ImageTable"
@@ -13,10 +10,33 @@ import ImageTags from "@sivic/web/components/ImageTags";
 import BoxView from "@sivic/web/components/BoxView"
 import TagTable from "@sivic/web/components/TagTable"
 import TagSelector from "@sivic/web/components/TagSelector"
+import { Router, Switch, Route, NavLink, Link, useLocation } from "react-router-dom";
+import PointPage from "./PointPage"
+import BoxPage from "./BoxPage"
+import TagFormPage from "./TagFormPage"
 
+
+
+const routes = [
+  {
+    path: "/workspace/box",
+    name: "Box",
+    Component: BoxPage,
+  },
+  {
+    path: "/workspace/point",
+    name: "Point",
+    Component: PointPage,
+  },
+  {
+    path: "/workspace/tag",
+    name: "Tag",
+    Component: () => <TagFormPage {...store} />,
+  },
+]
 
 const Content = observer(() => {
-  let { id } = useParams<{id:string}>();
+  const location = useLocation();
   const { 
     workspaceForm, 
     imageProcess, 
@@ -31,19 +51,8 @@ const Content = observer(() => {
   return (
     <div
       className="box"
-      style={{
-        display: "grid",
-        gridTemplateRows: "auto 1fr 110px",
-        width: "100%",
-        height: "100%",
-      }}
     >
-      <div className="field" 
-        style={{ 
-          gridRow: "1",
-          height: "100%",
-        }}
-      >
+      <div className="field">
         <label className="label">Name</label>
         <div className="field has-addons">
           <div className="control is-expanded" >
@@ -59,61 +68,62 @@ const Content = observer(() => {
           </div>
         </div>
       </div>
-      <div 
-        style={{
-          gridRow: "2"
+      <TagTable  
+        onAddImage={store.imageForm.uploadFiles}
+        onAddTag={() => {
+          store.tagForm.init({workspaceId: workspaceForm.id})
+          store.history.push("/workspace/tag")
         }}
-      >
+        images={workspaceForm.images}
+        tags={workspaceForm.tags}
+        files={fileStore.files.toList().toArray()}
+        boxes={store.boxStore.boxes}
+        points={store.pointStore.points}
+        onImageClick={image => {
+          store.imageProcess.init(image.id)
+          store.history.push("/workspace/box")
+        }}
+        onTagClick={tag => {
+          store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
+          store.history.push("/workspace/tag")
+        }}
+        onBoxClick={box => {
+          if(box.tagId){
+            store.featureForm.init(box)
+            store.history.push("/workspace/point")
+          }
+        }}
+      />
+      <div className="tabs is-boxed m-0">
+        <ul>
+          {
+            routes.map(x => {
+              return (
+                <li 
+                  key={x.path}
+                  className={location.pathname === x.path ? "is-active" : ""}
+                >
+                  <Link to={x.path} > {x.name} </Link> 
+                </li>
+              )
+            })
+          }
+        </ul>
+      </div>
+      <Switch>
         {
-          <TagTable  
-            images={workspaceForm.images}
-            tags={workspaceForm.tags}
-            files={fileStore.files.toList().toArray()}
-            boxes={store.boxStore.boxes}
-            points={store.pointStore.points}
-            onImageClick={image => {
-              store.imageProcess.init(image.id)
-              store.history.push("/box")
-            }}
-            onTagClick={tag => {
-              store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
-              store.history.push("/tag")
-            }}
-            onBoxClick={box => {
-              if(box.tagId){
-                store.featureForm.init(box)
-                store.history.push("/point")
-              }
-            }}
-          />
+          routes.map(r => {
+            return (
+              <Route 
+                key={r.path}
+                path={r.path} 
+              >
+                <r.Component />
+              </Route>
+            )
+          })
         }
-      </div>
-      <div>
-      </div>
-      <div 
-        style={{
-          gridRow: "3",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr"
-        }}
-      >
-        <FileUpload
-          accept={"application/json, image/*"}
-          onChange={store.imageForm.uploadFiles}
-        />
-        <div 
-          className="button" 
-          style={{
-            height: "100%"
-          }}
-          onClick={() => {
-            store.tagForm.init({workspaceId: workspaceForm.id})
-            store.history.push("/tag")
-          }}
-        > 
-          Add Tag 
-        </div>
-      </div>
+      </Switch>
     </div>
   );
 });

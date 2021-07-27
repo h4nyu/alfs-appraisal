@@ -98,19 +98,14 @@ export const ImageProcess = (props: {
   }
 
   const delete_ = async () =>{
-    console.log("delete")
     const { image } = self
     if(image === undefined){ return }
-    await loading(async () => {
-      const imageId = image.id
-      const err = await props.api?.image.delete({id:imageId})
-      if(err instanceof Error) { return err }
-      props.imageStore?.delete({parentId: self.image?.id || ""})
-
-      toast.info("delete")
-      image.workspaceId && onDelete?.(image.workspaceId)
-
-    })
+    const imageId = image.id
+    const err = await props.api?.image.delete({id:imageId})
+    if(err instanceof Error) { return err }
+    props.imageStore?.delete({parentId: self.image?.id || ""})
+    toast.info("delete")
+    image.workspaceId && onDelete?.(image.workspaceId)
   }
 
   const self = observable<ImageProcess>({

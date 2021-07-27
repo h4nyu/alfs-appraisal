@@ -13,7 +13,6 @@ const Content = observer(() => {
   const { imageProcess, pointEditor, } = store;
   return (
     <div
-      className="box"
       style={{
         display: "grid",
         gridTemplateRows: "auto 1fr",

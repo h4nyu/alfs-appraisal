@@ -5,6 +5,7 @@ import { File } from "@sivic/core/file"
 import Point from "@sivic/core/point"
 import AddBtn from "@sivic/web/components/AddBtn"
 import Box from "@sivic/core/box"
+import FileUpload, { ChangeFn } from "@sivic/web/components/FileUpload"
 
 const centerStyle = {
   display: "grid",
@@ -18,8 +19,8 @@ export const TagTable = (props: {
   files?: File[],
   boxes?: Box[],
   points?: Point[],
-  onImageAdd?:() => void,
-  onTagAdd?:() => void,
+  onAddImage?: ChangeFn,
+  onAddTag?:() => void,
   onImageClick?:(image:Image) => void,
   onTagClick?:(tag: Tag) => void,
   onBoxClick?:(box: Box) => void;
@@ -32,13 +33,30 @@ export const TagTable = (props: {
       }}
     >
       <div
-        className="card p-1 has-text-weight-semibold"
+        className="card p-1"
         style={{
           ...centerStyle,
-          minHeight: "1em",
         }}
       >
-        Images / Tags
+        <div className="buttons" >
+          {
+            props.onAddImage && 
+              <FileUpload 
+                accept="image/*"
+                onChange={props.onAddImage}
+              >
+                <button className="button">
+                  +Image
+                </button>
+              </FileUpload>
+          }
+          {
+            props.onAddTag && 
+              <button className="button" onClick={() => props.onAddTag?.()}>
+                +Tag
+              </button>
+          }
+        </div>
       </div>
       <div
         className="card p-1 has-text-weight-semibold"

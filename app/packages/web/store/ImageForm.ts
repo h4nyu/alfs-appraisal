@@ -51,12 +51,6 @@ export const ImageForm = (args: {
     const workspaceId = self.workspace?.id
     if(workspaceId === undefined) {return}
     const image = await find(self.images, x => x.id === id)
-    if(image === undefined) {return}
-    // const err = await api.image.update({
-    //   ...image,
-    //   tag:payload.tag !== image.tag ? payload.tag: undefined,
-    // })
-    // onSave && onSave(workspaceId)
   }
 
   const deleteImage = async (imageId:string) => {

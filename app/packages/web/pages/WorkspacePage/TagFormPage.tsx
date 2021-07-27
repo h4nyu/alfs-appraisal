@@ -18,5 +18,4 @@ const Content = observer((props: {
     />
   );
 });
-
 export default Content;

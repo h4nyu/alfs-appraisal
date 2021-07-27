@@ -8,12 +8,13 @@ import CharPlot from "@sivic/web/components/CharPlot";
 import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
 import CropedBox from "@sivic/web/components/CropedBox"
 import TagSelector from "@sivic/web/components/TagSelector"
+import ResetBtn from "@sivic/web/components/ResetBtn"
+import SaveBtn from "@sivic/web/components/SaveBtn"
 
 const Content = observer(() => {
   const { imageProcess, editor, pointEditor } = store;
   return (
     <div
-      className="box"
       style={{
         display: "grid",
         gridTemplateRows: "auto 1fr",
@@ -26,15 +27,8 @@ const Content = observer(() => {
           value={store.editor.tagId}
           onChange={store.editor.setTagId}
         />
-          <a className="button is-info is-light" onClick={imageProcess.detectBoxes}>
-            Auto Fill
-          </a>
-          <a className="button is-light" onClick={editor.clear}>
-            Reset
-          </a>
-          <a className="button is-info is-light" onClick={imageProcess.save}>
-            Save
-          </a>
+          <ResetBtn onClick={editor.clear} />
+          <SaveBtn onClick={imageProcess.save} />
           <a className="button is-danger is-light" style={{marginLeft:"auto"}} onClick={imageProcess.delete}>
             Delete
           </a>
