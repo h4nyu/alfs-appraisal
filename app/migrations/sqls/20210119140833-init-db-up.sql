@@ -31,15 +31,6 @@ CREATE TABLE points (
     box_id text
 );
 
-CREATE TABLE lines ( 
-    id text NOT NULL PRIMARY KEY,
-    image_id text,
-    x0 double precision NOT NULL,
-    y0 double precision NOT NULL,
-    x1 double precision NOT NULL,
-    y1 double precision NOT NULL
-);
-
 CREATE TABLE tags ( 
     id text NOT NULL PRIMARY KEY,
     name text NOT NULL,
