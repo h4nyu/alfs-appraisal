@@ -18,15 +18,17 @@ export const UpdateFn = (props: {
     return await props.lock.auto(async () => {
       const workspace = await find({id: payload.id})
       if(workspace instanceof Error) { return workspace }
-
-      workspace.name = payload.name
-
-      const uniqErr = await unique(workspace)
+      const newWorkspace = Workspace({
+        ...workspace,
+        name: payload.name,
+      })
+      const valErr = newWorkspace.validate()
+      if(valErr instanceof Error) { return valErr }
+      const uniqErr = await unique(newWorkspace)
       if(uniqErr instanceof Error) { return uniqErr }
-
-      const updateErr = await props.store.workspace.update(workspace);
+      const updateErr = await props.store.workspace.update(newWorkspace);
       if (updateErr instanceof Error) { return updateErr; }
-      return workspace
+      return newWorkspace
     })
   }
 }

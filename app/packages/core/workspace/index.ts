@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import ErrorKind from '@sivic/core/error'
 export { default as CreateFn } from "@sivic/core/workspace/create"
 export { default as UpdateFn } from "@sivic/core/workspace/update"
 export { default as DeleteFn } from "@sivic/core/workspace/delete"
@@ -10,6 +11,7 @@ export type Workspace = {
   name: string
   imageIds: string[]
   createdAt: Date
+  validate: () => void|Error
 }
 
 export const Workspace = (args?: {
@@ -22,11 +24,17 @@ export const Workspace = (args?: {
   const name = args?.name ?? ""
   const imageIds = args?.imageIds ?? []
   const createdAt = args?.createdAt ?? new Date()
+  const validate = () => {
+    if(!name) {
+      return new Error(ErrorKind.InvalidWorkspaceNameFormat)
+    }
+  }
   return {
     id,
     name,
     imageIds,
     createdAt,
+    validate,
   }
 }
 export default Workspace

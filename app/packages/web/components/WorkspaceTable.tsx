@@ -6,9 +6,8 @@ import DateView from "@sivic/web/components/DateView";
 import TableHeader from "@sivic/web/components/TableHeader";
 import Divider from "@sivic/web/components/Divider";
 import DeleteBtn from "@sivic/web/components/DeleteBtn";
-import SaveBtn from "@sivic/web/components/SaveBtn";
 import CreateBtn from "@sivic/web/components/CreateBtn";
-
+import AddBtn from "@sivic/web/components/AddBtn";
 
 export const WorkspaceTable = (props: {
   name?: string,
@@ -54,7 +53,7 @@ export const WorkspaceTable = (props: {
           </div>
           <div className="p-1" > 
             {
-              onSave && <SaveBtn onClick={onSave} /> 
+              onSave && <AddBtn onClick={onSave} /> 
             }
           </div>
         </div>

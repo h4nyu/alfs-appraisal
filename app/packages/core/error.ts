@@ -8,5 +8,6 @@ export enum ErrorKind {
   FileNotFound="FileNotFound",
   BoxNotFound="BoxNotFound",
   InvalidTagNameFormat="InvalidTagNameFormat",
+  InvalidWorkspaceNameFormat="InvalidWorkspaceNameFormat",
 }
 export default ErrorKind;
