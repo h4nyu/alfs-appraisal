@@ -21,10 +21,6 @@ const Content = observer(() => {
       }}
     >
       <div className="buttons">
-        <a className="button is-success is-light" 
-        >
-          BaseLine 
-        </a>
         <SaveBtn 
           onClick={store.featureForm.save}
         />
