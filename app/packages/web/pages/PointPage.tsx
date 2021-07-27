@@ -10,7 +10,7 @@ import ResetBtn from "@sivic/web/components/ResetBtn"
 import SaveBtn from "@sivic/web/components/SaveBtn"
 
 const Content = observer(() => {
-  const { imageProcess, pointEditor, lineEditor } = store;
+  const { imageProcess, pointEditor, } = store;
   return (
     <div
       className="box"
@@ -34,7 +34,6 @@ const Content = observer(() => {
         onKeyDown={e => {
           if (e.keyCode === 8) {
             pointEditor.del()
-            lineEditor.del()
           }
         }}
         style={{
@@ -49,9 +48,7 @@ const Content = observer(() => {
             points={pointEditor.points}
             lines={store.featureForm.refLines}
             selectedId={pointEditor.draggingId}
-            lineId={lineEditor.draggingId}
             onPointSelect={pointEditor.toggleDrag}
-            onLineSelect={lineEditor.toggleDrag}
             onAdd={pointEditor.add}
             onMove={pointEditor.move}
             size={pointEditor.size}

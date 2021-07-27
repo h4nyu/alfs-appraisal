@@ -11,7 +11,6 @@ import { keyBy, zip, uniqBy } from "lodash";
 import Line from "@sivic/core/line"
 import { ImageStore } from "@sivic/web/store/ImageStore"
 import PointStore from "@sivic/web/store/PointStore"
-import LineEditor from "@sivic/web/store/LineEditor"
 export enum InputMode {
   Add = "Add",
   Edit = "Edit",
@@ -36,7 +35,6 @@ export type Editor = {
 export const Editor = (props: {
   api: RootApi;
   pointStore: PointStore;
-  lineEditor: LineEditor;
   loading: <T>(fn: () => Promise<T>) => Promise<T>;
   toast: ToastStore;
   onInit?: (id: string) => void;
@@ -49,7 +47,6 @@ export const Editor = (props: {
     onInit,
     onDelete,
     pointStore,
-    lineEditor,
   } = props;
 
   const init = async (points) => {

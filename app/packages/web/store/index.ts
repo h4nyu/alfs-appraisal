@@ -14,10 +14,8 @@ import ImageForm from "@sivic/web/store/ImageForm"
 import ImageProcess from "@sivic/web/store/ImageProcess" 
 import Editor from "@sivic/web/store/BoxEditor"
 import PointEditor from "@sivic/web/store/PointEditor"
-import LineEditor from "@sivic/web/store/LineEditor"
 import PointStore from "@sivic/web/store/PointStore"
 import FileStore from "@sivic/web/store/FileStore"
-import LineStore from "@sivic/web/store/LineStore"
 import TagStore from "@sivic/web/store/TagStore"
 import TagForm from "@sivic/web/store/TagForm"
 import FeatureForm from "@sivic/web/store/FeatureForm"
@@ -48,10 +46,8 @@ export type RootStore = {
   imageStore: ImageStore;
   boxStore:BoxStore;
   loadingStore: LoadingStore;
-  lineStore: LineStore,
   editor: Editor;
   pointEditor: PointEditor;
-  lineEditor: LineEditor;
   toast: ToastStore;
   history: History;
   api: RootApi;
@@ -70,7 +66,6 @@ export const RootStore = (): RootStore => {
   const loadingStore = LoadingStore();
   const loading = loadingStore.loading;
   const toast = ToastStore();
-  const lineStore = LineStore({ api })
   const fileStore = FileStore({ api })
   const workspaceStore = WorkspaceStore({ api, loading, toast });
   const imageStore = ImageStore({ api })
@@ -86,19 +81,11 @@ export const RootStore = (): RootStore => {
     toast,
   })
 
-  const lineEditor = LineEditor({ 
-    api, 
-    lineStore,
-    loading, 
-    toast,
-  })
-
   const pointEditor = PointEditor({ 
     api, 
     loading, 
     toast,
     pointStore,
-    lineEditor,
     onInit: (id) => {
       history.push(`/point`)
     },
@@ -172,7 +159,6 @@ export const RootStore = (): RootStore => {
     loadingStore,
     editor,
     pointEditor,
-    lineEditor,
     init,
     history,
     workspaceForm,
@@ -181,7 +167,6 @@ export const RootStore = (): RootStore => {
     pointStore,
     imageForm,
     imageProcess,
-    lineStore,
     fileStore,
     tagStore,
     tagForm,
