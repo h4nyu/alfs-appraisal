@@ -108,19 +108,27 @@ export const TagTable = (props: {
                 }}
               >
                 {
-                  boxes?.map(b => {
-                    const file = props.files?.find(x => x.id === b.fileId)
-                    const points = props.points?.filter(x => x.boxId === b.id)
+                  boxes?.map(box => {
+                    const file = props.files?.find(x => x.id === box.fileId)
+                    const points = props.points?.filter(x => x.boxId === box.id)
+                    return {
+                      box,
+                      file,
+                      points
+                    }
+                  })
+                  .sort((a, b) => (a.points?.length ?? 0) - (b.points?.length ?? 0))
+                  .map(({box, file, points}) => {
                     return(
                       file && 
                         <div
-                          key={b.id}
+                          key={box.id}
                           className="is-clickable p-1"
                           style={{
                             display: 'flex',
                             flexDirection: 'row',
                           }}
-                          onClick={() => props.onBoxClick?.(b)}
+                          onClick={() => props.onBoxClick?.(box)}
                         >
                           <img 
                             style={{
