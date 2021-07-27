@@ -90,10 +90,8 @@ const Content = observer(() => {
           store.history.push("/workspace/tag")
         }}
         onBoxClick={box => {
-          if(box.tagId){
-            store.featureForm.init(box)
-            store.history.push("/workspace/point")
-          }
+          store.featureForm.init(box)
+          store.history.push("/workspace/point")
         }}
       />
       <div className="tabs is-boxed m-0">
