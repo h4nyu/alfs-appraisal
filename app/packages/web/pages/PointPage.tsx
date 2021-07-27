@@ -21,6 +21,12 @@ const Content = observer(() => {
       }}
     >
       <div className="buttons">
+        <div className="has-text-centered">
+          <div>
+            <p className="heading">Count</p>
+            <p className="title"> { pointEditor.points?.length ?? 0 } </p>
+          </div>
+        </div>
         <SaveBtn 
           onClick={store.featureForm.save}
         />

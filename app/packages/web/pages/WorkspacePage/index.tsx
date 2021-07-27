@@ -6,7 +6,7 @@ import store from "@sivic/web/store";
 import {
   useParams
 } from "react-router-dom";
-
+import SaveBtn from "@sivic/web/components/SaveBtn"
 import { Image } from "@sivic/core/image";
 import ImageTable from "@sivic/web/components/ImageTable"
 import ImageTags from "@sivic/web/components/ImageTags";
@@ -45,13 +45,18 @@ const Content = observer(() => {
         }}
       >
         <label className="label">Name</label>
-        <div className="control" >
-          <input 
-            className="input" 
-            type="text" 
-            value={store.workspaceForm.name} 
-            onChange={e => store.workspaceForm.setName(e.target.value)}
-          />
+        <div className="field has-addons">
+          <div className="control is-expanded" >
+            <input 
+              className="input" 
+              type="text" 
+              value={store.workspaceForm.name} 
+              onChange={e => store.workspaceForm.setName(e.target.value)}
+            />
+          </div>
+          <div className="control">
+            <SaveBtn onClick={store.workspaceForm.save} />
+          </div>
         </div>
       </div>
       <div 
@@ -68,7 +73,7 @@ const Content = observer(() => {
             points={store.pointStore.points}
             onImageClick={image => {
               store.imageProcess.init(image.id)
-              store.history.push("/image")
+              store.history.push("/box")
             }}
             onTagClick={tag => {
               store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})

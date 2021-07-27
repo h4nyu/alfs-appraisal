@@ -34,8 +34,8 @@ export default function App() {
           content={
             <Suspense fallback={<div>Loading...</div>}>
               <Route exact path={"/workspace"} component={MainPage} />
-              <Route exact path={"/workspace/id/:id"} component={WorkspacePage} />
-              <Route exact path={"/workspace/id/:id/image-id/:imageId"} component={ImagePage} />
+              <Route exact path={"/workspace/summary"} component={WorkspacePage} />
+              <Route exact path={"/box"} component={ImagePage} />
               <Route exact path={"/point"} component={PointPage} />
               <Route exact path={"/tag"} component={ () => <TagFormPage {...rootStore} />} />
               <Route exact path={"/image"} component={ ImagePage } />

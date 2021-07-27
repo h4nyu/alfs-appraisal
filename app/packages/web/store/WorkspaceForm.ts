@@ -24,8 +24,7 @@ export type WorkspaceFrom = {
   imageForm: ImageForm,
   tags?: Tag[],
   images?: Image[],
-  create: () => void;
-  update: (id:string) => void;
+  init: (id?:string) => void;
   setName: (value:string) => void;
   save: () => Promise<void>;
   delete: (id:string) => Promise<void>;
@@ -34,7 +33,7 @@ export type WorkspaceFrom = {
 export const WorkspaceFrom = (props: {
   api: RootApi;
   loading: <T>(fn: () => Promise<T>) => Promise<T>;
-  toast: ToastStore;
+  toast?: ToastStore;
   imageForm: ImageForm;
   imageStore: ImageStore;
   fileStore?: FileStore;
@@ -62,33 +61,31 @@ export const WorkspaceFrom = (props: {
     self.id = ""
     self.name = ""
   }
-  const create = async () => {
-    reset()
-    onCreate && onCreate()
-  }
-  const update = async (workspaceId:string) => {
-    await loading(async () => {
-      const row = await api.workspace.find({id: workspaceId})
-      if(row instanceof Error) {
-        return row
+  const init = async (workspaceId?:string) => {
+    if(!workspaceId){
+      reset()
+      return 
+    }
+    const row = await api.workspace.find({id: workspaceId})
+    if(row instanceof Error) {
+      return row
+    }
+    self.id = row.id
+    self.name = row.name
+    await imageForm.init(row)
+    const images = await imageStore.fetch({workspaceId})
+    if(images instanceof Error) { return images }
+    await props.tagStore?.fetch({workspaceId})
+    for (const image of images){
+      const boxes = await props.boxStore?.fetch({ imageId: image.id})
+      if(boxes instanceof Error) { return boxes }
+      for(const b of boxes){
+        b.fileId && await fileStore?.fetch({id: b.fileId})
+        await props.pointStore?.fetch({boxId: b.id})
       }
-      self.id = row.id
-      self.name = row.name
-      await imageForm.init(row)
-      const images = await imageStore.fetch({workspaceId})
-      if(images instanceof Error) { return images }
-      await props.tagStore?.fetch({workspaceId})
-      for (const image of images){
-        const boxes = await props.boxStore?.fetch({ imageId: image.id})
-        if(boxes instanceof Error) { return boxes }
-        for(const b of boxes){
-          b.fileId && await fileStore?.fetch({id: b.fileId})
-          await props.pointStore?.fetch({boxId: b.id})
-        }
-        await fileStore?.fetch({id: image.fileId})
-      }
-      onInit && onInit(row)
-    })
+      await fileStore?.fetch({id: image.fileId})
+    }
+    onInit && onInit(row)
   }
 
 
@@ -98,13 +95,23 @@ export const WorkspaceFrom = (props: {
 
   const save = async ():Promise<void> => {
     await loading(async () => {
-      const row = await api.workspace.create({name:self.name});
-      if (row instanceof Error) {
-        toast.error(row)
-        return;
+      const workspace = await (async () => {
+        if(self.id){
+          return await api.workspace.update({
+            id: self.id,
+            name:self.name
+          });
+        }else{
+          return await api.workspace.create({name:self.name});
+        }
+      })()
+      if(workspace instanceof Error) {
+        props.toast?.error(workspace)
+        return 
       }
-      onSave && onSave(row)
-      toast.show("Success", Level.Success);
+      await init(workspace.id)
+      onSave && onSave(workspace)
+      props.toast?.info("Success");
     })
   }
 
@@ -112,8 +119,8 @@ export const WorkspaceFrom = (props: {
     await loading(async () => {
       const deleteErr = await api.workspace.delete({id});
       if (deleteErr instanceof Error) { return; }
-      onDelete && onDelete(id)
-      toast.show("Success", Level.Success);
+      props.toast?.show("Success", Level.Success);
+      props.onDelete?.(id)
     })
   }
   const getTags = () => {
@@ -128,8 +135,7 @@ export const WorkspaceFrom = (props: {
     id:"", 
     name:"",
     imageForm,
-    create,
-    update,
+    init,
     setName,
     save,
     get tags() { return getTags() },

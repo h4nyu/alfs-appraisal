@@ -102,7 +102,7 @@ export const RootStore = (): RootStore => {
     toast,
     imageStore,
     onSave: async (workspaceId:string) => {
-      workspaceForm.update(workspaceId)
+      workspaceForm.init(workspaceId)
     }
   })
   const imageProcess = ImageProcess({
@@ -114,10 +114,10 @@ export const RootStore = (): RootStore => {
     boxStore,
     editor,
     onSave: async (workspaceId:string) => {
-      workspaceForm.update(workspaceId)
+      workspaceForm.init(workspaceId)
     },
     onDelete: async (workspaceId:string) => {
-      workspaceForm.update(workspaceId)
+      workspaceForm.init(workspaceId)
     }
   })
   const workspaceForm = WorkspaceForm({
@@ -130,12 +130,6 @@ export const RootStore = (): RootStore => {
     boxStore,
     fileStore,
     pointStore,
-    onInit: (workspace) => {
-      history.push(`/workspace/id/${workspace.id}`)
-    },
-    onCreate: () => {
-      history.push(`/workspace/create`)
-    },
     onSave: (workspace) => {
       workspaceStore.fetch()
     },

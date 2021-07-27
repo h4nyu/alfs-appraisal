@@ -46,15 +46,22 @@ export const WorkspaceTable = (props: {
             alignItems: "center",
           }}
         >
-          <div className="p-1" > 
-            {
-              onNameChange && <input className="input" value={props.name} onChange={e => onNameChange(e.target.value)} /> 
-            }
-          </div>
-          <div className="p-1" > 
-            {
-              onSave && <AddBtn onClick={onSave} /> 
-            }
+          <div className="field has-addons pb-1">
+            <div className="control is-expanded" >
+              {
+                onNameChange && 
+                  <input 
+                    className="input" 
+                    value={props.name} 
+                    onChange={e => onNameChange(e.target.value)} 
+                  /> 
+              }
+            </div>
+            <div className="control">
+              {
+                onSave && <AddBtn onClick={onSave} /> 
+              }
+            </div>
           </div>
         </div>
       }

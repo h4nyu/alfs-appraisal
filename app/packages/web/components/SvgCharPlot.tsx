@@ -198,8 +198,9 @@ export const SvgCharPlot = (props: {
               y1={l.y0 * scale}
               x2={l.x1 * scale}
               y2={l.y1 * scale}
-              stroke={l.id === lineId ? "green" : "blue"}
-              storole-width={1}
+              stroke={l.id === lineId ? "green" : "red"}
+              strokeOpacity="0.5"
+              strokeWidth={1}
             />
           </g>
         ))
