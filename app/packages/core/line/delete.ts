@@ -9,8 +9,8 @@ export const Fn = (props: {
   store: Store;
 }):Fn => {
   return async (payload: Payload) => {
-    const err = await props.store.line.delete(payload)
-    if(err instanceof Error) { return err }
+    // const err = await props.store.line.delete(payload)
+    // if(err instanceof Error) { return err }
   }
 }
 export default Fn

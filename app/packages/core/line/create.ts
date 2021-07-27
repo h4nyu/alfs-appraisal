@@ -7,9 +7,9 @@ export const Fn = (props: {
   store: Store;
 }) => {
   return async (payload: Payload) => {
-    const err = await props.store.line.load(payload)
-    if(err instanceof Error) { return err }
-    return payload
+    // const err = await props.store.line.load(payload)
+    // if(err instanceof Error) { return err }
+    // return payload
   }
 }
 export default Fn

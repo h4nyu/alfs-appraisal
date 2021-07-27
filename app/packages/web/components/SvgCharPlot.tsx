@@ -194,10 +194,10 @@ export const SvgCharPlot = (props: {
         lines?.map((l) => (
           <g key={l.id}>
             <line 
-              x1={l.x0 * scale}
-              y1={l.y0 * scale}
-              x2={l.x1 * scale}
-              y2={l.y1 * scale}
+              x1={l.start.x * scale}
+              y1={l.start.y * scale}
+              x2={l.end.x * scale}
+              y2={l.end.y * scale}
               stroke={l.id === lineId ? "green" : "red"}
               strokeOpacity="0.5"
               strokeWidth={1}

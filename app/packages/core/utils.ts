@@ -29,10 +29,8 @@ export const getRefLine = (points: readonly Point[]): undefined | Line =>
   })
   const line = first(sortBy(combPaints, x => - x[1]).map(
     p => Line({
-      x0: p[0][0].x,
-      y0: p[0][0].y,
-      x1: p[0][1].x,
-      y1: p[0][1].y,
+      start: p[0][0],
+      end: p[0][1],
     })
   ))
   return line

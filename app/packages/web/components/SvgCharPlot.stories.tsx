@@ -29,7 +29,7 @@ const points = Map(
     Point({x: 30,  y: 80}),
   ].map((x, i) => [`${i}`, x])
 );
-const lines = [ Line({x0: 30, y0: 40, x1: 50, y1: 60}) ]
+const lines = [ Line({start: Point({x: 30, y: 40}), end: Point({x: 50, y: 60})}) ]
 
 export const Primary = (args) => (
   <Component {...args} data={imageData} />

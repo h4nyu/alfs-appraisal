@@ -1,31 +1,30 @@
 import { v4 as uuid } from 'uuid';
+import Point from '@sivic/core/point';
 
 export type Line = {
   id: string
-  x0: number;
-  y0: number;
-  x1: number;
-  y1: number;
+  start: Point,
+  end: Point;
+  priority: number;
 }
 
 export const Line  = (props?:{
   id?:string,
-  x0?:number,
-  y0?:number,
-  x1?:number,
-  y1?:number,
+  start?: Point;
+  end?: Point;
+  boxId?: string;
+  priority?: number;
 }):Line => {
   const id = props?.id ?? uuid()
-  const x0 = props?.x0 ?? 0
-  const y0 = props?.y0 ?? 0
-  const x1 = props?.x1 ?? 0
-  const y1 = props?.y1 ?? 0
+  const boxId = props?.boxId
+  const start = props?.start ?? Point({boxId: boxId})
+  const end = props?.end ?? Point({boxId: boxId})
+  const priority = props?.priority ?? 0
   return {
     id,
-    x0,
-    y0,
-    x1,
-    y1,
+    start,
+    end,
+    priority,
   }
 }
 export default Line
