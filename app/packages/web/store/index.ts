@@ -143,6 +143,7 @@ export const RootStore = (): RootStore => {
     fileStore, 
     pointStore,
     pointEditor,
+    boxStore,
     toast,
   })
 

@@ -17,23 +17,6 @@ import TagFormPage from "./TagFormPage"
 
 
 
-const routes = [
-  {
-    path: "/workspace/box",
-    name: "Box",
-    Component: BoxPage,
-  },
-  {
-    path: "/workspace/point",
-    name: "Point",
-    Component: PointPage,
-  },
-  {
-    path: "/workspace/tag",
-    name: "Tag",
-    Component: () => <TagFormPage {...store} />,
-  },
-]
 
 const Content = observer(() => {
   const location = useLocation();
@@ -45,9 +28,28 @@ const Content = observer(() => {
     boxStore,
     pointEditor,
     fileStore,
+    tagForm
   } = store
 
   const { save } = store.workspaceForm;
+  const routes = [
+    {
+      path: "/workspace/box",
+      name: "Box",
+      Component: BoxPage,
+    },
+    {
+      path: "/workspace/point",
+      name: "Point",
+      Component: PointPage,
+    },
+    {
+      path: "/workspace/tag",
+      name: "Tag",
+      Component: () => <TagFormPage {...store} />,
+      onClick: () => { tagForm.init({workspaceId: workspaceForm.id})}
+    },
+  ]
   return (
     <div
       className="box"
@@ -103,7 +105,7 @@ const Content = observer(() => {
                   key={x.path}
                   className={location.pathname === x.path ? "is-active" : ""}
                 >
-                  <Link to={x.path} > {x.name} </Link> 
+                  <Link to={x.path} onClick={x.onClick}> {x.name} </Link> 
                 </li>
               )
             })

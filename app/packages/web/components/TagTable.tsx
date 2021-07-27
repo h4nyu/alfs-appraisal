@@ -66,7 +66,7 @@ export const TagTable = (props: {
           gridColumn: 2,
         }}
       >
-        NoTag
+        None
       </div>
       {
         props.tags?.map((t, i) => {

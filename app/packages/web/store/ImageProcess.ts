@@ -46,20 +46,18 @@ export const ImageProcess = (props: {
 }): ImageProcess => {
   const { api, loading, toast, onInit, onSave, onDelete, editor, imageStore, boxStore } = props;
   const init = async (imageId:string) => {
-    await loading(async () => {
-      const image = await api.image.find({id:imageId})
-      if(image instanceof Error) { return image }
-      self.image = image
-      if(image.fileId){
-        const file = await props.fileStore?.fetch({id: image.fileId})
-        if(file instanceof Error) { return file }
-        self.file = file
-      }
-      const boxes = await api.box.filter({imageId})
-      if(boxes instanceof Error) { return boxes }
-      editor.boxes = boxes
-      onInit && onInit(imageId)
-    })
+    const image = await api.image.find({id:imageId})
+    if(image instanceof Error) { return image }
+    self.image = image
+    if(image.fileId){
+      const file = await props.fileStore?.fetch({id: image.fileId})
+      if(file instanceof Error) { return file }
+      self.file = file
+    }
+    const boxes = await api.box.filter({imageId})
+    if(boxes instanceof Error) { return boxes }
+    editor.boxes = boxes
+    onInit && onInit(imageId)
   }
   const detectBoxes = async () => {
     const { file } = self
@@ -79,22 +77,20 @@ export const ImageProcess = (props: {
     const { image } = self
     if(image === undefined){ return }
     const boxes = editor.boxes
-    await loading(async () => {
-      const imageId = image.id
-      const cropedImages = await api.box.load({
-        imageId,
-        boxes,
-      })
-      if(cropedImages instanceof Error){
-        toast.error(cropedImages)
-        return
-      }
-      props.imageStore?.delete({parentId: self.image?.id || ""})
-      await props.imageStore?.fetch({parentId: self.image?.id})
-      await props.boxStore?.delete({imageId: self.image?.id})
-      toast.info("saved")
-      image.workspaceId && onSave?.(image.workspaceId)
+    const imageId = image.id
+    const cropedImages = await api.box.load({
+      imageId,
+      boxes,
     })
+    if(cropedImages instanceof Error){
+      toast.error(cropedImages)
+      return
+    }
+    props.imageStore?.delete({parentId: self.image?.id || ""})
+    await props.imageStore?.fetch({parentId: self.image?.id})
+    await props.boxStore?.delete({imageId: self.image?.id})
+    toast.info("saved")
+    image.workspaceId && onSave?.(image.workspaceId)
   }
 
   const delete_ = async () =>{

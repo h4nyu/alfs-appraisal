@@ -8,27 +8,31 @@ import CharPlot from "@sivic/web/components/CharPlot";
 import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
 import ResetBtn from "@sivic/web/components/ResetBtn"
 import SaveBtn from "@sivic/web/components/SaveBtn"
+import TagSelector from "@sivic/web/components/TagSelector"
 
 const Content = observer(() => {
-  const { imageProcess, pointEditor, } = store;
+  const { featureForm, pointEditor, workspaceForm } = store;
   return (
     <div
-      style={{
-        display: "grid",
-        gridTemplateRows: "auto 1fr",
-        height: "100%",
-      }}
+      className="box"
     >
-      <div className="buttons">
-        <div className="has-text-centered">
+      <div className="level">
+        <div className="level-item">
+          <div>
+            <p className="heading">Tag</p>
+            <TagSelector 
+              value={featureForm.tagId}
+              tags={workspaceForm.tags}
+              onChange={t => featureForm.setTagId(t?.id)}
+            />
+          </div>
+        </div>
+        <div className="level-item">
           <div>
             <p className="heading">Count</p>
             <p className="title"> { pointEditor.points?.length ?? 0 } </p>
           </div>
         </div>
-        <SaveBtn 
-          onClick={store.featureForm.save}
-        />
       </div>
       <div
         tabIndex={0}
@@ -38,24 +42,28 @@ const Content = observer(() => {
           }
         }}
         style={{
-          overflow:"scroll",
           display: "grid",
-          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {
-          <SvgCharPlot 
-            data={store.featureForm.file?.data}
-            points={pointEditor.points}
-            lines={store.featureForm.refLines}
-            selectedId={pointEditor.draggingId}
-            onPointSelect={pointEditor.toggleDrag}
-            onAdd={pointEditor.add}
-            onMove={pointEditor.move}
-            size={pointEditor.size}
-            width={512}
-          />
-        }
+        <SvgCharPlot 
+          data={featureForm.file?.data}
+          points={pointEditor.points}
+          lines={store.featureForm.refLines}
+          selectedId={pointEditor.draggingId}
+          onPointSelect={pointEditor.toggleDrag}
+          onAdd={pointEditor.add}
+          onMove={pointEditor.move}
+          size={pointEditor.size}
+          width={512}
+        />
+      </div>
+      <div className="buttons">
+        <div className="has-text-centered">
+        </div>
+        <SaveBtn 
+          onClick={store.featureForm.save}
+        />
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ export type Editor = {
   mode: InputMode;
   toggleDrag: (id: string, mode: InputMode) => void;
   setMode: (mode: InputMode) => void;
-  setTagId: (tagId: string) => void;
+  setTagId: (tagId?: string) => void;
   add: () => void;
   move: (pos: { x: number; y: number }) => void;
   del: () => void;
@@ -183,7 +183,7 @@ export const Editor = (root: {
     self.size = value;
   };
 
-  const setTagId = (value: string) => {
+  const setTagId = (value?: string) => {
     self.tagId = value;
   }
 

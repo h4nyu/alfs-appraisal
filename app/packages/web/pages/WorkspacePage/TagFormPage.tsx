@@ -13,7 +13,6 @@ const Content = observer((props: {
       name={props.tagForm.name}
       onNameChange={props.tagForm.setName}
       onSave={props.tagForm.save}
-      onCancel={() => props.history.goBack()}
       onDelete={props.tagForm.delete}
     />
   );

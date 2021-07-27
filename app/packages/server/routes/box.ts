@@ -23,7 +23,10 @@ export const Routes = (props: {
       reply.send(res);
     });
     app.post<{ Body: Parameters<UpdateFn>[0] }>("/update", {}, async (req, reply) => {
-      const res = await update(req.body);
+      const res = await update({
+        ...req.body,
+        box: Box({...req.body.box}),
+      });
       reply.send(res);
     });
     app.post<{ Body: Parameters<FilterFn>[0] }>("/filter", {}, async (req, reply) => {

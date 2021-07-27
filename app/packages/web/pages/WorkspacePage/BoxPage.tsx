@@ -15,23 +15,26 @@ const Content = observer(() => {
   const { imageProcess, editor, pointEditor } = store;
   return (
     <div
-      style={{
-        display: "grid",
-        gridTemplateRows: "auto 1fr",
-        height: "100%",
-      }}
+      className="box"
     >
-      <div style={{display:"flex"}}>
-        <TagSelector 
-          tags={store.workspaceForm.tags}
-          value={store.editor.tagId}
-          onChange={store.editor.setTagId}
-        />
-          <ResetBtn onClick={editor.clear} />
-          <SaveBtn onClick={imageProcess.save} />
-          <a className="button is-danger is-light" style={{marginLeft:"auto"}} onClick={imageProcess.delete}>
-            Delete
-          </a>
+
+      <div className="level">
+        <div className="level-item">
+          <div>
+            <p className="heading">Tag</p>
+            <TagSelector 
+              value={store.editor.tagId}
+              tags={store.workspaceForm.tags}
+              onChange={x => store.editor.setTagId(x?.id)}
+            />
+          </div>
+        </div>
+        <div className="level-item">
+          <div>
+            <p className="heading">Count</p>
+            <p className="title"> { editor.boxes.length } </p>
+          </div>
+        </div>
       </div>
       <div
         tabIndex={0}
@@ -41,9 +44,8 @@ const Content = observer(() => {
           }
         }}
         style={{
-          overflow:"scroll",
           display: "grid",
-          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {
@@ -61,6 +63,12 @@ const Content = observer(() => {
               width={1024}
           />
         }
+      </div>
+      <div style={{display:"flex"}}>
+        <SaveBtn onClick={imageProcess.save} />
+        <a className="button is-danger is-light" style={{marginLeft:"auto"}} onClick={imageProcess.delete}>
+          Delete
+        </a>
       </div>
     </div>
   );

@@ -4,18 +4,25 @@ import Tag from '@sivic/core/tag'
 export const TagSelector = (props: {
   tags?: Tag[],
   value?: string,
-  onChange?: (value:string) => void;
+  onChange?: (tag?:Tag) => void;
 }) => {
   const tag = props.tags?.find(x => x.id === props.value)
   return (
     <div className="mr-2 dropdown is-hoverable is-fullwidth">
       <div className="dropdown-trigger">
         <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
-          <span>
-            {tag?.name ?? "Select Tag"}
-          </span>
-          <span className="icon is-small">
-            <i className="fas fa-angle-down" aria-hidden="true"></i>
+          <span className="icon-text">
+            <span>
+              {tag?.name ?? "None"}
+            </span>
+            {
+              tag &&<div 
+                className="icon is-small"
+                onClick={() => props.onChange?.()}
+              >
+                <i className="fas fa-times"></i>
+              </div>
+            }
           </span>
         </button>
       </div>
@@ -27,7 +34,7 @@ export const TagSelector = (props: {
                 <a 
                   key={i}
                   className={`dropdown-item ${x.id === props.value ? "is-active" : ""}`}
-                  onClick={() => props.onChange?.(x.id)}
+                  onClick={() => props.onChange?.(x)}
                 >
                   {x.name}
                 </a>
