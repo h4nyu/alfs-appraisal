@@ -83,7 +83,7 @@ export const Form = (props: {
     if(!firstLine) { return }
     points = points.filter(p => {
       return (
-        firstLine.start.equals(p) && firstLine.end.equals(p)
+        !firstLine.start.equals(p) && !firstLine.end.equals(p)
       )
     })
     const secondLine = getRefLine(points)
