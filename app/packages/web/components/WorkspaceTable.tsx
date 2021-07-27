@@ -80,7 +80,7 @@ export const WorkspaceTable = (props: {
                   alignItems: "center",
                 }}
               >
-                <div className="p-1" onClick={x.onClick}> {x.name} </div>
+                <a className="p-1" onClick={x.onClick}> {x.name} </a>
                 <div className="p-1" onClick={x.onClick}> <DateView value={x.createdAt} /> </div>
                 <div className="p-1"> <DeleteBtn onClick={x.onDelete} /> </div>
               </div>
