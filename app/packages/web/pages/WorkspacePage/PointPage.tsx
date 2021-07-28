@@ -9,6 +9,7 @@ import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
 import ResetBtn from "@sivic/web/components/ResetBtn"
 import SaveBtn from "@sivic/web/components/SaveBtn"
 import TagSelector from "@sivic/web/components/TagSelector"
+import DeleteBtn from "@sivic/web/components/DeleteBtn"
 
 const Content = observer(() => {
   const { featureForm, pointEditor, workspaceForm } = store;
@@ -58,12 +59,17 @@ const Content = observer(() => {
           width={512}
         />
       </div>
-      <div className="buttons">
-        <div className="has-text-centered">
+      <div className="level">
+        <div className="level-left">
+          <SaveBtn 
+            onClick={store.featureForm.save}
+          />
         </div>
-        <SaveBtn 
-          onClick={store.featureForm.save}
-        />
+        <div className="level-right">
+          <DeleteBtn 
+            onClick={() => store.featureForm.delete()}
+          />
+        </div>
       </div>
     </div>
   );

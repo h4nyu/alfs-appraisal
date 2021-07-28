@@ -5,6 +5,7 @@ import Box, {
   CreateFn,
   UpdateFn,
   LoadFn,
+  DeleteFn,
 } from "@sivic/core/box";
 
 export const Api = (arg: {
@@ -44,11 +45,20 @@ export const Api = (arg: {
       return toError(err);
     }
   };
+
+  const delete_:DeleteFn = async (payload) => {
+    try {
+      await http.post(`${prefix}/delete`, payload);
+    } catch (err) {
+      return toError(err);
+    }
+  };
   return {
     filter,
     create,
     update,
     load,
+    delete: delete_,
   };
 };
 export default Api

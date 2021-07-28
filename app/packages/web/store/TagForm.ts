@@ -12,7 +12,7 @@ import { parseISO } from "date-fns";
 import { Level } from "@sivic/web/store"
 import { ImageForm } from "@sivic/web/store/ImageForm"
 import { ImageStore } from "@sivic/web/store/ImageStore"
-import { BoxStore } from "@sivic/web/store/BoxStore"
+import BoxStore from "@sivic/web/store/BoxStore"
 import { Tag } from "@sivic/core/tag"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
@@ -32,6 +32,7 @@ export type Form = {
 export const Form = (props: {
   api: RootApi;
   tagStore?: TagStore;
+  boxStore?: BoxStore;
   toast?: ToastStore;
   onInit?: () => void;
   onDelete?: (tagId:string) => void;
@@ -80,12 +81,16 @@ export const Form = (props: {
   const getDelete = () => {
     if(self.id === "") { return }
     return async () => {
+      const imageIds = props.boxStore?.boxes.filter(x => x.tagId === self.id).map(x => x.imageId) || []
       const err = await props.api.tag.delete({id:self.id})
       if(err instanceof Error) {
         props.toast?.error(err)
         return
       }
       props.tagStore?.delete({id:self.id})
+      for(const imageId of imageIds){
+        await props.boxStore?.fetch({imageId})
+      }
       props.toast?.info("Success")
       props.onDelete?.(self.id)
     }

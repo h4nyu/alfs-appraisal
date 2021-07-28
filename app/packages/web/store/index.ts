@@ -137,7 +137,12 @@ export const RootStore = (): RootStore => {
       workspaceStore.fetch()
     }
   })
-  const tagForm = TagForm({ api, tagStore, toast })
+  const tagForm = TagForm({ 
+    api, 
+    tagStore, 
+    boxStore,
+    toast 
+  })
   const featureForm = FeatureForm({ 
     api, 
     fileStore, 

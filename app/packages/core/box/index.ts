@@ -4,6 +4,7 @@ export { default as FilterFn } from "./filter"
 export { default as CreateFn } from "./create"
 export { default as UpdateFn } from "./update"
 export { default as LoadFn } from "./load"
+export { default as DeleteFn } from "./delete"
 
 export type Box = {
   id: string;

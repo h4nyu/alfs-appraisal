@@ -21,6 +21,7 @@ export type Form = {
   refLines?: Line[],
   setTagId:(value?:string) => void;
   init: (box:Box) => void
+  delete: (boxId?: string) => void;
   save: () => void;
 };
 
@@ -33,6 +34,10 @@ export const Form = (props: {
   tagStore?: TagStore,
   toast?: Toast,
 }): Form => {
+  const reset = () => {
+    self.box = undefined;
+    self.tagId = undefined;
+  }
   const init = async (box:Box) => {
     self.box = box
     box.fileId && await props.fileStore?.fetch({id: box.fileId})
@@ -93,12 +98,26 @@ export const Form = (props: {
     if(!secondLine) { return [firstLine] }
     return [firstLine, secondLine]
   }
+  const delete_ = async (boxId?: string) => {
+    const id = boxId ?? self.box?.id
+    if(id === undefined) { return }
+    const err = await props.api.box.delete({id})
+    if(err instanceof Error) {
+      props.toast?.error(err)
+      return err
+    }
+    if(boxId === undefined){
+      reset()
+    }
+    props.boxStore?.delete({id})
+  }
 
   const self = observable<Form>({
     get file() { return getFile() },
     get refLines() { return getRefLines() },
     init,
     setTagId,
+    delete: delete_,
     save,
   })
   return self

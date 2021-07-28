@@ -26,7 +26,7 @@ export const Fn = (props: {
       if(err instanceof Error) { return err }
     }
     if(box.fileId){
-      err = await deleteFile({id: box.fileId})
+      err = await deleteFile({ id: box.fileId })
       if(err instanceof Error) { return err }
     }
   }

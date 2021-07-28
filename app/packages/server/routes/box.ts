@@ -5,6 +5,7 @@ import Box, {
   CreateFn,
   FilterFn,
   UpdateFn,
+  DeleteFn,
   LoadFn,
 } from "@sivic/core/box";
 
@@ -17,6 +18,7 @@ export const Routes = (props: {
   const create = CreateFn(props)
   const update = UpdateFn(props)
   const load = LoadFn(props)
+  const delete_ = DeleteFn(props)
   return function (app, opts, done) {
     app.post<{ Body: Parameters<CreateFn>[0] }>("/create", {}, async (req, reply) => {
       const res = await create(req.body);
@@ -37,6 +39,13 @@ export const Routes = (props: {
       const res = await load({
         ...req.body,
         boxes: req.body.boxes.map(Box),
+      });
+      reply.send(res);
+    });
+    app.post<{ Body: Parameters<DeleteFn>[0] }>("/delete", {}, async (req, reply) => {
+      const res = await delete_({
+        ...req.body,
+        box: req.body.box ? Box(req.body.box) : undefined,
       });
       reply.send(res);
     });

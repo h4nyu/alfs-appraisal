@@ -25,25 +25,31 @@ export const TagForm = (props: {
           />
         </div>
       </div>
-      <div className="field is-grouped is-fullwidth">
-        {
-          props.onSave && 
-            <div className="control">
-              <SaveBtn onClick={e => props.onSave?.()} />
-            </div>
-        }
-        {
-          props.onDelete && 
-            <div className="control">
-              <DeleteBtn onClick={e => props.onDelete?.()} />
-            </div>
-        }
-        {
-          props.onCancel && 
-            <div className="control">
-              <CancelBtn onClick={e => props.onCancel?.()} />
-            </div>
-        }
+      <div className="field">
+        <div 
+          style={{
+            display: "grid",
+            gridTemplateColumns: "auto 1fr auto"
+          }}
+        >
+          <div>
+            {
+              props.onSave && 
+                <SaveBtn onClick={e => props.onSave?.()} />
+            }
+          </div>
+          <div/>
+          <div className="buttons">
+            {
+              props.onDelete && 
+                <DeleteBtn onClick={e => props.onDelete?.()} />
+            }
+            {
+              props.onCancel && 
+                <CancelBtn onClick={e => props.onCancel?.()} />
+            }
+          </div>
+        </div>
       </div>
     </div>
   )
