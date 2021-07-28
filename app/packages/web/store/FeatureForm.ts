@@ -49,16 +49,6 @@ export const Form = (props: {
   const save = async () => {
     const { box } = self
     if(box === undefined) { return }
-    const updateErr = await props.api.box.update({
-      box: Box({
-        ...box,
-        tagId: self.tagId,
-      })
-    })
-    if(updateErr instanceof Error) { 
-      props.toast?.error(updateErr) 
-      return 
-    }
     const points = props.pointEditor?.points ?? []
     const err = await props.api.point.load({
       boxId: box.id,
@@ -74,8 +64,21 @@ export const Form = (props: {
     props.boxStore?.delete({imageId: box.imageId})
     props.boxStore?.fetch({imageId: box.imageId})
   }
-  const setTagId = (value?:string) => {
+  const setTagId = async (value?:string) => {
     self.tagId = value
+    const { box } = self
+    if(box === undefined) { return }
+    const updateErr = await props.api.box.update({
+      box: Box({
+        ...box,
+        tagId: self.tagId,
+      })
+    })
+    if(updateErr instanceof Error) { 
+      props.toast?.error(updateErr) 
+      return 
+    }
+    props.boxStore?.fetch({ imageId: box.imageId})
   }
   const getRefLines = () => {
     let points = props.pointEditor?.points ?? []

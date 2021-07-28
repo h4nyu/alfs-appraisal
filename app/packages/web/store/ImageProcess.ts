@@ -21,7 +21,7 @@ import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
 import BoxStore from "@sivic/web/store/BoxStore"
 
-export type ImageProcess = {
+export type ImageFrom = {
   image?: Image;
   file?: File;
   lineWidth: number;
@@ -32,7 +32,7 @@ export type ImageProcess = {
   detectBoxes: () => void;
 };
 
-export const ImageProcess = (props: {
+export const ImageFrom = (props: {
   api: RootApi;
   loading: <T>(fn: () => Promise<T>) => Promise<T>;
   imageStore?: ImageStore,
@@ -43,7 +43,7 @@ export const ImageProcess = (props: {
   onSave?: (workspaceId:string) => void
   onDelete?: (workspaceId:string) => void
   editor: Editor
-}): ImageProcess => {
+}): ImageFrom => {
   const { api, loading, toast, onInit, onSave, onDelete, editor, imageStore, boxStore } = props;
   const init = async (imageId:string) => {
     const image = await api.image.find({id:imageId})
@@ -104,7 +104,7 @@ export const ImageProcess = (props: {
     image.workspaceId && onDelete?.(image.workspaceId)
   }
 
-  const self = observable<ImageProcess>({
+  const self = observable<ImageFrom>({
     image: undefined,
     lineWidth: 10,
     init,
@@ -115,4 +115,4 @@ export const ImageProcess = (props: {
   return self
 };
 
-export default ImageProcess 
+export default ImageFrom 

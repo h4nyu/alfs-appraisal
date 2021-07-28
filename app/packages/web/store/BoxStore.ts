@@ -20,7 +20,7 @@ export const BoxStore = (props: {
   const fetch = async (payload) => {
     const boxes = await props.api.box.filter(payload)
     if(boxes instanceof Error) { return boxes }
-    self.boxes = uniqBy([...self.boxes, ...boxes], x => x.id);
+    self.boxes = uniqBy([...boxes, ...self.boxes], x => x.id);
     return boxes
   }
 
