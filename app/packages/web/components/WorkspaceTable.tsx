@@ -16,14 +16,11 @@ export const WorkspaceTable = (props: {
   onDelete?: (id: string) => void;
   onCreate?:() => void;
   onNameChange?:(name: string) => void;
-  onSave?: () => void;
 }) => {
   const { 
     workspaces, 
     onClick, 
     onDelete, 
-    onCreate, 
-    onSave,
     onNameChange 
   } = props;
 
@@ -46,23 +43,14 @@ export const WorkspaceTable = (props: {
             alignItems: "center",
           }}
         >
-          <div className="field has-addons pb-1">
-            <div className="control is-expanded" >
-              {
-                onNameChange && 
-                  <input 
-                    className="input" 
-                    value={props.name} 
-                    onChange={e => onNameChange(e.target.value)} 
-                  /> 
-              }
-            </div>
+          <span className="label">
+            Workspaces
+          </span>
             <div className="control">
               {
-                onSave && <AddBtn onClick={onSave} /> 
+                props.onCreate && <div className="button is-success is-light" onClick={() => props.onCreate?.()}> new </div>
               }
             </div>
-          </div>
         </div>
       }
       <Divider/>

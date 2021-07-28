@@ -6,6 +6,9 @@ import store from "@sivic/web/store";
 
 const Content = observer(() => {
   const { workspaceStore, workspaceForm, history } = store;
+  React.useEffect(() => {
+    workspaceForm.init()
+  },[workspaceStore.workspaces])
   return (
     <div
       className="box"
@@ -17,17 +20,16 @@ const Content = observer(() => {
       <WorkspaceTable
         name={workspaceForm.name}
         onNameChange={workspaceForm.setName}
-        onSave={workspaceForm.save}
         workspaces={workspaceStore.workspaces.toList().toArray()} 
         onClick={(id) => {
           workspaceForm.init(id)
           history.push("/workspace")
         }} 
-        onDelete={(id) => workspaceForm.delete(id)} 
         onCreate={() => {
           workspaceForm.init()
-          history.push("/workspace/summary")
-        }}
+          history.push("/workspace")
+        }} 
+        onDelete={(id) => workspaceForm.delete(id)} 
       />
     </div>
   );
