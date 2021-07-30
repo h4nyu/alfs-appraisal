@@ -29,7 +29,7 @@ export const TagTable = (props: {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `auto repeat(${props.tags?.length ?? 0}, auto)`,
+        gridTemplateColumns: `auto repeat(${props.images?.length ?? 0}, auto)`,
       }}
     >
       <div
