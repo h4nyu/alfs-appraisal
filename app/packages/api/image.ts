@@ -23,6 +23,17 @@ export const Api = (arg: {
       return toError(err);
     }
   };
+  const update:UpdateFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/update`, payload);
+      return Image({
+        ...res.data,
+        createdAt: new Date(res.data.createdAt)
+      })
+    } catch (err) {
+      return toError(err);
+    }
+  };
   const delete_:DeleteFn = async (payload) => {
     try {
       await http.post(`${prefix}/delete`, payload);
@@ -51,6 +62,7 @@ export const Api = (arg: {
     filter,
     delete: delete_,
     find,
+    update,
   };
 };
 export default Api

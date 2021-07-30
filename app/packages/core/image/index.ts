@@ -4,6 +4,7 @@ export { default as FilterFn } from "./filter"
 export { default as DeleteFn } from "./delete"
 export { default as FindFn } from "./find"
 export { default as CreateFn } from "./create"
+export { default as UpdateFn } from "./update"
 
 export const ImageTag = {
   Source: "Source",
@@ -19,18 +20,18 @@ export type Image = {
   fileId?: string,
   createdAt: Date,
 }
-export const Image = (args?:{
+export const Image = (props?:{
   id?:string,
   name?: string,
   workspaceId?:string,
   fileId?: string,
   createdAt?: Date,
 }):Image => {
-  const id = args?.id ?? uuid()
-  const name = args?.name ?? ""
-  const workspaceId = args?.workspaceId
-  const createdAt = args?.createdAt || new Date()
-  const fileId = args?.fileId
+  const id = props?.id ?? uuid()
+  const name = props?.name ?? ""
+  const workspaceId = props?.workspaceId
+  const createdAt = props?.createdAt ?? new Date()
+  const fileId = props?.fileId
   return {
     id,
     name,
