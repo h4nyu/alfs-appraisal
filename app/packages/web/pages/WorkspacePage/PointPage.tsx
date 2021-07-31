@@ -17,10 +17,22 @@ const Content = observer(() => {
     <div
       className="box"
     >
-      <div className="level">
-        <div className="level-item">
-          <div>
-            <p className="heading">Tag</p>
+      <div className="field is-horizontal">
+        <div className="field-label">
+          <label className="label">ID</label>
+        </div>
+        <div className="field-body">
+          <div className="field">
+            {featureForm.box?.id}
+          </div>
+        </div>
+      </div>
+      <div className="field is-horizontal">
+        <div className="field-label is-normal">
+          <label className="label">Tag</label>
+        </div>
+        <div className="field-body">
+          <div className="field">
             <TagSelector 
               value={featureForm.tagId}
               tags={workspaceForm.tags}
@@ -28,10 +40,14 @@ const Content = observer(() => {
             />
           </div>
         </div>
-        <div className="level-item">
-          <div>
-            <p className="heading">Count</p>
-            <p className="title"> { pointEditor.points?.length ?? 0 } </p>
+      </div>
+      <div className="field is-horizontal">
+        <div className="field-label">
+          <label className="label">Count</label>
+        </div>
+        <div className="field-body">
+          <div className="field">
+            { pointEditor.points?.length ?? 0 } 
           </div>
         </div>
       </div>

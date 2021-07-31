@@ -42,16 +42,6 @@ const Content = observer(() => {
       <div className="level">
         <div className="level-item">
           <div>
-            <p className="heading">Tag</p>
-            <TagSelector 
-              value={store.editor.tagId}
-              tags={store.workspaceForm.tags}
-              onChange={x => store.editor.setTagId(x?.id)}
-            />
-          </div>
-        </div>
-        <div className="level-item">
-          <div>
             <p className="heading">Count</p>
             <p className="title"> { editor.boxes.length } </p>
           </div>

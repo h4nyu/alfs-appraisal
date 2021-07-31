@@ -1,5 +1,5 @@
-import { v4 as uuid } from 'uuid';
 import ErrorKind from "@sivic/core/error"
+import { nanoid } from 'nanoid'
 export { default as FilterFn } from "./filter"
 export { default as CreateFn } from "./create"
 export { default as UpdateFn } from "./update"
@@ -29,7 +29,7 @@ export const Box = (args?:{
   tagId?:string,
   fileId?: string,
 }):Box => {
-  const id = args?.id ?? uuid()
+  const id = args?.id ?? nanoid(10)
   const x0 = args?.x0 ?? 0
   const y0 = args?.y0 ?? 0
   const x1 = args?.x1 ?? 0

@@ -96,22 +96,21 @@ export const SvgCharPlot = (props: {
       />
 
       {boxes?.map(b => {
-        const tag = props.tags?.find(x => x.id === b.tagId)
         return (
           <g key={b.id}>
             {
-              tag && <text 
+              <text 
                 x={b.x0 * scale }
                 y={b.y0 * scale }
                 fill={selectedId === b.id ? "green" : "red"}
                 fontSize={ 20 / scale }
               >
-                {tag.name}
+                {b.id} 
               </text>
             }
             <rect
-              x={b.x0 * scale }
-              y={b.y0 * scale }
+              x={ b.x0 * scale }
+              y={ b.y0 * scale }
               width={(b.x1 - b.x0) * scale }
               height={(b.y1 - b.y0) * scale }
               fill="none"

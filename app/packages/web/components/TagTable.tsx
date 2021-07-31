@@ -143,21 +143,41 @@ export const TagTable = (props: {
                           key={box.id}
                           className="is-clickable p-1"
                           style={{
-                            display: 'flex',
-                            flexDirection: 'row',
+                            display: 'grid',
+                            gridTemplateColumns: "auto auto",
+                            gridTemplateRows: "auto auto",
                           }}
                           onClick={() => props.onBoxClick?.(box)}
                         >
+                          <a
+                            style={{
+                              gridRow: "1",
+                              gridColumn: "1 / span 2",
+                            }}
+                            className="is-size-7"
+                          >
+                            {box.id}
+                          </a>
                           <img 
                             style={{
                               height: 50,
+                              gridRow: "2",
+                              gridColumn: "1",
                             }}
                             src={`data:image;base64,${file.data}`}
                           /> 
-                          <div>
-                            {
-                              points && <span className="tag is-rounded is-danger is-small is-light">{points.length}</span>
-                            }
+                          <div
+                            style={{
+                              height: 50,
+                              gridRow: "2",
+                              gridColumn: "2",
+                            }}
+                          >
+                            <div>
+                              {
+                                points && <span className="tag is-rounded is-danger is-small is-light">{points.length}</span>
+                              }
+                            </div>
                           </div>
                         </div>
                     )

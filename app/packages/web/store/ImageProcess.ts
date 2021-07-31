@@ -25,7 +25,6 @@ export type ImageFrom = {
   image?: Image;
   file?: File;
   lineWidth: number;
-  tagId?:string;
   init: (imageId:string) => Promise<void|Error>;
   setName: (value:string) => void;
   updateImage: () => void;
@@ -101,7 +100,11 @@ export const ImageFrom = (props: {
     const imageId = image.id
     const err = await props.api?.image.delete({id:imageId})
     if(err instanceof Error) { return err }
-    props.imageStore?.delete({parentId: self.image?.id || ""})
+    self.image = undefined
+    self.file = undefined
+    props.imageStore?.delete({ids: [image?.id ?? ""]})
+    props.boxStore?.delete({imageId: image?.id ?? ""})
+    props.fileStore?.delete({id: image.id})
     toast.info("delete")
     image.workspaceId && onDelete?.(image.workspaceId)
   }

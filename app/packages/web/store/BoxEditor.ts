@@ -19,13 +19,11 @@ export enum InputMode {
 export type Editor = {
   boxes: Box[];
   draggingId: string | undefined;
-  tagId?: string;
   pos: {x:number, y:number},
   size: number;
   mode: InputMode;
   toggleDrag: (id: string, mode: InputMode) => void;
   setMode: (mode: InputMode) => void;
-  setTagId: (tagId?: string) => void;
   add: () => void;
   move: (pos: { x: number; y: number }) => void;
   del: () => void;
@@ -73,7 +71,6 @@ export const Editor = (root: {
       self.boxes = uniqBy([
         Box({
           ...box,
-          tagId: self.tagId,
         }),
         ...self.boxes,
       ], x => x.id)
@@ -148,7 +145,6 @@ export const Editor = (root: {
       self.draggingId = undefined;
       return;
     }
-    const newId = uuid();
     if (
       [
         InputMode.Box,
@@ -158,19 +154,16 @@ export const Editor = (root: {
         InputMode.BR,
       ].includes(mode)
     ) {
-      self.boxes = [...self.boxes, 
-        Box({
-          id: newId,
-          x0: pos.x,
-          y0: pos.y,
-          x1: pos.x,
-          y1: pos.y,
-          tagId: self.tagId,
-        })
-      ]
+      const newBox = Box({
+        x0: pos.x,
+        y0: pos.y,
+        x1: pos.x,
+        y1: pos.y,
+      })
+      self.boxes = [...self.boxes, newBox]
       setMode(InputMode.BR);
+      self.draggingId = newBox.id;
     }
-    self.draggingId = newId;
   };
 
   const del = () => {
@@ -182,10 +175,6 @@ export const Editor = (root: {
   const changeSize = (value: number) => {
     self.size = value;
   };
-
-  const setTagId = (value?: string) => {
-    self.tagId = value;
-  }
 
 
   const self = observable<Editor>({
@@ -202,9 +191,7 @@ export const Editor = (root: {
     del,
     init,
     clear,
-    setTagId,
   })
-
   return self
 };
 export default Editor
