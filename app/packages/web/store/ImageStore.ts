@@ -21,7 +21,7 @@ export const ImageStore = (args: {
   const fetch:FilterFn = async (payload) => {
     const images = await api.image.filter(payload)
     if(images instanceof Error) { return images}
-    self.images = images
+    self.images = uniqBy([...images, ...self.images], x => x.id)
     return images
   }
 

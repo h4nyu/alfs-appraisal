@@ -26,7 +26,9 @@ export default {
   )]
 };
 
-store.imageProcess.image = Image()
+store.imageProcess.image = Image({
+  name: "image name"
+})
 store.imageProcess.file = File({
   data: annot.imageData,
 })

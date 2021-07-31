@@ -5,6 +5,7 @@ import Image, {
   DeleteFn,
   FindFn,
   CreateFn,
+  UpdateFn,
 } from "@sivic/core/image";
 
 export const Api = (arg: {

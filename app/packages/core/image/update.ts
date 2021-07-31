@@ -23,7 +23,6 @@ export const Fn = (props: {
     })
     const updateErr = await props.store.image.update(newImage)
     if(updateErr instanceof Error) { return updateErr }
-
     return newImage
   }
 }

@@ -27,6 +27,8 @@ export type ImageFrom = {
   lineWidth: number;
   tagId?:string;
   init: (imageId:string) => Promise<void|Error>;
+  setName: (value:string) => void;
+  updateImage: () => void;
   save: () => void;
   delete:() => void;
   detectBoxes: () => void;
@@ -104,13 +106,34 @@ export const ImageFrom = (props: {
     image.workspaceId && onDelete?.(image.workspaceId)
   }
 
+  const setName = (value: string) => {
+    if(self.image){
+      self.image = Image({
+        ...self.image,
+        name: value,
+      })
+    }
+  }
+  const updateImage = async () => {
+    if(!self.image){ return }
+    const image = await props.api.image.update(self.image)
+    if(image instanceof Error) {
+      props.toast?.error(image)
+      return
+    }
+    self.image = image
+    props.imageStore?.fetch({ids: [image.id]})
+  }
+
   const self = observable<ImageFrom>({
     image: undefined,
     lineWidth: 10,
     init,
     detectBoxes,
     save,
-    delete: delete_
+    delete: delete_,
+    setName,
+    updateImage,
   })
   return self
 };

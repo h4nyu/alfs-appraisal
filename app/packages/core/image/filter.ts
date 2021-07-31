@@ -3,17 +3,16 @@ import ErrorKind from "@sivic/core/error"
 import { File } from "@sivic/core/file"
 import { Image } from "."
 
-export type Payload = {
+export type Fn = (payload:{
   workspaceId?: string;
   parentId?: string
   ids?: string[]
-};
-export type FilterFn = (payload:Payload) => Promise<Image[] | Error>
-export const FilterFn = (props: {
+}) => Promise<Image[] | Error>
+export const Fn = (props: {
   store: Store,
-}): FilterFn => {
-  return async (payload: Payload) => {
+}): Fn => {
+  return async (payload) => {
     return await props.store.image.filter(payload)
   }
 }
-export default FilterFn
+export default Fn

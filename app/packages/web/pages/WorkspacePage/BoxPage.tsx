@@ -17,6 +17,27 @@ const Content = observer(() => {
     <div
       className="box"
     >
+      <div className="field is-horizontal">
+        <div className="field-label is-normal">
+          <label className="label">File Name</label>
+        </div>
+        <div className="field-body">
+          <div className="field has-addons">
+            <input 
+              className="input" 
+              type="text"
+              value={imageProcess.image?.name ?? ""}
+              onChange={e => imageProcess.setName(e.target.value)}
+            />
+            <div className="control">
+              <SaveBtn 
+                onClick={imageProcess.updateImage}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <div className="level">
         <div className="level-item">

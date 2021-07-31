@@ -28,15 +28,15 @@ export const Routes = (props: {
       const res = await update(req.body);
       reply.send(res);
     });
-    app.post<{ Body: Parameters<typeof delete_>[0] }>("/delete", {}, async (req, reply) => {
+    app.post<{ Body: Parameters<DeleteFn>[0] }>("/delete", {}, async (req, reply) => {
       const res = await delete_(req.body);
       reply.send(res);
     });
-    app.post<{ Body: Parameters<typeof find>[0] }>("/find", {}, async (req, reply) => {
+    app.post<{ Body: Parameters<FindFn>[0] }>("/find", {}, async (req, reply) => {
       const res = await find(req.body);
       reply.send(res);
     });
-    app.post<{ Body: Parameters<typeof filter>[0] }>("/filter", {}, async (req, reply) => {
+    app.post<{ Body: Parameters<FilterFn>[0] }>("/filter", {}, async (req, reply) => {
       const res = await filter(req.body);
       reply.send(res);
     });
