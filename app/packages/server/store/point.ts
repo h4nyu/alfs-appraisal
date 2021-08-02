@@ -7,6 +7,7 @@ const COLUMNS = [
   "id", 
   "x",
   "y",
+  "serial_no",
   "box_id", 
 ] as const
 
@@ -19,7 +20,8 @@ export const Store = (
       id: r.id,
       x: r.x,
       y: r.y,
-      boxId: r.box_id || undefined,
+      serialNo: r.serial_no ?? undefined,
+      boxId: r.box_id ?? undefined,
     });
   };
 
@@ -28,7 +30,8 @@ export const Store = (
       id: r.id,
       x: r.x,
       y: r.y,
-      box_id: r.boxId || null,
+      serial_no: r.serialNo ?? null,
+      box_id: r.boxId ?? null,
     };
   };
   const filter = async (payload: {
