@@ -7,6 +7,7 @@ export type Point = {
   x: number;
   y: number;
   boxId?: string;
+  serialNo?: number;
   equals: (other:Point) => boolean;
 };
 
@@ -14,12 +15,14 @@ export const Point = (props?: {
   id?: string;
   x?: number;
   y?: number,
+  serialNo?: number,
   boxId?: string,
 }): Point => {
   const id = props?.id ?? uuid()
   const boxId = props?.boxId
   const x = props?.x ?? 0
   const y = props?.y ?? 0
+  const serialNo = props?.serialNo
   const equals = (other: Point): boolean => {
     return (
       self.x === other.x && self.y === other.y
@@ -30,6 +33,7 @@ export const Point = (props?: {
     x,
     y,
     boxId,
+    serialNo,
     equals,
   }
   return self
