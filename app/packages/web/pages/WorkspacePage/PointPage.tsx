@@ -10,6 +10,7 @@ import ResetBtn from "@sivic/web/components/ResetBtn"
 import SaveBtn from "@sivic/web/components/SaveBtn"
 import TagSelector from "@sivic/web/components/TagSelector"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
+import PointTable from "@sivic/web/components/PointTable"
 
 const Content = observer(() => {
   const { featureForm, pointEditor, workspaceForm } = store;
@@ -51,28 +52,34 @@ const Content = observer(() => {
           </div>
         </div>
       </div>
-      <div
-        tabIndex={0}
-        onKeyDown={e => {
-          if (e.keyCode === 8) {
-            pointEditor.del()
-          }
-        }}
+      <div 
         style={{
-          display: "grid",
-          justifyContent: "center",
+          display: "flex",
+          flexDirection: "row",
         }}
       >
-        <SvgCharPlot 
-          data={featureForm.file?.data}
+        <div
+          tabIndex={0}
+          onKeyDown={e => {
+            if (e.keyCode === 8) {
+              pointEditor.del()
+            }
+          }}
+        >
+          <SvgCharPlot 
+            data={featureForm.file?.data}
+            points={pointEditor.points}
+            lines={store.featureForm.refLines}
+            selectedId={pointEditor.draggingId}
+            onPointSelect={pointEditor.toggleDrag}
+            onAdd={pointEditor.add}
+            onMove={pointEditor.move}
+            size={pointEditor.size}
+            width={256}
+          />
+        </div>
+        <PointTable 
           points={pointEditor.points}
-          lines={store.featureForm.refLines}
-          selectedId={pointEditor.draggingId}
-          onPointSelect={pointEditor.toggleDrag}
-          onAdd={pointEditor.add}
-          onMove={pointEditor.move}
-          size={pointEditor.size}
-          width={512}
         />
       </div>
       <div className="level">

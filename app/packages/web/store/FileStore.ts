@@ -1,5 +1,4 @@
 import { observable, computed } from "mobx";
-import { Map, List } from "immutable";
 import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
@@ -8,9 +7,10 @@ import { saveAs } from 'file-saver';
 import { MemoryRouter } from "react-router";
 import { parseISO } from "date-fns";
 import { Level } from "@sivic/web/store"
+import { uniqBy } from "lodash"
 
 export type FileStore = {
-  files: Map<string, File>;
+  files: File[];
   fetch: FindFn
   delete: (payload: { id: string }) => void
 };
@@ -22,7 +22,7 @@ export const FileStore = (args: {
   const fetch:FindFn = async (payload) => {
     const file = await api.file.find(payload)
     if(file instanceof Error) { return file }
-    self.files = self.files.set(file.id, file)
+    self.files = uniqBy([file, ...self.files], x => x.id)
     return file
   }
   const delete_ = (payload:{
@@ -31,8 +31,8 @@ export const FileStore = (args: {
     const { id } = payload
     self.files = self.files.filter(x => x.id !== id)
   }
-  const self = observable({
-    files: Map<string, File>(),
+  const self = observable<FileStore>({
+    files: [],
     fetch,
     delete: delete_
   })

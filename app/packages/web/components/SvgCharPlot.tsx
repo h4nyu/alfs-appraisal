@@ -175,12 +175,22 @@ export const SvgCharPlot = (props: {
       }
       {points?.map((p) => (
         <g key={p.id}>
+          {
+            <text 
+              x={p.x * scale }
+              y={p.y * scale }
+              fill={selectedId === p.id ? "green" : "red"}
+              fontSize={ 20 / scale }
+            >
+              {p.serialNo} 
+            </text>
+          }
           <circle
             style={{cursor: "crosshair"}}
             cx={p.x * scale}
             cy={p.y * scale}
             r={pointSize}
-            fill={selectedId === p.id ? "green" : "red"}
+            fill={p.color}
             stroke="none"
             onClick={(e) => {
               e.stopPropagation();

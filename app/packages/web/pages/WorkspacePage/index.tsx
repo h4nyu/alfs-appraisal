@@ -77,7 +77,7 @@ const Content = observer(() => {
             }}
             images={workspaceForm.images}
             tags={workspaceForm.tags}
-            files={fileStore.files.toList().toArray()}
+            files={fileStore.files}
             boxes={store.boxStore.boxes}
             points={store.pointStore.points}
             onImageClick={image => {

@@ -1,6 +1,15 @@
 import { v4 as uuid } from 'uuid';
 export { default as FilterFn } from "./filter"
 export { default as LoadFn } from "./load"
+import colormap from 'colormap'
+
+
+const colors = colormap({
+    colormap: 'jet',
+    nshades: 50,
+    format: 'hex',
+    alpha: 1
+})
 
 export type Point = {
   id: string;
@@ -8,6 +17,7 @@ export type Point = {
   y: number;
   boxId?: string;
   serialNo?: number;
+  color?: string;
   posEquals: (other:Point) => boolean;
 };
 
@@ -31,6 +41,11 @@ export const Point = (props?: {
       self.x === other.x && self.y === other.y
     )
   }
+  const getColor = () => {
+    if(self.serialNo === undefined) { return }
+    const idx  = self.serialNo % colors.length 
+    return colors[idx]
+  }
   const self = {
     id,
     x,
@@ -38,6 +53,7 @@ export const Point = (props?: {
     boxId,
     serialNo,
     equals,
+    get color() { return getColor() },
     posEquals,
   }
   return self

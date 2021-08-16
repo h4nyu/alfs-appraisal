@@ -88,15 +88,16 @@ export const Form = (props: {
   const getRefLines = () => {
     let points = props.pointEditor?.points ?? []
     const firstLine = getRefLine(points)
-    if(!firstLine) { return }
-    points = points.filter(p => {
-      return (
-        !firstLine.start.equals(p) && !firstLine.end.equals(p)
-      )
-    })
-    const secondLine = getRefLine(points)
-    if(!secondLine) { return [firstLine] }
-    return [firstLine, secondLine]
+    return []
+    // if(!firstLine) { return }
+    // points = points.filter(p => {
+    //   return (
+    //     !firstLine.start.posEquals(p) && !firstLine.end.posEquals(p)
+    //   )
+    // })
+    // const secondLine = getRefLine(points)
+    // if(!secondLine) { return [firstLine] }
+    // return [firstLine, secondLine]
   }
   const delete_ = async (boxId?: string) => {
     const id = boxId ?? self.box?.id
