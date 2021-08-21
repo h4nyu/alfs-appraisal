@@ -6,6 +6,9 @@ export { default as UpdateFn } from "./update"
 export { default as LoadFn } from "./load"
 export { default as DeleteFn } from "./delete"
 
+
+// tag <- box
+
 export type Box = {
   id: string;
   x0: number;
@@ -15,6 +18,7 @@ export type Box = {
   tagId? :string,
   imageId?: string,
   fileId?: string,
+  isReference?: boolean,
   validate: () => void | Error;
   equals:(other: Box) => boolean
   posEquals:(other: Box) => boolean
@@ -28,6 +32,7 @@ export const Box = (args?:{
   imageId?: string,
   tagId?:string,
   fileId?: string,
+  isReference?: boolean,
 }):Box => {
   const id = args?.id ?? nanoid(10)
   const x0 = args?.x0 ?? 0
@@ -37,6 +42,7 @@ export const Box = (args?:{
   const imageId = args?.imageId
   const tagId = args?.tagId
   const fileId = args?.fileId
+  const isReference = args?.isReference
   const validate = () => {
     if (self.x0 >= self.x1 || self.y0 >= self.y1) {
       return new Error(ErrorKind.ZeroSizeBox);
@@ -66,6 +72,7 @@ export const Box = (args?:{
     validate,
     equals,
     posEquals,
+    isReference,
   }
   return self
 }

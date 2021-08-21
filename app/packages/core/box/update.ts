@@ -24,6 +24,7 @@ export const Fn = (props: {
     if(payload.box.equals(oldBox)){
       return payload.box
     }
+
     if(!payload.box.posEquals(oldBox)){
       const deleteErr = await delete_(payload.box)
       if(deleteErr instanceof Error) { return deleteErr }

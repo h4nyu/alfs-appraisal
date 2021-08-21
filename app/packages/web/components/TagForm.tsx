@@ -7,7 +7,7 @@ export const TagForm = (props: {
   name?: string
   workspaceId?: string
   onNameChange?: (value:string) => void
-  onSave?:() => void
+  onSave?:() => Promise<void>
   onCancel?: () => void
   onDelete?: () => void
 }) => {
@@ -35,7 +35,7 @@ export const TagForm = (props: {
           <div>
             {
               props.onSave && 
-                <SaveBtn onClick={e => props.onSave?.()} />
+                <SaveBtn onClick={props.onSave} />
             }
           </div>
           <div/>

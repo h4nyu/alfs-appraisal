@@ -14,6 +14,7 @@ const COLUMNS = [
   "image_id", 
   "tag_id", 
   "file_id", 
+  "is_reference",
 ] as const
 
 export const Store = (
@@ -29,6 +30,7 @@ export const Store = (
       imageId: r.image_id ?? undefined,
       tagId: r.tag_id ?? undefined,
       fileId: r.file_id ?? undefined,
+      isReference: r.is_reference ?? undefined,
     });
   };
 
@@ -42,6 +44,7 @@ export const Store = (
       tag_id: r.tagId ?? null,
       image_id: r.imageId ?? null,
       file_id: r.fileId ?? null,
+      is_reference: r.isReference ?? null,
     };
   };
 

@@ -12,7 +12,9 @@ const Content = observer((props: {
     <TagFormView 
       name={props.tagForm.name}
       onNameChange={props.tagForm.setName}
-      onSave={props.tagForm.save}
+      onSave={async () => {
+        await props.tagForm.save()
+      }}
       onDelete={props.tagForm.delete}
     />
   );

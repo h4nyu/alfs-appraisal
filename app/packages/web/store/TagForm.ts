@@ -23,8 +23,8 @@ export type Form = {
   name: string,
   workspaceId?: string,
   init: (props?:{id?:string, workspaceId?: string}) => Promise<void|Error>
-  save: () => Promise<void|Error>
-  delete?: () => Promise<void | Error>;
+  save: () => Promise<void | Error>
+  delete?: () => Promise<void>;
   setName: (value:string) => void;
   setWorkspaceId: (value?: string) => void;
 };

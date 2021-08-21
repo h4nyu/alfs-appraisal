@@ -21,7 +21,8 @@ CREATE TABLE boxes (
     y1 double precision NOT NULL,
     file_id text,
     image_id text,
-    tag_id text
+    tag_id text,
+    is_reference boolean
 );
 
 CREATE TABLE points ( 

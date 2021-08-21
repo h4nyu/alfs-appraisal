@@ -179,7 +179,7 @@ export const SvgCharPlot = (props: {
             <text 
               x={p.x * scale }
               y={p.y * scale }
-              fill={selectedId === p.id ? "green" : "red"}
+              fill={p.color}
               fontSize={ 20 / scale }
             >
               {p.serialNo} 

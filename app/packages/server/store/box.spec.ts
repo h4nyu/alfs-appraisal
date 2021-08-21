@@ -13,7 +13,15 @@ afterAll(async () => {
 describe("box", () => {
   const boxStore = rootStore.box;
   const imageId = uuid()
-  const box = Box({x0: 30, y0: 30, x1: 80, y1: 80, imageId, tagId:"t0"})
+  const box = Box({
+    x0: 30, 
+    y0: 30, 
+    x1: 80, 
+    y1: 80, 
+    imageId, 
+    tagId:"t0",
+    isReference: true,
+  })
   const valErr = box.validate() 
   test("create and delete", async () => {
     let err = await boxStore.create(box)

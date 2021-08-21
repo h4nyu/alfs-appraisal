@@ -27,9 +27,9 @@ export type ImageFrom = {
   lineWidth: number;
   init: (imageId:string) => Promise<void|Error>;
   setName: (value:string) => void;
-  updateImage: () => void;
-  save: () => void;
-  delete:() => void;
+  updateImage: () => Promise<void>;
+  save: () => Promise<void>;
+  delete:() => Promise<void>;
   detectBoxes: () => void;
 };
 

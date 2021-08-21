@@ -17,12 +17,15 @@ import Tag from "@sivic/core/tag"
 export type Form = {
   box?:Box;
   file?: File,
+  referenceBox?: Box;
+  referenceBoxFile?:File,
   tagId?: string;
+  setReferenceBox: (box:Box) => void
   refLines?: Line[],
   setTagId:(value?:string) => void;
   init: (box:Box) => void
   delete: (boxId?: string) => void;
-  save: () => void;
+  save: () => Promise<void>;
 };
 
 export const Form = (props: {
@@ -45,6 +48,9 @@ export const Form = (props: {
     const points = await props.pointStore?.fetch({boxId: box.id})
     if(points instanceof Error) { return points }
     props.pointEditor?.init(points)
+  }
+  const setReferenceBox = (box: Box) => {
+    self.referenceBox = box
   }
 
   const getFile = () => {
@@ -118,6 +124,7 @@ export const Form = (props: {
     get refLines() { return getRefLines() },
     init,
     setTagId,
+    setReferenceBox,
     delete: delete_,
     save,
   })

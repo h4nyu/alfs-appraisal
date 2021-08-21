@@ -1,10 +1,16 @@
 import React from "react";
+import LoadingButton from "./LoadingButton"
 
-const SaveBtn = (props) => {
+const SaveBtn = (props:{
+  onClick?:() => Promise<void>
+}) => {
   return (
-    <a className="button is-link" {...props}>
+    <LoadingButton
+      className="is-info"
+      onClick={props.onClick}
+    >
       Save
-    </a>
+    </LoadingButton>
   );
 };
 export default SaveBtn;

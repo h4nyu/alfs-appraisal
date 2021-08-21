@@ -1,3 +1,4 @@
+
 export function b64toBlob(base64: string): Blob | Error {
   const bin = atob(base64.replace(/^.*,/, ""));
   const buffer = new Uint8Array(bin.length);
