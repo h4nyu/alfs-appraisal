@@ -6,7 +6,7 @@ const SaveBtn = (props:{
 }) => {
   return (
     <LoadingButton
-      className="is-info"
+      className="is-info is-light"
       onClick={props.onClick}
     >
       Save
