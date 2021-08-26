@@ -12,6 +12,7 @@ export type Workspace = {
   imageIds: string[]
   createdAt: Date
   validate: () => void|Error
+  equals: (other:Workspace) => boolean
 }
 
 export const Workspace = (args?: {
@@ -29,12 +30,17 @@ export const Workspace = (args?: {
       return new Error(ErrorKind.InvalidWorkspaceNameFormat)
     }
   }
-  return {
+  const equals = (other:Workspace) => {
+    return JSON.stringify(self) === JSON.stringify(other)
+  }
+  const self = {
     id,
     name,
     imageIds,
     createdAt,
     validate,
+    equals,
   }
+  return self
 }
 export default Workspace

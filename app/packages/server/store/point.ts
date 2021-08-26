@@ -7,7 +7,7 @@ const COLUMNS = [
   "id", 
   "x",
   "y",
-  "serial_no",
+  "position_id",
   "box_id", 
 ] as const
 
@@ -20,7 +20,7 @@ export const Store = (
       id: r.id,
       x: r.x,
       y: r.y,
-      serialNo: r.serial_no ?? undefined,
+      positionId: r.position_id ?? undefined,
       boxId: r.box_id ?? undefined,
     });
   };
@@ -30,7 +30,7 @@ export const Store = (
       id: r.id,
       x: r.x,
       y: r.y,
-      serial_no: r.serialNo ?? null,
+      position_id: r.positionId ?? null,
       box_id: r.boxId ?? null,
     };
   };

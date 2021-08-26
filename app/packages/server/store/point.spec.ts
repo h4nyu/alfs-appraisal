@@ -13,7 +13,7 @@ afterAll(async () => {
 describe("point", () => {
   const pointStore = rootStore.point;
   const boxId = uuid()
-  const point = Point({x: 30,  y: 80, boxId, serialNo: 0})
+  const point = Point({x: 30,  y: 80, boxId, positionId: "aaa"})
   test("create and delete", async () => {
     let createErr = await pointStore.create(point)
     if(createErr instanceof Error) { throw createErr }

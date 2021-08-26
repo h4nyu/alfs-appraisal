@@ -25,10 +25,10 @@ describe("workspace", () => {
     if (res instanceof Error) {
       throw res;
     }
-    row = {
+    row = Workspace({
       ...row,
       name: "update"
-    }
+    })
     const update = await store.update(row);
     if (update instanceof Error) {
       throw update;
@@ -37,14 +37,16 @@ describe("workspace", () => {
     if (res instanceof Error) {
       throw res;
     }
-    expect(res).toEqual(row);
+    expect(res?.equals(row)).toBe(true);
   });
   test("filter", async () => {
     const rows = await store.filter({});
     if (rows instanceof Error) {
       throw rows;
     }
-    expect(rows).toMatchObject([row]);
+    expect(rows.length).toBe(1);
+    expect(rows[0].equals(row)).toBe(true);
+
   });
   test("delete", async () => {
     const err = await store.delete({ id: row.id });

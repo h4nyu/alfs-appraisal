@@ -29,7 +29,7 @@ CREATE TABLE points (
     id text NOT NULL,
     x double precision NOT NULL,
     y double precision NOT NULL,
-    serial_no smallint, 
+    position_id text, 
     box_id text
 );
 

@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 export { default as FilterFn } from "./filter"
 export { default as LoadFn } from "./load"
+import { nanoid } from 'nanoid'
 import colormap from 'colormap'
 
 
@@ -16,8 +17,7 @@ export type Point = {
   x: number;
   y: number;
   boxId?: string;
-  serialNo?: number;
-  color?: string;
+  positionId?: string;
   posEquals: (other:Point) => boolean;
 };
 
@@ -25,14 +25,14 @@ export const Point = (props?: {
   id?: string;
   x?: number;
   y?: number,
-  serialNo?: number,
+  positionId?: string,
   boxId?: string,
 }): Point => {
   const id = props?.id ?? uuid()
   const boxId = props?.boxId
   const x = props?.x ?? 0
   const y = props?.y ?? 0
-  const serialNo = props?.serialNo
+  const positionId = props?.positionId ?? nanoid(5)
   const equals = (other: Point): boolean => {
     return JSON.stringify(self) === JSON.stringify(other)
   }
@@ -41,19 +41,13 @@ export const Point = (props?: {
       self.x === other.x && self.y === other.y
     )
   }
-  const getColor = () => {
-    if(self.serialNo === undefined) { return }
-    const idx  = self.serialNo % colors.length 
-    return colors[idx]
-  }
   const self = {
     id,
     x,
     y,
     boxId,
-    serialNo,
+    positionId,
     equals,
-    get color() { return getColor() },
     posEquals,
   }
   return self
