@@ -1,8 +1,5 @@
 import { observable } from "mobx";
 import { Map, List } from "immutable";
-import { RootApi } from "@sivic/api";
-import { LoadingStore } from "./loading";
-import { ToastStore } from "./toast";
 import Point from "@sivic/core/point";
 import { File } from "@sivic/core/file"
 import { Box } from "@sivic/core/box";
@@ -33,20 +30,12 @@ export type Editor = {
 };
 
 export const Editor = (props: {
-  api: RootApi;
-  pointStore: PointStore;
-  loading: <T>(fn: () => Promise<T>) => Promise<T>;
-  toast: ToastStore;
   onInit?: (id: string) => void;
   onDelete?: (id: string) => void;
 }): Editor => {
   const {
-    api,
-    loading,
-    toast,
     onInit,
     onDelete,
-    pointStore,
   } = props;
 
   const init = async (points) => {

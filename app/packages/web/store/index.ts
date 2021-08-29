@@ -82,10 +82,6 @@ export const RootStore = (): RootStore => {
   })
 
   const pointEditor = PointEditor({ 
-    api, 
-    loading, 
-    toast,
-    pointStore,
     onInit: (id) => {
       history.push(`/point`)
     },
