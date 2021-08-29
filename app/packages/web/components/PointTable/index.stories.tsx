@@ -10,10 +10,10 @@ export default {
 
 const points = [
   Point({
-    serialNo: 1,
+    positionId: "aaa",
   }),
   Point({
-    serialNo: 10,
+    positionId: "bbb",
   })
 ];
 export const Primary = (args) => <Component {...args} points={points} />;

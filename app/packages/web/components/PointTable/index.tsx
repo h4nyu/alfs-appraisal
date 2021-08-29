@@ -33,14 +33,13 @@ export const PointTable = (props: {
                     height: "1em",
                     width: "1em",
                     borderRadius: "50%",
-                    backgroundColor: p.color,
                   }}
                 />
                 <input 
-                  className="input" type="number" value={p.serialNo}
+                  className="input" type="number" value={p.positionId}
                   onChange={e => e.target.value ?? props.onChange?.(Point({
                     ...p,
-                    serialNo: e.target.value
+                    positionId: e.target.value
                   }))
                   }
                 /> 

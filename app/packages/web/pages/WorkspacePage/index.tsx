@@ -36,6 +36,11 @@ const Content = observer(() => {
       Component: BoxPage,
     },
     {
+      path: "/workspace/reference",
+      name: "Reference",
+      Component: PointPage,
+    },
+    {
       path: "/workspace/point",
       name: "Point",
       Component: PointPage,

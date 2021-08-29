@@ -94,7 +94,6 @@ export const SvgCharPlot = (props: {
         width={width}
         height={width * aspect}
       />
-
       {boxes?.map(b => {
         return (
           <g key={b.id}>
@@ -179,10 +178,9 @@ export const SvgCharPlot = (props: {
             <text 
               x={p.x * scale }
               y={p.y * scale }
-              fill={p.color}
               fontSize={ 20 / scale }
             >
-              {p.serialNo} 
+              {p.positionId} 
             </text>
           }
           <circle
@@ -190,7 +188,6 @@ export const SvgCharPlot = (props: {
             cx={p.x * scale}
             cy={p.y * scale}
             r={pointSize}
-            fill={p.color}
             stroke="none"
             onClick={(e) => {
               e.stopPropagation();
