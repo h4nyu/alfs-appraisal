@@ -7,6 +7,7 @@ const COLUMNS = [
   "id", 
   "name",
   "workspace_id", 
+  "reference_box_id",
 ] as const
 
 export const Store = (
@@ -17,6 +18,7 @@ export const Store = (
       id: r.id,
       name: r.name,
       workspaceId: r.workspace_id ?? undefined,
+      referenceBoxId: r.reference_box_id ?? undefined,
     });
   };
 
@@ -25,6 +27,7 @@ export const Store = (
       id: r.id,
       name: r.name,
       workspace_id: r.workspaceId ?? null,
+      reference_box_id: r.referenceBoxId ?? null,
     };
   };
 

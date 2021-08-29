@@ -36,7 +36,8 @@ CREATE TABLE points (
 CREATE TABLE tags ( 
     id text NOT NULL PRIMARY KEY,
     name text NOT NULL,
-    workspace_id text
+    workspace_id text,
+    reference_box_id text
 );
 
 CREATE TABLE files ( 

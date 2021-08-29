@@ -16,6 +16,7 @@ describe("tag", () => {
     return Tag({
       name: `name-${i}`,
       workspaceId,
+      referenceBoxId: "aa",
     })
   })
   beforeAll(async () => {

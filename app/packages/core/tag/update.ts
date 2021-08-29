@@ -9,6 +9,7 @@ export type Fn = (payload: {
   id: string;
   name: string;
   workspaceId?: string;
+  referenceBoxId?: string;
 }) => Promise<Tag | Error>
 export const Fn = (props: {
   store: Store;
