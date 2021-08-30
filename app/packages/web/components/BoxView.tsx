@@ -15,6 +15,7 @@ export const BoxView = (props: {
   files?: File[],
   points?: Point[],
   tags?: Tag[],
+  isSelected?: boolean,
   onClick?: () => void
   className?: string,
 }) => {
