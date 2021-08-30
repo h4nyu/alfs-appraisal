@@ -11,6 +11,7 @@ import SaveBtn from "@sivic/web/components/SaveBtn"
 import TagSelector from "@sivic/web/components/TagSelector"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import PointTable from "@sivic/web/components/PointTable"
+import CheckBox from "@sivic/web/components/CheckBox"
 
 const Content = observer(() => {
   const { featureForm, pointEditor, workspaceForm } = store;

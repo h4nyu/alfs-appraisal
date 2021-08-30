@@ -1,5 +1,8 @@
 import React from "react";
 import BoxView from "./BoxView";
+import Box from "@sivic/core/box";
+import Point from "@sivic/core/point";
+import Tag from "@sivic/core/tag";
 import { action } from "@storybook/addon-actions";
 import { boolean } from "@storybook/addon-knobs";
 import { Image } from "@sivic/core/image";
@@ -28,6 +31,25 @@ const images = range(10).map(x => {
   return image
 })
 
+const box = Box({
+  fileId: "f0",
+}) 
+
+const points = [
+  Point({
+    boxId: box.id,
+  }) 
+]
+
+const tags = [
+  Tag({
+    id: "t0",
+  }),
+  Tag({
+    id: "t1",
+    referenceBoxId: box.id,
+  })
+]
 export default {
   title: "BoxView",
   component: BoxView
@@ -36,10 +58,38 @@ export default {
 export const Basic = (args) => (
   <BoxView 
     {...args} 
+    box={box}
     workspace={workspace} 
     image={image} 
     boxImages={images}
     files={files}
+    points={points}
+    tags={tags}
   />
 )
 
+
+export const ReferenceBox = (args) => (
+  <BoxView 
+    {...args} 
+    box={Box({...box, tagId:"t1"})}
+    workspace={workspace} 
+    image={image} 
+    boxImages={images}
+    files={files}
+    points={points}
+    tags={tags}
+  />
+)
+
+export const FileNotFound = (args) => (
+  <BoxView 
+    {...args} 
+    box={Box({...box, tagId:"t1"})}
+    workspace={workspace} 
+    image={image} 
+    boxImages={images}
+    points={points}
+    tags={tags}
+  />
+)

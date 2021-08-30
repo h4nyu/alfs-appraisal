@@ -22,6 +22,7 @@ export type Form = {
   id: string,
   name: string,
   workspaceId?: string,
+  referenceBoxId?:string
   init: (props?:{id?:string, workspaceId?: string}) => Promise<void|Error>
   save: () => Promise<void | Error>
   delete?: () => Promise<void>;
@@ -41,12 +42,14 @@ export const Form = (props: {
     self.id = state?.id ?? ""
     self.name = ""
     self.workspaceId = state?.workspaceId
+    self.referenceBoxId = undefined
     if(self.id !== "") {
       const tag = await props.api.tag.find({id: self.id})
       if(tag instanceof Error) { return tag }
       self.id = tag.id
       self.name = tag.name
       self.workspaceId = tag.workspaceId
+      self.referenceBoxId = tag.referenceBoxId
     }
     props.onInit?.()
   }

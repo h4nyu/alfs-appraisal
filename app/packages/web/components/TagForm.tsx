@@ -2,11 +2,15 @@ import React from "react"
 import SaveBtn from "@sivic/web/components/SaveBtn"
 import CancelBtn from "@sivic/web/components/CancelBtn"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
+import Box from "@sivic/core/box"
+import File from "@sivic/core/file"
 
 export const TagForm = (props: {
-  name?: string
-  workspaceId?: string
-  onNameChange?: (value:string) => void
+  name?: string,
+  workspaceId?: string,
+  onNameChange?: (value:string) => void,
+  boxes?: Box[],
+  files?: File[],
   onSave?:() => Promise<void>
   onCancel?: () => void
   onDelete?: () => void

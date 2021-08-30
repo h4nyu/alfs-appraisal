@@ -15,11 +15,12 @@ export default {
 const tags = [
   Tag({
     id: "t0",
-    name: "あ"
+    name: "あ",
+    referenceBoxId: "b1",
   }),
   Tag({
     id: "t1",
-    name: "い"
+    name: "い",
   }),
 ]
 
