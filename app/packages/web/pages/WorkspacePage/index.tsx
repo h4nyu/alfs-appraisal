@@ -48,7 +48,7 @@ const Content = observer(() => {
     {
       path: "/workspace/tag",
       name: "Tag",
-      Component: () => <TagFormPage {...store} />,
+      Component: TagFormPage,
       onClick: () => { tagForm.init({workspaceId: workspaceForm.id})}
     },
   ]

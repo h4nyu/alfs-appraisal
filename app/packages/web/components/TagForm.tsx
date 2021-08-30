@@ -3,9 +3,11 @@ import SaveBtn from "@sivic/web/components/SaveBtn"
 import CancelBtn from "@sivic/web/components/CancelBtn"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import Box from "@sivic/core/box"
+import BoxView from "@sivic/web/components/BoxView"
 import File from "@sivic/core/file"
 
 export const TagForm = (props: {
+  id?: string,
   name?: string,
   workspaceId?: string,
   onNameChange?: (value:string) => void,
@@ -15,6 +17,7 @@ export const TagForm = (props: {
   onCancel?: () => void
   onDelete?: () => void
 }) => {
+  const boxes = props.boxes?.filter(x => x.tagId === props.id)
   return (
     <div className="box"> 
       <div className="field">
@@ -27,6 +30,26 @@ export const TagForm = (props: {
             value={props.name}
             onChange={e => props.onNameChange?.(e.target.value)}
           />
+        </div>
+      </div>
+      <div className="field">
+        <label className="label">Reference</label>
+        <div className="control"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+          }}
+        >
+          {
+            boxes?.map(x => {
+              return ( 
+                <BoxView 
+                  box={x} 
+                  files={props.files}
+                />
+               )
+            })
+          }
         </div>
       </div>
       <div className="field">

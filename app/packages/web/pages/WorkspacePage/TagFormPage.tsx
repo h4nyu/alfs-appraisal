@@ -2,20 +2,20 @@ import React from "react"
 import { observer } from "mobx-react-lite";
 import TagFormView from '@sivic/web/components/TagForm'
 import TagForm from '@sivic/web/store/TagForm'
-import { History } from '@sivic/web/store'
+import store from "@sivic/web/store"
 
-const Content = observer((props: {
-  tagForm: TagForm,
-  history: History,
-}) => {
+const Content = observer(() => {
   return (
     <TagFormView 
-      name={props.tagForm.name}
-      onNameChange={props.tagForm.setName}
+      id={store.tagForm.id}
+      name={store.tagForm.name}
+      onNameChange={store.tagForm.setName}
+      boxes={store.boxStore.boxes}
+      files={store.fileStore.files}
       onSave={async () => {
-        await props.tagForm.save()
+        await store.tagForm.save()
       }}
-      onDelete={props.tagForm.delete}
+      onDelete={store.tagForm.delete}
     />
   );
 });

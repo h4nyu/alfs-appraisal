@@ -30,7 +30,8 @@ export const TagTable = (props: {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `auto repeat(${props.images?.length ?? 0}, auto)`,
+        gridTemplateColumns: `auto repeat(${props.images?.length ?? 0}, 1fr)`,
+        overflow: "auto"
       }}
     >
       <div
@@ -115,7 +116,6 @@ export const TagTable = (props: {
             const boxes = props.boxes?.filter(b => b.tagId === tag?.id && b.imageId === p.id)
             return (
               <div
-                className="card"
                 key={`${rowIdx}-${colIdx}`}
                 style={{
                   display: 'flex',

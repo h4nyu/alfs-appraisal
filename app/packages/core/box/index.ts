@@ -34,7 +34,7 @@ export const Box = (args?:{
   fileId?: string,
   isReference?: boolean,
 }):Box => {
-  const id = args?.id ?? nanoid(10)
+  const id = args?.id ?? nanoid(9)
   const x0 = args?.x0 ?? 0
   const y0 = args?.y0 ?? 0
   const x1 = args?.x1 ?? 0

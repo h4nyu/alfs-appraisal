@@ -16,13 +16,15 @@ export const BoxView = (props: {
   points?: Point[],
   tags?: Tag[],
   onClick?: () => void
+  className?: string,
 }) => {
+  const className = props.className ?? "card p-1"
   const file = props.files?.find(x => x.id === props.box?.fileId);
   const points = props.points?.filter(p => p.boxId === props.box.id)
   const tag = props.tags?.find(x => x.id === props.box.tagId)
   return (
     <div
-      className="card p-1"
+      className={className}
       style={{
         cursor: props.onClick && "pointer"
       }}
@@ -38,9 +40,9 @@ export const BoxView = (props: {
       >
         <div
           style={{
-            display: "flex"
-            height: 50,
-            width: 50,
+            display: "flex",
+            height: 70,
+            width: 70,
             alignItems: "center",
             justifyContent: "center"
           }}
@@ -48,7 +50,8 @@ export const BoxView = (props: {
           {
             file && <img 
               style={{
-                maxHeight: 50,
+                maxHeight: 70,
+                maxWidth: 70,
               }}
               src={`data:image;base64,${file.data}`}
             /> 
