@@ -38,15 +38,17 @@ export const BoxView = (props: {
       >
         <div
           style={{
-            maxHeight: 50,
-            minWidth: 50,
+            display: "flex"
+            height: 50,
+            width: 50,
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
           {
             file && <img 
               style={{
                 maxHeight: 50,
-                minWidth: 50,
               }}
               src={`data:image;base64,${file.data}`}
             /> 
