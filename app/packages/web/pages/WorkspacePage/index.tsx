@@ -42,6 +42,12 @@ const Content = observer(() => {
       Component: AssignTagFormPage,
     },
     {
+      path: "/workspace/tag",
+      name: "Tag",
+      Component: TagFormPage,
+      onClick: () => { tagForm.init({workspaceId: workspaceForm.id})}
+    },
+    {
       path: "/workspace/reference",
       name: "Reference",
       Component: ReferencePage,
@@ -50,12 +56,6 @@ const Content = observer(() => {
       path: "/workspace/point",
       name: "Point",
       Component: PointPage,
-    },
-    {
-      path: "/workspace/tag",
-      name: "Tag",
-      Component: TagFormPage,
-      onClick: () => { tagForm.init({workspaceId: workspaceForm.id})}
     },
   ]
   return (

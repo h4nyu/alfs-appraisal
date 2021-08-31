@@ -10,9 +10,11 @@ export const TagForm = (props: {
   id?: string,
   name?: string,
   workspaceId?: string,
+  referenceBoxId?:string,
   onNameChange?: (value:string) => void,
   boxes?: Box[],
   files?: File[],
+  onBoxClick?: (box:Box) => void,
   onSave?:() => Promise<void>
   onCancel?: () => void
   onDelete?: () => void
@@ -46,6 +48,8 @@ export const TagForm = (props: {
                 <BoxView 
                   box={x} 
                   files={props.files}
+                  isSelected={x.id === props.referenceBoxId}
+                  onClick={props.onBoxClick && (() => props.onBoxClick?.(x))}
                 />
                )
             })

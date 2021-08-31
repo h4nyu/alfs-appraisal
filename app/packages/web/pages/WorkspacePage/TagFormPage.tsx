@@ -9,9 +9,11 @@ const Content = observer(() => {
     <TagFormView 
       id={store.tagForm.id}
       name={store.tagForm.name}
+      referenceBoxId={store.tagForm.referenceBoxId}
       onNameChange={store.tagForm.setName}
       boxes={store.boxStore.boxes}
       files={store.fileStore.files}
+      onBoxClick={b => store.tagForm.setReferenceBoxId(b.id)}
       onSave={async () => {
         await store.tagForm.save()
       }}

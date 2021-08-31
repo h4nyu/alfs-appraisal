@@ -5,6 +5,7 @@ import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
 import Workspace from "@sivic/core/workspace";
 import Image from "@sivic/core/image";
+import Box from "@sivic/core/box"
 import { saveAs } from 'file-saver';
 import { MemoryRouter } from "react-router";
 import { take, flow, sortBy, map } from "lodash/fp";
@@ -22,12 +23,14 @@ export type Form = {
   id: string,
   name: string,
   workspaceId?: string,
-  referenceBoxId?:string
+  referenceBoxId?:string,
+  boxes?:Box[],
   init: (props?:{id?:string, workspaceId?: string}) => Promise<void|Error>
   save: () => Promise<void | Error>
   delete?: () => Promise<void>;
   setName: (value:string) => void;
   setWorkspaceId: (value?: string) => void;
+  setReferenceBoxId: (value?: string) => void;
 };
 
 export const Form = (props: {
@@ -53,6 +56,9 @@ export const Form = (props: {
     }
     props.onInit?.()
   }
+  const setReferenceBoxId = (value?:string) => {
+    self.referenceBoxId = value
+  }
   const setName = (value:string) => {
     self.name = value
   }
@@ -65,12 +71,14 @@ export const Form = (props: {
         return await props.api.tag.create({
           name: self.name,
           workspaceId: self.workspaceId,
+          referenceBoxId: self.referenceBoxId,
         })
       }else{
         return await props.api.tag.update({
           id: self.id,
           name: self.name,
-          workspaceId: self.workspaceId
+          workspaceId: self.workspaceId,
+          referenceBoxId: self.referenceBoxId,
         })
       }
     })()
@@ -98,14 +106,19 @@ export const Form = (props: {
       props.onDelete?.(self.id)
     }
   } 
+  const getBoxes = () => {
+    return self.id && props.boxStore?.boxes.filter(x => x.tagId === self.id)
+  }
   const self = observable<Form>({
     id:"", 
     name:"",
     workspaceId: undefined,
     setName,
     setWorkspaceId,
+    setReferenceBoxId,
     init,
     get delete() { return getDelete() },
+    get boxes() { return getBoxes() },
     save,
   })
   return self
