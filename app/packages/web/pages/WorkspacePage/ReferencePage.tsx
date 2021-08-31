@@ -52,6 +52,7 @@ const Content = observer(() => {
         style={{
           display: "flex",
           flexDirection: "row",
+          justifyContent: "center"
         }}
       >
         <div

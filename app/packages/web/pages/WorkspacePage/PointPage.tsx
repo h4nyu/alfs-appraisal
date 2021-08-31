@@ -30,16 +30,12 @@ const Content = observer(() => {
         </div>
       </div>
       <div className="field is-horizontal">
-        <div className="field-label is-normal">
+        <div className="field-label">
           <label className="label">Tag</label>
         </div>
         <div className="field-body">
           <div className="field">
-            <TagSelector 
-              value={featureForm.tagId}
-              tags={workspaceForm.tags}
-              onChange={t => featureForm.setTagId(t?.id)}
-            />
+            { workspaceForm.tags?.find(x => x.id == featureForm.tagId)?.name ?? "None"}
           </div>
         </div>
       </div>
@@ -57,41 +53,38 @@ const Content = observer(() => {
         style={{
           display: "flex",
           flexDirection: "row",
+          justifyContent: "space-Around"
         }}
       >
-        <div
-          tabIndex={0}
-          onKeyDown={e => {
-            if (e.keyCode === 8) {
-              pointEditor.del()
-            }
-          }}
-        >
-          <SvgCharPlot 
-            data={featureForm.file?.data}
-            points={pointEditor.points}
-            lines={store.featureForm.refLines}
-            selectedId={pointEditor.draggingId}
-            onPointSelect={pointEditor.toggleDrag}
-            onAdd={pointEditor.add}
-            onMove={pointEditor.move}
-            size={pointEditor.size}
-            width={256}
-          />
-        </div>
-        <PointTable 
+        <SvgCharPlot 
+          data={featureForm.file?.data}
           points={pointEditor.points}
+          lines={store.featureForm.refLines}
+          selectedId={pointEditor.draggingId}
+          size={pointEditor.size}
+          width={256}
+        />
+        <SvgCharPlot 
+          data={featureForm.file?.data}
+          points={pointEditor.points}
+          lines={store.featureForm.refLines}
+          selectedId={pointEditor.draggingId}
+          onPointSelect={pointEditor.toggleDrag}
+          onAdd={pointEditor.add}
+          onMove={pointEditor.move}
+          size={pointEditor.size}
+          width={256}
         />
       </div>
       <div className="level">
         <div className="level-left">
-          <SaveBtn 
-            onClick={store.featureForm.save}
+          <DeleteBtn 
+            onClick={() => store.featureForm.delete()}
           />
         </div>
         <div className="level-right">
-          <DeleteBtn 
-            onClick={() => store.featureForm.delete()}
+          <SaveBtn 
+            onClick={store.featureForm.save}
           />
         </div>
       </div>
