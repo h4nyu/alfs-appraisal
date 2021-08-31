@@ -11,6 +11,7 @@ import BoxView from "@sivic/web/components/BoxView"
 import TagTable from "@sivic/web/components/TagTable"
 import TagSelector from "@sivic/web/components/TagSelector"
 import { Router, Switch, Route, NavLink, Link, useLocation } from "react-router-dom";
+import ReferencePage from "./ReferencePage"
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
@@ -38,7 +39,7 @@ const Content = observer(() => {
     {
       path: "/workspace/reference",
       name: "Reference",
-      Component: PointPage,
+      Component: ReferencePage,
     },
     {
       path: "/workspace/point",
