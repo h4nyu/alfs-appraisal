@@ -29,6 +29,7 @@ export const AssignTagForm = (props: {
     self.tagId = value
   }
   const assign = async (box:Box) => {
+    if(box.tagId === self.tagId) { return }
     const updateErr = await props.api.box.update({
       box: Box({
         ...box,
