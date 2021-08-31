@@ -19,6 +19,7 @@ import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
 import TagForm from "@sivic/web/store/TagForm"
 import FeatureForm from "@sivic/web/store/FeatureForm"
+import AssignTagForm from "@sivic/web/store/AssignTagForm"
 
 
 configure({
@@ -59,6 +60,7 @@ export type RootStore = {
   tagStore: TagStore;
   tagForm: TagForm;
   featureForm: FeatureForm;
+  assignTagForm: AssignTagForm;
   init: () => Promise<void>;
 };
 export const RootStore = (): RootStore => {
@@ -116,6 +118,11 @@ export const RootStore = (): RootStore => {
       workspaceForm.init(workspaceId)
     }
   })
+  const assignTagForm = AssignTagForm({
+    api,
+    toast,
+    boxStore,
+  })
   const workspaceForm = WorkspaceForm({
     api,
     loading,
@@ -167,6 +174,7 @@ export const RootStore = (): RootStore => {
     tagStore,
     tagForm,
     featureForm,
+    assignTagForm,
   };
 };
 

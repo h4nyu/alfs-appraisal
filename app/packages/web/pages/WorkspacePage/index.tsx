@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { observer } from "mobx-react-lite";
+import React, { useState } from "react"; import { observer } from "mobx-react-lite";
 import { Map } from "immutable";
 import FileUpload from "@sivic/web/components/FileUpload";
 import store from "@sivic/web/store";
@@ -15,6 +14,7 @@ import ReferencePage from "./ReferencePage"
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
+import AssignTagFormPage from "./AssignTagFormPage"
 
 const Content = observer(() => {
   const location = useLocation();
@@ -35,6 +35,11 @@ const Content = observer(() => {
       path: "/workspace/box",
       name: "Box",
       Component: BoxPage,
+    },
+    {
+      path: "/workspace/assign-tag",
+      name: "Assign Tag",
+      Component: AssignTagFormPage,
     },
     {
       path: "/workspace/reference",

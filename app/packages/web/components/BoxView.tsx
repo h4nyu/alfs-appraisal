@@ -27,7 +27,8 @@ export const BoxView = (props: {
     <div
       className={className}
       style={{
-        cursor: props.onClick && "pointer"
+        cursor: props.onClick && "pointer",
+        border: props.isSelected ? "solid" : undefined,
       }}
       onClick={props.onClick && (() => props.onClick?.())}
     >

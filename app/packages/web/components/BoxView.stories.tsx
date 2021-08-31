@@ -10,7 +10,6 @@ import { File } from "@sivic/core/file";
 import { Workspace } from "@sivic/core/workspace";
 import { range } from "lodash";
 
-// @ts-ignore
 import { data as imageData } from "@sivic/web/data/image.json" 
 
 const workspace = Workspace({

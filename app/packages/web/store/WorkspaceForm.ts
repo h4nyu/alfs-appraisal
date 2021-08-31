@@ -14,6 +14,7 @@ import { ImageForm } from "@sivic/web/store/ImageForm"
 import { ImageStore } from "@sivic/web/store/ImageStore"
 import { BoxStore } from "@sivic/web/store/BoxStore"
 import { Tag } from "@sivic/core/tag"
+import Box from "@sivic/core/box"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
 import PointStore from "@sivic/web/store/PointStore"
@@ -24,6 +25,7 @@ export type WorkspaceFrom = {
   imageForm: ImageForm,
   tags?: Tag[],
   images?: Image[],
+  boxes?: Box[],
   init: (id?:string) => void;
   setName: (value:string) => void;
   save: () => Promise<void>;
@@ -131,6 +133,11 @@ export const WorkspaceFrom = (props: {
     return imageStore.images.filter(x => x.workspaceId === self.id)
   }
 
+  const getBoxes = () => {
+    const imageIds = self.images.map(x => x.id)
+    return props.boxStore.boxes.filter(b => imageIds.includes(b.imageId))
+  }
+
   const self = observable<WorkspaceFrom>({
     id:"", 
     name:"",
@@ -140,6 +147,7 @@ export const WorkspaceFrom = (props: {
     save,
     get tags() { return getTags() },
     get images() { return getImages() },
+    get boxes() { return getBoxes() },
     delete: _delete
   })
   return self

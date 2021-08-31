@@ -6,7 +6,7 @@ import {
   Image,
 } from "@sivic/core/image";
 import { saveAs } from 'file-saver';
-import { uniqBy } from "lodash";
+import { uniqBy, sortBy } from "lodash";
 
 export type BoxStore = {
   boxes: Box[];
@@ -20,7 +20,7 @@ export const BoxStore = (props: {
   const fetch = async (payload) => {
     const boxes = await props.api.box.filter(payload)
     if(boxes instanceof Error) { return boxes }
-    self.boxes = uniqBy([...boxes, ...self.boxes], x => x.id);
+    self.boxes = sortBy(uniqBy([...boxes, ...self.boxes], x => x.id), x => x.id);
     return boxes
   }
 
