@@ -1,10 +1,10 @@
 import { observable } from "mobx";
 import { Map, List } from "immutable";
-import Point from "@sivic/core/point";
+import { Point, colors } from "@sivic/core/point";
 import { File } from "@sivic/core/file"
 import { Box } from "@sivic/core/box";
 import { v4 as uuid } from "uuid";
-import { keyBy, zip, uniqBy } from "lodash";
+import { keyBy, zip, uniqBy, sortBy } from "lodash";
 import Line from "@sivic/core/line"
 import { ImageStore } from "@sivic/web/store/ImageStore"
 import PointStore from "@sivic/web/store/PointStore"
@@ -69,15 +69,12 @@ export const Editor = (props: {
       return;
     }
     if (mode === InputMode.Edit) {
-      const point = points.find(p => p.id === draggingId);
-      if (point === undefined) {
-        return;
-      }
-      const newPoint = Point({...point, x: pos.x, y: pos.y})
-      self.points = uniqBy([
-        newPoint,
-        ...self.points,
-      ], x => x.id)
+      self.points = self.points.map(p => {
+        if(p.id === draggingId){
+          return Point({...p, x: pos.x, y: pos.y})
+        }
+        return p
+      });
     } 
   };
 
@@ -98,7 +95,7 @@ export const Editor = (props: {
         x: pos.x,
         y: pos.y,
       })
-      self.points = [...self.points, newPoint]
+      self.points.push(newPoint);
       self.draggingId = newPoint.id;
       setMode(InputMode.Edit);
     }
@@ -114,8 +111,9 @@ export const Editor = (props: {
     self.size = value;
   };
 
+
   const self = observable<Editor>({
-    points: [],
+    points: observable([]),
     draggingId: undefined,
     size: 10,
     pos: { x: 0, y:0 },

@@ -5,9 +5,9 @@ import { nanoid } from 'nanoid'
 import colormap from 'colormap'
 
 
-const colors = colormap({
-    colormap: 'jet',
-    nshades: 50,
+export const colors = colormap({
+    colormap: 'hsv',
+    nshades: 20,
     format: 'hex',
     alpha: 1
 })
