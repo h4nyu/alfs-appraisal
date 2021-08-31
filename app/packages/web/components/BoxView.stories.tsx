@@ -33,6 +33,7 @@ const images = range(10).map(x => {
 
 const box = Box({
   fileId: "f0",
+  tagId: "b0",
 }) 
 
 const points = [
@@ -44,9 +45,11 @@ const points = [
 const tags = [
   Tag({
     id: "t0",
+    name: "A",
   }),
   Tag({
     id: "t1",
+    name: "B",
     referenceBoxId: box.id,
   })
 ]

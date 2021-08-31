@@ -61,13 +61,18 @@ export const BoxView = (props: {
         <div>
           <div>
             {
-              points && <span className="tag is-rounded is-danger is-small is-light">{points.length}</span>
+              points && <span className="tag is-rounded is-small is-light">{points.length}</span>
             }
           </div>
           <div>
             {
-              tag?.referenceBoxId === props.box.id && <span className="tag is-rounded is-info is-small is-light"> ref </span>
+              tag && <span className="tag is-rounded is-small is-light"> {tag.name} </span>
             }
+          </div>
+          <div>
+          {
+            tag?.referenceBoxId === props.box.id && <span className="tag is-rounded is-info is-small is-light"> ref </span>
+          }
           </div>
         </div>
       </div>
