@@ -57,27 +57,17 @@ export const TagForm = (props: {
         </div>
       </div>
       <div className="field">
-        <div 
-          style={{
-            display: "grid",
-            gridTemplateColumns: "auto 1fr auto"
-          }}
-        >
-          <div>
-            {
-              props.onSave && 
-                <SaveBtn onClick={props.onSave} />
-            }
-          </div>
-          <div/>
-          <div className="buttons">
+        <div className="level">
+          <div className="level-left">
             {
               props.onDelete && 
                 <DeleteBtn onClick={e => props.onDelete?.()} />
             }
+          </div>
+          <div className="level-right">
             {
-              props.onCancel && 
-                <CancelBtn onClick={e => props.onCancel?.()} />
+              props.onSave && 
+                <SaveBtn onClick={props.onSave} />
             }
           </div>
         </div>
