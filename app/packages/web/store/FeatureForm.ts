@@ -13,16 +13,14 @@ import Toast from "@sivic/web/store/toast"
 import { getRefLine } from "@sivic/core/utils"
 import Tag from "@sivic/core/tag"
 
-
 export type Form = {
   box?:Box;
+  tag?:Tag;
   file?: File,
   referenceBox?: Box;
-  referenceBoxFile?:File,
-  tagId?: string;
-  setReferenceBox: (box:Box) => void
+  referenceFile?:File,
+  referencePoints?: Point[],
   refLines?: Line[],
-  setTagId:(value?:string) => void;
   init: (box:Box) => void
   delete: (boxId?: string) => void;
   save: () => Promise<void>;
@@ -41,16 +39,32 @@ export const Form = (props: {
     self.box = undefined;
     self.tagId = undefined;
   }
+
   const init = async (box:Box) => {
     self.box = box
     box.fileId && await props.fileStore?.fetch({id: box.fileId})
-    self.tagId = box.tagId
     const points = await props.pointStore?.fetch({boxId: box.id})
     if(points instanceof Error) { return points }
     props.pointEditor?.init(points)
+    if(self.referenceBox === undefined) { return }
+    self.referenceBox?.id && props.pointStore?.fetch({boxId: self.referenceBox.id})
+    self.referenceBox?.fileId && await props.fileStore?.fetch({id: self.referenceBox.fileId})
   }
-  const setReferenceBox = (box: Box) => {
-    self.referenceBox = box
+
+  const getTag = () => {
+    return props.tagStore?.tags.find(x => x.id === self.box?.tagId)
+  }
+
+  const getRefernceBox = () => {
+    return props.boxStore?.boxes.find(x => x.id === self.tag?.referenceBoxId && x.tagId === self.tag.id)
+  }
+
+  const getRefernceFile = () => {
+    return props.fileStore?.files.find(x => x.id === self.referenceBox?.fileId)
+  }
+
+  const getReferncePoints = () => {
+    return props.pointStore?.points.filter(x => x.boxId === self.referenceBox?.id)
   }
 
   const getFile = () => {
@@ -75,22 +89,7 @@ export const Form = (props: {
     props.boxStore?.delete({imageId: box.imageId})
     props.boxStore?.fetch({imageId: box.imageId})
   }
-  const setTagId = async (value?:string) => {
-    self.tagId = value
-    const { box } = self
-    if(box === undefined) { return }
-    const updateErr = await props.api.box.update({
-      box: Box({
-        ...box,
-        tagId: self.tagId,
-      })
-    })
-    if(updateErr instanceof Error) { 
-      props.toast?.error(updateErr) 
-      return 
-    }
-    props.boxStore?.fetch({ imageId: box.imageId})
-  }
+
   const getRefLines = () => {
     let points = props.pointEditor?.points ?? []
     const firstLine = getRefLine(points)
@@ -105,6 +104,7 @@ export const Form = (props: {
     // if(!secondLine) { return [firstLine] }
     // return [firstLine, secondLine]
   }
+
   const delete_ = async (boxId?: string) => {
     const id = boxId ?? self.box?.id
     if(id === undefined) { return }
@@ -121,14 +121,16 @@ export const Form = (props: {
 
   const self = observable<Form>({
     get file() { return getFile() },
+    get tag() { return getTag() },
+    get referenceBox() { return getRefernceBox() },
+    get referenceFile() { return getRefernceFile() },
+    get referencePoints() { return getReferncePoints() },
     get refLines() { return getRefLines() },
     init,
-    setTagId,
-    setReferenceBox,
     delete: delete_,
     save,
   })
   return self
 };
-export default Form
 
+export default Form

@@ -35,7 +35,7 @@ const Content = observer(() => {
         </div>
         <div className="field-body">
           <div className="field">
-            { workspaceForm.tags?.find(x => x.id == featureForm.tagId)?.name ?? "None"}
+            { featureForm.tag?.name ?? "None"}
           </div>
         </div>
       </div>
@@ -57,10 +57,8 @@ const Content = observer(() => {
         }}
       >
         <SvgCharPlot 
-          data={featureForm.file?.data}
-          points={pointEditor.points}
-          lines={store.featureForm.refLines}
-          selectedId={pointEditor.draggingId}
+          data={featureForm.referenceFile?.data}
+          points={featureForm.referencePoints}
           size={pointEditor.size}
           width={256}
         />

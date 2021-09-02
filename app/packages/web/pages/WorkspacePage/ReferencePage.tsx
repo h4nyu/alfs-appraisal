@@ -34,7 +34,7 @@ const Content = observer(() => {
         </div>
         <div className="field-body">
           <div className="field">
-            { workspaceForm.tags?.find(x => x.id == featureForm.tagId)?.name ?? "None"}
+            { featureForm.tag?.name ?? "None"}
           </div>
         </div>
       </div>

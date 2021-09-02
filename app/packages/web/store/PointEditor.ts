@@ -8,6 +8,7 @@ import { keyBy, zip, uniqBy, sortBy } from "lodash";
 import Line from "@sivic/core/line"
 import { ImageStore } from "@sivic/web/store/ImageStore"
 import PointStore from "@sivic/web/store/PointStore"
+
 export enum InputMode {
   Add = "Add",
   Edit = "Edit",
@@ -41,6 +42,7 @@ export const Editor = (props: {
   const init = async (points) => {
     self.points = points ?? []
   };
+
   const getPoints = () => {
   }
 
