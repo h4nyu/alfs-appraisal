@@ -80,30 +80,37 @@ const Content = observer(() => {
       </div>
       {
         workspaceForm.id && <>
-          <TagTable  
-            onAddImage={store.imageForm.uploadFiles}
-            onAddTag={() => {
-              store.tagForm.init({workspaceId: workspaceForm.id})
-              store.history.push("/workspace/tag")
+          <div
+            style={{
+              maxHeight: 300,
+              overflow: "auto"
             }}
-            images={workspaceForm.images}
-            tags={workspaceForm.tags}
-            files={fileStore.files}
-            boxes={store.boxStore.boxes}
-            points={store.pointStore.points}
-            onImageClick={image => {
-              store.imageProcess.init(image.id)
-              store.history.push("/workspace/box")
-            }}
-            onTagClick={tag => {
-              store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
-              store.history.push("/workspace/tag")
-            }}
-            onBoxClick={box => {
-              store.featureForm.init(box)
-              store.history.push("/workspace/point")
-            }}
-          />
+          >
+            <TagTable  
+              onAddImage={store.imageForm.uploadFiles}
+              onAddTag={() => {
+                store.tagForm.init({workspaceId: workspaceForm.id})
+                store.history.push("/workspace/tag")
+              }}
+              images={workspaceForm.images}
+              tags={workspaceForm.tags}
+              files={fileStore.files}
+              boxes={store.boxStore.boxes}
+              points={store.pointStore.points}
+              onImageClick={image => {
+                store.imageProcess.init(image.id)
+                store.history.push("/workspace/box")
+              }}
+              onTagClick={tag => {
+                store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
+                store.history.push("/workspace/tag")
+              }}
+              onBoxClick={box => {
+                store.featureForm.init(box)
+                store.history.push("/workspace/point")
+              }}
+            />
+          </div>
           <div className="tabs is-boxed m-0">
             <ul>
               {

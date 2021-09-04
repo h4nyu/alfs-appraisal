@@ -56,12 +56,15 @@ const Content = observer(() => {
           justifyContent: "space-Around"
         }}
       >
-        <SvgCharPlot 
-          data={featureForm.referenceFile?.data}
-          points={featureForm.referencePoints}
-          size={pointEditor.size}
-          width={256}
-        />
+        {
+          featureForm.referenceBox?.id !== featureForm.box?.id &&
+          <SvgCharPlot 
+            data={featureForm.referenceFile?.data}
+            points={featureForm.referencePoints}
+            size={pointEditor.size}
+            width={256}
+          />
+        }
         <SvgCharPlot 
           data={featureForm.file?.data}
           points={pointEditor.points}
