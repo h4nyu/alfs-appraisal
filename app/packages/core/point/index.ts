@@ -52,4 +52,19 @@ export const Point = (props?: {
   }
   return self
 };
+
+export type ResizeFn = (a:Point) => Point
+export const ResizeFn = (props:{
+  source: {height: number, width: number},
+  target: {height: number, width: number},
+}):ResizeFn => {
+  return (point) => {
+    const {x, y} = point
+    return Point({
+      ...point,
+      x: props.target.width * x / props.source.width,
+      y: props.target.height * y / props.source.height,
+    })
+  }
+}
 export default Point;

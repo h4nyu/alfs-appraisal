@@ -57,25 +57,42 @@ const Content = observer(() => {
         }}
       >
         {
-          featureForm.referenceBox?.id !== featureForm.box?.id &&
-          <SvgCharPlot 
-            data={featureForm.referenceFile?.data}
-            points={featureForm.referencePoints}
-            size={pointEditor.size}
-            width={256}
-          />
+          featureForm.isReference ? <>
+            <div className="card">
+              <SvgCharPlot 
+                data={featureForm.file?.data}
+                points={pointEditor.points}
+                lines={store.featureForm.refLines}
+                selectedId={pointEditor.draggingId}
+                onPointSelect={pointEditor.toggleDrag}
+                onAdd={pointEditor.add}
+                onMove={pointEditor.move}
+                size={pointEditor.size}
+                width={256}
+              />
+            </div>
+          </> : <>
+            <div className="card">
+              <SvgCharPlot 
+                data={featureForm.referenceFile?.data}
+                points={featureForm.referencePoints}
+                size={pointEditor.size}
+                width={256}
+              />
+            </div>
+            <div className="card">
+              <SvgCharPlot 
+                data={featureForm.file?.data}
+                points={pointEditor.points}
+                selectedId={pointEditor.draggingId}
+                onPointSelect={pointEditor.toggleDrag}
+                onMove={pointEditor.move}
+                size={pointEditor.size}
+                width={256}
+              />
+            </div>
+          </>
         }
-        <SvgCharPlot 
-          data={featureForm.file?.data}
-          points={pointEditor.points}
-          lines={store.featureForm.refLines}
-          selectedId={pointEditor.draggingId}
-          onPointSelect={pointEditor.toggleDrag}
-          onAdd={pointEditor.add}
-          onMove={pointEditor.move}
-          size={pointEditor.size}
-          width={256}
-        />
       </div>
       <div className="level">
         <div className="level-left">
