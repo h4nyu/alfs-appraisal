@@ -12,6 +12,7 @@ import TagSelector from "@sivic/web/components/TagSelector"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import PointTable from "@sivic/web/components/PointTable"
 import CheckBox from "@sivic/web/components/CheckBox"
+import ReferenceTag from "@sivic/web/components/ReferenceTag"
 
 const Content = observer(() => {
   const { featureForm, pointEditor, workspaceForm } = store;
@@ -25,7 +26,10 @@ const Content = observer(() => {
         </div>
         <div className="field-body">
           <div className="field">
-            {featureForm.box?.id}
+            <span>
+              {featureForm.box?.id}
+            </span>
+            {featureForm.isReference && <ReferenceTag />}
           </div>
         </div>
       </div>

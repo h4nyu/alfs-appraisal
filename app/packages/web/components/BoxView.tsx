@@ -9,6 +9,7 @@ import DateView from "@sivic/web/components/DateView";
 import ImageView from "@sivic/web/components/ImageView";
 import DeleteBtn from "@sivic/web/components/DeleteBtn";
 import ImageTags from "@sivic/web/components/ImageTags";
+import ReferenceTag from "@sivic/web/components/ReferenceTag";
 
 export const BoxView = (props: {
   box: Box,
@@ -72,7 +73,7 @@ export const BoxView = (props: {
           </div>
           <div>
           {
-            tag?.referenceBoxId === props.box.id && <span className="tag is-rounded is-info is-small is-light"> ref </span>
+            tag?.referenceBoxId === props.box.id && <ReferenceTag/> 
           }
           </div>
         </div>
