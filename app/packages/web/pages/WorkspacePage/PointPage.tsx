@@ -58,7 +58,14 @@ const Content = observer(() => {
       >
         {
           featureForm.isReference ? <>
-            <div className="card">
+            <div className="card"
+              tabIndex={0}
+              onKeyDown={e => {
+                if (e.keyCode === 8) {
+                  pointEditor.del()
+                }
+              }}
+            >
               <SvgCharPlot 
                 data={featureForm.file?.data}
                 points={pointEditor.points}
@@ -94,13 +101,21 @@ const Content = observer(() => {
           </>
         }
       </div>
-      <div className="level">
-        <div className="level-left">
+      <div 
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div className="buttons">
           <DeleteBtn 
             onClick={() => store.featureForm.delete()}
           />
         </div>
-        <div className="level-right">
+        <div className="buttons">
+          {
+            !featureForm.isReference && <ResetBtn onClick={() => store.featureForm.resetPoints()} />
+          }
           <SaveBtn 
             onClick={store.featureForm.save}
           />

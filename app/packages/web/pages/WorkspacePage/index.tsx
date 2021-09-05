@@ -10,7 +10,6 @@ import BoxView from "@sivic/web/components/BoxView"
 import TagTable from "@sivic/web/components/TagTable"
 import TagSelector from "@sivic/web/components/TagSelector"
 import { Router, Switch, Route, NavLink, Link, useLocation } from "react-router-dom";
-import ReferencePage from "./ReferencePage"
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
@@ -46,11 +45,6 @@ const Content = observer(() => {
       name: "Tag",
       Component: TagFormPage,
       onClick: () => { tagForm.init({workspaceId: workspaceForm.id})}
-    },
-    {
-      path: "/workspace/reference",
-      name: "Reference",
-      Component: ReferencePage,
     },
     {
       path: "/workspace/point",
@@ -106,6 +100,7 @@ const Content = observer(() => {
                 store.history.push("/workspace/tag")
               }}
               onBoxClick={box => {
+                if(box.tagId === undefined) { return }
                 store.featureForm.init(box)
                 store.history.push("/workspace/point")
               }}

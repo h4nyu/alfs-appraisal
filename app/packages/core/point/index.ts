@@ -2,15 +2,7 @@ import { v4 as uuid } from 'uuid';
 export { default as FilterFn } from "./filter"
 export { default as LoadFn } from "./load"
 import { nanoid } from 'nanoid'
-import colormap from 'colormap'
 
-
-export const colors = colormap({
-    colormap: 'hsv',
-    nshades: 20,
-    format: 'hex',
-    alpha: 1
-})
 
 export type Point = {
   id: string;

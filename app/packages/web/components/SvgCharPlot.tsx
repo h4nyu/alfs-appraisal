@@ -1,10 +1,11 @@
 import React, { RefObject, useRef, useEffect, useState } from "react";
 import { Box } from "@sivic/core/box";
-import { Point, colors } from "@sivic/core/point";
+import { Point } from "@sivic/core/point";
 import { InputMode } from "@sivic/web/store/BoxEditor"
 import { InputMode as PointMode } from "@sivic/web/store/PointEditor"
 import Line from "@sivic/core/line";
 import Tag from "@sivic/core/tag"
+import { schemeCategory10 } from "d3-scale-chromatic"
 
 
 export const SvgCharPlot = (props: {
@@ -102,7 +103,7 @@ export const SvgCharPlot = (props: {
                 x={b.x0 * scale }
                 y={b.y0 * scale }
                 fill={selectedId === b.id ? "green" : "red"}
-                fontSize={ 20 / scale }
+                fontSize={ 10 }
               >
                 {b.id} 
               </text>
@@ -179,7 +180,7 @@ export const SvgCharPlot = (props: {
             cx={p.x * scale}
             cy={p.y * scale}
             r={pointSize}
-            fill={colors[k % colors.length]}
+            fill={schemeCategory10[k % schemeCategory10.length]}
             onClick={(e) => {
               e.stopPropagation();
               props.onPointSelect?.(p.id, PointMode.Edit)

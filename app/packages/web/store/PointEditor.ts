@@ -1,6 +1,6 @@
 import { observable } from "mobx";
 import { Map, List } from "immutable";
-import { Point, colors } from "@sivic/core/point";
+import { Point } from "@sivic/core/point";
 import { File } from "@sivic/core/file"
 import { Box } from "@sivic/core/box";
 import { v4 as uuid } from "uuid";
