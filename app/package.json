@@ -15,12 +15,12 @@
     "web": "yarn workspace @sivic/web"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^27.0.1",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "eslint": "^7.16.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "gulp": "^4.0.2",
     "prettier": "^2.2.1"
   },
