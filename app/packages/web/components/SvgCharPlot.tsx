@@ -179,7 +179,7 @@ export const SvgCharPlot = (props: {
             style={{cursor: onPointSelect ? "crosshair" : ""}}
             cx={p.x * scale}
             cy={p.y * scale}
-            r={pointSize}
+            r={selectedId === p.id ? pointSize * 2 : pointSize}
             fill={schemeCategory10[k % schemeCategory10.length]}
             onClick={(e) => {
               e.stopPropagation();

@@ -17,9 +17,11 @@ export type Form = {
   box?:Box;
   tag?:Tag; // getter
   file?: File, // getter
+  points?: Point[],
   referenceBox?: Box; // getter
   referenceFile?:File, // getter
   referencePoints?: Point[], // getter
+  selectedReferencePoint?: Point, // getter
   referenceLines?: Line[],
   lines?: Line[],
   isReference:boolean; // getter
@@ -69,6 +71,10 @@ export const Form = (props: {
     }else{
       resetPoints()
     }
+  }
+
+  const getPoints = () => {
+    return props.pointStore?.points.filter(x => x.boxId === self.box?.id)
   }
 
   const getTag = () => {
@@ -151,6 +157,10 @@ export const Form = (props: {
   const getIsReference = () => {
     return self.box?.id === self.referenceBox?.id
   }
+  const getSelectedReferencePoint = () => {
+    const point = props.pointEditor.points.find(p => p.id === props.pointEditor.draggingId)
+    return self.referencePoints?.find(p => p.positionId === point?.positionId)
+  }
 
   const self = observable<Form>({
     get file() { return getFile() },
@@ -158,7 +168,9 @@ export const Form = (props: {
     get referenceBox() { return getRefernceBox() },
     get referenceFile() { return getRefernceFile() },
     get referencePoints() { return getReferncePoints() },
+    get points() { return getPoints() },
     get referenceLines() { return getReferenceLines() },
+    get selectedReferencePoint() { return getSelectedReferencePoint() },
     get lines() { return getLines() },
     get isReference() { return getIsReference() },
     init,

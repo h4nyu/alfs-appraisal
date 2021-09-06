@@ -50,7 +50,7 @@ const Content = observer(() => {
         </div>
         <div className="field-body">
           <div className="field">
-            { pointEditor.points?.length ?? 0 } 
+            { featureForm.points?.length ?? 0 } 
           </div>
         </div>
       </div>
@@ -89,6 +89,7 @@ const Content = observer(() => {
                 data={featureForm.referenceFile?.data}
                 lines={store.featureForm.referenceLines}
                 points={featureForm.referencePoints}
+                selectedId={store.featureForm.selectedReferencePoint?.id}
                 size={pointEditor.size}
                 width={512}
               />
