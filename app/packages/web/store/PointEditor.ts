@@ -24,6 +24,10 @@ export type Editor = {
   setMode: (mode: InputMode) => void;
   add: () => void;
   move: (pos: { x: number; y: number }) => void;
+  up: () => void;
+  down: () => void;
+  right: () => void;
+  left: () => void;
   del: () => void;
   changeSize: (size: number) => void;
   init: (points?:Point[]) => void;
@@ -112,6 +116,18 @@ export const Editor = (props: {
   const changeSize = (value: number) => {
     self.size = value;
   };
+  const up = () => {
+    self.points = self.points.map(p => Point({...p, y: p.y - 1}))
+  }
+  const down = () => {
+    self.points = self.points.map(p => Point({...p, y: p.y + 1}))
+  }
+  const left = () => {
+    self.points = self.points.map(p => Point({...p, x: p.x - 1}))
+  }
+  const right = () => {
+    self.points = self.points.map(p => Point({...p, x: p.x + 1}))
+  }
 
 
   const self = observable<Editor>({
@@ -127,6 +143,10 @@ export const Editor = (props: {
     add,
     del,
     init,
+    up,
+    down,
+    right,
+    left,
     clear,
   })
   return self

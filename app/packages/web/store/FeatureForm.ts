@@ -20,7 +20,8 @@ export type Form = {
   referenceBox?: Box; // getter
   referenceFile?:File, // getter
   referencePoints?: Point[], // getter
-  refLines?: Line[],
+  referenceLines?: Line[],
+  lines?: Line[],
   isReference:boolean; // getter
   init: (box:Box) => void
   resetPoints: () => void;
@@ -52,6 +53,7 @@ export const Form = (props: {
   }
 
   const init = async (box?:Box) => {
+    props.pointEditor.init()
     self.box = box
     if(box === undefined) { return }
 
@@ -106,19 +108,30 @@ export const Form = (props: {
     props.pointStore?.fetch({boxId: box.id})
   }
 
-  const getRefLines = () => {
-    let points = props.pointEditor?.points ?? []
+  const getReferenceLines = () => {
+    let points = (self.isReference ? props.pointEditor?.points : self.referencePoints) ?? []
     const firstLine = getRefLine(points)
-    return []
-    // if(!firstLine) { return }
-    // points = points.filter(p => {
-    //   return (
-    //     !firstLine.start.posEquals(p) && !firstLine.end.posEquals(p)
-    //   )
-    // })
-    // const secondLine = getRefLine(points)
-    // if(!secondLine) { return [firstLine] }
-    // return [firstLine, secondLine]
+    if(!firstLine) { return }
+    points = points.filter(p => {
+      return (
+        !firstLine.start.posEquals(p) && !firstLine.end.posEquals(p)
+      )
+    })
+    const secondLine = getRefLine(points)
+    if(!secondLine) { return [firstLine] }
+    return [firstLine, secondLine]
+  }
+
+  const getLines = () => {
+    return self.referenceLines?.map(x => {
+      const start = props.pointEditor.points.find(p => p.positionId === x.start.positionId)
+      const end = props.pointEditor.points.find(p => p.positionId === x.end.positionId)
+      return Line({
+        start,
+        end,
+        boxId: self.box?.id,
+      })
+    })
   }
 
   const delete_ = async (boxId?: string) => {
@@ -134,6 +147,7 @@ export const Form = (props: {
     }
     props.boxStore?.delete({id})
   }
+
   const getIsReference = () => {
     return self.box?.id === self.referenceBox?.id
   }
@@ -144,7 +158,8 @@ export const Form = (props: {
     get referenceBox() { return getRefernceBox() },
     get referenceFile() { return getRefernceFile() },
     get referencePoints() { return getReferncePoints() },
-    get refLines() { return getRefLines() },
+    get referenceLines() { return getReferenceLines() },
+    get lines() { return getLines() },
     get isReference() { return getIsReference() },
     init,
     resetPoints,

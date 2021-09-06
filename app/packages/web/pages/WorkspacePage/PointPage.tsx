@@ -13,6 +13,7 @@ import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import PointTable from "@sivic/web/components/PointTable"
 import CheckBox from "@sivic/web/components/CheckBox"
 import ReferenceTag from "@sivic/web/components/ReferenceTag"
+import Cursor from "@sivic/web/components/Cursor"
 
 const Content = observer(() => {
   const { featureForm, pointEditor, workspaceForm } = store;
@@ -73,33 +74,41 @@ const Content = observer(() => {
               <SvgCharPlot 
                 data={featureForm.file?.data}
                 points={pointEditor.points}
-                lines={store.featureForm.refLines}
+                lines={store.featureForm.referenceLines}
                 selectedId={pointEditor.draggingId}
                 onPointSelect={pointEditor.toggleDrag}
                 onAdd={pointEditor.add}
                 onMove={pointEditor.move}
                 size={pointEditor.size}
-                width={256}
+                width={512}
               />
             </div>
           </> : <>
             <div className="card">
               <SvgCharPlot 
                 data={featureForm.referenceFile?.data}
+                lines={store.featureForm.referenceLines}
                 points={featureForm.referencePoints}
                 size={pointEditor.size}
-                width={256}
+                width={512}
               />
             </div>
             <div className="card">
               <SvgCharPlot 
                 data={featureForm.file?.data}
                 points={pointEditor.points}
+                lines={store.featureForm.lines}
                 selectedId={pointEditor.draggingId}
                 onPointSelect={pointEditor.toggleDrag}
                 onMove={pointEditor.move}
                 size={pointEditor.size}
-                width={256}
+                width={512}
+              />
+              <Cursor 
+                onUp={pointEditor.up}
+                onDown={pointEditor.down}
+                onRight={pointEditor.right}
+                onLeft={pointEditor.left}
               />
             </div>
           </>
