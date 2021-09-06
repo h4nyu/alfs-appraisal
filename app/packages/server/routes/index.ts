@@ -7,12 +7,9 @@ import BoxRoutes from "./box";
 import FileRoutes from "./file";
 import TagRoutes from "./tag"
 import PointRoutes from "./point";
-// import { ImageRoutes } from "./image";
-// import { DetectRoutes } from "./detect";
-// import { BoxRoutes } from "./box";
-// import { LineRoutes } from "./line";
 
 import fastifyStatic from "fastify-static";
+import fastifyHttpProxy from "fastify-http-proxy";
 
 
 export const App = (args: { store: Store; lock: Lock }) => {
@@ -22,9 +19,16 @@ export const App = (args: { store: Store; lock: Lock }) => {
     logger: true,
   });
   const prefix = path.join("/", process.env.PREFIX || "", "/api/v1");
-  app.register(fastifyStatic, {
-    root: "/srv/packages/web/dist",
-  });
+  if(process.env.NODE_ENV !== "production") {
+    app.register(fastifyHttpProxy, {
+      upstream: 'http://ui:8080',
+      prefix: `/`,
+    })
+  }else{
+    app.register(fastifyStatic, {
+      root: "/srv/packages/web/dist",
+    });
+  }
   app.register(WorkspaceRoutes({ store, lock }), {
     prefix: `${prefix}/workspace`,
   });
