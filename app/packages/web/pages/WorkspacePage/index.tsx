@@ -3,6 +3,7 @@ import { Map } from "immutable";
 import FileUpload from "@sivic/web/components/FileUpload";
 import store from "@sivic/web/store";
 import SaveBtn from "@sivic/web/components/SaveBtn"
+import DownloadBtn from "@sivic/web/components/DownloadBtn"
 import { Image } from "@sivic/core/image";
 import ImageTable from "@sivic/web/components/ImageTable"
 import ImageTags from "@sivic/web/components/ImageTags";
@@ -71,6 +72,9 @@ const Content = observer(() => {
             <SaveBtn onClick={store.workspaceForm.save} />
           </div>
         </div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr"}}>
+        <DownloadBtn onClick={store.workspaceForm.download} />
       </div>
       {
         workspaceForm.id && <>

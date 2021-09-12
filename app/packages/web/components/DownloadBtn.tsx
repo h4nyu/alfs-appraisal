@@ -7,5 +7,5 @@ const DownloadBtn = (props) => {
     </button>
   );
 };
-export default Download;
+export default DownloadBtn;
 

@@ -7,7 +7,7 @@ import Workspace from "@sivic/core/workspace";
 import Image from "@sivic/core/image";
 import { saveAs } from 'file-saver';
 import { MemoryRouter } from "react-router";
-import { take, flow, sortBy, map } from "lodash/fp";
+import { take, flow, sortBy, map, join, pipe } from "lodash/fp";
 import { parseISO } from "date-fns";
 import { Level } from "@sivic/web/store"
 import { ImageForm } from "@sivic/web/store/ImageForm"
@@ -29,6 +29,7 @@ export type WorkspaceFrom = {
   init: (id?:string) => void;
   setName: (value:string) => void;
   save: () => Promise<void>;
+  download: () => void;
   delete: (id:string) => Promise<void>;
 };
 
@@ -56,6 +57,7 @@ export const WorkspaceFrom = (props: {
     imageForm, 
     imageStore, 
     boxStore, 
+    pointStore,
     onCreate,
     fileStore,
   } = props;
@@ -116,6 +118,29 @@ export const WorkspaceFrom = (props: {
       props.toast?.info("Success");
     })
   }
+  const jsonToCsv = (rows: (string | number)[][] , colomus: string[] = []) => {
+    const body = pipe(map(join(",")), join("\n"))(rows)
+    const header = `${join(",")(colomus)}\n`
+    return `${header}${body}`
+  }
+
+  const download = () => {
+    const colomus = [
+      "x",
+      "y",
+    ]
+    const rows = pointStore?.points.map(p => {
+      return [
+        p.x,
+        p.y
+      ]
+    })
+    if(rows === undefined) {return}
+    const data = jsonToCsv(rows, colomus)
+    const bom  = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    const blob = new Blob([bom, data], {type: 'text/csv;charset=utf-8'});
+    saveAs(blob, "points.csv")
+  }
 
   const _delete = async (id:string):Promise<void> => {
     await loading(async () => {
@@ -145,6 +170,7 @@ export const WorkspaceFrom = (props: {
     init,
     setName,
     save,
+    download,
     get tags() { return getTags() },
     get images() { return getImages() },
     get boxes() { return getBoxes() },
