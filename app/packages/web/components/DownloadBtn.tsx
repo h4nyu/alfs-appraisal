@@ -2,7 +2,7 @@ import React from "react";
 
 const DownloadBtn = (props) => {
   return (
-    <button className="button is-link is-light" { ...props }>
+    <button className="button is-light" { ...props }>
       Download
     </button>
   );
