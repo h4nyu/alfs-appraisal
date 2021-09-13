@@ -10,7 +10,6 @@ import PointEditor from "@sivic/web/store/PointEditor"
 import PointStore from "@sivic/web/store/PointStore"
 import BoxStore from "@sivic/web/store/BoxStore"
 import Toast from "@sivic/web/store/toast"
-import { getRefLine } from "@sivic/core/utils"
 import Tag from "@sivic/core/tag"
 
 

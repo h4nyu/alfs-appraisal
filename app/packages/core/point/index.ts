@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 export { default as FilterFn } from "./filter"
 export { default as LoadFn } from "./load"
 import { nanoid } from 'nanoid'
+import Line from '@sivic/core/line'
 
 
 export type Point = {
@@ -59,4 +60,22 @@ export const ResizeFn = (props:{
     })
   }
 }
+
+export const rotatePoint = (props: {point: Point, originPoint:Point, radian:number}):Point => {
+    const { point, originPoint, radian } = props;
+    const x = Math.cos(radian) * (point.x- originPoint.x) - Math.sin(radian) * (point.y - originPoint.x) + originPoint.x
+    const y = Math.sin(radian) * (point.x-originPoint.x) + Math.cos(radian) * (point.y- originPoint.y) + originPoint.y 
+    return Point({ ...point, x, y })
+}
+
+export const normalizePoints = (props:{
+  readonly points:Point[],
+  readonly line:Line,
+}) => {
+  const originPoint = props.line.start
+  const radian = props.line.radian
+  const rotate = (point) => rotatePoint({point, originPoint, radian})
+  return props.points.map(rotate)
+}
+
 export default Point;

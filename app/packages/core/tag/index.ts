@@ -5,6 +5,7 @@ export { default as DeleteFn } from "./delete"
 export { default as FindFn } from "./find"
 export { default as CreateFn } from "./create"
 export { default as UpdateFn } from "./update"
+export { default as NormalizeFn } from "./normalize"
 
 export type Tag = {
   id: string,
