@@ -18,6 +18,7 @@ const Content = observer(() => {
         await store.tagForm.save()
       }}
       onDelete={store.tagForm.delete}
+      onDownload={store.tagForm.download}
     />
   );
 });

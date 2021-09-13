@@ -8,7 +8,7 @@ import Image from "@sivic/core/image";
 import Box from "@sivic/core/box"
 import { saveAs } from 'file-saver';
 import { MemoryRouter } from "react-router";
-import { take, flow, sortBy, map } from "lodash/fp";
+import { take, flow, sortBy, map, join, pipe } from "lodash/fp";
 import { parseISO } from "date-fns";
 import { Level } from "@sivic/web/store"
 import { ImageForm } from "@sivic/web/store/ImageForm"
@@ -17,6 +17,7 @@ import BoxStore from "@sivic/web/store/BoxStore"
 import { Tag } from "@sivic/core/tag"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
+import PointStore from "@sivic/web/store/PointStore"
 
 
 export type Form = {
@@ -31,12 +32,14 @@ export type Form = {
   setName: (value:string) => void;
   setWorkspaceId: (value?: string) => void;
   setReferenceBoxId: (value?: string) => void;
+  download: () => void;
 };
 
 export const Form = (props: {
   api: RootApi;
   tagStore?: TagStore;
   boxStore?: BoxStore;
+  pointStore?: PointStore;
   toast?: ToastStore;
   onInit?: () => void;
   onDelete?: (tagId:string) => void;
@@ -109,6 +112,30 @@ export const Form = (props: {
   const getBoxes = () => {
     return self.id && props.boxStore?.boxes.filter(x => x.tagId === self.id)
   }
+
+  const jsonToCsv = (rows: (string | number)[][] , colomus: string[] = []) => {
+    const body = pipe(map(join(",")), join("\n"))(rows)
+    const header = `${join(",")(colomus)}\n`
+    return `${header}${body}`
+  }
+
+  const download = () => {
+    const colomus = [
+      "x",
+      "y",
+    ]
+    const rows = props.pointStore?.points.map(p => {
+      return [
+        p.x,
+        p.y
+      ]
+    })
+    if(rows === undefined) {return}
+    const data = jsonToCsv(rows, colomus)
+    const bom  = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    const blob = new Blob([bom, data], {type: 'text/csv;charset=utf-8'});
+    saveAs(blob, "points.csv")
+  }
   const self = observable<Form>({
     id:"", 
     name:"",
@@ -120,6 +147,7 @@ export const Form = (props: {
     get delete() { return getDelete() },
     get boxes() { return getBoxes() },
     save,
+    download,
   })
   return self
 };

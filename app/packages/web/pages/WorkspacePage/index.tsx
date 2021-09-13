@@ -73,9 +73,6 @@ const Content = observer(() => {
           </div>
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr"}}>
-        <DownloadBtn onClick={store.workspaceForm.download} />
-      </div>
       {
         workspaceForm.id && <>
           <div

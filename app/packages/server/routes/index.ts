@@ -20,10 +20,14 @@ export const App = (args: { store: Store; lock: Lock }) => {
   });
   const prefix = path.join("/", process.env.PREFIX || "", "/api/v1");
   if(process.env.NODE_ENV !== "production") {
-    app.register(fastifyHttpProxy, {
-      upstream: 'http://ui:8080',
-      prefix: `/`,
-    })
+    app.register(fastifyStatic, {
+      root: "/srv/packages/web/dist",
+    });
+    // TODO hotreload
+    // app.register(fastifyHttpProxy, {
+    //   upstream: 'http://ui:8080',
+    //   prefix: `/`,
+    // })
   }else{
     app.register(fastifyStatic, {
       root: "/srv/packages/web/dist",

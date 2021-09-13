@@ -4,6 +4,7 @@ import CancelBtn from "@sivic/web/components/CancelBtn"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import Box from "@sivic/core/box"
 import BoxView from "@sivic/web/components/BoxView"
+import DownloadBtn from "@sivic/web/components/DownloadBtn"
 import File from "@sivic/core/file"
 
 export const TagForm = (props: {
@@ -18,6 +19,7 @@ export const TagForm = (props: {
   onSave?:() => Promise<void>
   onCancel?: () => void
   onDelete?: () => void
+  onDownload?: () => void
 }) => {
   const boxes = props.boxes?.filter(x => x.tagId === props.id)
   return (
@@ -65,10 +67,17 @@ export const TagForm = (props: {
             }
           </div>
           <div className="level-right">
+            <div className="p-1">
+              {
+                props.onDownload && <DownloadBtn onClick={e => props.onDownload?.()} />
+              }
+            </div>
+            <div className="p-1">
             {
               props.onSave && 
                 <SaveBtn onClick={props.onSave} />
             }
+            </div>
           </div>
         </div>
       </div>
