@@ -1,3 +1,4 @@
+export * from "./dataGrid"
 
 export function b64toBlob(base64: string): Blob | Error {
   const bin = atob(base64.replace(/^.*,/, ""));
