@@ -1,35 +1,42 @@
 import React from "react";
-import DataGrid, { DataGridProps } from 'react-data-grid';
-import { exportToCsv } from "@sivic/web/utils"
-
-const SummaryTable = () => {
-  const columns = [
-    { key: 'id', name: 'ID' },
-    { key: 'title', name: 'Title' }
-  ];
-
-  const rows = [
-    { id: 0, title: 'Example' },
-    { id: 1, title: 'Demo' }
-  ];
-  const grid = <DataGrid columns={columns} rows={rows} />
-  return (
-    <div>
-      <div className="button"
-        onClick={() => exportToCsv(grid, "sample.csv")}
-      > donwload csv </div>
-      { grid }
-    </div>
-  )
-}
+import SummaryTable from "./SummaryTable"
+import { Box } from "@sivic/core/box"
+import { Point } from "@sivic/core/point"
+import { Line } from "@sivic/core/line"
+import { Tag } from "@sivic/core/tag"
 
 export default {
   title: "SummaryTable",
   component: SummaryTable,
 };
+const rows = [
+  {
+    box: Box({id: "b0"}),
+    points: [
+      Point({x: 20, y: 30, positionId:"pos0"}),
+      Point({x: 10, y: 30, positionId:"pos1"}),
+    ],
+    line: Line({
+      start: Point({x: 20, y: 30}),
+      end: Point({x: 20, y: 20}),
+    }),
+  },
+  {
+    box: Box({id: "b1"}),
+    points: [
+      Point({x: -20, y: 30, positionId:"pos0"}),
+      Point({x: 11, y: -30, positionId:"pos1"}),
+    ],
+    line: Line(),
+  },
+]
+const tag = Tag({name:"字"})
 export const Default = (props) => {
   return (
-      <SummaryTable />
+      <SummaryTable 
+        tag={tag}
+        rows={rows}
+      />
   )
 }
 
