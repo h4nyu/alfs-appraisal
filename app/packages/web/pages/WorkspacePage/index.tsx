@@ -45,7 +45,6 @@ const Content = observer(() => {
       path: "/workspace/tag",
       name: "Tag",
       Component: TagFormPage,
-      onClick: () => { tagForm.init({workspaceId: workspaceForm.id})}
     },
     {
       path: "/workspace/point",
@@ -116,7 +115,7 @@ const Content = observer(() => {
                       key={x.path}
                       className={location.pathname === x.path ? "is-active" : ""}
                     >
-                      <Link to={x.path} onClick={x.onClick}> {x.name} </Link> 
+                      <Link to={x.path}> {x.name} </Link> 
                     </li>
                   )
                 })

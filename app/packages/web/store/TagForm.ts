@@ -14,25 +14,30 @@ import { Level } from "@sivic/web/store"
 import { ImageForm } from "@sivic/web/store/ImageForm"
 import { ImageStore } from "@sivic/web/store/ImageStore"
 import BoxStore from "@sivic/web/store/BoxStore"
+import Line, { getRefLines } from "@sivic/core/line"
+import { normalizePoints } from "@sivic/core/point"
 import { Tag } from "@sivic/core/tag"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
 import PointStore from "@sivic/web/store/PointStore"
+import Summary from "@sivic/core/summary"
 
 
 export type Form = {
+  tag?: Tag,
   id: string,
   name: string,
   workspaceId?: string,
   referenceBoxId?:string,
+  refLines?: Line[],
   boxes?:Box[],
+  summaryPairs?: Summary[][],
   init: (props?:{id?:string, workspaceId?: string}) => Promise<void|Error>
   save: () => Promise<void | Error>
   delete?: () => Promise<void>;
   setName: (value:string) => void;
   setWorkspaceId: (value?: string) => void;
   setReferenceBoxId: (value?: string) => void;
-  download: () => void;
 };
 
 export const Form = (props: {
@@ -45,6 +50,7 @@ export const Form = (props: {
   onDelete?: (tagId:string) => void;
 }): Form => {
   const init = async (state?:{id?: string, workspaceId?:string}) => {
+    self.tag = undefined;
     self.id = state?.id ?? ""
     self.name = ""
     self.workspaceId = state?.workspaceId
@@ -52,6 +58,7 @@ export const Form = (props: {
     if(self.id !== "") {
       const tag = await props.api.tag.find({id: self.id})
       if(tag instanceof Error) { return tag }
+      self.tag = tag
       self.id = tag.id
       self.name = tag.name
       self.workspaceId = tag.workspaceId
@@ -70,7 +77,7 @@ export const Form = (props: {
   }
   const save = async () =>{
     const tag = await (async () => {
-      if(self.id === ""){
+      if(self.tag === undefined){
         return await props.api.tag.create({
           name: self.name,
           workspaceId: self.workspaceId,
@@ -112,31 +119,35 @@ export const Form = (props: {
   const getBoxes = () => {
     return self.id && props.boxStore?.boxes.filter(x => x.tagId === self.id)
   }
-
-  const jsonToCsv = (rows: (string | number)[][] , colomus: string[] = []) => {
-    const body = pipe(map(join(",")), join("\n"))(rows)
-    const header = `${join(",")(colomus)}\n`
-    return `${header}${body}`
+  const _refLines = () => {
+    const points = props.pointStore?.points.filter(x => x.boxId === self.referenceBoxId) ?? []
+    return getRefLines({points})
   }
 
-  const download = () => {
-    const colomus = [
-      "x",
-      "y",
-    ]
-    const rows = props.pointStore?.points.map(p => {
-      return [
-        p.x,
-        p.y
-      ]
+  const getSummaryPairs = () => {
+    return self.refLines?.map(refLine => {
+      return self.boxes?.map(box => {
+        const points = props.pointStore?.points.filter(x => x.boxId === box.id) ?? []
+        const start = points.find(p => p.positionId === refLine.start.positionId)
+        const end = points.find(p => p.positionId === refLine.end.positionId)
+        const line = Line({
+          start,
+          end,
+        })
+        return {
+          box,
+          line,
+          points: normalizePoints({
+            line,
+            points,
+          })
+        }
+      })
     })
-    if(rows === undefined) {return}
-    const data = jsonToCsv(rows, colomus)
-    const bom  = new Uint8Array([0xEF, 0xBB, 0xBF]);
-    const blob = new Blob([bom, data], {type: 'text/csv;charset=utf-8'});
-    saveAs(blob, "points.csv")
   }
+
   const self = observable<Form>({
+    tag: undefined,
     id:"", 
     name:"",
     workspaceId: undefined,
@@ -146,8 +157,9 @@ export const Form = (props: {
     init,
     get delete() { return getDelete() },
     get boxes() { return getBoxes() },
+    get summaryPairs() { return getSummaryPairs() },
+    get refLines() { return _refLines() },
     save,
-    download,
   })
   return self
 };

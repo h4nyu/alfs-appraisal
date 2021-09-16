@@ -144,6 +144,7 @@ export const RootStore = (): RootStore => {
     api, 
     tagStore, 
     boxStore,
+    pointStore,
     toast 
   })
   const featureForm = FeatureForm({ 

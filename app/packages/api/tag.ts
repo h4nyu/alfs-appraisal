@@ -6,7 +6,6 @@ import Tag, {
   DeleteFn,
   FilterFn,
   FindFn,
-  NormalizeFn,
 } from "@sivic/core/tag";
 import Box from "@sivic/core/box";
 import Point from "@sivic/core/point";
@@ -58,27 +57,12 @@ export const Api = (arg: {
     }
   };
 
-  const normalize:NormalizeFn = async (payload) => {
-    try {
-      const res = await http.post(`${prefix}/normalize`, payload);
-      return res.data.map(r => {
-        return {
-          box: Box(r.box),
-          points: r.points.map(Point),
-          line: Line(r.line)
-        }
-      });
-    } catch (err) {
-      return toError(err);
-    }
-  };
   return {
     create,
     update,
     delete: delete_,
     filter,
     find,
-    normalize,
   };
 };
 export default Api

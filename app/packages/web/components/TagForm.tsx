@@ -5,9 +5,13 @@ import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import Box from "@sivic/core/box"
 import BoxView from "@sivic/web/components/BoxView"
 import DownloadBtn from "@sivic/web/components/DownloadBtn"
+import Summary from "@sivic/core/summary"
 import File from "@sivic/core/file"
+import Tag from "@sivic/core/tag"
+import SummaryTable from "@sivic/web/components/SummaryTable"
 
 export const TagForm = (props: {
+  tag?:Tag,
   id?: string,
   name?: string,
   workspaceId?: string,
@@ -15,6 +19,8 @@ export const TagForm = (props: {
   onNameChange?: (value:string) => void,
   boxes?: Box[],
   files?: File[],
+  summaryPairs?: Summary[][],
+  onReferenceBoxChange?: (box:Box) => void,
   onBoxClick?: (box:Box) => void,
   onSave?:() => Promise<void>
   onCancel?: () => void
@@ -51,7 +57,7 @@ export const TagForm = (props: {
                   box={x} 
                   files={props.files}
                   isSelected={x.id === props.referenceBoxId}
-                  onClick={props.onBoxClick && (() => props.onBoxClick?.(x))}
+                  onClick={props.onReferenceBoxChange && (() => props.onReferenceBoxChange?.(x))}
                 />
                )
             })
@@ -74,13 +80,23 @@ export const TagForm = (props: {
             </div>
             <div className="p-1">
             {
-              props.onSave && 
-                <SaveBtn onClick={props.onSave} />
+              props.onSave && props.workspaceId && <SaveBtn onClick={props.onSave} />
             }
             </div>
           </div>
         </div>
       </div>
+      {
+        props.summaryPairs?.map( (summaries, i) => {
+          return props.tag && (
+            <div className="field"
+              key={i}
+            >
+              <SummaryTable rows={summaries} tag={props.tag} onBoxClick={props.onBoxClick}/>
+            </div>
+          )
+        })
+      }
     </div>
   )
 }

@@ -46,4 +46,10 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     assetModuleFilename: 'images/[hash][ext][query]',
   },
+  resolve: {
+    alias: {
+      "react/jsx-runtime": require.resolve("react/jsx-runtime"),
+    },
+    extensions: ['*', '.tsx', '.ts', '.js' ],
+  }
 };

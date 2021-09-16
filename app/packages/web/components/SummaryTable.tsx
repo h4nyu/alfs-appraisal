@@ -1,20 +1,21 @@
 import React from "react";
-import DataGrid from 'react-data-grid';
+import DataGrid, { SelectCellFormatter } from 'react-data-grid';
 import { Box } from "@sivic/core/box"
 import { Point } from "@sivic/core/point"
 import { Line } from "@sivic/core/line"
+import Summary from "@sivic/core/summary"
 import { exportToCsv } from "@sivic/web/utils"
 import { first, keyBy, flatMap } from "lodash"
 import { Tag } from "@sivic/core/tag"
+import { File } from "@sivic/core/file";
+import BoxView from "@sivic/web/components/BoxView"
 
 
 export const SummaryTable = (props: { 
   tag:Tag,
-  rows: {
-    box: Box,
-    points: Point[],
-    line: Line,
-  }[]
+  rows: Summary[],
+  files?: File[],
+  onBoxClick?:(box: Box) => void;
 }) => {
   const columns = [
     { key: 'positionId', name: 'position' },
@@ -22,7 +23,7 @@ export const SummaryTable = (props: {
     ...(props.rows?.map(r => {
       return {
         key: r.box.id,
-        name: `${r.box.id} k=${r.line.length}`,
+        name: <a onClick={() => props.onBoxClick?.(r.box)}>{r.box.id} k=${r.line.length}</a>,
       }
     }) ?? [])
   ];
@@ -43,13 +44,25 @@ export const SummaryTable = (props: {
     }
     return [rowX, rowY]
   })??[]
-  const grid = <DataGrid columns={columns} rows={rows} />
+   const grid =  <DataGrid 
+     columns={columns} 
+     rows={rows} 
+   />
   return (
     <div>
-      <div className="button"
-        onClick={() => exportToCsv(grid, fileName)}
-      > donwload csv </div>
-      { grid }
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <span> { fileName }</span>
+        <div/>
+        <div className="button is-small"
+          onClick={() => exportToCsv(grid, fileName)}
+        > donwload </div>
+      </div>
+      {grid}
     </div>
   )
 }
