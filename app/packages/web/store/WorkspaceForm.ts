@@ -1,5 +1,4 @@
 import { observable, computed } from "mobx";
-import { Map, List } from "immutable";
 import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
@@ -18,6 +17,7 @@ import Box from "@sivic/core/box"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
 import PointStore from "@sivic/web/store/PointStore"
+import WorkspaceStore from "@sivic/web/store/WorkspaceStore"
 
 export type WorkspaceFrom = {
   id: string,
@@ -36,6 +36,7 @@ export const WorkspaceFrom = (props: {
   api: RootApi;
   loading: <T>(fn: () => Promise<T>) => Promise<T>;
   toast?: ToastStore;
+  workspaceStore?: WorkspaceStore;
   imageForm: ImageForm;
   imageStore: ImageStore;
   fileStore?: FileStore;
@@ -111,6 +112,7 @@ export const WorkspaceFrom = (props: {
         props.toast?.error(workspace)
         return 
       }
+      await props?.workspaceStore?.fetch({})
       await init(workspace.id)
       onSave && onSave(workspace)
       props.toast?.info("Success");
@@ -121,6 +123,7 @@ export const WorkspaceFrom = (props: {
     await loading(async () => {
       const deleteErr = await api.workspace.delete({id});
       if (deleteErr instanceof Error) { return; }
+      await props?.workspaceStore?.fetch({})
       props.toast?.show("Success", Level.Success);
       props.onDelete?.(id)
     })

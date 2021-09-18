@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Map } from "immutable";
 import WorkspaceTable from "@sivic/web/components/WorkspaceTable";
 import store from "@sivic/web/store";
 
@@ -20,7 +19,7 @@ const Content = observer(() => {
       <WorkspaceTable
         name={workspaceForm.name}
         onNameChange={workspaceForm.setName}
-        workspaces={workspaceStore.workspaces.toList().toArray()} 
+        workspaces={workspaceStore.workspaces} 
         onClick={(id) => {
           workspaceForm.init(id)
           history.push("/workspace")

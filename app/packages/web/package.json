@@ -38,7 +38,6 @@
     "d3-scale-chromatic": "^3.0.0",
     "date-fns": "^2.16.1",
     "file-saver": "^2.0.5",
-    "immutable": "^4.0.0-rc.12",
     "make": "^0.8.1",
     "mobx": "^6.0.4",
     "mobx-react-lite": "^3.1.6",

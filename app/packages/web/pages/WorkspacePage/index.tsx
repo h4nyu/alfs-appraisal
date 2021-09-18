@@ -1,5 +1,4 @@
 import React, { useState } from "react"; import { observer } from "mobx-react-lite";
-import { Map } from "immutable";
 import FileUpload from "@sivic/web/components/FileUpload";
 import store from "@sivic/web/store";
 import SaveBtn from "@sivic/web/components/SaveBtn"

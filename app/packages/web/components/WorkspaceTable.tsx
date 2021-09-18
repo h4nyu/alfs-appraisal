@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { List } from "immutable";
-
 import { Workspace } from "@sivic/core/workspace";
 import DateView from "@sivic/web/components/DateView";
 import TableHeader from "@sivic/web/components/TableHeader";
@@ -24,7 +22,7 @@ export const WorkspaceTable = (props: {
     onNameChange 
   } = props;
 
-  let rows = List(workspaces).map(x => {
+  let rows = workspaces.map(x => {
     return {
       ...x,
       Name: x.name,

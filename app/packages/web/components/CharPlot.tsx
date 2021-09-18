@@ -1,5 +1,4 @@
 import React, { RefObject, useRef, useEffect, useState } from "react";
-import { Map, List } from "immutable";
 import Box from "@sivic/core/box"
 
 export const SvgCharPlot = (props: {

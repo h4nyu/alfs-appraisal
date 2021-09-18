@@ -1,11 +1,9 @@
 import { observable, computed } from "mobx";
-import { Map, List } from "immutable";
-import { Workspaces } from ".";
 import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";
 import {
-  Workspace,
+  Workspace, FilterFn
 } from "@sivic/core/workspace";
 import { saveAs } from 'file-saver';
 import { MemoryRouter } from "react-router";
@@ -15,23 +13,22 @@ import { Level } from "@sivic/web/store"
 import { ImageForm } from "@sivic/web/store/ImageForm"
 
 export type WorkspaceStore = {
-  workspaces: Map<string, Workspace>;
-  fetch: () => Promise<void>
+  workspaces: Workspace[];
+  fetch: FilterFn
 };
 
 export const WorkspaceStore = (args: {
   api: RootApi;
-  loading: <T>(fn: () => Promise<T>) => Promise<T>;
-  toast: ToastStore;
 }): WorkspaceStore => {
-  const { api, loading, toast } = args;
-  const fetch = async () => {
-    const workspaces = await api.workspace.filter({})
-    if(workspaces instanceof Error) { return }
-    self.workspaces = Map(keyBy(workspaces, x => x.id))
+  const { api } = args;
+  const fetch = async (payload) => {
+    const workspaces = await api.workspace.filter(payload)
+    if(workspaces instanceof Error) { return workspaces }
+    self.workspaces = workspaces
+    return workspaces
   }
-  const self = observable({
-    workspaces: Map<string, Workspace>(),
+  const self = observable<WorkspaceStore>({
+    workspaces: [],
     fetch,
   })
   return self

@@ -2,7 +2,6 @@ import { LoadingStore } from "./loading";
 import { ToastStore } from "./toast";
 import { RootApi } from "@sivic/api";
 import { configure } from "mobx";
-import { Map, List } from "immutable";
 import { createHashHistory } from "history";
 import { Workspace } from "@sivic/core/workspace";
 import { Image } from "@sivic/core/image";
@@ -27,8 +26,6 @@ configure({
 });
 
 
-export type Workspaces = List<Workspace>;
-export type Images = List<Image>;
 export enum Level {
   Info,
   Success,
@@ -69,7 +66,7 @@ export const RootStore = (): RootStore => {
   const loading = loadingStore.loading;
   const toast = ToastStore();
   const fileStore = FileStore({ api })
-  const workspaceStore = WorkspaceStore({ api, loading, toast });
+  const workspaceStore = WorkspaceStore({ api });
   const imageStore = ImageStore({ api })
   const pointStore = PointStore({ api })
   const boxStore = BoxStore({ api })
@@ -90,7 +87,7 @@ export const RootStore = (): RootStore => {
   })
 
   const init = async () => {
-    await workspaceStore.fetch();
+    await workspaceStore.fetch({});
     toast.show("Success", Level.Success);
   };
 
@@ -133,12 +130,7 @@ export const RootStore = (): RootStore => {
     boxStore,
     fileStore,
     pointStore,
-    onSave: (workspace) => {
-      workspaceStore.fetch()
-    },
-    onDelete: (id:string) => {
-      workspaceStore.fetch()
-    }
+    workspaceStore,
   })
   const tagForm = TagForm({ 
     api, 

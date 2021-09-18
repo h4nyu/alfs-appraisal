@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { List } from "immutable";
 
 import { Image } from "@sivic/core/image";
 import DateView from "@sivic/web/components/DateView";
 import TableHeader from "@sivic/web/components/TableHeader";
 import DeleteBtn from "@sivic/web/components/DeleteBtn";
 import ImageTags from "@sivic/web/components/ImageTags";
+import { sortBy } from "lodash"
 
 const columns = [
   "Name",
@@ -27,7 +27,7 @@ export const WorkspaceTable = (props: {
   const { images, onClick, onDelete, TagComponent } = props;
   const [sort, setSort] = React.useState<[string, boolean]>(["Name", true]);
   const [sortColumn, asc] = sort;
-  let rows = List(images).map(x => {
+  let rows = images.map(x => {
     return {
       ...x,
       Name: x.name,
@@ -35,7 +35,8 @@ export const WorkspaceTable = (props: {
       onClick: () => onClick && onClick(x.id),
       onDelete: () => onDelete && onDelete(x.id),
     }
-  }).sortBy((x) => x[sortColumn]);
+  })
+  rows = sortBy(rows, x => x[sortColumn]);
    if (asc) {
      rows = rows.reverse();
    }

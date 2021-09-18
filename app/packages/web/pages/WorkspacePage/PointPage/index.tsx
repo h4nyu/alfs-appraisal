@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Map } from "immutable";
 import ImageView from "@sivic/web/components/ImageView";
 import store from "@sivic/web/store";
 import { InputMode } from "@sivic/web/store/BoxEditor"

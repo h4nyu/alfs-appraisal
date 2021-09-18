@@ -3,7 +3,6 @@ import { RootApi } from "@sivic/api";
 import { LoadingStore } from "./loading";
 import { ToastStore } from "./toast";
 import  Box from "@sivic/core/box";
-import { Map, Set } from "immutable";
 import { v4 as uuid } from "uuid";
 import { keyBy, zip, uniqBy } from "lodash";
 import BoxStore from "@sivic/web/store/BoxStore"

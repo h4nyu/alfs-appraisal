@@ -1,7 +1,5 @@
 import { observable, computed } from "mobx";
-import { Map, List } from "immutable";
 import { v4 as uuid } from "uuid";
-import { Workspaces } from ".";
 import { ToastStore } from "./toast";
 import { LoadingStore } from "./loading";
 import { RootApi } from "@sivic/api";

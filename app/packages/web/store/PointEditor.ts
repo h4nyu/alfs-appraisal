@@ -1,5 +1,4 @@
 import { observable } from "mobx";
-import { Map, List } from "immutable";
 import { Point } from "@sivic/core/point";
 import { File } from "@sivic/core/file"
 import { Box } from "@sivic/core/box";
