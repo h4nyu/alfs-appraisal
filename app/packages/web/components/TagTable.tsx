@@ -4,6 +4,7 @@ import { Image } from "@sivic/core/image"
 import { File } from "@sivic/core/file"
 import Point from "@sivic/core/point"
 import AddBtn from "@sivic/web/components/AddBtn"
+import BoxView from "@sivic/web/components/BoxView"
 import Box from "@sivic/core/box"
 import FileUpload, { ChangeFn } from "@sivic/web/components/FileUpload"
 
@@ -29,7 +30,8 @@ export const TagTable = (props: {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `auto repeat(${props.images?.length ?? 0}, auto)`,
+        gridTemplateColumns: `auto repeat(${props.images?.length ?? 0}, 1fr)`,
+        overflow: "auto"
       }}
     >
       <div
@@ -69,11 +71,11 @@ export const TagTable = (props: {
         None
       </div>
       {
-        props.tags?.map((t, i) => {
+        props.tags?.map((tag, i) => {
           return (
             <div
               className="card p-1 has-text-weight-semibold"
-              key={t.id}
+              key={tag.id}
               style={{
                 ...centerStyle,
                 gridColumn: 1,
@@ -81,9 +83,9 @@ export const TagTable = (props: {
               }}
             >
               <a
-                onClick={() => props.onTagClick?.(t)}
+                onClick={() => props.onTagClick?.(tag)}
               > 
-                { t.name } 
+                { tag.name } 
               </a>
             </div>
           )
@@ -110,11 +112,10 @@ export const TagTable = (props: {
       }
       {
         props.images?.map((p, colIdx) => {
-          return [undefined, ...(props.tags ?? [])].map((t, rowIdx) => {
-            const boxes = props.boxes?.filter(b => b.tagId === t?.id && b.imageId === p.id)
+          return [undefined, ...(props.tags ?? [])].map((tag, rowIdx) => {
+            const boxes = props.boxes?.filter(b => b.tagId === tag?.id && b.imageId === p.id)
             return (
               <div
-                className="card"
                 key={`${rowIdx}-${colIdx}`}
                 style={{
                   display: 'flex',
@@ -127,59 +128,14 @@ export const TagTable = (props: {
               >
                 {
                   boxes?.map(box => {
-                    const file = props.files?.find(x => x.id === box.fileId)
-                    const points = props.points?.filter(x => x.boxId === box.id)
-                    return {
-                      box,
-                      file,
-                      points
-                    }
-                  })
-                  .sort((a, b) => (a.points?.length ?? 0) - (b.points?.length ?? 0))
-                  .map(({box, file, points}) => {
-                    return(
-                      file && 
-                        <div
-                          key={box.id}
-                          className="is-clickable p-1"
-                          style={{
-                            display: 'grid',
-                            gridTemplateColumns: "auto auto",
-                            gridTemplateRows: "auto auto",
-                          }}
-                          onClick={() => props.onBoxClick?.(box)}
-                        >
-                          <a
-                            style={{
-                              gridRow: "1",
-                              gridColumn: "1 / span 2",
-                            }}
-                            className="is-size-7"
-                          >
-                            {box.id}
-                          </a>
-                          <img 
-                            style={{
-                              height: 50,
-                              gridRow: "2",
-                              gridColumn: "1",
-                            }}
-                            src={`data:image;base64,${file.data}`}
-                          /> 
-                          <div
-                            style={{
-                              height: 50,
-                              gridRow: "2",
-                              gridColumn: "2",
-                            }}
-                          >
-                            <div>
-                              {
-                                points && <span className="tag is-rounded is-danger is-small is-light">{points.length}</span>
-                              }
-                            </div>
-                          </div>
-                        </div>
+                    return (
+                      <BoxView 
+                        box={box}
+                        files={props.files}
+                        points={props.points}
+                        tags={props.tags}
+                        onClick={props.onBoxClick && (() => props.onBoxClick?.(box))}
+                      />
                     )
                   })
                 }

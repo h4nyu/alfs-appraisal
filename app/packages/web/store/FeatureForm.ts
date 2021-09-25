@@ -3,27 +3,30 @@ import RootApi from "@sivic/api";
 import File from "@sivic/core/file"
 import Box from "@sivic/core/box"
 import Line from "@sivic/core/line"
-import Point from "@sivic/core/point"
+import Point, { ResizeFn } from "@sivic/core/point"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
 import PointEditor from "@sivic/web/store/PointEditor"
 import PointStore from "@sivic/web/store/PointStore"
 import BoxStore from "@sivic/web/store/BoxStore"
 import Toast from "@sivic/web/store/toast"
-import { getRefLine } from "@sivic/core/utils"
+import { getRefLine } from "@sivic/core/line"
 import Tag from "@sivic/core/tag"
-
 
 export type Form = {
   box?:Box;
-  file?: File,
-  referenceBox?: Box;
-  referenceBoxFile?:File,
-  tagId?: string;
-  setReferenceBox: (box:Box) => void
-  refLines?: Line[],
-  setTagId:(value?:string) => void;
+  tag?:Tag; // getter
+  file?: File, // getter
+  points?: Point[],
+  referenceBox?: Box; // getter
+  referenceFile?:File, // getter
+  referencePoints?: Point[], // getter
+  selectedReferencePoint?: Point, // getter
+  referenceLines?: Line[],
+  lines?: Line[],
+  isReference:boolean; // getter
   init: (box:Box) => void
+  resetPoints: () => void;
   delete: (boxId?: string) => void;
   save: () => Promise<void>;
 };
@@ -31,26 +34,63 @@ export type Form = {
 export const Form = (props: {
   api: RootApi,
   pointEditor: PointEditor,
+  pointStore: PointStore,
   fileStore?: FileStore,
-  pointStore?: PointStore,
   boxStore?: BoxStore,
   tagStore?: TagStore,
   toast?: Toast,
 }): Form => {
-  const reset = () => {
-    self.box = undefined;
-    self.tagId = undefined;
+
+  const resetPoints = () => {
+    const { box, referenceBox } = self
+    if(box === undefined || referenceBox === undefined) { return }
+    const resize = ResizeFn({source:referenceBox, target:box})
+    const points =self.referencePoints?.map(p => Point({
+      x: p.x,
+      y: p.y,
+      boxId: p.boxId,
+      positionId: p.positionId,
+    })).map(resize)
+    props.pointEditor.init(points)
   }
-  const init = async (box:Box) => {
+
+  const init = async (box?:Box) => {
+    props.pointEditor.init()
     self.box = box
+    if(box === undefined) { return }
+
     box.fileId && await props.fileStore?.fetch({id: box.fileId})
-    self.tagId = box.tagId
+    if(self.referenceBox === undefined) { return }
+    self.referenceBox?.id && props.pointStore?.fetch({boxId: self.referenceBox.id})
+    self.referenceBox?.fileId && await props.fileStore?.fetch({id: self.referenceBox.fileId})
+
     const points = await props.pointStore?.fetch({boxId: box.id})
     if(points instanceof Error) { return points }
-    props.pointEditor?.init(points)
+    if(self.isReference || points.length > 0) {
+      props.pointEditor?.init(points)
+    }else{
+      resetPoints()
+    }
   }
-  const setReferenceBox = (box: Box) => {
-    self.referenceBox = box
+
+  const getPoints = () => {
+    return props.pointStore?.points.filter(x => x.boxId === self.box?.id)
+  }
+
+  const getTag = () => {
+    return props.tagStore?.tags.find(x => x.id === self.box?.tagId)
+  }
+
+  const getRefernceBox = () => {
+    return props.boxStore?.boxes.find(x => x.id === self.tag?.referenceBoxId && x.tagId === self.tag.id)
+  }
+
+  const getRefernceFile = () => {
+    return props.fileStore?.files.find(x => x.id === self.referenceBox?.fileId)
+  }
+
+  const getReferncePoints = () => {
+    return props.pointStore?.points.filter(x => x.boxId === self.referenceBox?.id)
   }
 
   const getFile = () => {
@@ -72,39 +112,34 @@ export const Form = (props: {
     props.toast?.info("Success")
     props.pointStore?.delete({boxId: box.id})
     props.pointStore?.fetch({boxId: box.id})
-    props.boxStore?.delete({imageId: box.imageId})
-    props.boxStore?.fetch({imageId: box.imageId})
   }
-  const setTagId = async (value?:string) => {
-    self.tagId = value
-    const { box } = self
-    if(box === undefined) { return }
-    const updateErr = await props.api.box.update({
-      box: Box({
-        ...box,
-        tagId: self.tagId,
+
+  const getReferenceLines = () => {
+    let points = (self.isReference ? props.pointEditor?.points : self.referencePoints) ?? []
+    const firstLine = getRefLine(points)
+    if(!firstLine) { return }
+    points = points.filter(p => {
+      return (
+        !firstLine.start.posEquals(p) && !firstLine.end.posEquals(p)
+      )
+    })
+    const secondLine = getRefLine(points)
+    if(!secondLine) { return [firstLine] }
+    return [firstLine, secondLine]
+  }
+
+  const getLines = () => {
+    return self.referenceLines?.map(x => {
+      const start = props.pointEditor.points.find(p => p.positionId === x.start.positionId)
+      const end = props.pointEditor.points.find(p => p.positionId === x.end.positionId)
+      return Line({
+        start,
+        end,
+        boxId: self.box?.id,
       })
     })
-    if(updateErr instanceof Error) { 
-      props.toast?.error(updateErr) 
-      return 
-    }
-    props.boxStore?.fetch({ imageId: box.imageId})
   }
-  const getRefLines = () => {
-    let points = props.pointEditor?.points ?? []
-    const firstLine = getRefLine(points)
-    return []
-    // if(!firstLine) { return }
-    // points = points.filter(p => {
-    //   return (
-    //     !firstLine.start.posEquals(p) && !firstLine.end.posEquals(p)
-    //   )
-    // })
-    // const secondLine = getRefLine(points)
-    // if(!secondLine) { return [firstLine] }
-    // return [firstLine, secondLine]
-  }
+
   const delete_ = async (boxId?: string) => {
     const id = boxId ?? self.box?.id
     if(id === undefined) { return }
@@ -114,21 +149,36 @@ export const Form = (props: {
       return err
     }
     if(boxId === undefined){
-      reset()
+      init()
     }
     props.boxStore?.delete({id})
   }
 
+  const getIsReference = () => {
+    return self.box?.id === self.referenceBox?.id
+  }
+  const getSelectedReferencePoint = () => {
+    const point = props.pointEditor.points.find(p => p.id === props.pointEditor.draggingId)
+    return self.referencePoints?.find(p => p.positionId === point?.positionId)
+  }
+
   const self = observable<Form>({
     get file() { return getFile() },
-    get refLines() { return getRefLines() },
+    get tag() { return getTag() },
+    get referenceBox() { return getRefernceBox() },
+    get referenceFile() { return getRefernceFile() },
+    get referencePoints() { return getReferncePoints() },
+    get points() { return getPoints() },
+    get referenceLines() { return getReferenceLines() },
+    get selectedReferencePoint() { return getSelectedReferencePoint() },
+    get lines() { return getLines() },
+    get isReference() { return getIsReference() },
     init,
-    setTagId,
-    setReferenceBox,
+    resetPoints,
     delete: delete_,
     save,
   })
   return self
 };
-export default Form
 
+export default Form

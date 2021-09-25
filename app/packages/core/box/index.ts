@@ -18,6 +18,10 @@ export type Box = {
   tagId? :string,
   imageId?: string,
   fileId?: string,
+
+  height: number // getter
+  width: number // getter
+
   isReference?: boolean,
   validate: () => void | Error;
   equals:(other: Box) => boolean
@@ -34,7 +38,7 @@ export const Box = (args?:{
   fileId?: string,
   isReference?: boolean,
 }):Box => {
-  const id = args?.id ?? nanoid(10)
+  const id = args?.id ?? nanoid(9)
   const x0 = args?.x0 ?? 0
   const y0 = args?.y0 ?? 0
   const x1 = args?.x1 ?? 0
@@ -60,6 +64,12 @@ export const Box = (args?:{
       && self.imageId === other.imageId
     )
   }
+  const getHeight = () => {
+    return self.y1 - self.y0
+  }
+  const getWidth = () => {
+    return self.x1 - self.x0
+  }
   const self = {
     id,
     x0,
@@ -69,6 +79,8 @@ export const Box = (args?:{
     imageId,
     tagId,
     fileId,
+    get height() { return getHeight() },
+    get width() { return getWidth() },
     validate,
     equals,
     posEquals,

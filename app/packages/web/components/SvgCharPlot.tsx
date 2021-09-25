@@ -5,7 +5,8 @@ import { InputMode } from "@sivic/web/store/BoxEditor"
 import { InputMode as PointMode } from "@sivic/web/store/PointEditor"
 import Line from "@sivic/core/line";
 import Tag from "@sivic/core/tag"
-import { Map, Set } from "immutable"
+import { schemeCategory10 } from "d3-scale-chromatic"
+
 
 export const SvgCharPlot = (props: {
   data?: string;
@@ -82,7 +83,7 @@ export const SvgCharPlot = (props: {
       onMouseMove={handleMove}
       onMouseLeave={onLeave}
       onClick={(e) => {
-        onAdd && onAdd();
+        props.onAdd?.();
       }}
       width={width}
       height={width * aspect}
@@ -102,7 +103,7 @@ export const SvgCharPlot = (props: {
                 x={b.x0 * scale }
                 y={b.y0 * scale }
                 fill={selectedId === b.id ? "green" : "red"}
-                fontSize={ 20 / scale }
+                fontSize={ 15 }
               >
                 {b.id} 
               </text>
@@ -172,23 +173,14 @@ export const SvgCharPlot = (props: {
         )
       })
       }
-      {points?.map((p) => (
+      {points?.map((p, k) => (
         <g key={p.id}>
-          {
-            <text 
-              x={p.x * scale }
-              y={p.y * scale }
-              fontSize={ 20 / scale }
-            >
-              {p.positionId} 
-            </text>
-          }
           <circle
-            style={{cursor: "crosshair"}}
+            style={{cursor: onPointSelect ? "crosshair" : ""}}
             cx={p.x * scale}
             cy={p.y * scale}
-            r={pointSize}
-            stroke="none"
+            r={selectedId === p.id ? pointSize * 2 : pointSize}
+            fill={schemeCategory10[k % schemeCategory10.length]}
             onClick={(e) => {
               e.stopPropagation();
               props.onPointSelect?.(p.id, PointMode.Edit)
@@ -207,6 +199,15 @@ export const SvgCharPlot = (props: {
               stroke={l.id === lineId ? "green" : "red"}
               strokeOpacity="0.5"
               strokeWidth={1}
+            />
+            <rect 
+              x={l.origin.x * scale - pointSize } 
+              y={l.origin.y * scale - pointSize } 
+              fill="none"
+              stroke="red"
+              width={pointSize * 2} 
+              height={pointSize * 2} 
+              opacity={0.5}
             />
           </g>
         ))

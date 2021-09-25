@@ -2,15 +2,32 @@ import React from "react"
 import SaveBtn from "@sivic/web/components/SaveBtn"
 import CancelBtn from "@sivic/web/components/CancelBtn"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
+import Box from "@sivic/core/box"
+import BoxView from "@sivic/web/components/BoxView"
+import DownloadBtn from "@sivic/web/components/DownloadBtn"
+import Summary from "@sivic/core/summary"
+import File from "@sivic/core/file"
+import Tag from "@sivic/core/tag"
+import SummaryTable from "@sivic/web/components/SummaryTable"
 
 export const TagForm = (props: {
-  name?: string
-  workspaceId?: string
-  onNameChange?: (value:string) => void
+  tag?:Tag,
+  id?: string,
+  name?: string,
+  workspaceId?: string,
+  referenceBoxId?:string,
+  onNameChange?: (value:string) => void,
+  boxes?: Box[],
+  files?: File[],
+  summaryPairs?: Summary[][],
+  onReferenceBoxChange?: (box:Box) => void,
+  onBoxClick?: (box:Box) => void,
   onSave?:() => Promise<void>
   onCancel?: () => void
   onDelete?: () => void
+  onDownload?: () => void
 }) => {
+  const boxes = props.boxes?.filter(x => x.tagId === props.id)
   return (
     <div className="box"> 
       <div className="field">
@@ -26,31 +43,60 @@ export const TagForm = (props: {
         </div>
       </div>
       <div className="field">
-        <div 
+        <label className="label">Reference</label>
+        <div className="control"
           style={{
-            display: "grid",
-            gridTemplateColumns: "auto 1fr auto"
+            display: "flex",
+            flexWrap: "wrap",
           }}
         >
-          <div>
-            {
-              props.onSave && 
-                <SaveBtn onClick={props.onSave} />
-            }
-          </div>
-          <div/>
-          <div className="buttons">
+          {
+            boxes?.map(x => {
+              return ( 
+                <BoxView 
+                  box={x} 
+                  files={props.files}
+                  isSelected={x.id === props.referenceBoxId}
+                  onClick={props.onReferenceBoxChange && (() => props.onReferenceBoxChange?.(x))}
+                />
+               )
+            })
+          }
+        </div>
+      </div>
+      <div className="field">
+        <div className="level">
+          <div className="level-left">
             {
               props.onDelete && 
                 <DeleteBtn onClick={e => props.onDelete?.()} />
             }
+          </div>
+          <div className="level-right">
+            <div className="p-1">
+              {
+                props.onDownload && <DownloadBtn onClick={e => props.onDownload?.()} />
+              }
+            </div>
+            <div className="p-1">
             {
-              props.onCancel && 
-                <CancelBtn onClick={e => props.onCancel?.()} />
+              props.onSave && props.workspaceId && <SaveBtn onClick={props.onSave} />
             }
+            </div>
           </div>
         </div>
       </div>
+      {
+        props.summaryPairs?.map( (summaries, i) => {
+          return props.tag && (
+            <div className="field"
+              key={i}
+            >
+              <SummaryTable rows={summaries} tag={props.tag} onBoxClick={props.onBoxClick}/>
+            </div>
+          )
+        })
+      }
     </div>
   )
 }

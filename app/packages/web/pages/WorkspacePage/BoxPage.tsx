@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Map } from "immutable";
 import ImageView from "@sivic/web/components/ImageView";
 import store from "@sivic/web/store";
 import { InputMode } from "@sivic/web/store/BoxEditor"
@@ -75,11 +74,15 @@ const Content = observer(() => {
           />
         }
       </div>
-      <div style={{display:"flex"}}>
-        <SaveBtn onClick={imageProcess.save} />
-        <a className="button is-danger is-light" style={{marginLeft:"auto"}} onClick={imageProcess.delete}>
-          Delete
-        </a>
+      <div className="level">
+        <div className="level-left">
+          <a className="button is-danger is-light" onClick={imageProcess.delete}>
+            Delete
+          </a>
+        </div>
+        <div className="level-left">
+          <SaveBtn onClick={imageProcess.save} />
+        </div>
       </div>
     </div>
   );

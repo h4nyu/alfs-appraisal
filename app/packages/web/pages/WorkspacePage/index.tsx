@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { observer } from "mobx-react-lite";
-import { Map } from "immutable";
+import React, { useState } from "react"; import { observer } from "mobx-react-lite";
 import FileUpload from "@sivic/web/components/FileUpload";
 import store from "@sivic/web/store";
 import SaveBtn from "@sivic/web/components/SaveBtn"
+import DownloadBtn from "@sivic/web/components/DownloadBtn"
 import { Image } from "@sivic/core/image";
 import ImageTable from "@sivic/web/components/ImageTable"
 import ImageTags from "@sivic/web/components/ImageTags";
@@ -14,6 +13,7 @@ import { Router, Switch, Route, NavLink, Link, useLocation } from "react-router-
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
+import AssignTagFormPage from "./AssignTagFormPage"
 
 const Content = observer(() => {
   const location = useLocation();
@@ -36,20 +36,19 @@ const Content = observer(() => {
       Component: BoxPage,
     },
     {
-      path: "/workspace/reference",
-      name: "Reference",
-      Component: PointPage,
+      path: "/workspace/assign-tag",
+      name: "Assign Tag",
+      Component: AssignTagFormPage,
+    },
+    {
+      path: "/workspace/tag",
+      name: "Tag",
+      Component: TagFormPage,
     },
     {
       path: "/workspace/point",
       name: "Point",
       Component: PointPage,
-    },
-    {
-      path: "/workspace/tag",
-      name: "Tag",
-      Component: () => <TagFormPage {...store} />,
-      onClick: () => { tagForm.init({workspaceId: workspaceForm.id})}
     },
   ]
   return (
@@ -74,30 +73,38 @@ const Content = observer(() => {
       </div>
       {
         workspaceForm.id && <>
-          <TagTable  
-            onAddImage={store.imageForm.uploadFiles}
-            onAddTag={() => {
-              store.tagForm.init({workspaceId: workspaceForm.id})
-              store.history.push("/workspace/tag")
+          <div
+            style={{
+              maxHeight: 300,
+              overflow: "auto"
             }}
-            images={workspaceForm.images}
-            tags={workspaceForm.tags}
-            files={fileStore.files}
-            boxes={store.boxStore.boxes}
-            points={store.pointStore.points}
-            onImageClick={image => {
-              store.imageProcess.init(image.id)
-              store.history.push("/workspace/box")
-            }}
-            onTagClick={tag => {
-              store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
-              store.history.push("/workspace/tag")
-            }}
-            onBoxClick={box => {
-              store.featureForm.init(box)
-              store.history.push("/workspace/point")
-            }}
-          />
+          >
+            <TagTable  
+              onAddImage={store.imageForm.uploadFiles}
+              onAddTag={() => {
+                store.tagForm.init({workspaceId: workspaceForm.id})
+                store.history.push("/workspace/tag")
+              }}
+              images={workspaceForm.images}
+              tags={workspaceForm.tags}
+              files={fileStore.files}
+              boxes={store.boxStore.boxes}
+              points={store.pointStore.points}
+              onImageClick={image => {
+                store.imageProcess.init(image.id)
+                store.history.push("/workspace/box")
+              }}
+              onTagClick={tag => {
+                store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
+                store.history.push("/workspace/tag")
+              }}
+              onBoxClick={box => {
+                if(box.tagId === undefined) { return }
+                store.featureForm.init(box)
+                store.history.push("/workspace/point")
+              }}
+            />
+          </div>
           <div className="tabs is-boxed m-0">
             <ul>
               {
@@ -107,7 +114,7 @@ const Content = observer(() => {
                       key={x.path}
                       className={location.pathname === x.path ? "is-active" : ""}
                     >
-                      <Link to={x.path} onClick={x.onClick}> {x.name} </Link> 
+                      <Link to={x.path}> {x.name} </Link> 
                     </li>
                   )
                 })

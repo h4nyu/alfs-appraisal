@@ -1,7 +1,6 @@
 import { observable, computed } from "mobx";
 import RootApi from "@sivic/api";
 import Image, { FilterFn } from "@sivic/core/image";
-import { Set } from "immutable";
 import { uniqBy } from "lodash"
 
 export type ImageStore = {

@@ -29,6 +29,12 @@ services:
     ports:
       - "${SERVER_PORT}:80"
 
+  ui:
+    <<: *app
+    command: yarn web watch
+    ports:
+      - "${UI_PORT}:8080"
+
   storybook:
     <<: *app
     command: yarn web storybook

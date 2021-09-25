@@ -7,6 +7,9 @@ import Tag, {
   FilterFn,
   FindFn,
 } from "@sivic/core/tag";
+import Box from "@sivic/core/box";
+import Point from "@sivic/core/point";
+import Line from "@sivic/core/line";
 
 export const Api = (arg: {
   http: AxiosInstance;
@@ -53,6 +56,7 @@ export const Api = (arg: {
       return toError(err);
     }
   };
+
   return {
     create,
     update,

@@ -29,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'file-loader',
+        type: 'asset/resource'
       },
     ],
   },
@@ -44,5 +44,12 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: 'images/[hash][ext][query]',
   },
+  resolve: {
+    alias: {
+      "react/jsx-runtime": require.resolve("react/jsx-runtime"),
+    },
+    extensions: ['*', '.tsx', '.ts', '.js' ],
+  }
 };

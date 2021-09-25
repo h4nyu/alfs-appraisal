@@ -2,15 +2,8 @@ import { v4 as uuid } from 'uuid';
 export { default as FilterFn } from "./filter"
 export { default as LoadFn } from "./load"
 import { nanoid } from 'nanoid'
-import colormap from 'colormap'
+import Line from '@sivic/core/line'
 
-
-const colors = colormap({
-    colormap: 'jet',
-    nshades: 50,
-    format: 'hex',
-    alpha: 1
-})
 
 export type Point = {
   id: string;
@@ -52,4 +45,43 @@ export const Point = (props?: {
   }
   return self
 };
+
+export type ResizeFn = (a:Point) => Point
+export const ResizeFn = (props:{
+  source: {height: number, width: number},
+  target: {height: number, width: number},
+}):ResizeFn => {
+  return (point) => {
+    const {x, y} = point
+    return Point({
+      ...point,
+      x: props.target.width * x / props.source.width,
+      y: props.target.height * y / props.source.height,
+    })
+  }
+}
+
+export const rotate = (props: {point: Point, originPoint:Point, radian:number}):Point => {
+    const { point, originPoint, radian } = props;
+    const x = Math.cos(radian) * (point.x- originPoint.x) - Math.sin(radian) * (point.y - originPoint.x) + originPoint.x
+    const y = Math.sin(radian) * (point.x-originPoint.x) + Math.cos(radian) * (point.y- originPoint.y) + originPoint.y 
+    return Point({ ...point, x, y })
+}
+
+export const shift = (props: {point: Point, diff:{x:number, y:number}}):Point => {
+    const { point, diff } = props;
+    return Point({ ...point, x:point.x + diff.x, y:point.y + diff.y})
+}
+
+export const normalizePoints = (props:{
+  readonly points:Point[],
+  readonly line:Line,
+}) => {
+  const originPoint = props.line.origin
+  const radian = props.line.radian
+  return props.points.map(point => {
+    return rotate({point:shift({point, diff: { x:-originPoint.x, y:-originPoint.y}}), originPoint, radian})
+  })
+}
+
 export default Point;

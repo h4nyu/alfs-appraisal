@@ -1,68 +1,84 @@
 import React, { useRef, RefObject, useState, useEffect } from "react";
 import { Image } from "@sivic/core/image";
 import Box from "@sivic/core/box";
+import Tag from "@sivic/core/tag";
 import { Workspace } from "@sivic/core/workspace";
 import { File } from "@sivic/core/file";
+import Point from "@sivic/core/point";
 import DateView from "@sivic/web/components/DateView";
 import ImageView from "@sivic/web/components/ImageView";
 import DeleteBtn from "@sivic/web/components/DeleteBtn";
 import ImageTags from "@sivic/web/components/ImageTags";
+import ReferenceTag from "@sivic/web/components/ReferenceTag";
 
 export const BoxView = (props: {
   box: Box,
   files?: File[],
-  onNameClick?: (imageId:string) => void
-  onTagClick?: ({id: string, tag:ImageTag}) => void;
-  onBoxClick?:(id: string) => void;
-  onDeleteClick?: (imageId: string) => void
+  points?: Point[],
+  tags?: Tag[],
+  isSelected?: boolean,
+  onClick?: () => void
+  className?: string,
 }) => {
+  const className = props.className ?? "card p-1"
+  const file = props.files?.find(x => x.id === props.box?.fileId);
+  const points = props.points?.filter(p => p.boxId === props.box.id)
+  const tag = props.tags?.find(x => x.id === props.box.tagId)
   return (
-    null
+    <div
+      className={className}
+      style={{
+        cursor: props.onClick && "pointer",
+        border: props.isSelected ? "solid" : undefined,
+      }}
+      onClick={props.onClick && (() => props.onClick?.())}
+    >
+      <a
+        className="is-size-7"
+      >
+        {props.box.id}
+      </a>
+      <div
+        style={{display: "flex"}}
+      >
+        <div
+          style={{
+            display: "flex",
+            height: 70,
+            width: 70,
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          {
+            file && <img 
+              style={{
+                maxHeight: 70,
+                maxWidth: 70,
+              }}
+              src={`data:image;base64,${file.data}`}
+            /> 
+          }
+        </div>
+        <div>
+          <div>
+            {
+              points && <span className="tag is-rounded is-small is-light">{points.length}</span>
+            }
+          </div>
+          <div>
+            {
+              tag && <span className="tag is-rounded is-small is-light"> {tag.name} </span>
+            }
+          </div>
+          <div>
+          {
+            tag?.referenceBoxId === props.box.id && <ReferenceTag/> 
+          }
+          </div>
+        </div>
+      </div>
+    </div>
   );
-
-    {/* <div */}
-    {/*   className="card" */}
-    {/* > */}
-    {/*   <div className= "card-header" */}
-    {/*     style={{ */}
-    {/*       display: "grid", */}
-    {/*       gridTemplateColumns: "1fr auto auto auto", */}
-    {/*       alignItems: "center", */}
-    {/*     }} */}
-    {/*   > */}
-    {/*     <p className={`card-header-title ${props.onNameClick ? "is-clickable" : ""}` } */}
-    {/*       onClick={() => props.onNameClick && props.onNameClick(props.image.id)} */}
-    {/*     > */}
-    {/*       {props.image.name} */}
-    {/*     </p> */}
-    {/*     <DateView value={props.image.createdAt} /> */}
-    {/*     <div className="pl-2"> */}
-    {/*       <ImageTags */} 
-    {/*         image={props.image} */} 
-    {/*         onClick={props.onTagClick} */}
-    {/*       /> */}
-    {/*     </div> */}
-    {/*     { */}
-    {/*       props.onDeleteClick && */} 
-    {/*         <div className="p-2"> */}
-    {/*           <DeleteBtn onClick={() => props.onDeleteClick && props.onDeleteClick(props.image.id)} /> */} 
-    {/*         </div> */}
-    {/*     } */}
-    {/*   </div> */}
-    {/*   <div className="card-content"> */}
-    {/*     <div className="content" style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}> */}
-    {/*       { */}
-    {/*         props.box?.map((b, i) => { */}
-    {/*           const file = props.files?.find(f => f.id === b.fileId) */}
-    {/*           return file && ( */}
-    {/*             <div key={i} className={`p-1 ${props.onBoxClick ? "is-clickable" : ""}`}> */}
-    {/*               <img src={`data:image/png;base64, ${file.data}`} width={50} height={50} onClick={() => props.onBoxClick?.(x.id)}/> */}
-    {/*             </div> */}
-    {/*           ) */}
-    {/*         }) */}
-    {/*       } */}
-    {/*     </div> */}
-    {/*   </div> */}
-    {/* </div> */}
 };
 export default BoxView;

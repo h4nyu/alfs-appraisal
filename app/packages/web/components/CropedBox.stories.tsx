@@ -1,7 +1,6 @@
 import React from "react";
 import Component from "./CropedBox";
 import store from "../store";
-import { Map } from "immutable";
 import { Box } from "@sivic/core/box"
 import annot from "/srv/data/annto.json";
 

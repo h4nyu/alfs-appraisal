@@ -2,7 +2,6 @@ import { LoadingStore } from "./loading";
 import { ToastStore } from "./toast";
 import { RootApi } from "@sivic/api";
 import { configure } from "mobx";
-import { Map, List } from "immutable";
 import { createHashHistory } from "history";
 import { Workspace } from "@sivic/core/workspace";
 import { Image } from "@sivic/core/image";
@@ -19,6 +18,7 @@ import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
 import TagForm from "@sivic/web/store/TagForm"
 import FeatureForm from "@sivic/web/store/FeatureForm"
+import AssignTagForm from "@sivic/web/store/AssignTagForm"
 
 
 configure({
@@ -26,8 +26,6 @@ configure({
 });
 
 
-export type Workspaces = List<Workspace>;
-export type Images = List<Image>;
 export enum Level {
   Info,
   Success,
@@ -59,6 +57,7 @@ export type RootStore = {
   tagStore: TagStore;
   tagForm: TagForm;
   featureForm: FeatureForm;
+  assignTagForm: AssignTagForm;
   init: () => Promise<void>;
 };
 export const RootStore = (): RootStore => {
@@ -67,7 +66,7 @@ export const RootStore = (): RootStore => {
   const loading = loadingStore.loading;
   const toast = ToastStore();
   const fileStore = FileStore({ api })
-  const workspaceStore = WorkspaceStore({ api, loading, toast });
+  const workspaceStore = WorkspaceStore({ api });
   const imageStore = ImageStore({ api })
   const pointStore = PointStore({ api })
   const boxStore = BoxStore({ api })
@@ -88,7 +87,7 @@ export const RootStore = (): RootStore => {
   })
 
   const init = async () => {
-    await workspaceStore.fetch();
+    await workspaceStore.fetch({});
     toast.show("Success", Level.Success);
   };
 
@@ -116,6 +115,11 @@ export const RootStore = (): RootStore => {
       workspaceForm.init(workspaceId)
     }
   })
+  const assignTagForm = AssignTagForm({
+    api,
+    toast,
+    boxStore,
+  })
   const workspaceForm = WorkspaceForm({
     api,
     loading,
@@ -126,17 +130,13 @@ export const RootStore = (): RootStore => {
     boxStore,
     fileStore,
     pointStore,
-    onSave: (workspace) => {
-      workspaceStore.fetch()
-    },
-    onDelete: (id:string) => {
-      workspaceStore.fetch()
-    }
+    workspaceStore,
   })
   const tagForm = TagForm({ 
     api, 
     tagStore, 
     boxStore,
+    pointStore,
     toast 
   })
   const featureForm = FeatureForm({ 
@@ -145,6 +145,7 @@ export const RootStore = (): RootStore => {
     pointStore,
     pointEditor,
     boxStore,
+    tagStore,
     toast,
   })
 
@@ -167,6 +168,7 @@ export const RootStore = (): RootStore => {
     tagStore,
     tagForm,
     featureForm,
+    assignTagForm,
   };
 };
 

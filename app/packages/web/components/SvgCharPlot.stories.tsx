@@ -3,7 +3,6 @@ import Component from "./SvgCharPlot";
 import { Box } from "@sivic/core/box";
 import { Point } from "@sivic/core/point";
 import Line from "@sivic/core/line";
-import { Map } from "immutable";
 import Tag from "@sivic/core/tag"
 import annot from "/srv/data/annto.json";
 import {UncontrolledReactSVGPanZoom} from 'react-svg-pan-zoom';
@@ -24,11 +23,10 @@ const boxes = [
   Box({x0: 10, y0: 10, x1: 20, y1: 20, tagId: "t0"}),  
 ]
 
-const points = Map(
-  [
-    Point({x: 30,  y: 80}),
-  ].map((x, i) => [`${i}`, x])
-);
+const points = [
+  Point({x: 30,  y: 80}),
+]
+  
 const lines = [ Line({start: Point({x: 30, y: 40}), end: Point({x: 50, y: 60})}) ]
 
 export const Primary = (args) => (
