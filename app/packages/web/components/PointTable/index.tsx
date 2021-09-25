@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Divider from "@sivic/web/components/Divider"
-
 import Point from "@sivic/core/point"
 
 export const PointTable = (props: {

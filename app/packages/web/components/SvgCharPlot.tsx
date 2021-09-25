@@ -200,6 +200,15 @@ export const SvgCharPlot = (props: {
               strokeOpacity="0.5"
               strokeWidth={1}
             />
+            <rect 
+              x={l.origin.x * scale - pointSize } 
+              y={l.origin.y * scale - pointSize } 
+              fill="none"
+              stroke="red"
+              width={pointSize * 2} 
+              height={pointSize * 2} 
+              opacity={0.5}
+            />
           </g>
         ))
       }

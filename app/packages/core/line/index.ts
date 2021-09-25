@@ -9,6 +9,7 @@ export type Line = {
   priority: number;
   radian: number; // getter
   length: number; // getter
+  origin: Point; // getter
 }
 
 export const Line  = (props?:{
@@ -29,6 +30,13 @@ export const Line  = (props?:{
   const getRadian = () => {
     return Math.atan((self.end.y - self.start.y) / (self.end.x - self.start.x));
   }
+  const getOrigin = () => {
+    if(self.end.y < self.start.y){
+      return self.end
+    }else{
+      return self.start
+    }
+  }
   const self = {
     id,
     start,
@@ -36,6 +44,7 @@ export const Line  = (props?:{
     priority,
     get radian() { return getRadian() },
     get length() { return getLength() },
+    get origin() { return getOrigin() },
   }
   return self
 }
