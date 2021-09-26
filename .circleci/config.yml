@@ -1,18 +1,19 @@
-version: 2.1
-
-orbs:
-  node: circleci/node@4.1
-  # The Node.js orb contains a set of prepackaged CircleCI configuration you can utilize
-  # See the orb's test job here: https://circleci.com/developer/orbs/orb/circleci/node#jobs-test
-
-workflows:
-  sample:
-    jobs:
-      - node/test:
-          matrix:
-            parameters:
-              version: ['15.1', 'lts', '12.21']
-          # For more information about matrix testing see the detailed blog post:
-          # https://circleci.com/blog/circleci-matrix-jobs/
-          # or the configuration reference:
-          # https://circleci.com/docs/2.0/configuration-reference/?section=reference#matrix-requires-version-21
+version: 2
+jobs:
+  build:
+    machine:
+      image: circleci/classic:edge
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: docker-compose build
+          command: |
+            set -x
+            docker-compose build
