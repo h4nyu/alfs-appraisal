@@ -7,6 +7,7 @@ import store from "@sivic/web/store"
 const Content = observer(() => {
   return (
     <TagFormView 
+      workspace={store.imageForm.workspace}
       tag={store.tagForm.tag}
       id={store.tagForm.id}
       name={store.tagForm.name}

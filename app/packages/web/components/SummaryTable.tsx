@@ -6,12 +6,14 @@ import { Line } from "@sivic/core/line"
 import Summary from "@sivic/core/summary"
 import { exportToCsv } from "@sivic/web/utils"
 import { first, keyBy, flatMap } from "lodash"
+import { Workspace } from "@sivic/core/workspace"
 import { Tag } from "@sivic/core/tag"
 import { File } from "@sivic/core/file";
 import BoxView from "@sivic/web/components/BoxView"
 
 
 export const SummaryTable = (props: { 
+  workspace?:Workspace,
   tag:Tag,
   rows: Summary[],
   files?: File[],
@@ -29,7 +31,7 @@ export const SummaryTable = (props: {
   ];
   const firstColumn = first(props.rows)
   const lineName = `${firstColumn?.line.start.positionId}-${firstColumn?.line.end.positionId}`
-  const fileName =`${props.tag.name}-${lineName}.csv`
+  const fileName =`${props.workspace?.name}-${props.tag.name}-${lineName}.csv`
   const rows = flatMap(firstColumn?.points, (p) =>  {
     const rowX = {}
     const rowY = {}

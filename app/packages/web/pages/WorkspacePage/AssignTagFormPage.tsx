@@ -7,11 +7,11 @@ const Content = observer(() => {
   return (
     <AssignTagFormView 
       tagId={store.assignTagForm.tagId}
-      onTagChange={t => store.assignTagForm.setTagId(t?.id)}
       boxes={store.workspaceForm.boxes}
       tags={store.workspaceForm.tags}
       files={store.fileStore.files}
       onBoxClick={store.assignTagForm.assign}
+      onTagChange={t => store.assignTagForm.setTagId(t?.id)}
     />
   );
 });
