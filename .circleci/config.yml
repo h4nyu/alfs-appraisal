@@ -7,6 +7,9 @@ jobs:
     steps:
       - checkout
       - run:
+        name: "Setup environment variables"
+        command: echo 'export COMPOSE_FILE="development.yml"' >> $BASH_ENV
+      - run:
           name: Install Docker Compose
           command: |
             curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
