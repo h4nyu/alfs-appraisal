@@ -7,8 +7,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: "Setup environment variables"
-        command: echo 'export COMPOSE_FILE="development.yml"' >> $BASH_ENV
+          name: "Setup environment variables"
+          command: echo 'export COMPOSE_FILE="development.yml"' >> $BASH_ENV
       - run:
           name: Install Docker Compose
           command: |
