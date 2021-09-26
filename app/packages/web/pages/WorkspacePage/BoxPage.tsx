@@ -36,8 +36,6 @@ const Content = observer(() => {
           </div>
         </div>
       </div>
-
-
       <div className="level">
         <div className="level-item">
           <div>

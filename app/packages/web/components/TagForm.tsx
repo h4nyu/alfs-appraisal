@@ -5,6 +5,7 @@ import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import Box from "@sivic/core/box"
 import BoxView from "@sivic/web/components/BoxView"
 import DownloadBtn from "@sivic/web/components/DownloadBtn"
+import { Workspace } from "@sivic/core/workspace"
 import Summary from "@sivic/core/summary"
 import File from "@sivic/core/file"
 import Tag from "@sivic/core/tag"
@@ -19,6 +20,7 @@ export const TagForm = (props: {
   onNameChange?: (value:string) => void,
   boxes?: Box[],
   files?: File[],
+  workspace?:Workspace,
   summaryPairs?: Summary[][],
   onReferenceBoxChange?: (box:Box) => void,
   onBoxClick?: (box:Box) => void,
@@ -92,7 +94,7 @@ export const TagForm = (props: {
             <div className="field"
               key={i}
             >
-              <SummaryTable rows={summaries} tag={props.tag} onBoxClick={props.onBoxClick}/>
+              <SummaryTable rows={summaries} tag={props.tag} workspace={props.workspace} onBoxClick={props.onBoxClick}/>
             </div>
           )
         })
