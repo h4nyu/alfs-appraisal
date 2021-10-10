@@ -9,7 +9,7 @@
     "serve": "webpack-dev-server --host 0.0.0.0 --disable-host-check",
     "clean": "tsc --build --clean",
     "start:dev": "webpack serve",
-    "storybook": "start-storybook -p $STORYBOOK_PORT"
+    "storybook": "start-storybook" 
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^6.1.10",

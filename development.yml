@@ -10,7 +10,7 @@ x-app: &app
       - http_proxy
       - https_proxy
 
-  platform: $PLATFORM
+  platform: ${PLATFORM:-linux/amd64}
   environment:
     - DATABASE_URL=postgres://app:app@db/app
     - NODE_ENV=development  
@@ -27,19 +27,16 @@ services:
     <<: *app
     command: wait-for-it db:5432 -- yarn srv start:dev
     ports:
-      - "${SERVER_PORT}:80"
-
+      - "${SERVER_PORT:-80}:80"
   ui:
     <<: *app
     command: yarn web watch
-    ports:
-      - "${UI_PORT}:8080"
 
   storybook:
     <<: *app
-    command: yarn web storybook
+    command: yarn web storybook -p ${STORYBOOK_PORT:-9009} 
     ports:
-      - "${STORYBOOK_PORT}:${STORYBOOK_PORT}"
+      - "${STORYBOOK_PORT:-9009}:${STORYBOOK_PORT:-9009}"
 
   migrate:
     <<: *app
