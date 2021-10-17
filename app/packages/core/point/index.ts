@@ -78,7 +78,6 @@ export const normalizePoints = (props:{
   readonly line:Line,
 }) => {
   const originPoint = props.line.origin
-  console.log(originPoint)
   const lineRadian = props.line.radian
   console.log(lineRadian / Math.PI * 180)
   console.log(lineRadian)
