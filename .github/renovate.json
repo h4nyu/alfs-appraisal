@@ -1,0 +1,13 @@
+{
+  "extends": ["config:base"],
+  "timezone": "Asia/Tokyo",
+  "schedule": "before 3am",
+  "labels": ["Type: Maintenance"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
+  ],
+  "semanticCommits": true
+}
