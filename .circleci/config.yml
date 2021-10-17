@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_and_test:
     machine:
       image: circleci/classic:edge
     working_directory: ~/repo
@@ -10,14 +10,14 @@ jobs:
           name: "Setup environment variables"
           command: |
             echo 'export COMPOSE_FILE="development.yml"' >> $BASH_ENV
-            echo 'export DOCKER_REGISTRY="localhost"' >> $BASH_ENV
-            echo 'export PLATFORM="linux/amd64"' >> $BASH_ENV
-            echo 'export SERVER_PORT="8080"' >> $BASH_ENV
-            echo 'export STORYBOOK_PORT="8081"' >> $BASH_ENV
-            echo 'export UI_PORT="8082"' >> $BASH_ENV
       - run:
           name: Install Docker Compose
           command: |
             curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
+
+      - run:
+          name: "Install Node Modules"
+          command: |
+            docker-compose run --rm app yarn install
