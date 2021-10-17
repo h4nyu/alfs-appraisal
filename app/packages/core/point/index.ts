@@ -78,9 +78,15 @@ export const normalizePoints = (props:{
   readonly line:Line,
 }) => {
   const originPoint = props.line.origin
-  const radian = props.line.radian
+  const lineRadian = props.line.radian
+  console.log(lineRadian / Math.PI * 180)
+  console.log(lineRadian)
+  const radian = (lineRadian > 0) ? Math.PI / 2 - lineRadian : lineRadian + Math.PI / 2
+  console.log(radian / Math.PI * 180)
   return props.points.map(point => {
-    return rotate({point:shift({point, diff: { x:-originPoint.x, y:-originPoint.y}}), originPoint, radian})
+    const shifted = shift({point, diff: { x:-originPoint.x, y:-originPoint.y}})
+    console.log(shifted)
+    return rotate({point:shifted, originPoint:Point({...shifted, x:0, y:0}), radian})
   })
 }
 

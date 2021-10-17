@@ -15,20 +15,48 @@ describe("point", () => {
     expect(Math.round(res?.y)).toBe(5)
   });
 
-  test("normalizePoints", async () => {
+});
+
+describe("normalizePoints", () => {
+  // test("primaryLine", async () => {
+  //   const line = Line({
+  //     start: Point({x:1, y:1}),
+  //     end: Point({x:2, y: 3}),
+  //   })
+  //   const points = [
+  //     Point({x:1, y: 1}),
+  //     Point({x:2, y: 1})
+  //   ]
+  //   const res = normalizePoints({
+  //     line,
+  //     points
+  //   })
+  //   expect(res[0].x.toFixed(4)).toBe(0.0.toFixed(4))
+  //   expect(res[0].y.toFixed(4)).toBe((-Math.sqrt(5)).toFixed(4))
+
+  //   expect(res[1].x.toFixed(4)).toBe((2/Math.sqrt(5)).toFixed(4))
+  //   expect(res[1].y.toFixed(4)).toBe((-2 * 2/Math.sqrt(5)).toFixed(4))
+  // });
+
+  test("secondaryLine", async () => {
     const line = Line({
-      start: Point({x:0, y:0}),
-      end: Point({x:1, y: 1}),
+      end: Point({x:1, y:3}),
+      start: Point({x:2, y: 1}),
     })
+    expect(line.origin.x).toBe(1)
+    expect(line.origin.y).toBe(3)
     const points = [
-      Point({x:0, y: 1})
+      Point({x:1, y: 3}),
+      Point({x:2, y: 3})
     ]
     const res = normalizePoints({
       line,
       points
     })
-    //TODO
-    // expect(res[0].x.toPrecision(4)).toBe((- 1 / Math.pow(2, 1/2)).toPrecision(4))
-    // expect(res[0].y.toPrecision(4)).toBe((1 / Math.pow(2, 1/2)).toPrecision(4))
+    expect(res[0].x.toFixed(4)).toBe(0.0.toFixed(4))
+    expect(res[0].y.toFixed(4)).toBe(0.0.toFixed(4))
+    expect(res[1].x.toFixed(4)).toBe((2/Math.sqrt(5)).toFixed(4))
+    expect(res[1].y.toFixed(4)).toBe((-2 * 2/Math.sqrt(5)).toFixed(4))
   });
-});
+
+})

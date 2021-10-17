@@ -32,9 +32,9 @@ export const Line  = (props?:{
   }
   const getOrigin = () => {
     if(self.end.y < self.start.y){
-      return self.end
-    }else{
       return self.start
+    }else{
+      return self.end
     }
   }
   const self = {
