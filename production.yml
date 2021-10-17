@@ -2,10 +2,10 @@ version: '3.4'
 
 
 x-app: &app
-  image: "${DOCKER_REGISTRY}/sivic/${PLATFORM}/app"
+  image: "${DOCKER_REGISTRY:-localhost}/sivic/${PLATFORM:-linux/amd64}/app"
   build:
     context: ./app
-  platform: $PLATFORM
+  platform: ${PLATFORM:-linux/amd64}
   environment:
     - DATABASE_URL=postgres://app:app@db/app
     - IMAGE_URL
@@ -17,7 +17,7 @@ services:
     <<: *app
     command: wait-for-it db:5432 -- yarn srv start
     ports:
-      - "${SERVER_PORT}:80"
+      - "${SERVER_PORT:-80}:80"
     depends_on:
       - migration
 
