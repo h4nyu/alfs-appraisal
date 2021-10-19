@@ -24,6 +24,10 @@ const files = [
 const points = [
   Point({ id: "p0", x: 20, y: 20, }),
   Point({ id: "p1", x: 10, y: 10, }),
+  Point({ id: "p2", x: 40, y: 20, }),
+  Point({ id: "p3", x: 10, y: 60, }),
+  Point({ id: "p4", x: 30, y: 30, }),
+  Point({ id: "p5", x: 35, y: 30, }),
 ]
 export const Default = (props) => {
   return (
@@ -32,10 +36,7 @@ export const Default = (props) => {
       image={image}
       files={files}
       points={points}
-      lines={[
-        Line(),
-        Line(),
-      ]}
+      lines={[]}
     />
   )
 }

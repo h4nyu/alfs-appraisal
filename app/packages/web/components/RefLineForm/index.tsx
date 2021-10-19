@@ -4,6 +4,8 @@ import Point from '@sivic/core/point'
 import File from '@sivic/core/file'
 import Image from '@sivic/core/image'
 import SvgCharPlot from '@sivic/web/components/SvgCharPlot'
+import { useForm } from "react-hook-form";
+import { flatMap } from "lodash";
 
 
 const RefLineForm = (props: Readonly<{
@@ -13,20 +15,57 @@ const RefLineForm = (props: Readonly<{
   lines: [Line, Line],
   onSubmit: () => void;
 }>) => {
+  // const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
   const file = React.useMemo(
     () => props.files.find(x => x.id === props.image.fileId), 
     [props.image.fileId, props.files]
   )
-  // const 
+  const [startPoint, setStartPoint] = React.useState<Point|undefined>(undefined)
+  const [lines, setLines] = React.useState<Line[]>(props.lines)
+  const setPoint = (pointId:string) => {
+    const point = props.points.find(x => x.id === pointId)
+    if(!point) { return }
+
+    const matchedLine = lines.find(line => {
+      return line.start.posEquals(point) || line.end.posEquals(point)
+    })
+    if(matchedLine) {
+      setLines(
+        lines.filter(x => x.id !== matchedLine.id)
+      )
+      setStartPoint(undefined)
+      return
+    }
+    if(startPoint === undefined && lines.length < 2){
+      setStartPoint(point)
+      return
+    }
+    if(startPoint !== undefined
+    && !startPoint.posEquals(point)
+    ) {
+      const newLines = [
+        ...lines,
+        Line({
+          start:startPoint,
+          end:point,
+        })
+      ]
+      setLines(newLines)
+      setStartPoint(undefined)
+    }
+  }
 
   return (
-    <div>
-      <SvgCharPlot 
+    <form>
+      <SvgCharPlot
         data={file?.data}
         points={props.points}
-        lines={props.lines}
+        lines={lines}
+        selectedId={startPoint?.id}
+        onPointSelect={(i, _) => setPoint(i)}
       />
-    </div>
+    </form>
   )
 }
 export default RefLineForm
