@@ -9,10 +9,14 @@ const TABLE = "lines"
 const COLUMNS = [
   "id", 
   "box_id",
+  "start_id",
   "start_x",
   "start_y",
+  "start_position_id",
+  "end_id",
   "end_x",
   "end_y",
+  "end_position_id",
 ] as const
 
 export const Store = (
@@ -21,9 +25,9 @@ export const Store = (
   const to = (r: Row) => {
     return Line({
       id: r.id,
-      boxId: r.boxId,
-      start: Point({x: r.start_x, y: r.start_y}),
-      end: Point({x: r.end_x, y: r.end_y}),
+      boxId: r.box_id,
+      start: Point({ id:r.start_id, x: r.start_x, y: r.start_y, positionId:r.start_position_id }),
+      end: Point({id: r.end_id, x: r.end_x, y: r.end_y, positionId:r.end_position_id}),
     });
   };
 
@@ -31,10 +35,14 @@ export const Store = (
     return {
       id: r.id,
       box_id: r.boxId,
+      start_id: r.start.id,
       start_x: r.start.x,
       start_y: r.start.y,
+      start_position_id: r.start.positionId,
+      end_id: r.end.id,
       end_x: r.end.x,
       end_y: r.end.y,
+      end_position_id: r.end.positionId
     };
   };
 

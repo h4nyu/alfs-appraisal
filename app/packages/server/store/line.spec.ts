@@ -22,13 +22,11 @@ describe("line", () => {
     if(createErr instanceof Error) { throw createErr }
     let savedRows = await lineStore.filter({boxId})
     if(savedRows instanceof Error) { throw savedRows }
-    console.log(line)
-    console.log(savedRows)
-    expect(savedRows.id).toEqual(JSON.stringify(line[0].id))
-    // let delErr = await lineStore.delete({id: line.id})
-    // if(delErr instanceof Error) { throw delErr }
-    // savedRows = await lineStore.filter({boxId})
-    // if(savedRows instanceof Error) { throw savedRows }
-    // expect(savedRows).toEqual([])
+    expect(JSON.stringify(savedRows)).toEqual(JSON.stringify([line]))
+    let delErr = await lineStore.delete({id: line.id})
+    if(delErr instanceof Error) { throw delErr }
+    savedRows = await lineStore.filter({boxId})
+    if(savedRows instanceof Error) { throw savedRows }
+    expect(savedRows).toEqual([])
   });
 })
