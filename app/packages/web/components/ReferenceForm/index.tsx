@@ -13,7 +13,8 @@ import { Payload as LoadLinePayload } from '@sivic/core/line/load'
 import PointEditor from '@sivic/web/store/PointEditor'
 
 
-type Target = "line" | "point"
+const TARGETS = ["line", "point"] as const
+type Target = typeof TARGETS[number]
 const ReferenceForm = (props: Readonly<{
   id?:string;
   tag?: Tag;
@@ -108,6 +109,24 @@ const ReferenceForm = (props: Readonly<{
           </div>
         </div>
       </div>
+
+      <div className="tabs is-boxed m-0">
+        <ul>
+          {
+            TARGETS.map((x) => {
+              return (
+                <li 
+                  key={x}
+                  className={target === x ? "is-active" : ""}
+                  onClick={() => setTarget(x)}
+                >
+                  <a>{x}</a>
+                </li>
+              )
+            })
+          }
+        </ul>
+      </div>
       <div 
         style={{
           display: "flex",
@@ -135,6 +154,10 @@ const ReferenceForm = (props: Readonly<{
               onKeyDown={e => {
                 if (e.keyCode === 8) {
                   props.pointEditor.del()
+                  const { draggingId } = props.pointEditor
+                  setLines(
+                    lines.filter(l => l.start.id !== draggingId && l.end.id !== draggingId)
+                  )
                 }
               }}
             >
