@@ -4,15 +4,17 @@ export { default as LoadFn } from "./load"
 import { nanoid } from 'nanoid'
 import Line from '@sivic/core/line'
 
+export type Position2D = {
+  x: number,
+  y: number,
+}
 
 export type Point = {
   id: string;
-  x: number;
-  y: number;
   boxId?: string;
   positionId?: string;
   posEquals: (other:Point) => boolean;
-};
+} & Position2D;
 
 export const Point = (props?: {
   id?: string;
