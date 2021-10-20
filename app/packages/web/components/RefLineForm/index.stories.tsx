@@ -15,12 +15,12 @@ export default {
 const image = Image({
   fileId: 'f0',
 })
-const files = [
-  File({
-    id: 'f0',
-    data: imageData,
-  })
-]
+
+const file = File({
+  id: 'f0',
+  data: imageData,
+})
+
 const points = [
   Point({ id: "p0", x: 20, y: 20, }),
   Point({ id: "p1", x: 10, y: 10, }),
@@ -34,7 +34,7 @@ export const Default = (props) => {
     <RefLineForm 
       {...props}
       image={image}
-      files={files}
+      file={file}
       points={points}
       lines={[]}
     />

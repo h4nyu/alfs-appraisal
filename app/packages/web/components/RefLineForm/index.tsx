@@ -9,22 +9,17 @@ import { flatMap } from "lodash";
 
 
 const RefLineForm = (props: Readonly<{
-  image: Image,
-  files: File[],
-  points: Point[],
-  lines: [Line, Line],
-  onSubmit: () => void;
+  file?: File,
+  points?: Point[],
+  lines?: Line[],
+  onSubmit: () => Promise<void>;
 }>) => {
   // const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-  const file = React.useMemo(
-    () => props.files.find(x => x.id === props.image.fileId), 
-    [props.image.fileId, props.files]
-  )
   const [startPoint, setStartPoint] = React.useState<Point|undefined>(undefined)
-  const [lines, setLines] = React.useState<Line[]>(props.lines)
+  const [lines, setLines] = React.useState<Line[]>(props.lines ? props.lines : [])
   const setPoint = (pointId:string) => {
-    const point = props.points.find(x => x.id === pointId)
+    const point = props.points?.find(x => x.id === pointId)
     if(!point) { return }
 
     const matchedLine = lines.find(line => {
@@ -59,7 +54,7 @@ const RefLineForm = (props: Readonly<{
   return (
     <form>
       <SvgCharPlot
-        data={file?.data}
+        data={props.file?.data}
         points={props.points}
         lines={lines}
         selectedId={startPoint?.id}

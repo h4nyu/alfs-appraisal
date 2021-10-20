@@ -13,6 +13,7 @@ import { Router, Switch, Route, NavLink, Link, useLocation } from "react-router-
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
+import RefLinePage from "./RefLinePage"
 import AssignTagFormPage from "./AssignTagFormPage"
 
 const Content = observer(() => {
@@ -49,6 +50,11 @@ const Content = observer(() => {
       path: "/workspace/point",
       name: "Point",
       Component: PointPage,
+    },
+    {
+      path: "/workspace/line",
+      name: "RefLinePage",
+      Component: RefLinePage,
     },
   ]
   return (

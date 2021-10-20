@@ -29,6 +29,7 @@ export type Form = {
   resetPoints: () => void;
   delete: (boxId?: string) => void;
   save: () => Promise<void>;
+  submit: () => Promise<void>;
 };
 
 export const Form = (props: {
@@ -161,6 +162,9 @@ export const Form = (props: {
     const point = props.pointEditor.points.find(p => p.id === props.pointEditor.draggingId)
     return self.referencePoints?.find(p => p.positionId === point?.positionId)
   }
+  const submit = async () => {
+
+  }
 
   const self = observable<Form>({
     get file() { return getFile() },
@@ -177,6 +181,7 @@ export const Form = (props: {
     resetPoints,
     delete: delete_,
     save,
+    submit
   })
   return self
 };
