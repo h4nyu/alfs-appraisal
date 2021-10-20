@@ -41,7 +41,7 @@ export const RootApi = (): RootApi => {
   const point = PointApi({ http, prefix: `${prefix}/point` });
   const file = FileApi({ http, prefix: `${prefix}/file` });
   const tag = TagApi({ http, prefix: `${prefix}/tag` });
-  const line = LineApi({ http, prefix: `${prefix}/api` });
+  const line = LineApi({ http, prefix: `${prefix}/line` });
 
   const setUrl = (url: string) => {
     http.defaults.baseURL = url;

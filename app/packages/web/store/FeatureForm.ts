@@ -23,8 +23,8 @@ export type Form = {
   referencePoints?: Point[], // getter
   selectedReferencePoint?: Point, // getter
   referenceLines?: Line[],
+  isReference?: boolean, // getter
   lines?: Line[],
-  isReference:boolean; // getter
   init: (box:Box) => void
   resetPoints: () => void;
   delete: (boxId?: string) => void;
@@ -63,6 +63,10 @@ export const Form = (props: {
     if(self.referenceBox === undefined) { return }
     self.referenceBox?.id && props.pointStore?.fetch({boxId: self.referenceBox.id})
     self.referenceBox?.fileId && await props.fileStore?.fetch({id: self.referenceBox.fileId})
+
+    const referenceLines = await props.api.line.filter({boxId: self.referenceBox.id})
+    if(referenceLines instanceof Error) { return referenceLines }
+    self.referenceLines = referenceLines
 
     const points = await props.pointStore?.fetch({boxId: box.id})
     if(points instanceof Error) { return points }
@@ -124,7 +128,7 @@ export const Form = (props: {
     props.pointStore?.fetch({boxId: box.id})
   }
 
-  const getReferenceLines = () => {
+  const generateRefLines = () => {
     let points = (self.isReference ? props.pointEditor?.points : self.referencePoints) ?? []
     const firstLine = getRefLine(points)
     if(!firstLine) { return }
@@ -179,10 +183,10 @@ export const Form = (props: {
     get referenceFile() { return getRefernceFile() },
     get referencePoints() { return getReferncePoints() },
     get points() { return getPoints() },
-    get referenceLines() { return getReferenceLines() },
+    referenceLines: observable([]),
+    get isReference() { return getIsReference() },
     get selectedReferencePoint() { return getSelectedReferencePoint() },
     get lines() { return getLines() },
-    get isReference() { return getIsReference() },
     init,
     resetPoints,
     delete: delete_,

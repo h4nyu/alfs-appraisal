@@ -24,7 +24,7 @@ export const TagTable = (props: {
   onAddTag?:() => void,
   onImageClick?:(image:Image) => void,
   onTagClick?:(tag: Tag) => void,
-  onBoxClick?:(box: Box) => void;
+  onBoxClick?:(box: Box) => Promise<void>;
 }) => {
   return (
     <div

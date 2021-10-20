@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from "mobx-react-lite";
 import Line from '@sivic/core/line'
 import Point from '@sivic/core/point'
 import File from '@sivic/core/file'
@@ -13,9 +14,9 @@ import { Payload as LoadLinePayload } from '@sivic/core/line/load'
 import PointEditor from '@sivic/web/store/PointEditor'
 
 
-const TARGETS = ["line", "point"] as const
+const TARGETS = [ "point", "line"] as const
 type Target = typeof TARGETS[number]
-const ReferenceForm = (props: Readonly<{
+const ReferenceForm = observer((props: Readonly<{
   id?:string;
   tag?: Tag;
   file?: File,
@@ -181,5 +182,5 @@ const ReferenceForm = (props: Readonly<{
       </div>
     </div>
   )
-}
+})
 export default ReferenceForm
