@@ -163,7 +163,6 @@ export const Form = (props: {
     return self.referencePoints?.find(p => p.positionId === point?.positionId)
   }
   const submit = async () => {
-
   }
 
   const self = observable<Form>({

@@ -6,7 +6,7 @@ export const Header = () => {
   return (
     <nav className="navbar is-dark" aria-label="main navigation">
       <div className="navbar-brand">
-        <div className="navbar-item">{PACKAGE.name} v{PACKAGE.version}</div>
+        <div className="navbar-item">文字鑑定</div>
       </div>
     </nav>
   );
