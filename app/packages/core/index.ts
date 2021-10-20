@@ -74,6 +74,12 @@ export type FileStore = {
   delete: (payload: {id?: string}) => Promise<void | Error>
 };
 
+export type LineStore = {
+  filter: (payload: {boxId?: string;}) => Promise<Line[] | Error>;
+  create: (payload: Line) => Promise<void | Error>;
+  delete: (payload: {id?:string}) => Promise<void | Error>;
+};
+
 export type TransformStore = {
   crop: (payload: CropPayload) => Promise<string | Error>;
 };
@@ -91,4 +97,5 @@ export type Store = {
   point: PointStore,
   tag: TagStore,
   file: FileStore,
+  line: LineStore,
 }

@@ -2,6 +2,10 @@ import { v4 as uuid } from 'uuid';
 import Point, { Position2D } from '@sivic/core/point';
 import { first, sortBy, uniq, range } from 'lodash';
 
+export { default as FilterFn } from "./filter"
+export { default as LoadFn } from "./load"
+
+
 export type Line = {
   id: string
   boxId?: string;
