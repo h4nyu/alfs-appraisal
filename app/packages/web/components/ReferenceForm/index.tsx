@@ -19,19 +19,16 @@ const ReferenceForm = (props: Readonly<{
   id?:string;
   tag?: Tag;
   file?: File,
-  points?: Point[],
   lines?: Line[],
   pointEditor:PointEditor,
-  onSubmit: (payload: {
-    lines:Line[],
-    points:Point[],
-  }) => Promise<void>;
+  onSubmit: (lines:Line[]) => Promise<void>;
 }>) => {
   const [target, setTarget] = React.useState<Target>("point")
   const [startPoint, setStartPoint] = React.useState<Point|undefined>(undefined)
   const [lines, setLines] = React.useState<Line[]>(props.lines ? props.lines : [])
+  const points = props.pointEditor.points
   const setPoint = (pointId:string) => {
-    const point = props.points?.find(x => x.id === pointId)
+    const point = points?.find(x => x.id === pointId)
     if(!point) { return }
 
     const matchedLine = lines.find(line => {
@@ -95,7 +92,7 @@ const ReferenceForm = (props: Readonly<{
         </div>
         <div className="field-body">
           <div className="field">
-            { props.points?.length ?? 0 } 
+            { points?.length ?? 0 } 
           </div>
         </div>
       </div>
@@ -139,7 +136,7 @@ const ReferenceForm = (props: Readonly<{
             <div className="card">
               <SvgCharPlot
                 data={props.file?.data}
-                points={props.points}
+                points={props.pointEditor.points}
                 lines={lines}
                 selectedId={startPoint?.id}
                 onPointSelect={(i, _) => setPoint(i)}
@@ -178,10 +175,7 @@ const ReferenceForm = (props: Readonly<{
       <div className="level-right">
         <div className="p-1">
           {
-            props.onSubmit &&  <SaveBtn onClick={() => props.onSubmit({
-              points: props.points ?? [],
-              lines: lines
-            })} />
+            <SaveBtn onClick={() => props.onSubmit(lines)} />
           }
         </div>
       </div>

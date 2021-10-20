@@ -28,8 +28,7 @@ export type Form = {
   init: (box:Box) => void
   resetPoints: () => void;
   delete: (boxId?: string) => void;
-  save: () => Promise<void>;
-  submit: () => Promise<void>;
+  save: (lines?:Line[]) => Promise<void>;
 };
 
 export const Form = (props: {
@@ -98,10 +97,9 @@ export const Form = (props: {
     return props.fileStore?.files.find(x => x.id === self.box?.fileId)
   }
 
-  const save = async () => {
+  const save = async (lines) => {
     const { box } = self
-    if(box === undefined) { return }
-    const points = props.pointEditor?.points ?? []
+    const points = props.pointEditor.points ?? []
     const err = await props.api.point.load({
       boxId: box.id,
       points
@@ -110,6 +108,17 @@ export const Form = (props: {
       props.toast?.error(err) 
       return 
     }
+    if(lines !== undefined) {
+      const err = await props.api.line.load({
+        boxId: box.id,
+        lines
+      })
+      if(err instanceof Error) { 
+        props.toast?.error(err) 
+        return 
+      }
+    }
+
     props.toast?.info("Success")
     props.pointStore?.delete({boxId: box.id})
     props.pointStore?.fetch({boxId: box.id})
@@ -162,8 +171,6 @@ export const Form = (props: {
     const point = props.pointEditor.points.find(p => p.id === props.pointEditor.draggingId)
     return self.referencePoints?.find(p => p.positionId === point?.positionId)
   }
-  const submit = async () => {
-  }
 
   const self = observable<Form>({
     get file() { return getFile() },
@@ -180,7 +187,6 @@ export const Form = (props: {
     resetPoints,
     delete: delete_,
     save,
-    submit
   })
   return self
 };

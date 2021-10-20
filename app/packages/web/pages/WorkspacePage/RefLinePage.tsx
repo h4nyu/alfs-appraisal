@@ -22,10 +22,9 @@ const Content = observer(() => {
         id={store.featureForm.referenceBox?.id}
         tag={store.featureForm.tag}
         file={store.featureForm.referenceFile}
-        points={store.featureForm.referencePoints}
         lines={store.featureForm.referenceLines}
         pointEditor={store.pointEditor}
-        onSubmit={async (a) => {}}
+        onSubmit={store.featureForm.save}
       />
   );
 });
