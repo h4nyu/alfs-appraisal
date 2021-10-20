@@ -13,69 +13,20 @@ import PointTable from "@sivic/web/components/PointTable"
 import CheckBox from "@sivic/web/components/CheckBox"
 import ReferenceTag from "@sivic/web/components/ReferenceTag"
 import Cursor from "@sivic/web/components/Cursor"
-import RefLineForm from "@sivic/web/components/RefLineForm"
+import ReferenceForm from "@sivic/web/components/ReferenceForm"
 
 const Content = observer(() => {
   const { featureForm, pointEditor, workspaceForm } = store;
   return (
-    <div
-      className="box"
-    >
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">ID</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            <span>
-              {featureForm.referenceBox?.id}
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">Tag</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            { featureForm.tag?.name ?? "None"}
-          </div>
-        </div>
-      </div>
-      <div 
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-Around"
-        }}
-      >
-        {
-          <>
-            <div className="card">
-              <RefLineForm 
-                file={store.featureForm.referenceFile}
-                points={store.featureForm.referencePoints}
-                lines={store.featureForm.referenceLines}
-                onSubmit={store.featureForm.submit}
-              />
-            </div>
-          </>
-        }
-      </div>
-      <div 
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div className="buttons">
-          <SaveBtn 
-            onClick={store.featureForm.submit}
-          />
-        </div>
-      </div>
-    </div>
+      <ReferenceForm 
+        id={store.featureForm.referenceBox?.id}
+        tag={store.featureForm.tag}
+        file={store.featureForm.referenceFile}
+        points={store.featureForm.referencePoints}
+        lines={store.featureForm.referenceLines}
+        pointEditor={store.pointEditor}
+        onSubmit={async (a) => {}}
+      />
   );
 });
 
