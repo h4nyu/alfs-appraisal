@@ -7,6 +7,8 @@ import BoxRoutes from "./box";
 import FileRoutes from "./file";
 import TagRoutes from "./tag"
 import PointRoutes from "./point";
+import LineRoutes from "./line";
+
 
 import fastifyStatic from "fastify-static";
 import fastifyHttpProxy from "fastify-http-proxy";
@@ -50,6 +52,9 @@ export const App = (args: { store: Store; lock: Lock }) => {
   });
   app.register(PointRoutes({ store, lock }), {
     prefix: `${prefix}/point`,
+  });
+  app.register(LineRoutes({ store, lock }), {
+    prefix: `${prefix}/line`,
   });
 
   // app.register(DetectRoutes({ store, lock }), {
