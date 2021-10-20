@@ -26,14 +26,13 @@ const ReferenceForm = observer((props: Readonly<{
 }>) => {
   const [target, setTarget] = React.useState<Target>("point")
   const [startPoint, setStartPoint] = React.useState<Point|undefined>(undefined)
-  const [lines, setLines] = React.useState<Line[]>(props.lines ? props.lines : [])
+  const [lines, setLines] = React.useState<Line[]>(props.lines ?? [])
   const points = props.pointEditor.points
   const setPoint = (pointId:string) => {
     const point = points?.find(x => x.id === pointId)
     if(!point) { return }
-
     const matchedLine = lines.find(line => {
-      return line.start.posEquals(point) || line.end.posEquals(point)
+      return (line.start.id === point.id) || (line.end.id === point.id)
     })
     if(matchedLine) {
       setLines(
