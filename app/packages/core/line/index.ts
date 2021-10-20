@@ -19,14 +19,14 @@ export type Line = {
 export type LineProps = {
   id:string,
   boxId:string,
-  start: Position2D;
-  end: Position2D;
+  start: Pick<Point, "id" | "x" | "y" | "positionId">;
+  end: Pick<Point, "id" | "x" | "y" | "positionId">;
 }
 export const Line  = (props?:Partial<LineProps>):Line => {
   const id = props?.id ?? uuid()
   const boxId = props?.boxId 
-  const start = Point({boxId: boxId, ...props?.start})
-  const end = Point({boxId: boxId, ...props?.end})
+  const start = Point({...props?.start, boxId: boxId, })
+  const end = Point({...props?.end, boxId: boxId, })
   const getLength = () => {
     return Math.pow(Math.pow((self.end.y - self.start.y), 2) + Math.pow((self.end.x - self.start.x), 2), 1/2);
   }
