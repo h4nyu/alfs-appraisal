@@ -9,5 +9,7 @@ export enum ErrorKind {
   BoxNotFound="BoxNotFound",
   InvalidTagNameFormat="InvalidTagNameFormat",
   InvalidWorkspaceNameFormat="InvalidWorkspaceNameFormat",
+  BoxNotReference="BoxNotReference",
+  LineLengthError = "LineLengthError",
 }
 export default ErrorKind;
