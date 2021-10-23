@@ -78,6 +78,7 @@ export const Editor = (root: {
   };
 
   const move = (pos: { x: number; y: number }) => {
+    console.log("move")
     const { boxes, draggingId, mode } = self;
     self.pos = pos;
     if (draggingId === undefined) {

@@ -5,7 +5,6 @@ import Point from '@sivic/core/point'
 import File from '@sivic/core/file'
 import Image from '@sivic/core/image'
 import SvgCharPlot from '@sivic/web/components/SvgCharPlot'
-import { useForm } from "react-hook-form";
 import Tag from '@sivic/core/tag'
 import { flatMap } from "lodash";
 import ResetBtn from "@sivic/web/components/ResetBtn"
