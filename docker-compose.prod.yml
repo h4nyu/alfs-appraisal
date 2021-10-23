@@ -2,10 +2,9 @@ version: '3.4'
 
 
 x-app: &app
-  image: "${DOCKER_REGISTRY:-localhost}/sivic/${PLATFORM:-linux/amd64}/app"
+  image: "${DOCKER_REGISTRY:-localhost}/sivic/app"
   build:
     context: ./app
-  platform: ${PLATFORM:-linux/amd64}
   environment:
     - DATABASE_URL=postgres://app:app@db/app
     - IMAGE_URL
