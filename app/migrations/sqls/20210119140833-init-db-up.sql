@@ -45,3 +45,16 @@ CREATE TABLE files (
     data bytea,
     created_at timestamp NOT NULL
 );
+
+CREATE TABLE lines ( 
+    id text NOT NULL PRIMARY KEY,
+    box_id  text,
+    start_id  text NOT NULL,
+    start_x double precision NOT NULL,
+    start_y double precision NOT NULL,
+    start_position_id text NOT NULL,
+    end_id text NOT NULL,
+    end_x double precision NOT NULL,
+    end_y double precision NOT NULL,
+    end_position_id text NOT NULL
+);

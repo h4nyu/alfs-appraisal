@@ -189,28 +189,23 @@ export const SvgCharPlot = (props: {
         </g>
       ))}
       {
-        lines?.map((l) => (
-          <g key={l.id}>
-            <line 
-              x1={l.start.x * scale}
-              y1={l.start.y * scale}
-              x2={l.end.x * scale}
-              y2={l.end.y * scale}
-              stroke={l.id === lineId ? "green" : "red"}
-              strokeOpacity="0.5"
-              strokeWidth={1}
-            />
-            <rect 
-              x={l.origin.x * scale - pointSize } 
-              y={l.origin.y * scale - pointSize } 
-              fill="none"
-              stroke="red"
-              width={pointSize * 2} 
-              height={pointSize * 2} 
-              opacity={0.5}
-            />
-          </g>
-        ))
+        lines?.map((l) => {
+          const start = props.points?.find((p) => p.id === l.start.id) ?? l.start
+          const end = props.points?.find((p) => p.id === l.end.id) ?? l.end
+          return (
+            <g key={l.id}>
+              <line 
+                x1={start.x * scale}
+                y1={start.y * scale}
+                x2={end.x * scale}
+                y2={end.y * scale}
+                stroke={l.id === lineId ? "green" : "red"}
+                strokeOpacity="0.5"
+                strokeWidth={1}
+              />
+            </g>
+          )
+        })
       }
     </svg>
   );

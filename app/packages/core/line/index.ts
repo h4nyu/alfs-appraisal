@@ -1,29 +1,32 @@
 import { v4 as uuid } from 'uuid';
-import Point from '@sivic/core/point';
+import Point, { Position2D } from '@sivic/core/point';
 import { first, sortBy, uniq, range } from 'lodash';
+
+export { default as FilterFn } from "./filter"
+export { default as LoadFn } from "./load"
+
 
 export type Line = {
   id: string
+  boxId?: string;
   start: Point,
   end: Point;
-  priority: number;
   radian: number; // getter
   length: number; // getter
   origin: Point; // getter
 }
 
-export const Line  = (props?:{
-  id?:string,
-  start?: Point;
-  end?: Point;
-  boxId?: string;
-  priority?: number;
-}):Line => {
+export type LineProps = {
+  id:string,
+  boxId:string,
+  start: Pick<Point, "id" | "x" | "y" | "positionId">;
+  end: Pick<Point, "id" | "x" | "y" | "positionId">;
+}
+export const Line  = (props?:Partial<LineProps>):Line => {
   const id = props?.id ?? uuid()
-  const boxId = props?.boxId
-  const start = props?.start ?? Point({boxId: boxId})
-  const end = props?.end ?? Point({boxId: boxId})
-  const priority = props?.priority ?? 0
+  const boxId = props?.boxId 
+  const start = Point({...props?.start, boxId: boxId, })
+  const end = Point({...props?.end, boxId: boxId, })
   const getLength = () => {
     return Math.pow(Math.pow((self.end.y - self.start.y), 2) + Math.pow((self.end.x - self.start.x), 2), 1/2);
   }
@@ -39,9 +42,9 @@ export const Line  = (props?:{
   }
   const self = {
     id,
+    boxId,
     start,
     end,
-    priority,
     get radian() { return getRadian() },
     get length() { return getLength() },
     get origin() { return getOrigin() },

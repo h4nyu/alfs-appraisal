@@ -29,7 +29,6 @@ const Content = observer(() => {
             <span>
               {featureForm.box?.id}
             </span>
-            {featureForm.isReference && <ReferenceTag />}
           </div>
         </div>
       </div>
@@ -60,59 +59,34 @@ const Content = observer(() => {
           justifyContent: "space-Around"
         }}
       >
-        {
-          featureForm.isReference ? <>
-            <div className="card"
-              tabIndex={0}
-              onKeyDown={e => {
-                if (e.keyCode === 8) {
-                  pointEditor.del()
-                }
-              }}
-            >
-              <SvgCharPlot 
-                data={featureForm.file?.data}
-                points={pointEditor.points}
-                lines={store.featureForm.referenceLines}
-                selectedId={pointEditor.draggingId}
-                onPointSelect={pointEditor.toggleDrag}
-                onAdd={pointEditor.add}
-                onMove={pointEditor.move}
-                size={pointEditor.size}
-                width={512}
-              />
-            </div>
-          </> : <>
-            <div className="card">
-              <SvgCharPlot 
-                data={featureForm.referenceFile?.data}
-                lines={store.featureForm.referenceLines}
-                points={featureForm.referencePoints}
-                selectedId={store.featureForm.selectedReferencePoint?.id}
-                size={pointEditor.size}
-                width={512}
-              />
-            </div>
-            <div className="card">
-              <SvgCharPlot 
-                data={featureForm.file?.data}
-                points={pointEditor.points}
-                lines={store.featureForm.lines}
-                selectedId={pointEditor.draggingId}
-                onPointSelect={pointEditor.toggleDrag}
-                onMove={pointEditor.move}
-                size={pointEditor.size}
-                width={512}
-              />
-              <Cursor 
-                onUp={pointEditor.up}
-                onDown={pointEditor.down}
-                onRight={pointEditor.right}
-                onLeft={pointEditor.left}
-              />
-            </div>
-          </>
-        }
+        <div className="card">
+          <SvgCharPlot 
+            data={featureForm.referenceFile?.data}
+            lines={store.featureForm.referenceLines}
+            points={featureForm.referencePoints}
+            selectedId={store.featureForm.selectedReferencePoint?.id}
+            size={pointEditor.size}
+            width={512}
+          />
+        </div>
+        <div className="card">
+          <SvgCharPlot 
+            data={featureForm.file?.data}
+            points={pointEditor.points}
+            lines={store.featureForm.lines}
+            selectedId={pointEditor.draggingId}
+            onPointSelect={pointEditor.toggleDrag}
+            onMove={pointEditor.move}
+            size={pointEditor.size}
+            width={512}
+          />
+          <Cursor 
+            onUp={pointEditor.up}
+            onDown={pointEditor.down}
+            onRight={pointEditor.right}
+            onLeft={pointEditor.left}
+          />
+        </div>
       </div>
       <div 
         style={{
@@ -127,7 +101,7 @@ const Content = observer(() => {
         </div>
         <div className="buttons">
           {
-            !featureForm.isReference && <ResetBtn onClick={() => store.featureForm.resetPoints()} />
+            <ResetBtn onClick={() => store.featureForm.resetPoints()} />
           }
           <SaveBtn 
             onClick={store.featureForm.save}

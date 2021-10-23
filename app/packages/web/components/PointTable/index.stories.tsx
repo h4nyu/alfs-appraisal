@@ -14,6 +14,6 @@ const points = [
   }),
   Point({
     positionId: "bbb",
-  })
+  }),
 ];
 export const Primary = (args) => <Component {...args} points={points} />;

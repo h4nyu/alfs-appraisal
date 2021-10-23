@@ -23,12 +23,12 @@ export type Form = {
   referencePoints?: Point[], // getter
   selectedReferencePoint?: Point, // getter
   referenceLines?: Line[],
+  isReference?: boolean, // getter
   lines?: Line[],
-  isReference:boolean; // getter
   init: (box:Box) => void
   resetPoints: () => void;
   delete: (boxId?: string) => void;
-  save: () => Promise<void>;
+  save: (lines?:Line[]) => Promise<void>;
 };
 
 export const Form = (props: {
@@ -64,6 +64,10 @@ export const Form = (props: {
     self.referenceBox?.id && props.pointStore?.fetch({boxId: self.referenceBox.id})
     self.referenceBox?.fileId && await props.fileStore?.fetch({id: self.referenceBox.fileId})
 
+    const referenceLines = await props.api.line.filter({boxId: self.referenceBox.id})
+    if(referenceLines instanceof Error) { return referenceLines }
+    self.referenceLines = referenceLines
+
     const points = await props.pointStore?.fetch({boxId: box.id})
     if(points instanceof Error) { return points }
     if(self.isReference || points.length > 0) {
@@ -97,10 +101,9 @@ export const Form = (props: {
     return props.fileStore?.files.find(x => x.id === self.box?.fileId)
   }
 
-  const save = async () => {
+  const save = async (lines) => {
     const { box } = self
-    if(box === undefined) { return }
-    const points = props.pointEditor?.points ?? []
+    const points = props.pointEditor.points ?? []
     const err = await props.api.point.load({
       boxId: box.id,
       points
@@ -109,12 +112,23 @@ export const Form = (props: {
       props.toast?.error(err) 
       return 
     }
+    if(lines !== undefined) {
+      const err = await props.api.line.load({
+        boxId: box.id,
+        lines
+      })
+      if(err instanceof Error) { 
+        props.toast?.error(err) 
+        return 
+      }
+    }
+
     props.toast?.info("Success")
     props.pointStore?.delete({boxId: box.id})
     props.pointStore?.fetch({boxId: box.id})
   }
 
-  const getReferenceLines = () => {
+  const generateRefLines = () => {
     let points = (self.isReference ? props.pointEditor?.points : self.referencePoints) ?? []
     const firstLine = getRefLine(points)
     if(!firstLine) { return }
@@ -169,10 +183,10 @@ export const Form = (props: {
     get referenceFile() { return getRefernceFile() },
     get referencePoints() { return getReferncePoints() },
     get points() { return getPoints() },
-    get referenceLines() { return getReferenceLines() },
+    referenceLines: observable([]),
+    get isReference() { return getIsReference() },
     get selectedReferencePoint() { return getSelectedReferencePoint() },
     get lines() { return getLines() },
-    get isReference() { return getIsReference() },
     init,
     resetPoints,
     delete: delete_,

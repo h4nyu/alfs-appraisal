@@ -18,7 +18,6 @@ x-app: &app
     - IMAGE_URL
     - YARN_REGISTRY
     - DETECTION_URL
-    - STORYBOOK_PORT
 
 services:
   app:
@@ -27,9 +26,11 @@ services:
 
   srv:
     <<: *app
-    command: wait-for-it db:5432 -- yarn srv start:dev
+    command:  bash -c "wait-for-it db:5432 -- yarn db-migrate up && yarn srv start:dev"
     ports:
       - "${SERVER_PORT:-80}:80"
+    depends_on:
+      - db
 
   ui:
     <<: *app
@@ -40,12 +41,6 @@ services:
     command: yarn web storybook -p ${STORYBOOK_PORT:-9009}
     ports:
       - "${STORYBOOK_PORT:-9009}:${STORYBOOK_PORT:-9009}"
-
-  migrate:
-    <<: *app
-    command: wait-for-it db:5432 -- yarn db-migrate up
-    depends_on:
-      - db
 
   db:
     image: postgres:13

@@ -2,15 +2,17 @@ import { Lock, ErrorKind, Store } from "@sivic/core";
 import Line from ".";
 
 export type Payload = {
-  imageId:string
+  boxId: string;
 };
-export type Fn = (payload: Payload) => Promise<void | Error>
+export type Fn = (payload: Payload) => Promise<Line[] | Error>
 export const Fn = (props: {
   store: Store;
-}):Fn => {
+}) => {
   return async (payload: Payload) => {
-    // const err = await props.store.line.delete(payload)
-    // if(err instanceof Error) { return err }
+    const lines = await props.store.line.filter(payload)
+    if(lines instanceof Error) { return lines }
+    return lines
   }
 }
 export default Fn
+

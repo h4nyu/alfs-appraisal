@@ -1,4 +1,5 @@
-import React, { useState } from "react"; import { observer } from "mobx-react-lite";
+import React, { useState } from "react"; 
+import { observer } from "mobx-react-lite";
 import FileUpload from "@sivic/web/components/FileUpload";
 import store from "@sivic/web/store";
 import SaveBtn from "@sivic/web/components/SaveBtn"
@@ -13,6 +14,7 @@ import { Router, Switch, Route, NavLink, Link, useLocation } from "react-router-
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
+import RefLinePage from "./RefLinePage"
 import AssignTagFormPage from "./AssignTagFormPage"
 
 const Content = observer(() => {
@@ -49,6 +51,11 @@ const Content = observer(() => {
       path: "/workspace/point",
       name: "Point",
       Component: PointPage,
+    },
+    {
+      path: "/workspace/line",
+      name: "RefLinePage",
+      Component: RefLinePage,
     },
   ]
   return (
@@ -98,10 +105,14 @@ const Content = observer(() => {
                 store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
                 store.history.push("/workspace/tag")
               }}
-              onBoxClick={box => {
+              onBoxClick={async (box) => {
                 if(box.tagId === undefined) { return }
-                store.featureForm.init(box)
-                store.history.push("/workspace/point")
+                await store.featureForm.init(box)
+                if(store.featureForm.isReference){
+                  store.history.push("/workspace/line")
+                }else{
+                  store.history.push("/workspace/point")
+                }
               }}
             />
           </div>
