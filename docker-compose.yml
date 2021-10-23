@@ -18,7 +18,6 @@ x-app: &app
     - IMAGE_URL
     - YARN_REGISTRY
     - DETECTION_URL
-    - STORYBOOK_PORT
 
 services:
   app:
