@@ -10,7 +10,8 @@ jobs:
       - run:
           name: "Setup environment variables"
           command: |
-            echo 'export COMPOSE_FILE="docker-compose.yml"' >> $BASH_ENV
+            echo 'export COMPOSE_FILE=docker-compose.yml' >> $BASH_ENV
+            echo 'export COMPOSE_API_VERSION=1.35' >> $BASH_ENV
       - run:
           name: Install Docker Compose
           command: |
