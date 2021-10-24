@@ -8,6 +8,7 @@ import useBoxPlot from "@sivic/web/hooks/useBoxPlot"
 import useImageForm from "@sivic/web/hooks/useImageForm"
 import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
+import UpdateBtn from "@sivic/web/components/UpdateBtn"
 import Tag from "@sivic/core/tag"
 import Image from "@sivic/core/image"
 
@@ -43,7 +44,7 @@ export const BoxForm = (props:BoxFormProps) => {
               onChange={e => setName(e.target.value)}
             />
             <div className="control">
-              <SaveBtn 
+              <UpdateBtn 
                 onClick={() => props.onSaveImage({name})}
               />
             </div>

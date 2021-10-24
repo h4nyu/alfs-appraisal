@@ -10,7 +10,7 @@ import { flatMap } from "lodash";
 import ResetBtn from "@sivic/web/components/ResetBtn"
 import SaveBtn from "@sivic/web/components/SaveBtn"
 import { Payload as LoadLinePayload } from '@sivic/core/line/load'
-import PointEditor from '@sivic/web/store/PointEditor'
+import usePointPlot from "@sivic/web/hooks/usePointPlot"
 
 
 const TARGETS = [ "point", "line"] as const
@@ -20,44 +20,46 @@ const ReferenceForm = observer((props: Readonly<{
   tag?: Tag;
   file?: File,
   lines?: Line[],
-  pointEditor:PointEditor,
+  points?: Point[],
   onSubmit: (lines:Line[]) => Promise<void>;
 }>) => {
   const [target, setTarget] = React.useState<Target>("point")
   const [startPoint, setStartPoint] = React.useState<Point|undefined>(undefined)
+  const { points, toggleDrag, 
+    remove:removePoint, add: addPoint, move } = usePointPlot({ points: props.points })
   const [lines, setLines] = React.useState<Line[]>(props.lines ?? [])
-  const points = props.pointEditor.points
-  const setPoint = (pointId:string) => {
-    const point = points?.find(x => x.id === pointId)
-    if(!point) { return }
-    const matchedLine = lines.find(line => {
-      return (line.start.id === point.id) || (line.end.id === point.id)
-    })
-    if(matchedLine) {
-      setLines(
-        lines.filter(x => x.id !== matchedLine.id)
-      )
-      setStartPoint(undefined)
-      return
-    }
-    if(startPoint === undefined && lines.length < 2){
-      setStartPoint(point)
-      return
-    }
-    if(startPoint !== undefined
-    && !startPoint.posEquals(point)
-    ) {
-      const newLines = [
-        ...lines,
-        Line({
-          start:startPoint,
-          end:point,
-        })
-      ]
-      setLines(newLines)
-      setStartPoint(undefined)
-    }
-  }
+  // const points = props.points
+  // const setPoint = (pointId:string) => {
+  //   const point = points?.find(x => x.id === pointId)
+  //   if(!point) { return }
+  //   const matchedLine = lines.find(line => {
+  //     return (line.start.id === point.id) || (line.end.id === point.id)
+  //   })
+  //   if(matchedLine) {
+  //     setLines(
+  //       lines.filter(x => x.id !== matchedLine.id)
+  //     )
+  //     setStartPoint(undefined)
+  //     return
+  //   }
+  //   if(startPoint === undefined && lines.length < 2){
+  //     setStartPoint(point)
+  //     return
+  //   }
+  //   if(startPoint !== undefined
+  //   && !startPoint.posEquals(point)
+  //   ) {
+  //     const newLines = [
+  //       ...lines,
+  //       Line({
+  //         start:startPoint,
+  //         end:point,
+  //       })
+  //     ]
+  //     setLines(newLines)
+  //     setStartPoint(undefined)
+  //   }
+  // }
 
   return (
     <div
@@ -101,7 +103,6 @@ const ReferenceForm = observer((props: Readonly<{
         </div>
         <div className="field-body">
           <div className="field">
-            { lines.length } 
           </div>
         </div>
       </div>
@@ -135,46 +136,29 @@ const ReferenceForm = observer((props: Readonly<{
             <div className="card">
               <SvgCharPlot
                 data={props.file?.data}
-                points={props.pointEditor.points}
-                lines={lines}
+                points={points}
                 selectedId={startPoint?.id}
-                onPointSelect={(i, _) => setPoint(i)}
                 width={512}
               />
             </div>
         }
         {
           target === "point" && 
-            <div className="card"
-              tabIndex={0}
-              onKeyDown={e => {
-                if (e.keyCode === 8) {
-                  props.pointEditor.del()
-                  const { draggingId } = props.pointEditor
-                  setLines(
-                    lines.filter(l => l.start.id !== draggingId && l.end.id !== draggingId)
-                  )
-                }
-              }}
-            >
-              <SvgCharPlot
-                data={props.file?.data}
-                points={props.pointEditor.points}
-                lines={lines}
-                selectedId={props.pointEditor.draggingId}
-                onPointSelect={props.pointEditor.toggleDrag}
-                onAdd={props.pointEditor.add}
-                onMove={props.pointEditor.move}
-                size={props.pointEditor.size}
-                width={512}
-              />
-            </div>
+            <SvgCharPlot
+              data={props.file?.data}
+              points={points}
+              onAdd={addPoint}
+              onDelete={removePoint}
+              onMove={move}
+              lines={lines}
+              width={512}
+            />
         }
       </div>
       <div className="level-right">
         <div className="p-1">
           {
-            <SaveBtn onClick={() => props.onSubmit(lines)} />
+            <SaveBtn  />
           }
         </div>
       </div>

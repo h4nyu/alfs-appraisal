@@ -112,7 +112,8 @@ export const ImageFrom = (props: {
       return
     }
     self.image = image
-    props.imageStore?.fetch({ids: [image.id]})
+    await props.imageStore?.fetch({ids: [image.id]})
+    toast.info("update")
   }
 
   const self = observable<ImageFrom>({

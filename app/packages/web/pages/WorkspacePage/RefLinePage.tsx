@@ -22,8 +22,8 @@ const Content = observer(() => {
         id={store.featureForm.referenceBox?.id}
         tag={store.featureForm.tag}
         file={store.featureForm.referenceFile}
+        points={[]}
         lines={store.featureForm.referenceLines}
-        pointEditor={store.pointEditor}
         onSubmit={store.featureForm.save}
       />
   );
