@@ -7,7 +7,9 @@ export const Modal = (props: {
 }) => {
   return (
     <div className={`modal ${props.isActive ? "is-active" : "" }`}>
-      <div className="modal-background"></div>
+      <div className="modal-background"
+        onClick={props.onClose}
+      />
       <div className="modal-content">
         {props.children}
       </div>

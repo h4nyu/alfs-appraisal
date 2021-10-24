@@ -107,13 +107,6 @@ export const RootStore = (): RootStore => {
     imageStore,
     fileStore,
     boxStore,
-    editor,
-    onSave: async (workspaceId:string) => {
-      workspaceForm.init(workspaceId)
-    },
-    onDelete: async (workspaceId:string) => {
-      workspaceForm.init(workspaceId)
-    }
   })
   const assignTagForm = AssignTagForm({
     api,

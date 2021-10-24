@@ -35,7 +35,6 @@ export const Primary = (args) => (
 );
 
 export const WithBoxes = () => {
-  console.log("story render")
   const { toggleDrag, move, boxes, draggingId, add, remove } = useBoxPlot()
   return (
     <Component
