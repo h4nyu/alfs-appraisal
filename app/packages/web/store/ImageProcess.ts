@@ -81,6 +81,10 @@ export const ImageFrom = (props: {
     await props.imageStore?.fetch({parentId: self.image?.id})
     await props.boxStore?.delete({imageId: self.image?.id})
     await props.boxStore?.fetch({imageId: self.image?.id})
+
+    for(const b of self.boxes){
+      b.fileId && await props.fileStore?.fetch({id: b.fileId})
+    }
     toast.info("saved")
   }
   const getBoxes = () => {

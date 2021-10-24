@@ -28,12 +28,13 @@ const boxes = [
     y1: 10
   })
 ]
+const image = Image({name:'aaaa.png'})
 
 export const Default = (props) => {
   return (
     <BoxForm 
       {...props}
-      name={"imageName"}
+      image={image}
       boxes={boxes}
       file={file}
     />

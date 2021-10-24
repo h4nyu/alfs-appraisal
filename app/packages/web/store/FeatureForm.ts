@@ -28,7 +28,7 @@ export type Form = {
   init: (box:Box) => void
   resetPoints: () => void;
   delete: (boxId?: string) => void;
-  save: (lines?:Line[]) => Promise<void>;
+  save: (payload: {lines?:Line[], points:Point[]}) => Promise<void>;
 };
 
 export const Form = (props: {
@@ -101,9 +101,11 @@ export const Form = (props: {
     return props.fileStore?.files.find(x => x.id === self.box?.fileId)
   }
 
-  const save = async (lines) => {
+  const save = async ({lines, points}:{
+    points:Point[];
+    lines?:Line[];
+  }) => {
     const { box } = self
-    const points = props.pointEditor.points ?? []
     const err = await props.api.point.load({
       boxId: box.id,
       points

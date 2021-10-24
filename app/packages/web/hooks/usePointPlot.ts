@@ -20,9 +20,15 @@ export const usePointPlot = (props?: {
   };
 
   const add = () => {
-    const newPoint = Point({ ...position, })
-    setPoints([...points, newPoint])
-    setDraggingId(newPoint.id)
+    console.log(draggingId)
+    if(draggingId === undefined) {
+      const newPoint = Point({ ...position, })
+      setPoints([...points, newPoint])
+      setDraggingId(newPoint.id)
+    }else{
+      setDraggingId(undefined)
+    }
+    console.log(draggingId)
   };
 
   const move = (pos: Position2D) => {

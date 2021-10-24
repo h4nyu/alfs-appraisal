@@ -30,59 +30,58 @@ export const BoxForm = (props:BoxFormProps) => {
   return (
     <div
       className="box"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr auto",
+      }}
     >
-      <div className="field is-horizontal">
-        <div className="field-label is-normal">
+      <SvgCharPlot 
+        data={props.file?.data} 
+        boxes={boxes}
+        tags={props.tags}
+        selectedId={draggingId}
+        onSelect={toggleDrag}
+        onAdd={add}
+        onMove={move}
+        width={512+256}
+        onDelete={remove}
+      />
+      <div className="p-1">
+        <div className="field">
           <label className="label">File Name</label>
-        </div>
-        <div className="field-body">
-          <div className="field has-addons">
-            <input 
-              className="input" 
-              type="text"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-            <div className="control">
-              <UpdateBtn 
-                onClick={() => props.onSaveImage({name})}
+          <div className="control">
+            <div className="field has-addons">
+              <input 
+                className="input" 
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
               />
+              <div className="control">
+                <UpdateBtn 
+                  onClick={() => props.onSaveImage({name})}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="level">
-        <div className="level-item">
-          <div>
-            <p className="heading">Count</p>
-            <p className="title"> { props.boxes.length } </p>
-          </div>
+        <div className="field">
+          <label className="label">Box Count</label>
+          { props.boxes.length }
         </div>
-      </div>
-      {
-        <SvgCharPlot 
-          data={props.file?.data} 
-          boxes={boxes}
-          tags={props.tags}
-          selectedId={draggingId}
-          onSelect={toggleDrag}
-          onAdd={add}
-          onMove={move}
-          size={1024}
-          onDelete={remove}
-        />
-      }
-      <div 
-        style={{
-          display:"flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <DeleteBtn 
-          onClick={() => props.onDelete()}
-        />
-        <SaveBtn onClick={() => props.onSave({boxes})} />
+        <div 
+          className="field"
+          style={{
+            display:"flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <DeleteBtn 
+            onClick={() => props.onDelete()}
+          />
+          <SaveBtn onClick={() => props.onSave({boxes})} />
+        </div>
       </div>
     </div>
   )

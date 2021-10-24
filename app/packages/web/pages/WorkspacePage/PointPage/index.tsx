@@ -75,7 +75,6 @@ const Content = observer(() => {
             points={pointEditor.points}
             lines={store.featureForm.lines}
             selectedId={pointEditor.draggingId}
-            onPointSelect={pointEditor.toggleDrag}
             onMove={pointEditor.move}
             size={pointEditor.size}
             width={512}
@@ -104,7 +103,6 @@ const Content = observer(() => {
             <ResetBtn onClick={() => store.featureForm.resetPoints()} />
           }
           <SaveBtn 
-            onClick={store.featureForm.save}
           />
         </div>
       </div>

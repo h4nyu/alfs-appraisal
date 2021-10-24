@@ -21,7 +21,7 @@ export type SvgCharPlotProps = {
   onAdd?: VoidFunction;
   onMove?: (pos: { x: number; y: number }) => void;
   onSelect?: (id: string, InputMode: InputMode) => void;
-  onPointSelect?: (id: string, InputMode: PointMode) => void;
+  onPointSelect?: (id: string) => void;
   onLineSelect?: (id: string) => void;
   onDelete?: VoidFunction
   onLeave?: VoidFunction;
@@ -198,7 +198,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
               fill={schemeCategory10[k % schemeCategory10.length]}
               onClick={(e) => {
                 e.stopPropagation();
-                props.onPointSelect?.(p.id, PointMode.Edit)
+                props.onPointSelect?.(p.id)
               }}
             />
           </g>

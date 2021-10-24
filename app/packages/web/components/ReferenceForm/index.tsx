@@ -1,5 +1,4 @@
 import React from 'react';
-import { observer } from "mobx-react-lite";
 import Line from '@sivic/core/line'
 import Point from '@sivic/core/point'
 import File from '@sivic/core/file'
@@ -11,158 +10,113 @@ import ResetBtn from "@sivic/web/components/ResetBtn"
 import SaveBtn from "@sivic/web/components/SaveBtn"
 import { Payload as LoadLinePayload } from '@sivic/core/line/load'
 import usePointPlot from "@sivic/web/hooks/usePointPlot"
+import useLinePlot from "@sivic/web/hooks/useLinePlot"
 
 
 const TARGETS = [ "point", "line"] as const
 type Target = typeof TARGETS[number]
-const ReferenceForm = observer((props: Readonly<{
+const ReferenceForm = (props: Readonly<{
   id?:string;
   tag?: Tag;
   file?: File,
   lines?: Line[],
   points?: Point[],
-  onSubmit: (lines:Line[]) => Promise<void>;
+  onSubmit: (payload: {
+    lines:Line[],
+    points:Point[],
+  }) => Promise<void>;
 }>) => {
   const [target, setTarget] = React.useState<Target>("point")
-  const [startPoint, setStartPoint] = React.useState<Point|undefined>(undefined)
-  const { points, toggleDrag, 
-    remove:removePoint, add: addPoint, move } = usePointPlot({ points: props.points })
-  const [lines, setLines] = React.useState<Line[]>(props.lines ?? [])
-  // const points = props.points
-  // const setPoint = (pointId:string) => {
-  //   const point = points?.find(x => x.id === pointId)
-  //   if(!point) { return }
-  //   const matchedLine = lines.find(line => {
-  //     return (line.start.id === point.id) || (line.end.id === point.id)
-  //   })
-  //   if(matchedLine) {
-  //     setLines(
-  //       lines.filter(x => x.id !== matchedLine.id)
-  //     )
-  //     setStartPoint(undefined)
-  //     return
-  //   }
-  //   if(startPoint === undefined && lines.length < 2){
-  //     setStartPoint(point)
-  //     return
-  //   }
-  //   if(startPoint !== undefined
-  //   && !startPoint.posEquals(point)
-  //   ) {
-  //     const newLines = [
-  //       ...lines,
-  //       Line({
-  //         start:startPoint,
-  //         end:point,
-  //       })
-  //     ]
-  //     setLines(newLines)
-  //     setStartPoint(undefined)
-  //   }
-  // }
-
+  const { 
+    draggingId,
+    points, 
+    toggleDrag, 
+    remove:removePoint, 
+    add: addPoint, 
+    move,
+  } = usePointPlot({ points: props.points })
+  const { lines, selectPoint, startPoint } = useLinePlot({points})
   return (
     <div
       className="box"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr auto",
+      }}
     >
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">ID</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            <span>
-              {props.id}
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">Tag</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            { props.tag?.name ?? "None"}
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">Point</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            { points?.length ?? 0 } 
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">Line</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-          </div>
-        </div>
-      </div>
-
-      <div className="tabs is-boxed m-0">
-        <ul>
-          {
-            TARGETS.map((x) => {
-              return (
-                <li 
-                  key={x}
-                  className={target === x ? "is-active" : ""}
-                  onClick={() => setTarget(x)}
-                >
-                  <a>{x}</a>
-                </li>
-              )
-            })
-          }
-        </ul>
-      </div>
-      <div 
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-Around"
-        }}
-      >
+      <div>
         { 
           target === "line" && 
-            <div className="card">
-              <SvgCharPlot
-                data={props.file?.data}
-                points={points}
-                selectedId={startPoint?.id}
-                width={512}
-              />
-            </div>
+            <SvgCharPlot
+              data={props.file?.data}
+              points={points}
+              lines={lines}
+              onPointSelect={selectPoint}
+              selectedId={startPoint?.id}
+              width={512 + 256}
+            />
         }
         {
           target === "point" && 
             <SvgCharPlot
               data={props.file?.data}
+              selectedId={draggingId}
               points={points}
               onAdd={addPoint}
               onDelete={removePoint}
+              onPointSelect={toggleDrag}
               onMove={move}
               lines={lines}
-              width={512}
+              width={512 + 256}
             />
         }
       </div>
-      <div className="level-right">
-        <div className="p-1">
-          {
-            <SaveBtn  />
-          }
+      <div
+        className="p-1"
+        style={{
+          height: "calc(100% - 42px)",
+        }}
+      >
+        <div className="field">
+          <label className="label">ID</label>
+          <span>
+            {props.id}
+          </span>
+        </div>
+        <div className="field">
+          <label className="label">Tag</label>
+          { props.tag?.name ?? "None"}
+        </div>
+        <div className="field">
+          <label className="label">
+            <button 
+              className={`button ${target === "point" ? "is-active":""}`}
+              onClick={() =>setTarget("point")}
+            >Point { points?.length ?? 0 }</button>
+          </label>
+        </div>
+        <div className="field">
+          <label className="label">
+            <button 
+              className={`button ${target === "line" ? "is-active":""}`}
+              onClick={() =>setTarget("line")}
+            >Line { lines?.length ?? 0 }</button>
+          </label>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div/>
+          <SaveBtn  onClick={() => props.onSubmit({
+            lines,
+            points,
+          })}/>
         </div>
       </div>
     </div>
   )
-})
+}
 export default ReferenceForm

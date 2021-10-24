@@ -10,7 +10,12 @@ export const Modal = (props: {
       <div className="modal-background"
         onClick={props.onClose}
       />
-      <div className="modal-content">
+      <div 
+        style={{
+          position: "relative",
+          overflow: "scroll",
+        }}
+      >
         {props.children}
       </div>
       <button 
