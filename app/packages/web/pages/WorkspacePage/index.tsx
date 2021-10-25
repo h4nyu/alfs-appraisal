@@ -25,7 +25,6 @@ const Content = observer(() => {
     workspaceStore, 
     imageStore, 
     boxStore,
-    pointEditor,
     fileStore,
     tagForm
   } = store

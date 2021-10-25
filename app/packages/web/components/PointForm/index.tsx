@@ -6,6 +6,7 @@ import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import Point from "@sivic/core/point"
 import ResetBtn from "@sivic/web/components/ResetBtn"
 import usePointPlot from "@sivic/web/hooks/usePointPlot"
+import Line from "@sivic/core/line"
 import File from "@sivic/core/file"
 import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
 
@@ -15,93 +16,78 @@ export const PointForm = (props: {
   box?: Box,
   tag?: Tag,
   file?: File,
+  referenceFile?: File,
+  referenceLines?: Line[],
+  lines?: Line[],
+  referencePoints?:Point[],
   points?: Point[],
   onDelete?: VoidFunction,
   onSave?: VoidFunction,
 }) => {
   const {draggingId, toggleDrag, move, points} = usePointPlot({ points: props.points })
+  const draggingPoint = points.find(p => p.id === draggingId)
+  const refDraggingId = props.referencePoints?.find(p => p.positionId === draggingPoint?.positionId)?.id
   return (
     <div
       className="box"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: "1fr auto",
+      }}
     >
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">Box ID</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            <span>
-              {props.box?.id}
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">Tag</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            { props.tag?.name ?? "None"}
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-label">
-          <label className="label">Count</label>
-        </div>
-        <div className="field-body">
-          <div className="field">
-            { props.points?.length ?? 0 } 
-          </div>
-        </div>
-      </div>
+
       <div 
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-Around"
+          justifyContent: "space-Around",
+          gap: "1em",
         }}
       >
-        <div className="card">
-          {/* <SvgCharPlot */} 
-          {/*   data={featureForm.referenceFile?.data} */}
-          {/*   lines={store.featureForm.referenceLines} */}
-          {/*   points={featureForm.referencePoints} */}
-          {/*   selectedId={store.featureForm.selectedReferencePoint?.id} */}
-          {/*   size={pointEditor.size} */}
-          {/*   width={512} */}
-          {/* /> */}
-        </div>
-        <div className="card">
-          <SvgCharPlot  
-            data={props.file?.data} 
-            points={points} 
-            selectedId={draggingId}
-            onPointSelect={toggleDrag} 
-            onMove={move} 
-            size={512}
-          /> 
-          {/* <Cursor */} 
-          {/*   onUp={pointEditor.up} */}
-          {/*   onDown={pointEditor.down} */}
-          {/*   onRight={pointEditor.right} */}
-          {/*   onLeft={pointEditor.left} */}
-          {/* /> */}
-        </div>
+        <SvgCharPlot 
+          data={props.referenceFile?.data} 
+          lines={props.referenceLines}
+          points={props.referencePoints}
+          selectedId={refDraggingId}
+          width={512}
+        />
+        <SvgCharPlot  
+          data={props.file?.data} 
+          points={points} 
+          selectedId={draggingId}
+          onPointSelect={toggleDrag} 
+          onMove={move} 
+          size={512}
+        /> 
+        {/* <Cursor */} 
+        {/*   onUp={pointEditor.up} */}
+        {/*   onDown={pointEditor.down} */}
+        {/*   onRight={pointEditor.right} */}
+        {/*   onLeft={pointEditor.left} */}
+        {/* /> */}
       </div>
-      <div 
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div className="buttons">
-          <DeleteBtn />
+      <div>
+        <div className="field">
+          <label className="label">Box ID</label>
+          {props.box?.id}
         </div>
-        <div className="buttons">
-          <ResetBtn />
-          <SaveBtn />
+        <div className="field">
+          <label className="label">Tag</label>
+          { props.tag?.name ?? "None"}
+        </div>
+        <div 
+          className="field"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <DeleteBtn />
+          <div/>
+          <div>
+            <ResetBtn />
+            <SaveBtn />
+          </div>
         </div>
       </div>
     </div>

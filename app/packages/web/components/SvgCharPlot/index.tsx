@@ -1,10 +1,9 @@
 import React, { RefObject, useRef, useEffect, useState } from "react";
 import { Box } from "@sivic/core/box";
 import { Point } from "@sivic/core/point";
-import { InputMode } from "@sivic/web/store/BoxEditor"
-import { InputMode as PointMode } from "@sivic/web/store/PointEditor"
 import Line from "@sivic/core/line";
 import Tag from "@sivic/core/tag"
+import { InputMode } from "@sivic/web/hooks/useBoxPlot";
 import { schemeCategory10 } from "d3-scale-chromatic"
 
 export type SvgCharPlotProps = {

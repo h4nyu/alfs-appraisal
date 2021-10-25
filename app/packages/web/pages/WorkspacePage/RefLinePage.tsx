@@ -5,7 +5,7 @@ import ReferenceForm from "@sivic/web/components/ReferenceForm"
 import Modal from "@sivic/web/components/Modal"
 
 const Content = observer(() => {
-  const { featureForm, pointEditor, workspaceForm } = store;
+  const { featureForm, workspaceForm } = store;
   return (
     <Modal
       isActive={true}

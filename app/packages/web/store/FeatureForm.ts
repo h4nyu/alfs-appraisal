@@ -6,7 +6,6 @@ import Line from "@sivic/core/line"
 import Point, { ResizeFn } from "@sivic/core/point"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
-import PointEditor from "@sivic/web/store/PointEditor"
 import PointStore from "@sivic/web/store/PointStore"
 import BoxStore from "@sivic/web/store/BoxStore"
 import Toast from "@sivic/web/store/toast"
@@ -33,7 +32,6 @@ export type Form = {
 
 export const Form = (props: {
   api: RootApi,
-  pointEditor: PointEditor,
   pointStore: PointStore,
   fileStore?: FileStore,
   boxStore?: BoxStore,
@@ -51,11 +49,10 @@ export const Form = (props: {
       boxId: p.boxId,
       positionId: p.positionId,
     })).map(resize)
-    props.pointEditor.init(points)
+    self.points = points
   }
 
   const init = async (box?:Box) => {
-    props.pointEditor.init()
     self.box = box
     if(box === undefined) { return }
 
@@ -67,14 +64,7 @@ export const Form = (props: {
     const referenceLines = await props.api.line.filter({boxId: self.referenceBox.id})
     if(referenceLines instanceof Error) { return referenceLines }
     self.referenceLines = referenceLines
-
-    const points = await props.pointStore?.fetch({boxId: box.id})
-    if(points instanceof Error) { return points }
-    if(self.isReference || points.length > 0) {
-      props.pointEditor?.init(points)
-    }else{
-      resetPoints()
-    }
+    await props.pointStore?.fetch({boxId: box.id})
   }
 
   const getPoints = () => {
@@ -131,7 +121,7 @@ export const Form = (props: {
   }
 
   const generateRefLines = () => {
-    let points = (self.isReference ? props.pointEditor?.points : self.referencePoints) ?? []
+    let points = (self.isReference ? self.points : self.referencePoints) ?? []
     const firstLine = getRefLine(points)
     if(!firstLine) { return }
     points = points.filter(p => {
@@ -146,8 +136,8 @@ export const Form = (props: {
 
   const getLines = () => {
     return self.referenceLines?.map(x => {
-      const start = props.pointEditor.points.find(p => p.positionId === x.start.positionId)
-      const end = props.pointEditor.points.find(p => p.positionId === x.end.positionId)
+      const start = self.points.find(p => p.positionId === x.start.positionId)
+      const end = self.points.find(p => p.positionId === x.end.positionId)
       return Line({
         start,
         end,
@@ -173,10 +163,6 @@ export const Form = (props: {
   const getIsReference = () => {
     return self.box?.id === self.referenceBox?.id
   }
-  const getSelectedReferencePoint = () => {
-    const point = props.pointEditor.points.find(p => p.id === props.pointEditor.draggingId)
-    return self.referencePoints?.find(p => p.positionId === point?.positionId)
-  }
 
   const self = observable<Form>({
     get file() { return getFile() },
@@ -187,7 +173,6 @@ export const Form = (props: {
     get points() { return getPoints() },
     referenceLines: observable([]),
     get isReference() { return getIsReference() },
-    get selectedReferencePoint() { return getSelectedReferencePoint() },
     get lines() { return getLines() },
     init,
     resetPoints,

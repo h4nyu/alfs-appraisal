@@ -11,7 +11,6 @@ import { take, flow, sortBy, map } from "lodash/fp";
 import { parseISO } from "date-fns";
 import { Level } from "@sivic/web/store"
 import { Box } from "@sivic/core/box";
-import Editor from "@sivic/web/store/BoxEditor"
 import Tag from "@sivic/core/tag"
 import ImageStore from "@sivic/web/store/ImageStore"
 import File from "@sivic/core/file"

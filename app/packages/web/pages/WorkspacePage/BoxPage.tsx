@@ -6,7 +6,7 @@ import BoxForm from "@sivic/web/components/BoxForm"
 import Modal from "@sivic/web/components/Modal"
 
 const Content = observer(() => {
-  const { imageProcess, editor, pointEditor, history } = store;
+  const { imageProcess, history } = store;
   if(imageProcess.image === undefined){ 
     return null
   }
