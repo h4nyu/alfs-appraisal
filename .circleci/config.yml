@@ -20,9 +20,9 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
-          name: "Install Node Modules"
+          name: "Build images"
           command: |
-            docker-compose run --rm app yarn install
+            docker-compose -f docker-compose.prod.yml build
 
 workflows:
   version: 2

@@ -36,7 +36,6 @@ export const BoxStore = (props: {
     }else if(payload.ids){
       self.boxes = self.boxes.filter(x => !payload.ids?.includes(x.id))
     }
-    console.log(self.boxes)
   }
 
   const self = observable<BoxStore>({

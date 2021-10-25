@@ -10,10 +10,11 @@ import DeleteFn from "./delete"
 import UpdateFn from "./update"
 import CreateFn from "./create"
 
-export type Fn = (payload:{
+export type Payload = {
   imageId: string
   boxes: Box[],
-}) => Promise<Box[] | Error>
+}
+export type Fn = (payload:Payload) => Promise<Box[] | Error>
 export const Fn = (props: {
   store:Store,
 }):Fn => {

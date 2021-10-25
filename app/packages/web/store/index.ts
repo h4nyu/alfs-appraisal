@@ -11,8 +11,6 @@ import { ImageStore } from "@sivic/web/store/ImageStore"
 import BoxStore from "@sivic/web/store/BoxStore"
 import ImageForm from "@sivic/web/store/ImageForm"
 import ImageProcess from "@sivic/web/store/ImageProcess" 
-import Editor from "@sivic/web/store/BoxEditor"
-import PointEditor from "@sivic/web/store/PointEditor"
 import PointStore from "@sivic/web/store/PointStore"
 import FileStore from "@sivic/web/store/FileStore"
 import TagStore from "@sivic/web/store/TagStore"
@@ -44,8 +42,6 @@ export type RootStore = {
   imageStore: ImageStore;
   boxStore:BoxStore;
   loadingStore: LoadingStore;
-  editor: Editor;
-  pointEditor: PointEditor;
   toast: ToastStore;
   history: History;
   api: RootApi;
@@ -73,19 +69,6 @@ export const RootStore = (): RootStore => {
   const history = createHashHistory();
   const tagStore = TagStore({api})
 
-  const editor = Editor({ 
-    api, 
-    loading,
-    boxStore,
-    toast,
-  })
-
-  const pointEditor = PointEditor({ 
-    onInit: (id) => {
-      history.push(`/point`)
-    },
-  })
-
   const init = async () => {
     await workspaceStore.fetch({});
     toast.show("Success", Level.Success);
@@ -107,13 +90,6 @@ export const RootStore = (): RootStore => {
     imageStore,
     fileStore,
     boxStore,
-    editor,
-    onSave: async (workspaceId:string) => {
-      workspaceForm.init(workspaceId)
-    },
-    onDelete: async (workspaceId:string) => {
-      workspaceForm.init(workspaceId)
-    }
   })
   const assignTagForm = AssignTagForm({
     api,
@@ -143,7 +119,6 @@ export const RootStore = (): RootStore => {
     api, 
     fileStore, 
     pointStore,
-    pointEditor,
     boxStore,
     tagStore,
     toast,
@@ -154,8 +129,6 @@ export const RootStore = (): RootStore => {
     workspaceStore,
     toast,
     loadingStore,
-    editor,
-    pointEditor,
     init,
     history,
     workspaceForm,

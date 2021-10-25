@@ -25,7 +25,6 @@ const Content = observer(() => {
     workspaceStore, 
     imageStore, 
     boxStore,
-    pointEditor,
     fileStore,
     tagForm
   } = store
@@ -115,22 +114,6 @@ const Content = observer(() => {
                 }
               }}
             />
-          </div>
-          <div className="tabs is-boxed m-0">
-            <ul>
-              {
-                routes.map(x => {
-                  return (
-                    <li 
-                      key={x.path}
-                      className={location.pathname === x.path ? "is-active" : ""}
-                    >
-                      <Link to={x.path}> {x.name} </Link> 
-                    </li>
-                  )
-                })
-              }
-            </ul>
           </div>
           <Switch>
             {

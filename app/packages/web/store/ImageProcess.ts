@@ -11,7 +11,6 @@ import { take, flow, sortBy, map } from "lodash/fp";
 import { parseISO } from "date-fns";
 import { Level } from "@sivic/web/store"
 import { Box } from "@sivic/core/box";
-import Editor from "@sivic/web/store/BoxEditor"
 import Tag from "@sivic/core/tag"
 import ImageStore from "@sivic/web/store/ImageStore"
 import File from "@sivic/core/file"
@@ -22,11 +21,11 @@ import BoxStore from "@sivic/web/store/BoxStore"
 export type ImageFrom = {
   image?: Image;
   file?: File;
+  boxes: Box[] // getter
   lineWidth: number;
   init: (imageId:string) => Promise<void|Error>;
-  setName: (value:string) => void;
-  updateImage: () => Promise<void>;
-  save: () => Promise<void>;
+  updateImage: (payload:{name:string}) => Promise<void>;
+  save: (payload: {boxes:Box[]}) => Promise<void>;
   delete:() => Promise<void>;
   detectBoxes: () => void;
 };
@@ -38,12 +37,8 @@ export const ImageFrom = (props: {
   fileStore?:FileStore,
   boxStore?:BoxStore,
   toast: ToastStore;
-  onInit?: (imageId:string) => void
-  onSave?: (workspaceId:string) => void
-  onDelete?: (workspaceId:string) => void
-  editor: Editor
 }): ImageFrom => {
-  const { api, loading, toast, onInit, onSave, onDelete, editor, imageStore, boxStore } = props;
+  const { api, loading, toast, imageStore, boxStore } = props;
   const init = async (imageId:string) => {
     const image = await api.image.find({id:imageId})
     if(image instanceof Error) { return image }
@@ -53,10 +48,7 @@ export const ImageFrom = (props: {
       if(file instanceof Error) { return file }
       self.file = file
     }
-    const boxes = await api.box.filter({imageId})
-    if(boxes instanceof Error) { return boxes }
-    editor.boxes = boxes
-    onInit && onInit(imageId)
+    await props.boxStore?.fetch({imageId: self.image?.id})
   }
   const detectBoxes = async () => {
     const { file } = self
@@ -72,10 +64,9 @@ export const ImageFrom = (props: {
     })
   }
 
-  const save = async () =>{
+  const save = async ({boxes}) =>{
     const { image } = self
     if(image === undefined){ return }
-    const boxes = editor.boxes
     const imageId = image.id
     const cropedImages = await api.box.load({
       imageId,
@@ -88,8 +79,15 @@ export const ImageFrom = (props: {
     props.imageStore?.delete({parentId: self.image?.id || ""})
     await props.imageStore?.fetch({parentId: self.image?.id})
     await props.boxStore?.delete({imageId: self.image?.id})
+    await props.boxStore?.fetch({imageId: self.image?.id})
+
+    for(const b of self.boxes){
+      b.fileId && await props.fileStore?.fetch({id: b.fileId})
+    }
     toast.info("saved")
-    image.workspaceId && onSave?.(image.workspaceId)
+  }
+  const getBoxes = () => {
+    return props.boxStore?.boxes.filter(x => x.imageId === self.image?.id)
   }
 
   const delete_ = async () =>{
@@ -97,43 +95,38 @@ export const ImageFrom = (props: {
     if(image === undefined){ return }
     const imageId = image.id
     const err = await props.api?.image.delete({id:imageId})
-    if(err instanceof Error) { return err }
+    if(err instanceof Error) { return }
     self.image = undefined
     self.file = undefined
     props.imageStore?.delete({ids: [image?.id ?? ""]})
     props.boxStore?.delete({imageId: image?.id ?? ""})
     props.fileStore?.delete({id: image.id})
     toast.info("delete")
-    image.workspaceId && onDelete?.(image.workspaceId)
   }
 
-  const setName = (value: string) => {
-    if(self.image){
-      self.image = Image({
-        ...self.image,
-        name: value,
-      })
-    }
-  }
-  const updateImage = async () => {
+  const updateImage = async ({name}) => {
     if(!self.image){ return }
-    const image = await props.api.image.update(self.image)
+    const image = await props.api.image.update(Image({
+      ...self.image,
+      name,
+    }))
     if(image instanceof Error) {
       props.toast?.error(image)
       return
     }
     self.image = image
-    props.imageStore?.fetch({ids: [image.id]})
+    await props.imageStore?.fetch({ids: [image.id]})
+    toast.info("update")
   }
 
   const self = observable<ImageFrom>({
     image: undefined,
+    get boxes() { return getBoxes() },
     lineWidth: 10,
     init,
     detectBoxes,
     save,
     delete: delete_,
-    setName,
     updateImage,
   })
   return self

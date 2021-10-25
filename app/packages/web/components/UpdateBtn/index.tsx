@@ -1,7 +1,7 @@
 import React from "react";
-import LoadingButton from "./LoadingButton"
+import LoadingButton from "@sivic/web/components/LoadingButton"
 
-const SaveBtn = (props:{
+const UpdateBtn = (props:{
   onClick?:() => Promise<void>
 }) => {
   return (
@@ -9,8 +9,8 @@ const SaveBtn = (props:{
       className="is-info is-light"
       onClick={props.onClick}
     >
-      保存
+      変更
     </LoadingButton>
   );
 };
-export default SaveBtn;
+export default UpdateBtn;

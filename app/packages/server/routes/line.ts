@@ -23,7 +23,6 @@ export const Routes = (props: {
         ...req.body,
         lines: req.body.lines.map(Line),
       });
-      console.log(res)
       reply.send(res);
     });
     done();

@@ -1,11 +1,12 @@
 import React from "react";
-import Component from "./SvgCharPlot";
+import Component from ".";
 import { Box } from "@sivic/core/box";
 import { Point } from "@sivic/core/point";
 import Line from "@sivic/core/line";
 import Tag from "@sivic/core/tag"
 import annot from "/srv/data/annto.json";
 import {UncontrolledReactSVGPanZoom} from 'react-svg-pan-zoom';
+import useBoxPlot from "@sivic/web/hooks/useBoxPlot"
 
 const { imageData } = annot;
 
@@ -33,15 +34,22 @@ export const Primary = (args) => (
   <Component {...args} data={imageData} />
 );
 
-export const WithBoxes = (args) => (
-  <Component
-    {...args}
-    data={imageData}
-    size={512}
-    boxes={boxes}
-    tags={tags}
-  />
-);
+export const WithBoxes = () => {
+  const { toggleDrag, move, boxes, draggingId, add, remove } = useBoxPlot()
+  return (
+    <Component
+      tags={tags}
+      data={imageData}
+      size={512}
+      boxes={boxes}
+      onMove={move}
+      onAdd={add}
+      selectedId={draggingId}
+      onSelect={toggleDrag}
+      onDelete={remove}
+    />
+  )
+};
 
 export const WithPoint = (args) => (
   <Component

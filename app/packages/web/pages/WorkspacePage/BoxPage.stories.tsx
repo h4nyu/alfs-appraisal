@@ -31,13 +31,5 @@ store.imageProcess.image = Image({
 store.imageProcess.file = File({
   data: annot.imageData,
 })
-store.editor.boxes = [
-  Box({
-    x0: 5, 
-    y0: 5,
-    x1: 10,
-    y1: 10,
-  })
-]
 
 export const Primary = (args) => <ImagePage /> 
