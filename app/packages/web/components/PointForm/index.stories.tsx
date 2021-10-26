@@ -20,9 +20,11 @@ const points = [
     y: 10,
   })
 ]
-export const Default = () => {
+
+export const Default = (props) => {
   return (
     <PointForm 
+      {...props}
       box={box}
       file={file}
       points={points}

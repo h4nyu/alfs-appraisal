@@ -15,7 +15,7 @@ const AssignTagForm = (props:{
   onBoxClick?:(box:Box) => void
 }) => {
   return (
-    <div>
+    <div className="box">
       <TagSelector 
         value={props.tagId}
         tags={props.tags}

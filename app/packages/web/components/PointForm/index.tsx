@@ -21,8 +21,9 @@ export const PointForm = (props: {
   lines?: Line[],
   referencePoints?:Point[],
   points?: Point[],
+  onSave: (payload:{points: Point[]}) => Promise<void>,
   onDelete?: VoidFunction,
-  onSave?: VoidFunction,
+  onReset?: VoidFunction
 }) => {
   const {draggingId, toggleDrag, move, points} = usePointPlot({ points: props.points })
   const draggingPoint = points.find(p => p.id === draggingId)
@@ -54,6 +55,7 @@ export const PointForm = (props: {
         <SvgCharPlot  
           data={props.file?.data} 
           points={points} 
+          lines={props.lines}
           selectedId={draggingId}
           onPointSelect={toggleDrag} 
           onMove={move} 
@@ -82,11 +84,15 @@ export const PointForm = (props: {
             justifyContent: 'space-between',
           }}
         >
-          <DeleteBtn />
+          <DeleteBtn 
+            onClick={() => props.onDelete?.()}
+          />
           <div/>
           <div>
             <ResetBtn />
-            <SaveBtn />
+            <SaveBtn 
+              onClick={() => props.onSave?.({points})}
+            />
           </div>
         </div>
       </div>
