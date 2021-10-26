@@ -35,7 +35,7 @@ const ReferenceForm = (props: Readonly<{
     add: addPoint, 
     move,
   } = usePointPlot({ points: props.points })
-  const { lines, selectPoint, startPoint } = useLinePlot({points})
+  const { lines, selectPoint, startPoint } = useLinePlot({points, lines:props.lines})
   return (
     <div
       className="box"

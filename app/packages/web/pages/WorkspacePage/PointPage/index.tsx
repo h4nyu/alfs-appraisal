@@ -15,11 +15,14 @@ const Content = observer(() => {
         box={featureForm.box}
         tag={featureForm.tag}
         file={featureForm.file}
+        points={featureForm.points}
         referenceFile={featureForm.referenceFile}
         referencePoints={featureForm.referencePoints}
         referenceLines={featureForm.referenceLines}
-        points={featureForm.points}
         lines={featureForm.lines}
+        onSave={featureForm.save}
+        onDelete={featureForm.delete}
+        onReset={featureForm.resetPoints}
       />
     </Modal>
   );

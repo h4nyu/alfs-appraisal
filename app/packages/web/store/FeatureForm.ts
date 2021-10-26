@@ -67,58 +67,41 @@ export const Form = (props: {
     await props.pointStore?.fetch({boxId: box.id})
   }
 
-  const getPoints = () => {
-    return props.pointStore?.points.filter(x => x.boxId === self.box?.id)
-  }
-
-  const getTag = () => {
-    return props.tagStore?.tags.find(x => x.id === self.box?.tagId)
-  }
-
   const getRefernceBox = () => {
     return props.boxStore?.boxes.find(x => x.id === self.tag?.referenceBoxId && x.tagId === self.tag.id)
-  }
-
-  const getRefernceFile = () => {
-    return props.fileStore?.files.find(x => x.id === self.referenceBox?.fileId)
   }
 
   const getReferncePoints = () => {
     return props.pointStore?.points.filter(x => x.boxId === self.referenceBox?.id)
   }
 
+  const getPoints = () => {
+    const points =  props.pointStore?.points.filter(x => x.boxId === self.box?.id)
+    if(points?.length > 0){return points}
+    return self.referencePoints.map(p => {
+      return Point({
+        x: p.x,
+        y:p.y,
+        positionId: p.positionId,
+        boxId: self.box.id,
+      })
+    })
+  }
+
+  const getTag = () => {
+    return props.tagStore?.tags.find(x => x.id === self.box?.tagId)
+  }
+
+
+  const getRefernceFile = () => {
+    return props.fileStore?.files.find(x => x.id === self.referenceBox?.fileId)
+  }
+
+
   const getFile = () => {
     return props.fileStore?.files.find(x => x.id === self.box?.fileId)
   }
 
-  const save = async ({lines, points}:{
-    points:Point[];
-    lines?:Line[];
-  }) => {
-    const { box } = self
-    const err = await props.api.point.load({
-      boxId: box.id,
-      points
-    })
-    if(err instanceof Error) { 
-      props.toast?.error(err) 
-      return 
-    }
-    if(lines !== undefined) {
-      const err = await props.api.line.load({
-        boxId: box.id,
-        lines
-      })
-      if(err instanceof Error) { 
-        props.toast?.error(err) 
-        return 
-      }
-    }
-
-    props.toast?.info("Success")
-    props.pointStore?.delete({boxId: box.id})
-    props.pointStore?.fetch({boxId: box.id})
-  }
 
   const generateRefLines = () => {
     let points = (self.isReference ? self.points : self.referencePoints) ?? []
@@ -162,6 +145,35 @@ export const Form = (props: {
 
   const getIsReference = () => {
     return self.box?.id === self.referenceBox?.id
+  }
+
+  const save = async ({lines, points}:{
+    points:Point[];
+    lines?:Line[];
+  }) => {
+    const { box } = self
+    const err = await props.api.point.load({
+      boxId: box.id,
+      points
+    })
+    if(err instanceof Error) { 
+      props.toast?.error(err) 
+      return 
+    }
+    if(lines !== undefined) {
+      const err = await props.api.line.load({
+        boxId: box.id,
+        lines
+      })
+      if(err instanceof Error) { 
+        props.toast?.error(err) 
+        return 
+      }
+    }
+
+    props.toast?.info("Success")
+    props.pointStore?.delete({boxId: box.id})
+    props.pointStore?.fetch({boxId: box.id})
   }
 
   const self = observable<Form>({

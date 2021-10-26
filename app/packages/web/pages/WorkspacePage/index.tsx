@@ -81,7 +81,6 @@ const Content = observer(() => {
         workspaceForm.id && <>
           <div
             style={{
-              maxHeight: 300,
               overflow: "auto"
             }}
           >
@@ -112,6 +111,9 @@ const Content = observer(() => {
                 }else{
                   store.history.push("/workspace/point")
                 }
+              }}
+              onNoneClick={() => {
+                store.history.push("/workspace/assign-tag")
               }}
             />
           </div>
