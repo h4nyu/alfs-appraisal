@@ -1,0 +1,35 @@
+version: '3.7'
+
+x-app: &app
+  image: "${DOCKER_REGISTRY:-localhost}/sivic/${PLATFORM:-linux/amd64}/app:dev"
+  volumes:
+    - ./app:/srv
+    - node_modules_volume:/app/node_modules
+  environment:
+    - NODE_ENV=development  
+
+services:
+  app:
+    <<: *app
+    tty: true
+
+  srv:
+    <<: *app
+    command:  bash -c "wait-for-it db:5432 -- yarn db-migrate up && yarn srv start:dev"
+    ports:
+      - "${SERVER_PORT:-80}:80"
+    depends_on:
+      - db
+
+  ui:
+    <<: *app
+    command: yarn web watch
+
+  storybook:
+    <<: *app
+    command: yarn web storybook -p ${STORYBOOK_PORT:-9009}
+    ports:
+      - "${STORYBOOK_PORT:-9009}:${STORYBOOK_PORT:-9009}"
+
+volumes:
+  node_modules_volume: # imporve io performance for mac
