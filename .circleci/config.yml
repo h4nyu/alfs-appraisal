@@ -22,7 +22,7 @@ jobs:
       - run:
           name: "Build images"
           command: |
-            docker-compose -f docker-compose.prod.yml build
+            docker-compose build
 
 workflows:
   version: 2
