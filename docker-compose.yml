@@ -13,8 +13,6 @@ services:
     command:  bash -c "wait-for-it db:5432 -- yarn db-migrate up && yarn srv start"
     ports:
       - "${SERVER_PORT:-80}:80"
-    depends_on:
-      - migration
   db:
     image: "postgres:13"
     volumes:
