@@ -1,4 +1,4 @@
-// import { DetectApi } from "./detect";
+import { DetectApi } from "./detect";
 // import { PointApi } from "./point";
 import FileApi from "./file"
 import WorkspaceApi from "./workspace";
@@ -21,7 +21,7 @@ export function toError(err: any): Error {
 export type RootApi = {
   setUrl: (url: string) => void;
   getImageStoreUrl: () => Promise<string|Error>;
-  // detect: DetectApi;
+  detect: DetectApi;
   file: ReturnType<typeof FileApi>;
   workspace: ReturnType<typeof WorkspaceApi>;
   image: ReturnType<typeof ImageApi>;
@@ -42,6 +42,7 @@ export const RootApi = (): RootApi => {
   const file = FileApi({ http, prefix: `${prefix}/file` });
   const tag = TagApi({ http, prefix: `${prefix}/tag` });
   const line = LineApi({ http, prefix: `${prefix}/line` });
+  const detect = DetectApi({ http, prefix: `${prefix}/detect` });
 
   const setUrl = (url: string) => {
     http.defaults.baseURL = url;
@@ -60,7 +61,7 @@ export const RootApi = (): RootApi => {
     getImageStoreUrl,
     workspace,
     image,
-    // detect,
+    detect,
     box,
     point,
     file,
