@@ -25,7 +25,7 @@ export const TagTable = (props: {
   onImageClick?:(image:Image) => void,
   onTagClick?:(tag: Tag) => void,
   onBoxClick?:(box: Box) => Promise<void>;
-  onNoneClick?: VoidFunction;
+  onAssignClick?: VoidFunction;
 }) => {
   return (
     <div
@@ -69,7 +69,7 @@ export const TagTable = (props: {
           gridColumn: 1,
         }} >
         <a onClick={() => props.onNoneClick?.()}>
-          None
+          Assign Box
         </a>
       </div>
       {
