@@ -68,7 +68,7 @@ export const TagTable = (props: {
           gridRow: 2,
           gridColumn: 1,
         }} >
-        <a onClick={() => props.onNoneClick?.()}>
+        <a onClick={() => props.onAssignClick?.()}>
           Assign Box
         </a>
       </div>

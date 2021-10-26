@@ -112,7 +112,7 @@ const Content = observer(() => {
                   store.history.push("/workspace/point")
                 }
               }}
-              onNoneClick={() => {
+              onAssignClick={() => {
                 store.history.push("/workspace/assign-tag")
               }}
             />
