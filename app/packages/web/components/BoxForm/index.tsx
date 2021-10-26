@@ -45,7 +45,7 @@ export const BoxForm = (props:BoxFormProps) => {
         onSelect={toggleDrag}
         onAdd={add}
         onMove={move}
-        width={512+256}
+        width={512}
         onDelete={remove}
       />
       <div className="p-1">
