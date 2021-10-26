@@ -189,6 +189,16 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
         }
         {points?.map((p, k) => (
           <g key={p.id}>
+              {
+                <text 
+                  x={p.x * scale }
+                  y={p.y * scale }
+                  fill={selectedId === p.id ? "green" : "red"}
+                  fontSize={ 12 }
+                >
+                  {p.positionId} 
+                </text>
+              }
             <circle
               style={{cursor: onPointSelect ? "crosshair" : ""}}
               cx={p.x * scale}
