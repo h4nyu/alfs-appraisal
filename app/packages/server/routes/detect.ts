@@ -18,3 +18,4 @@ export const DetectRoutes = (args: {
   };
 };
 
+export default DetectRoutes;

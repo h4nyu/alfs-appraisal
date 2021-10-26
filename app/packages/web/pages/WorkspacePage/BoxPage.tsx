@@ -21,6 +21,7 @@ const Content = observer(() => {
         boxes={imageProcess.boxes}
         onSave={imageProcess.save}
         onDelete={imageProcess.delete}
+        onDetect={imageProcess.detectBoxes}
         onSaveImage={imageProcess.updateImage}
       />
     </Modal>

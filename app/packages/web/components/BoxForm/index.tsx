@@ -9,6 +9,7 @@ import useImageForm from "@sivic/web/hooks/useImageForm"
 import SvgCharPlot from "@sivic/web/components/SvgCharPlot"
 import DeleteBtn from "@sivic/web/components/DeleteBtn"
 import UpdateBtn from "@sivic/web/components/UpdateBtn"
+import DetectBtn from "@sivic/web/components/DetectBtn"
 import Tag from "@sivic/core/tag"
 import Image from "@sivic/core/image"
 
@@ -19,11 +20,12 @@ export type BoxFormProps = {
   tags?: Tag[]
   onSaveImage: (payload:{name:string}) => Promise<void>
   boxes: Box[]
+  onDetect: () => Promise<Box[]>
   onSave: (payload: {boxes: Box[]}) => Promise<void>
   onDelete: VoidFunction
 }
 export const BoxForm = (props:BoxFormProps) => {
-  const { toggleDrag, move, boxes, draggingId, add, remove } = useBoxPlot({
+  const { toggleDrag, move, boxes, draggingId, add, remove, setBoxes } = useBoxPlot({
     boxes: props.boxes
   })
   const { name, setName } = useImageForm(props)
@@ -68,6 +70,11 @@ export const BoxForm = (props:BoxFormProps) => {
         <div className="field">
           <label className="label">Box Count</label>
           { props.boxes.length }
+          <DetectBtn 
+            onClick={async () => {
+              setBoxes(await props.onDetect())
+            }}
+          />
         </div>
         <div 
           className="field"
