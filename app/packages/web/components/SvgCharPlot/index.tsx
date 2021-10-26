@@ -112,16 +112,14 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
         {boxes?.map(b => {
           return (
             <g key={b.id}>
-              {
-                <text 
-                  x={b.x0 * scale }
-                  y={b.y0 * scale }
-                  fill={selectedId === b.id ? "green" : "red"}
-                  fontSize={ 15 }
-                >
-                  {b.id} 
-                </text>
-              }
+              <text 
+                x={b.x0 * scale }
+                y={b.y0 * scale }
+                fill={selectedId === b.id ? "green" : "red"}
+                fontSize={ 15 }
+              >
+                {b.id} 
+              </text>
               <rect
                 x={ b.x0 * scale }
                 y={ b.y0 * scale }
@@ -189,6 +187,14 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
         }
         {points?.map((p, k) => (
           <g key={p.id}>
+            <text 
+              x={p.x * scale }
+              y={p.y * scale }
+              fill={selectedId === p.id ? "green" : "red"}
+              fontSize={ 12 }
+            >
+              {p.positionId} 
+            </text>
             <circle
               style={{cursor: onPointSelect ? "crosshair" : ""}}
               cx={p.x * scale}
