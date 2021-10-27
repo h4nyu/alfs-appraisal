@@ -31,12 +31,7 @@ export const Fn = (props:{
     const positionIds = payload.points.map(x => x.positionId)
     const deletePoints = oldPoints.filter(x => !positionIds.includes(x.positionId))
     for(const dp of deletePoints){
-      const points = await props.store.point.filter({positionId: dp.positionId})
-      if(points instanceof Error) { return oldPoints }
-      for(const p of points){
-        const delErr = await props.store.point.delete({id: p.id})
-        if(delErr instanceof Error) { return delErr }
-      }
+      const delErr = await props.store.point.delete({positionId: dp.positionId})
     }
 
     const points = payload.points.map(x => Point({

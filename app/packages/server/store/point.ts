@@ -36,15 +36,12 @@ export const Store = (
   };
   const filter = async (payload: {
     boxId?: string;
-    positionId?: string;
   }) => {
     try {
-      const { boxId, positionId } = payload
+      const { boxId } = payload
       const rows = await(async () => {
         if(boxId !== undefined){
           return await sql`SELECT * FROM ${sql(TABLE)} WHERE box_id = ${boxId}`
-        }else if(positionId !== undefined){
-          return await sql`SELECT * FROM ${sql(TABLE)} WHERE position_id = ${positionId}`
         }
         return []
       })()
@@ -64,11 +61,14 @@ export const Store = (
       return e
     }
   };
-  const delete_ = async (payload: {id?:string}) => {
-    const { id } = payload
+  const delete_ = async (payload: {id?:string, positionId?:string}) => {
+    const { id, positionId } = payload
     try {
       if(id !== undefined) { 
         await sql`DELETE FROM ${sql(TABLE)} WHERE id = ${id}`
+      }else if( positionId !== undefined){
+        await sql`DELETE FROM ${sql(TABLE)} WHERE position_id = ${positionId}`
+
       }
     }catch(e) {
       return e
