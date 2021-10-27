@@ -6,7 +6,7 @@ import { uniqBy } from "lodash";
 export type PointStore = {
   points: Point[];
   fetch: FilterFn
-  delete: (payload:{boxId?:string}) => void;
+  delete: (payload:{boxId?:string, positionId?:string}) => void;
 };
 
 export const PointStore = (props: {
@@ -21,6 +21,8 @@ export const PointStore = (props: {
   const delete_ = (payload) => {
     if(payload.boxId){
       self.points = self.points.filter(x => x.boxId !== payload.boxId)
+    }else if(payload.positionId){
+      self.points = self.points.filter(x => x.positionId !== payload.positionId)
     }
   }
   const self = observable<PointStore>({

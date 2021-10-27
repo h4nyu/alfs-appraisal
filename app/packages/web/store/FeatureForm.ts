@@ -11,6 +11,7 @@ import BoxStore from "@sivic/web/store/BoxStore"
 import Toast from "@sivic/web/store/toast"
 import { getRefLine } from "@sivic/core/line"
 import Tag from "@sivic/core/tag"
+import { difference } from "lodash"
 
 export type Form = {
   box?:Box;
@@ -77,15 +78,21 @@ export const Form = (props: {
 
   const getPoints = () => {
     const points =  props.pointStore?.points.filter(x => x.boxId === self.box?.id)
-    if(points?.length > 0){return points}
-    return self.referencePoints.map(p => {
-      return Point({
-        x: p.x,
-        y:p.y,
-        positionId: p.positionId,
-        boxId: self.box.id,
+    const diffPositionIds = difference(
+      self.referencePoints.map(x => x.positionId),
+      points.map(x => x.positionId), 
+    )
+    const defaultPoints = self.referencePoints
+      .filter(x => diffPositionIds.includes(x.positionId))
+      .map(p => {
+        return Point({
+          x: p.x,
+          y:p.y,
+          positionId: p.positionId,
+          boxId: self.box.id,
+        })
       })
-    })
+    return [...points, ...defaultPoints]
   }
 
   const getTag = () => {
@@ -172,6 +179,14 @@ export const Form = (props: {
     }
 
     props.toast?.info("Success")
+    if(self.isReference){
+      difference(
+        self.points.map(x => x.positionId), 
+        points.map(x => x.positionId),
+      ).forEach(positionId =>{
+        props.pointStore?.delete({positionId})
+      })
+    }
     props.pointStore?.delete({boxId: box.id})
     props.pointStore?.fetch({boxId: box.id})
   }

@@ -132,6 +132,7 @@ export const TagTable = (props: {
                   boxes?.map(box => {
                     return (
                       <BoxView 
+                        key={box.id}
                         box={box}
                         files={props.files}
                         points={props.points}
