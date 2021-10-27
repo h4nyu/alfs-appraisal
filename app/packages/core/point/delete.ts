@@ -3,6 +3,7 @@ import Point from ".";
 
 export type Fn = (payload: {
   id?: string
+  positionId?: string
 }) => Promise<void | Error>
 export const Fn = (props: {
   store: Store;
