@@ -117,6 +117,7 @@ export const useBoxPlot = (props?: {
   }
 
   return {
+    setBoxes,
     toggleDrag,
     setMode,
     boxes,

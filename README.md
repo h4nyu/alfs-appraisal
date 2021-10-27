@@ -1,8 +1,5 @@
-# nodejs-monorepo-template
+`.env`
 
-* typescript
-* browser
-* server
-* client
-* core libs
-* database migration
+```sh
+COMPOSE_FILE=docker-compose.yml:docker-compose.local.yml
+```

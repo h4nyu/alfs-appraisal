@@ -27,7 +27,7 @@ export type ImageFrom = {
   updateImage: (payload:{name:string}) => Promise<void>;
   save: (payload: {boxes:Box[]}) => Promise<void>;
   delete:() => Promise<void>;
-  detectBoxes: () => void;
+  detectBoxes: () => Promise<Box[]>;
 };
 
 export const ImageFrom = (props: {
@@ -52,16 +52,12 @@ export const ImageFrom = (props: {
   }
   const detectBoxes = async () => {
     const { file } = self
-    if(file === undefined) { return }
+    if(file === undefined) { return [] }
     const { data } = file
-    if(data === undefined) { return}
-    await loading(async () => {
-      // const boxes = await api.detect.box({data})
-      // if(boxes instanceof Error) { return boxes }
-      // editor.boxes = Map(boxes.map(x => {
-      //   return [uuid(), x]
-      // }))
-    })
+    if(data === undefined) { return [] }
+    const boxes = await api.detect.box({data})
+    if(boxes instanceof Error) { return [] }
+    return boxes
   }
 
   const save = async ({boxes}) =>{
