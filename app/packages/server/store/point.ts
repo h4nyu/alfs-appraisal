@@ -36,12 +36,15 @@ export const Store = (
   };
   const filter = async (payload: {
     boxId?: string;
+    positionId?: string;
   }) => {
     try {
-      const { boxId } = payload
+      const { boxId, positionId } = payload
       const rows = await(async () => {
         if(boxId !== undefined){
           return await sql`SELECT * FROM ${sql(TABLE)} WHERE box_id = ${boxId}`
+        }else if(positionId !== undefined){
+          return await sql`SELECT * FROM ${sql(TABLE)} WHERE position_id = ${positionId}`
         }
         return []
       })()

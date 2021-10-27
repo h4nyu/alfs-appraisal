@@ -1,3 +1,5 @@
+import { includes } from "lodash"
+
 import { Store } from "@sivic/core"
 import Point from "."
 import FindBoxFn from "@sivic/core/box/find"
@@ -20,10 +22,23 @@ export const Fn = (props:{
     if(box instanceof Error) { return box }
     const oldPoints = await filter({boxId: payload.boxId})
     if(oldPoints instanceof Error) { return oldPoints }
+
     for(const op of oldPoints){
       const err = await props.store.point.delete({id: op.id})
       if(err instanceof Error) { return err }
     }
+
+    const positionIds = payload.points.map(x => x.positionId)
+    const deletePoints = oldPoints.filter(x => !positionIds.includes(x.positionId))
+    for(const dp of deletePoints){
+      const points = await props.store.point.filter({positionId: dp.positionId})
+      if(points instanceof Error) { return oldPoints }
+      for(const p of points){
+        const delErr = await props.store.point.delete({id: p.id})
+        if(delErr instanceof Error) { return delErr }
+      }
+    }
+
     const points = payload.points.map(x => Point({
       ...x,
       boxId: box.id
