@@ -24,7 +24,7 @@ export const useLinePlot = (props?: {
       setStartPoint(undefined)
       return
     }
-    if(startPoint === undefined && lines.length < 2){
+    if(startPoint === undefined){
       setStartPoint(point)
       return
     }

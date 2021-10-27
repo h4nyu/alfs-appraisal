@@ -35,7 +35,11 @@ const ReferenceForm = (props: Readonly<{
     add: addPoint, 
     move,
   } = usePointPlot({ points: props.points })
-  const { lines, selectPoint, startPoint } = useLinePlot({points, lines:props.lines})
+  const { lines:_lines, selectPoint, startPoint } = useLinePlot({points, lines:props.lines})
+  const pointIds = points.map(x => x.id)
+  const lines = _lines.filter(x => {
+    return pointIds.includes(x.start.id) && pointIds.includes(x.end.id)
+  }).slice(-2)
   return (
     <div
       className="box"
