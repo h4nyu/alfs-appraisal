@@ -12,6 +12,7 @@ import UpdateBtn from "@sivic/web/components/UpdateBtn"
 import DetectBtn from "@sivic/web/components/DetectBtn"
 import Tag from "@sivic/core/tag"
 import Image from "@sivic/core/image"
+import CheckBox from "@sivic/web/components/CheckBox"
 
 
 export type BoxFormProps = {
@@ -63,6 +64,7 @@ export const BoxForm = (props:BoxFormProps) => {
         onRight={() => shiftX(1)}
         onLeft={() => shiftX(-1)}
         onEscape={() => setDragId(undefined)}
+        onEnter={() => setDragId(undefined)}
       />
       <div className="p-1">
         <div className="field">

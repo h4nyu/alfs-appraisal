@@ -17,6 +17,7 @@ export type SvgCharPlotProps = {
   selectedId?: string;
   lineId?:string;
   width?:number;
+  showBoxId?:boolean;
   onAdd?: VoidFunction;
   onMove?: (pos: { x: number; y: number }) => void;
   onSelect?: (id: string, InputMode: InputMode) => void;
@@ -29,6 +30,7 @@ export type SvgCharPlotProps = {
   onRight?: VoidFunction;
   onLeft?: VoidFunction;
   onEscape?: VoidFunction;
+  onEnter?: VoidFunction;
 }
 
 
@@ -57,6 +59,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
   const width = props.width === undefined? 512: props.width
   const [aspect, setAspect] = React.useState(1)
   const [scale, setScale] = React.useState(1)
+  const showBoxId = props.showBoxId ?? true
   useEffect(() => {
     const tmp = new Image()
     tmp.onload = () => {
@@ -97,6 +100,8 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
           props.onDown?.()
         }else if(e.keyCode === 27) {
           props.onEscape?.()
+        }else if(e.keyCode === 13) {
+          props.onEnter?.()
         }
         e.stopPropagation()
       }}
@@ -128,14 +133,16 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
         {boxes?.map(b => {
           return (
             <g key={b.id}>
-              <text 
-                x={b.x0 * scale }
-                y={b.y0 * scale }
-                fill={selectedId === b.id ? "green" : "red"}
-                fontSize={ 15 }
-              >
-                {b.id} 
-              </text>
+              {
+                showBoxId && <text 
+                  x={b.x0 * scale }
+                  y={b.y0 * scale }
+                  fill={selectedId === b.id ? "green" : "red"}
+                  fontSize={ 15 }
+                >
+                  {b.id} 
+                </text>
+              }
               <rect
                 x={ b.x0 * scale }
                 y={ b.y0 * scale }
