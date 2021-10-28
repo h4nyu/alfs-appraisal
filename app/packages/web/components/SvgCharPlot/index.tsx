@@ -24,6 +24,11 @@ export type SvgCharPlotProps = {
   onLineSelect?: (id: string) => void;
   onDelete?: VoidFunction
   onLeave?: VoidFunction;
+  onUp?: VoidFunction;
+  onDown?: VoidFunction;
+  onRight?: VoidFunction;
+  onLeft?: VoidFunction;
+  onEscape?: VoidFunction;
 }
 
 
@@ -82,7 +87,18 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
       onKeyDown={e => {
         if (e.keyCode === 8) {
           props.onDelete?.()
+        }else if(e.keyCode === 37) {
+          props.onLeft?.()
+        }else if(e.keyCode === 38) {
+          props.onUp?.()
+        }else if(e.keyCode === 39) {
+          props.onRight?.()
+        }else if(e.keyCode === 40) {
+          props.onDown?.()
+        }else if(e.keyCode === 27) {
+          props.onEscape?.()
         }
+        e.stopPropagation()
       }}
       style={{
         display: "grid",

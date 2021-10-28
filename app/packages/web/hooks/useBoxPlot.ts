@@ -13,18 +13,18 @@ export enum InputMode {
 
 export const useBoxPlot = (props?: {
   boxes?: Box[]
-  draggingId?: string
+  dragId?: string
 }) => {
-  const [draggingId, setDraggingId] = React.useState<string|undefined>(props?.draggingId)
+  const [dragId, setDragId] = React.useState<string|undefined>(props?.dragId)
   const [mode, setMode] = React.useState<InputMode>(InputMode.Box)
   const [boxes, setBoxes] = React.useState<Box[]>(props?.boxes ?? [])
   const [position, setPosition] = React.useState<Position2D>({x: 0, y: 0})
 
   const toggleDrag = (id: string, mode: InputMode) => {
-    if (draggingId === id) {
-      setDraggingId(undefined)
+    if (dragId === id) {
+      setDragId(undefined)
     } else {
-      setDraggingId(id)
+      setDragId(id)
     }
     setMode(mode);
   };
@@ -47,17 +47,17 @@ export const useBoxPlot = (props?: {
       })
       setBoxes([...boxes, newBox])
       setMode(InputMode.BR);
-      setDraggingId(newBox.id)
+      setDragId(newBox.id)
     }
   };
 
   const move = (pos: Position2D) => {
     setPosition(pos)
-    if (draggingId === undefined) {
+    if (dragId === undefined) {
       return;
     }
     const newBox = (() => {
-      const box = boxes.find(x => x.id === draggingId);
+      const box = boxes.find(x => x.id === dragId);
       if (box === undefined) {
         return;
       }
@@ -110,10 +110,31 @@ export const useBoxPlot = (props?: {
       ], x => x.id))
     }
   };
+  const shiftX = (value: number) => {
+    setBoxes(boxes.map(b => {
+      if(b.id !== dragId) { return b }
+      return Box({
+        ...b,
+        x0: b.x0 + value,
+        x1: b.x1 + value,
+      })
+    }))
+  }
+
+  const shiftY = (value: number) => {
+    setBoxes(boxes.map(b => {
+      if(b.id !== dragId) { return b }
+      return Box({
+        ...b,
+        y0: b.y0 + value,
+        y1: b.y1 + value,
+      })
+    }))
+  }
   const remove = () => {
-    if(draggingId === undefined) { return }
-    setBoxes(boxes.filter(x => x.id !== draggingId))
-    setDraggingId(undefined)
+    if(dragId === undefined) { return }
+    setBoxes(boxes.filter(x => x.id !== dragId))
+    setDragId(undefined)
   }
 
   return {
@@ -123,8 +144,11 @@ export const useBoxPlot = (props?: {
     boxes,
     move,
     add,
-    draggingId,
+    dragId,
     remove,
+    shiftY,
+    shiftX,
+    setDragId,
   }
 }
 export default useBoxPlot

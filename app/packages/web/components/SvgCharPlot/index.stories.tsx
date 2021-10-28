@@ -35,7 +35,7 @@ export const Primary = (args) => (
 );
 
 export const WithBoxes = () => {
-  const { toggleDrag, move, boxes, draggingId, add, remove } = useBoxPlot()
+  const { toggleDrag, move, boxes, dragId, add, remove } = useBoxPlot()
   return (
     <Component
       tags={tags}
@@ -44,7 +44,7 @@ export const WithBoxes = () => {
       boxes={boxes}
       onMove={move}
       onAdd={add}
-      selectedId={draggingId}
+      selectedId={dragId}
       onSelect={toggleDrag}
       onDelete={remove}
     />
