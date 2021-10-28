@@ -12,6 +12,7 @@ import UpdateBtn from "@sivic/web/components/UpdateBtn"
 import DetectBtn from "@sivic/web/components/DetectBtn"
 import Tag from "@sivic/core/tag"
 import Image from "@sivic/core/image"
+import CheckBox from "@sivic/web/components/CheckBox"
 
 
 export type BoxFormProps = {
@@ -25,7 +26,18 @@ export type BoxFormProps = {
   onDelete: VoidFunction
 }
 export const BoxForm = (props:BoxFormProps) => {
-  const { toggleDrag, move, boxes, draggingId, add, remove, setBoxes } = useBoxPlot({
+  const { 
+    toggleDrag, 
+    move, 
+    boxes, 
+    dragId, 
+    add, 
+    remove, 
+    setBoxes, 
+    shiftX, 
+    shiftY,
+    setDragId,
+  } = useBoxPlot({
     boxes: props.boxes
   })
   const { name, setName } = useImageForm(props)
@@ -41,12 +53,18 @@ export const BoxForm = (props:BoxFormProps) => {
         data={props.file?.data} 
         boxes={boxes}
         tags={props.tags}
-        selectedId={draggingId}
+        selectedId={dragId}
         onSelect={toggleDrag}
         onAdd={add}
         onMove={move}
         width={512 + 256}
         onDelete={remove}
+        onUp={() => shiftY(-1)}
+        onDown={() => shiftY(1)}
+        onRight={() => shiftX(1)}
+        onLeft={() => shiftX(-1)}
+        onEscape={() => setDragId(undefined)}
+        onEnter={() => setDragId(undefined)}
       />
       <div className="p-1">
         <div className="field">
