@@ -1,7 +1,7 @@
 version: '3.7'
 
 x-app: &app
-  image: "${DOCKER_REGISTRY:-localhost}/sivic/${PLATFORM:-linux/amd64}/app:dev"
+  image: "alfs"
   volumes:
     - ./app:/srv
     - node_modules_volume:/app/node_modules

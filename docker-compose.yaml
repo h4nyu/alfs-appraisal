@@ -1,5 +1,5 @@
 x-app: &app
-  image: "${DOCKER_REGISTRY:-localhost}/sivic/app"
+  image: "alfs"
   build:
     context: ./app
   environment:
