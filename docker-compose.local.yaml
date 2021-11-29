@@ -3,8 +3,7 @@ version: '3.7'
 x-app: &app
   image: "alfs"
   volumes:
-    - ./app:/srv
-    - node_modules_volume:/app/node_modules
+    - .:/app
   environment:
     - NODE_ENV=development  
 
@@ -30,6 +29,3 @@ services:
     command: yarn web storybook -p ${STORYBOOK_PORT:-9009}
     ports:
       - "${STORYBOOK_PORT:-9009}:${STORYBOOK_PORT:-9009}"
-
-volumes:
-  node_modules_volume: # imporve io performance for mac

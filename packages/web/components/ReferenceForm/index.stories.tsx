@@ -4,7 +4,7 @@ import Line from '@sivic/core/line'
 import Image from '@sivic/core/image'
 import File from '@sivic/core/file'
 import Point from '@sivic/core/point'
-import annot from "/srv/data/annto.json";
+import annot from "/app/data/annto.json";
 
 const { imageData } = annot;
 

@@ -1,11 +1,11 @@
-FROM node:16-slim
-WORKDIR /srv
+FROM node:17-bullseye-slim
+WORKDIR /app
 COPY . .
 RUN apt-get update \
-    && apt-get install wait-for-it \
-    && rm -rf /var/lib/apt/lists/* \
-    && yarn install \
-    && yarn build \
-    && rm -rf node_modules \
-    && yarn install --prod \
-    && yarn cache clean
+    && apt-get -y install wait-for-it python3-minimal \
+    && rm -rf /var/lib/apt/lists/*
+    # && yarn install \
+    # && yarn build \
+    # && rm -rf node_modules \
+    # && yarn install --prod \
+    # && yarn cache clean

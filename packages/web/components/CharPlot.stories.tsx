@@ -2,7 +2,7 @@ import React from "react";
 import Component from "./CharPlot";
 import store from "../store";
 import { Box } from "@sivic/core/box"
-import annot from "/srv/data/annto.json";
+import annot from "/app/data/annto.json";
 
 const { imageData } = annot;
 

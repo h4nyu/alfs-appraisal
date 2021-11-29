@@ -4,7 +4,7 @@ import { Box } from "@sivic/core/box";
 import { Point } from "@sivic/core/point";
 import Line from "@sivic/core/line";
 import Tag from "@sivic/core/tag"
-import annot from "/srv/data/annto.json";
+import annot from "/app/data/annto.json";
 import {UncontrolledReactSVGPanZoom} from 'react-svg-pan-zoom';
 import useBoxPlot from "@sivic/web/hooks/useBoxPlot"
 

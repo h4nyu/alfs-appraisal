@@ -3,7 +3,7 @@ import TagTable from "./TagTable";
 import { Tag } from "@sivic/core/tag"
 import { Image } from "@sivic/core/image"
 import Point from "@sivic/core/point"
-import annot from "/srv/data/annto.json";
+import annot from "/app/data/annto.json";
 import Box from "@sivic/core/box"
 import { File } from "@sivic/core/file"
 
