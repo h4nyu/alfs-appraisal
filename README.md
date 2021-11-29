@@ -1,7 +1,7 @@
 `.env`
 
 ```sh
-COMPOSE_FILE=docker-compose.yml:docker-compose.local.yml
+COMPOSE_FILE=docker-compose.yaml:docker-compose.local.yaml
 ```
 
 | Packages                                   | Description  |
