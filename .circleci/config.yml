@@ -3,14 +3,15 @@ version: 2
 jobs:
   build_and_test:
     machine:
-      image: circleci/classic:edge
-    working_directory: ~/repo
+      image: ubuntu-2004:202107-02
+      resource_class: large
+      docker_layer_caching: true
     steps:
       - checkout
       - run:
           name: "Setup environment variables"
           command: |
-            echo 'export COMPOSE_FILE=docker-compose.yml' >> $BASH_ENV
+            echo 'export COMPOSE_FILE=docker-compose.yaml' >> $BASH_ENV
             echo 'export COMPOSE_API_VERSION=1.35' >> $BASH_ENV
       - run:
           name: Install Docker Compose
