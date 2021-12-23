@@ -22,7 +22,8 @@ export const App = (args: { store: Store; lock: Lock }) => {
   });
   const prefix = path.join("/", process.env.PREFIX || "", "/api/v1");
   app.register(fastifyStatic, {
-    root: "/srv/packages/web/dist",
+    root: "/app/packages/web/dist",
+    prefix: "/",
   });
   app.register(WorkspaceRoutes({ store, lock }), {
     prefix: `${prefix}/workspace`,

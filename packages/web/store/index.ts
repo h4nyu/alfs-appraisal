@@ -43,7 +43,6 @@ export type RootStore = {
   boxStore:BoxStore;
   loadingStore: LoadingStore;
   toast: ToastStore;
-  history: History;
   api: RootApi;
   workspaceForm: WorkspaceForm;
   imageForm: ImageForm;
@@ -66,7 +65,6 @@ export const RootStore = (): RootStore => {
   const imageStore = ImageStore({ api })
   const pointStore = PointStore({ api })
   const boxStore = BoxStore({ api })
-  const history = createHashHistory();
   const tagStore = TagStore({api})
 
   const init = async () => {
@@ -130,7 +128,6 @@ export const RootStore = (): RootStore => {
     toast,
     loadingStore,
     init,
-    history,
     workspaceForm,
     imageStore,
     boxStore,

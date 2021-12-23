@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { observer } from "mobx-react-lite";
-import { HashRouter as Router, Routes, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import rootStore from "./store";
 import Toast from "./connectors/Toast";
 import PageLayout from "@sivic/web/components/PageLayout";
@@ -11,7 +11,7 @@ const MainPage = lazy(() => import("@sivic/web/pages/MainPage"));
 const WorkspacePage = lazy(() => import("@sivic/web/pages/WorkspacePage"));
 const Loading = observer(() => <Loading_ isActive={rootStore.loadingStore.isActive}/>)
 
-export default function App() {
+export const App = () => {
   return (
     <Router>
       <Routes>
@@ -30,3 +30,4 @@ export default function App() {
     </Router>
   );
 }
+export default App

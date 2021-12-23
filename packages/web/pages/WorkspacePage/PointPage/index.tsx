@@ -3,13 +3,15 @@ import { observer } from "mobx-react-lite";
 import store from "@sivic/web/store";
 import PointForm from "@sivic/web/components/PointForm";
 import Modal from "@sivic/web/components/Modal"
+import { useNavigate } from "react-router-dom"; 
 
 const Content = observer(() => {
+  const navigate = useNavigate()
   const { featureForm, workspaceForm } = store;
   return (
     <Modal
       isActive={true}
-      onClose={store.history.goBack}
+      onClose={() => navigate(-1)}
     >
       <PointForm 
         box={featureForm.box}
