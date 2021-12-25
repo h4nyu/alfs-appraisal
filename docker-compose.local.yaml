@@ -1,31 +1,46 @@
 version: '3.7'
 
+x-env: 
+  NODE_ENV: &NODE_ENV development
+  CODECOV_TOKEN: &CODECOV_TOKEN ${CODECOV_TOKEN} 
+  DATABASE_URL: &DATABASE_URL postgres://app:app@db/app
+
+  SERVER_PORT: &SERVER_PORT ${SERVER_PORT:?}
+  STORYBOOK_PORT: &STORYBOOK_PORT ${STORYBOOK_PORT:?}
+
 x-app: &app
-  image: "alfs"
+  image: "alfs-appraisal-dev"
+  build:
+    context: .
   volumes:
     - .:/app
-  environment:
-    - NODE_ENV=development  
 
 services:
   app:
     <<: *app
-    tty: true
+    environment:
+      NODE_ENV: *NODE_ENV
+      CODECOV_TOKEN: *CODECOV_TOKEN
+      DATABASE_URL: *DATABASE_URL
 
   srv:
     <<: *app
     command:  bash -c "wait-for-it db:5432 -- yarn db-migrate up && yarn srv start:dev"
     ports:
-      - "${SERVER_PORT:-80}:80"
+      - "${SERVER_PORT}:80"
     depends_on:
       - db
 
   ui:
     <<: *app
+    environment:
+      NODE_ENV: *NODE_ENV
     command: yarn web watch
 
   storybook:
     <<: *app
-    command: yarn web storybook -p ${STORYBOOK_PORT:-9009}
+    command: yarn web storybook -p ${STORYBOOK_PORT}
+    environment:
+      NODE_ENV: *NODE_ENV
     ports:
-      - "${STORYBOOK_PORT:-9009}:${STORYBOOK_PORT:-9009}"
+      - "${STORYBOOK_PORT}:${STORYBOOK_PORT}"

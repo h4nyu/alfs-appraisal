@@ -6,24 +6,65 @@ jobs:
       image: ubuntu-2004:202107-02
       resource_class: large
       docker_layer_caching: true
+
     steps:
       - checkout
-      - run:
-          name: "Setup environment variables"
-          command: |
-            echo 'export COMPOSE_FILE=docker-compose.yaml' >> $BASH_ENV
-            echo 'export COMPOSE_API_VERSION=1.35' >> $BASH_ENV
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
-          name: "Build images"
+          name: Setup environment variables
           command: |
-            docker-compose build
+            echo 'export COMPOSE_FILE=docker-compose.yaml:docker-compose.local.yaml' >> $BASH_ENV
+            echo 'export COMPOSE_API_VERSION=1.35' >> $BASH_ENV
+            echo 'export SERVER_PORT=80' >> $BASH_ENV
+            echo 'export STORYBOOK_PORT=9009' >> $BASH_ENV
+
+      - restore_cache:
+          keys:
+            - docker-image-{{ .Environment.CACHE_VERSION }}-{{ checksum "Dockerfile" }}
+
+      - run:
+          name: Build docker image if needed
+          command: |
+            if test -f image.tar; then
+              docker load < image.tar
+            else
+              docker-compose build app
+              docker save alfs-appraisal-dev > image.tar
+            fi
+
+      - save_cache:
+          key: docker-image-{{ .Environment.CACHE_VERSION }}-{{ checksum "Dockerfile" }}
+          paths:
+            - ./image.tar
+
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install node modules if needed
+          command: |
+            if [ ! -d node_modules ]; then
+              docker-compose run --rm app yarn install
+            fi
+
+      - save_cache:
+          key: yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: Test all packages
+          command: |
+            docker-compose up -d db
+            docker-compose run --rm app bash -c 'wait-for-it db:5432 -- yarn db-migrate up'
+            docker-compose run --rm app yarn core test --coverage
+            docker-compose run --rm app yarn srv test --coverage
+
+      - run:
+          name: Codecov
+          command: |
+            docker-compose run --rm app yarn codecov
 
 workflows:
   version: 2
