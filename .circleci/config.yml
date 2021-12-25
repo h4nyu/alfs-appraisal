@@ -28,7 +28,7 @@ jobs:
               docker save alfs-appraisal-dev > image.tar
             fi
 
-       - save_cache:
+      - save_cache:
           key: docker-image-{{ .Environment.CACHE_VERSION }}-{{ checksum "Dockerfile" }}
           paths:
             - ./image.tar
