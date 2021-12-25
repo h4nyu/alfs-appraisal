@@ -8,10 +8,11 @@ jobs:
       docker_layer_caching: true
     steps:
       - checkout
+
       - run:
           name: "Setup environment variables"
           command: |
-            echo 'export COMPOSE_FILE=docker-compose.yaml' >> $BASH_ENV
+            echo 'export COMPOSE_FILE=docker-compose.yaml:docker-compose.local.yaml' >> $BASH_ENV
             echo 'export COMPOSE_API_VERSION=1.35' >> $BASH_ENV
 
       - restore_cache:
@@ -33,14 +34,13 @@ jobs:
           paths:
             - ./image.tar
 
-
-
       - run:
           name: Install node modules if needed
           command: |
             if [ ! -d node_modules ]; then
               docker-compose run --rm app yarn install
             fi
+
       - save_cache:
           key: yarn-packages---{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
           paths:
