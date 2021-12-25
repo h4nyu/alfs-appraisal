@@ -6,18 +6,19 @@ jobs:
       image: ubuntu-2004:202107-02
       resource_class: large
       docker_layer_caching: true
+
     steps:
       - checkout
 
       - run:
-          name: "Setup environment variables"
+          name: Setup environment variables
           command: |
             echo 'export COMPOSE_FILE=docker-compose.yaml:docker-compose.local.yaml' >> $BASH_ENV
             echo 'export COMPOSE_API_VERSION=1.35' >> $BASH_ENV
 
       - restore_cache:
-        keys:
-          - docker-image-{{ .Environment.CACHE_VERSION }}-{{ checksum "Dockerfile" }}
+          keys:
+            - docker-image-{{ .Environment.CACHE_VERSION }}-{{ checksum "Dockerfile" }}
 
       - run:
           name: Build docker image if needed
@@ -34,6 +35,10 @@ jobs:
           paths:
             - ./image.tar
 
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+
       - run:
           name: Install node modules if needed
           command: |
@@ -42,7 +47,7 @@ jobs:
             fi
 
       - save_cache:
-          key: yarn-packages---{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
 
