@@ -58,6 +58,6 @@ describe("normalizePoints", () => {
     // expect(res[0].y.toFixed(4)).toBe(0.0.toFixed(4))
     // expect(res[1].x.toFixed(4)).toBe((2/Math.sqrt(5)).toFixed(4))
     // expect(res[1].y.toFixed(4)).toBe((-2 * 2/Math.sqrt(5)).toFixed(4))
-  // });
+  });
 
 })
