@@ -17,3 +17,6 @@ mergeable:
       - do: label
         no_empty:
           enabled: false
+      - do: approvals
+        min:
+          count: 1
