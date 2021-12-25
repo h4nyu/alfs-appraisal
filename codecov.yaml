@@ -1,0 +1,9 @@
+flags:
+  # filter the folder(s) you wish to measure by that flag
+  core:
+    # only include files in the backend folder
+    paths:
+      - packages/core/
+  server:
+    paths:
+      - packages/server/

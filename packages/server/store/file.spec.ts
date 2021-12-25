@@ -14,7 +14,7 @@ describe("file", () => {
   const store = rootStore.file
 
   beforeAll(async () => {
-    const buffer = await fs.promises.readFile("/srv/package.json");
+    const buffer = await fs.promises.readFile("/app/package.json");
     file.data = buffer.toString("base64");
     const insertErr = await store.insert(file)
     if(insertErr instanceof Error) {
