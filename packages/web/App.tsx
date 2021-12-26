@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { observer } from "mobx-react-lite";
-import { HashRouter as Router, Routes, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import rootStore from "./store";
 import Toast from "./connectors/Toast";
 import PageLayout from "@sivic/web/components/PageLayout";

@@ -1,15 +1,17 @@
 import React from "react"
 import { observer } from "mobx-react-lite";
 import TagFormView from '@sivic/web/components/TagForm'
+import { useNavigate } from "react-router-dom";
 import TagForm from '@sivic/web/store/TagForm'
 import store from "@sivic/web/store"
 import Modal from "@sivic/web/components/Modal"
 
 const Content = observer(() => {
+  const navigate = useNavigate()
   return (
     <Modal
       isActive={true}
-      onClose={store.history.goBack}
+      onClose={() => navigate(-1)}
     >
       <TagFormView 
         workspace={store.imageForm.workspace}
@@ -26,7 +28,7 @@ const Content = observer(() => {
         onBoxClick={box => {
           if(box.tagId === undefined) { return }
           store.featureForm.init(box)
-          store.history.push("/workspace/point")
+          navigate("/workspace/point")
         }}
         onSave={async () => {
           await store.tagForm.save()

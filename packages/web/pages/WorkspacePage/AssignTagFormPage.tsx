@@ -2,13 +2,15 @@ import React from "react"
 import { observer } from "mobx-react-lite";
 import AssignTagFormView from '@sivic/web/components/AssignTagForm'
 import Modal from "@sivic/web/components/Modal"
+import { useNavigate } from "react-router-dom";
 import store from "@sivic/web/store"
 
 const Content = observer(() => {
+  const navigate = useNavigate()
   return (
     <Modal
       isActive={true}
-      onClose={store.history.goBack}
+      onClose={() => navigate(-1)}
     >
       <AssignTagFormView 
         tagId={store.assignTagForm.tagId}

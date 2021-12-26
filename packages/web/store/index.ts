@@ -2,7 +2,6 @@ import { LoadingStore } from "./loading";
 import { ToastStore } from "./toast";
 import { RootApi } from "@sivic/api";
 import { configure } from "mobx";
-import { createHashHistory } from "history";
 import { Workspace } from "@sivic/core/workspace";
 import { Image } from "@sivic/core/image";
 import WorkspaceForm from "@sivic/web/store/WorkspaceForm"
@@ -32,18 +31,12 @@ export enum Level {
 }
 export type LoadingFn =  <T>(fn: () => Promise<T>) => Promise<T>;
 
-export type History = {
-  push: (name: string) => void;
-  goBack: () => void;
-};
-
 export type RootStore = {
   workspaceStore: WorkspaceStore;
   imageStore: ImageStore;
   boxStore:BoxStore;
   loadingStore: LoadingStore;
   toast: ToastStore;
-  history: History;
   api: RootApi;
   workspaceForm: WorkspaceForm;
   imageForm: ImageForm;
@@ -66,7 +59,6 @@ export const RootStore = (): RootStore => {
   const imageStore = ImageStore({ api })
   const pointStore = PointStore({ api })
   const boxStore = BoxStore({ api })
-  const history = createHashHistory();
   const tagStore = TagStore({api})
 
   const init = async () => {
@@ -130,7 +122,6 @@ export const RootStore = (): RootStore => {
     toast,
     loadingStore,
     init,
-    history,
     workspaceForm,
     imageStore,
     boxStore,

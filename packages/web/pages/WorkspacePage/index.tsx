@@ -10,7 +10,7 @@ import ImageTags from "@sivic/web/components/ImageTags";
 import BoxView from "@sivic/web/components/BoxView"
 import TagTable from "@sivic/web/components/TagTable"
 import TagSelector from "@sivic/web/components/TagSelector"
-import { Router, Switch, Route, NavLink, Link, useLocation } from "react-router-dom";
+import { Router, Routes, Route, NavLink, Link, useNavigate } from "react-router-dom";
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
@@ -18,7 +18,7 @@ import RefLinePage from "./RefLinePage"
 import AssignTagFormPage from "./AssignTagFormPage"
 
 const Content = observer(() => {
-  const location = useLocation();
+  const navigate = useNavigate();
   const { 
     workspaceForm, 
     imageProcess, 
@@ -88,7 +88,7 @@ const Content = observer(() => {
               onAddImage={store.imageForm.uploadFiles}
               onAddTag={() => {
                 store.tagForm.init({workspaceId: workspaceForm.id})
-                store.history.push("/workspace/tag")
+                navigate("/workspace/tag")
               }}
               images={workspaceForm.images}
               tags={workspaceForm.tags}
@@ -97,27 +97,27 @@ const Content = observer(() => {
               points={store.pointStore.points}
               onImageClick={image => {
                 store.imageProcess.init(image.id)
-                store.history.push("/workspace/box")
+                navigate("/workspace/box")
               }}
               onTagClick={tag => {
                 store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
-                store.history.push("/workspace/tag")
+                navigate("/workspace/tag")
               }}
               onBoxClick={async (box) => {
                 if(box.tagId === undefined) { return }
                 await store.featureForm.init(box)
                 if(store.featureForm.isReference){
-                  store.history.push("/workspace/line")
+                  navigate("/workspace/line")
                 }else{
-                  store.history.push("/workspace/point")
+                  navigate("/workspace/point")
                 }
               }}
               onAssignClick={() => {
-                store.history.push("/workspace/assign-tag")
+                navigate("/workspace/assign-tag")
               }}
             />
           </div>
-          <Switch>
+          <Routes>
             {
               routes.map(r => {
                 return (
@@ -130,7 +130,7 @@ const Content = observer(() => {
                 )
               })
             }
-          </Switch>
+          </Routes>
         </>
       }
     </div>

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 import WorkspaceTable from "@sivic/web/components/WorkspaceTable";
 import store from "@sivic/web/store";
 
 const Content = observer(() => {
-  const { workspaceStore, workspaceForm, history } = store;
+  const { workspaceStore, workspaceForm  } = store;
+  const navigate = useNavigate()
   React.useEffect(() => {
     workspaceForm.init()
   },[workspaceStore.workspaces])
@@ -22,11 +24,11 @@ const Content = observer(() => {
         workspaces={workspaceStore.workspaces} 
         onClick={(id) => {
           workspaceForm.init(id)
-          history.push("/workspace")
+          navigate("/workspace")
         }} 
         onCreate={() => {
           workspaceForm.init()
-          history.push("/workspace")
+          navigate("/workspace")
         }} 
         onDelete={(id) => workspaceForm.delete(id)} 
       />
