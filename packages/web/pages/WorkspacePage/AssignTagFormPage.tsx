@@ -16,7 +16,7 @@ const Page = () => {
   }
   const { data:images } = useSWR({key:'image', workspaceId}, api.image.filter)
   if(images instanceof Error) { return null }
-  const { data:boxes } = useSWR({ key:'box', images }, batchFetchBoxes)
+  const { data:boxes, mutate: mutateBoxes } = useSWR({ key:'box', images }, batchFetchBoxes)
   if(boxes instanceof Error) { return null }
   const { data:files } = useSWR({key: 'file', images, boxes }, batchFetchFiles)
   if(files instanceof Error) { return null }
@@ -25,19 +25,19 @@ const Page = () => {
   if( tags === undefined || images === undefined ) {
     return <Loading/>
   }
-
   return (
     <Modal
       isActive={true}
       onClose={() => navigate(-1)}
     >
       <AssignTagFormView 
-        tagId={store.assignTagForm.tagId}
         boxes={boxes}
         tags={tags}
         files={files}
-        onBoxClick={store.assignTagForm.assign}
-        onTagChange={t => store.assignTagForm.setTagId(t?.id)}
+        onSubmit={async (box) => {
+          await api.box.update({box})
+          mutateBoxes()
+        }}
       />
     </Modal>
   );
