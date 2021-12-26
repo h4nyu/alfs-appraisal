@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import WorkspaceTable from "@sivic/web/components/WorkspaceTable";
 import store from "@sivic/web/store";
 import Loading from "@sivic/web/components/Loading"
@@ -28,7 +28,10 @@ const Page = () => {
         onNameChange={workspaceForm.setName}
         workspaces={workspaces} 
         onClick={(id) => {
-          navigate(`/workspace?id=${id}`)
+          navigate({
+            pathname:"/workspace",
+            search:createSearchParams({workspaceId:id}).toString(),
+          })
         }} 
         onCreate={() => {
           workspaceForm.init()

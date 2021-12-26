@@ -20,7 +20,8 @@ export default function App() {
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route path={"/"} element={<MainPage/>} />
-              <Route path={"/workspace"} element={<WorkspacePage/>} />
+              <Route path={"/workspaces"} element={<MainPage/>} />
+              <Route path={"/workspace/*"} element={<WorkspacePage/>} />
             </Routes>
           </Suspense>
         }
