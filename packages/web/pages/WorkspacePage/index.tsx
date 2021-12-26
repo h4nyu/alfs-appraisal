@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import FileUpload from "@sivic/web/components/FileUpload";
 import store from "@sivic/web/store";
-import SaveBtn from "@sivic/web/components/SaveBtn"
 import DownloadBtn from "@sivic/web/components/DownloadBtn"
 import { Image } from "@sivic/core/image";
 import ImageTable from "@sivic/web/components/ImageTable"
@@ -12,6 +11,7 @@ import TagTable from "@sivic/web/components/TagTable"
 import TagSelector from "@sivic/web/components/TagSelector"
 import { Router, Routes, Route, NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
 import api from "@sivic/web/api"
+import WorkspaceForm from "@sivic/web/components/WorkspaceForm"
 
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
@@ -19,16 +19,20 @@ import TagFormPage from "./TagFormPage"
 import RefLinePage from "./RefLinePage"
 import AssignTagFormPage from "./AssignTagFormPage"
 import useSWR, { useSWRConfig } from 'swr'
+import Loading from "@sivic/web/components/Loading"
 
 const Page = () => {
   const navigate = useNavigate();
+  const { mutate } = useSWRConfig()
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("id")
   if(!workspaceId){
     return null
   }
-  const { data:workspace, error } = useSWR(`/workspace/{id}`, async () => api.workspace.find({id: workspaceId}))
-  console.log(workspace)
+  const { data:workspace, error } = useSWR(`/workspace/${workspaceId}`, async () => api.workspace.find({id: workspaceId}))
+  if(workspace === undefined || workspace instanceof Error) {
+    return <Loading/>
+  }
 
   const { 
     workspaceForm, 
@@ -72,22 +76,13 @@ const Page = () => {
     <div
       className="box"
     >
-      <div className="field">
-        <label className="label">Name</label>
-        <div className="field has-addons">
-          <div className="control is-expanded" >
-            <input 
-              className="input" 
-              type="text" 
-              value={store.workspaceForm.name} 
-              onChange={e => store.workspaceForm.setName(e.target.value)}
-            />
-          </div>
-          <div className="control">
-            <SaveBtn onClick={store.workspaceForm.save} />
-          </div>
-        </div>
-      </div>
+      <WorkspaceForm 
+        workspace={workspace} 
+        onSubmit={async (w) => {
+          await api.workspace.update(w)
+          mutate(`/workspace/${workspaceId}`)
+        }} 
+      />
       {
         workspaceForm.id && <>
           <div
