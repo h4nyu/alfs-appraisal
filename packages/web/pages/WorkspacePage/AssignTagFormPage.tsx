@@ -14,17 +14,15 @@ const Page = () => {
   if(!workspaceId){
     return null
   }
-  const { data:images } = useSWR(`${workspaceId}/images`, async () => api.image.filter({workspaceId}))
+  const { data:images } = useSWR({key:'image', workspaceId}, api.image.filter)
   if(images instanceof Error) { return null }
-  const { data:boxes } = useSWR(`${workspaceId}/boxes`, async () => batchFetchBoxes())
+  const { data:boxes } = useSWR({ key:'box', images }, batchFetchBoxes)
   if(boxes instanceof Error) { return null }
-  const { data:files } = useSWR(() => boxes?.map(x => x.fileId), batchFetchFiles)
+  const { data:files } = useSWR({key: 'file', images, boxes }, batchFetchFiles)
   if(files instanceof Error) { return null }
-  const { data:tags } = useSWR(`${workspaceId}/tags`, async () => api.tag.filter({workspaceId}))
+  const { data:tags } = useSWR({key:"tag", workspaceId}, api.tag.filter)
   if(tags instanceof Error) { return null }
-  if(
-    tags === undefined || images === undefined 
-  ) {
+  if( tags === undefined || images === undefined ) {
     return <Loading/>
   }
 
