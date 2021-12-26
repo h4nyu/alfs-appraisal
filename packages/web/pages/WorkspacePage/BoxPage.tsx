@@ -48,6 +48,10 @@ const Page = () => {
           })
           mutate({
             key:"box",
+            imageId,
+          })
+          mutate({
+            key:"box",
             images,
           })
         }}
