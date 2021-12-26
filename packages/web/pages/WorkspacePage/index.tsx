@@ -39,15 +39,15 @@ const Page = () => {
     id: workspaceId
   }, api.workspace.find)
   if(workspace instanceof Error) { return null }
-  const { data:images } = useSWR({key:"images", workspaceId}, api.image.filter)
+  const { data:images } = useSWR({key:"image", workspaceId}, api.image.filter)
   if(images instanceof Error) { return null }
-  const { data:tags } = useSWR({key:"tags", workspaceId}, api.tag.filter)
+  const { data:tags } = useSWR({key:"tag", workspaceId}, api.tag.filter)
   if(tags instanceof Error) { return null }
-  const { data:boxes } = useSWR({ key:'boxes', images }, batchFetchBoxes)
+  const { data:boxes } = useSWR({ key:'box', images }, batchFetchBoxes)
   if(boxes instanceof Error) { return null }
-  const { data:points } = useSWR({ key:'points', boxes }, batchFetchPoints)
+  const { data:points } = useSWR({ key:'point', boxes }, batchFetchPoints)
   if(points instanceof Error) { return null }
-  const { data:files } = useSWR({key: 'files', images, boxes }, batchFetchFiles)
+  const { data:files } = useSWR({key: 'file', images, boxes }, batchFetchFiles)
   if(files instanceof Error) { return null }
   if(
     workspace === undefined  ||
@@ -98,7 +98,10 @@ const Page = () => {
         workspace={workspace} 
         onSubmit={async (w) => {
           await api.workspace.update(w)
-          mutate(`/workspace/${workspaceId}`)
+          mutate({
+            key: "workspace",
+            id: workspaceId,
+          })
         }} 
       />
       <div
@@ -120,7 +123,10 @@ const Page = () => {
                 data, name:f.name, workspaceId
               });
             }
-            mutate(`${workspaceId}/images`)
+            mutate({
+              key: "image",
+              workspaceId,
+            })
           }}
           onAddTag={() => {
             navigate("/workspace/tag")

@@ -20,11 +20,13 @@ const Page = () => {
   if(!workspaceId || !imageId){
     return null
   }
-  const { data:image } = useSWR(imageId, async () => api.image.find({id:imageId}))
+  const { data:images } = useSWR({key:"image", workspaceId}, api.image.filter)
+  if(images instanceof Error) { return null }
+  const { data:image } = useSWR({key:"image", id: imageId}, api.image.find)
   if(image instanceof Error) { return null }
-  const { data:file } = useSWR(() => image?.fileId, async (id) => api.file.find({id}))
+  const { data:file } = useSWR(image?.fileId && {key: 'file', id: image.fileId}, api.file.find)
   if(file instanceof Error) { return null }
-  const { data:boxes } = useSWR(() => `${image?.id}/boxes`, async () => api.box.filter({imageId: image?.id}))
+  const { data:boxes } = useSWR(image && {key:"box", imageId: image.id}, api.box.filter)
   if(boxes instanceof Error) { return null }
 
   if(image === undefined || file === undefined || boxes === undefined){
@@ -41,14 +43,20 @@ const Page = () => {
         boxes={boxes}
         onSave={async ({boxes}) => {
           await api.box.load({
-            imageId: image.id,
+            imageId,
             boxes,
           })
-          mutate(`${image?.id}/boxes`)
+          mutate({
+            key:"box",
+            images,
+          })
         }}
         onDelete={async () => {
           await api.image.delete({id: image.id})
-          mutate(`${workspaceId}/images`)
+          mutate({
+            key:"image",
+            workspaceId,
+          })
           navigate(-1)
         }}
         onDetect={async () => {
@@ -58,7 +66,10 @@ const Page = () => {
         }}
         onSaveImage={async ({name}) => {
           await api.image.update(Image({...image, name}))
-          mutate(image.id)
+          mutate({
+            key:"image",
+            workspaceId,
+          })
         }}
       />
     </Modal>
