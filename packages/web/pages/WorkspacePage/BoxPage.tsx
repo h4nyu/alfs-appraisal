@@ -20,7 +20,6 @@ const Page = () => {
   if(!workspaceId || !imageId){
     return null
   }
-  const { imageProcess } = store;
   const { data:image } = useSWR(imageId, async () => api.image.find({id:imageId}))
   if(image instanceof Error) { return null }
   const { data:file } = useSWR(() => image?.fileId, async (id) => api.file.find({id}))

@@ -34,18 +34,21 @@ const Page = () => {
   if(!workspaceId){
     return null
   }
-  const { data:workspace } = useSWR(`${workspaceId}`, async () => api.workspace.find({id: workspaceId}))
+  const { data:workspace } = useSWR({
+    key:"workspace",
+    id: workspaceId
+  }, api.workspace.find)
   if(workspace instanceof Error) { return null }
-  const { data:images } = useSWR(`${workspaceId}/images`, async () => api.image.filter({workspaceId}))
+  const { data:images } = useSWR({key:"images", workspaceId}, api.image.filter)
   if(images instanceof Error) { return null }
-  const { data:tags } = useSWR(`${workspaceId}/tags`, async () => api.tag.filter({workspaceId}))
+  const { data:tags } = useSWR({key:"tags", workspaceId}, api.tag.filter)
   if(tags instanceof Error) { return null }
-  const { data:files } = useSWR(() => images?.map(x => x.fileId), batchFetchFiles)
-  if(files instanceof Error) { return null }
-  const { data:boxes } = useSWR(() => images?.map(x => x.fileId), batchFetchBoxes)
+  const { data:boxes } = useSWR({ key:'boxes', images }, batchFetchBoxes)
   if(boxes instanceof Error) { return null }
-  const { data:points } = useSWR(() => boxes?.map(x => x.id), batchFetchPoints)
+  const { data:points } = useSWR({ key:'points', boxes }, batchFetchPoints)
   if(points instanceof Error) { return null }
+  const { data:files } = useSWR({key: 'files', images, boxes }, batchFetchFiles)
+  if(files instanceof Error) { return null }
   if(
     workspace === undefined  ||
     images === undefined
@@ -137,8 +140,6 @@ const Page = () => {
             })
           }}
           onTagClick={tag => {
-            store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
-            navigate("/workspace/tag")
           }}
           onBoxClick={async (box) => {
             if(box.tagId === undefined) { return }
@@ -150,12 +151,18 @@ const Page = () => {
             }
           }}
           onAssignClick={() => {
-            navigate("/workspace/assign-tag")
+            navigate({
+              pathname: "/workspace/assign-tag",
+              search: createSearchParams({
+                workspaceId,
+              }).toString()
+            })
           }}
         />
       </div>
       <Routes>
         <Route path={"image"} element={<BoxPage/>}/>
+        <Route path={"assign-tag"} element={<AssignTagFormPage/>}/>
       </Routes>
     </div>
   );
