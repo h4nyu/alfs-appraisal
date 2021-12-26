@@ -10,15 +10,26 @@ import ImageTags from "@sivic/web/components/ImageTags";
 import BoxView from "@sivic/web/components/BoxView"
 import TagTable from "@sivic/web/components/TagTable"
 import TagSelector from "@sivic/web/components/TagSelector"
-import { Router, Routes, Route, NavLink, Link, useNavigate } from "react-router-dom";
+import { Router, Routes, Route, NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
+import api from "@sivic/web/api"
+
 import PointPage from "./PointPage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
 import RefLinePage from "./RefLinePage"
 import AssignTagFormPage from "./AssignTagFormPage"
+import useSWR, { useSWRConfig } from 'swr'
 
-const Content = observer(() => {
+const Page = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const workspaceId = searchParams.get("id")
+  if(!workspaceId){
+    return null
+  }
+  const { data:workspace, error } = useSWR(`/workspace/{id}`, async () => api.workspace.find({id: workspaceId}))
+  console.log(workspace)
+
   const { 
     workspaceForm, 
     imageProcess, 
@@ -31,31 +42,31 @@ const Content = observer(() => {
 
   const { save } = store.workspaceForm;
   const routes = [
-    {
-      path: "/workspace/box",
-      name: "Box",
-      Component: BoxPage,
-    },
-    {
-      path: "/workspace/assign-tag",
-      name: "Assign Tag",
-      Component: AssignTagFormPage,
-    },
-    {
-      path: "/workspace/tag",
-      name: "Tag",
-      Component: TagFormPage,
-    },
-    {
-      path: "/workspace/point",
-      name: "Point",
-      Component: PointPage,
-    },
-    {
-      path: "/workspace/line",
-      name: "RefLinePage",
-      Component: RefLinePage,
-    },
+    // {
+    //   path: "/workspace/box",
+    //   name: "Box",
+    //   Component: BoxPage,
+    // },
+    // {
+    //   path: "/workspace/assign-tag",
+    //   name: "Assign Tag",
+    //   Component: AssignTagFormPage,
+    // },
+    // {
+    //   path: "/workspace/tag",
+    //   name: "Tag",
+    //   Component: TagFormPage,
+    // },
+    // {
+    //   path: "/workspace/point",
+    //   name: "Point",
+    //   Component: PointPage,
+    // },
+    // {
+    //   path: "/workspace/line",
+    //   name: "RefLinePage",
+    //   Component: RefLinePage,
+    // },
   ]
   return (
     <div
@@ -117,24 +128,24 @@ const Content = observer(() => {
               }}
             />
           </div>
-          <Routes>
-            {
-              routes.map(r => {
-                return (
-                  <Route 
-                    key={r.path}
-                    path={r.path} 
-                  >
-                    <r.Component />
-                  </Route>
-                )
-              })
-            }
-          </Routes>
+          {/* <Routes> */}
+          {/*   { */}
+          {/*     routes.map(r => { */}
+          {/*       return ( */}
+          {/*         <Route */} 
+          {/*           key={r.path} */}
+          {/*           path={r.path} */} 
+          {/*         > */}
+          {/*           <r.Component /> */}
+          {/*         </Route> */}
+          {/*       ) */}
+          {/*     }) */}
+          {/*   } */}
+          {/* </Routes> */}
         </>
       }
     </div>
   );
-});
+};
 
-export default Content;
+export default Page;

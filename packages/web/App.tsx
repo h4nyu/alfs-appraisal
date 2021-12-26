@@ -9,24 +9,22 @@ import Loading_ from "@sivic/web/components/Loading"
 
 const MainPage = lazy(() => import("@sivic/web/pages/MainPage"));
 const WorkspacePage = lazy(() => import("@sivic/web/pages/WorkspacePage"));
-const Loading = observer(() => <Loading_ isActive={rootStore.loadingStore.isActive}/>)
 
 export default function App() {
   return (
     <Router>
-      <Routes>
-        <Loading />
-        <Toast />
-        <PageLayout
-          header={<Header/>}
-          content={
-            <Suspense fallback={<div>Loading...</div>}>
+      <Toast />
+      <PageLayout
+        header={<Header/>}
+        content={
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
               <Route path={"/"} element={<MainPage/>} />
               <Route path={"/workspace"} element={<WorkspacePage/>} />
-            </Suspense>
-          }
-        />
-      </Routes>
+            </Routes>
+          </Suspense>
+        }
+      />
     </Router>
   );
 }
