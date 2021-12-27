@@ -33,7 +33,6 @@ export const TagForm = (props: {
   onDelete?: () => void
   onDownload?: () => void
 }) => {
-  console.log(props.tag)
   const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
     defaultValues: {
       id: props.tag?.id,
