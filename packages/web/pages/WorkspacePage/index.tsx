@@ -17,7 +17,7 @@ import api, { batchFetchFiles, batchFetchBoxes, batchFetchPoints} from "@sivic/w
 import { readAsBase64, b64toBlob } from "@sivic/web/utils";
 import WorkspaceForm from "@sivic/web/components/WorkspaceForm"
 
-import PointPage from "./PointPage"
+import ImagePage from "./ImagePage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
 import RefLinePage from "./RefLinePage"
@@ -51,7 +51,8 @@ const Page = () => {
   if(files instanceof Error) { return null }
   if(
     workspace === undefined  ||
-    images === undefined
+    images === undefined ||
+    tags === undefined
   ) {
     return <Loading/>
   }
@@ -69,16 +70,6 @@ const Page = () => {
 
   const { save } = store.workspaceForm;
   const routes = [
-    // {
-    //   path: "/workspace/assign-tag",
-    //   name: "Assign Tag",
-    //   Component: AssignTagFormPage,
-    // },
-    // {
-    //   path: "/workspace/tag",
-    //   name: "Tag",
-    //   Component: TagFormPage,
-    // },
     // {
     //   path: "/workspace/point",
     //   name: "Point",
@@ -129,7 +120,12 @@ const Page = () => {
             })
           }}
           onAddTag={() => {
-            navigate("/workspace/tag")
+            navigate({
+              pathname:"/workspace/tag",
+              search: createSearchParams({
+                workspaceId,
+              }).toString()
+            })
           }}
           images={images}
           tags={tags}
@@ -146,14 +142,33 @@ const Page = () => {
             })
           }}
           onTagClick={tag => {
+            navigate({
+              pathname:"/workspace/tag",
+              search: createSearchParams({
+                workspaceId,
+                tagId: tag.id,
+              }).toString()
+            })
           }}
           onBoxClick={async (box) => {
             if(box.tagId === undefined) { return }
-            await store.featureForm.init(box)
-            if(store.featureForm.isReference){
-              navigate("/workspace/line")
+            const tag = tags.find(x => x.id === box.tagId)
+            if(tag?.referenceBoxId === box.id){
+              navigate({
+                pathname:"/workspace/reference-box",
+                search: createSearchParams({
+                  workspaceId,
+                  boxId: box.id,
+                }).toString()
+              })
             }else{
-              navigate("/workspace/point")
+              navigate({
+                pathname:"/workspace/box",
+                search: createSearchParams({
+                  workspaceId,
+                  boxId: box.id,
+                }).toString()
+              })
             }
           }}
           onAssignClick={() => {
@@ -167,8 +182,11 @@ const Page = () => {
         />
       </div>
       <Routes>
-        <Route path={"image"} element={<BoxPage/>}/>
+        <Route path={"image"} element={<ImagePage />}/>
         <Route path={"assign-tag"} element={<AssignTagFormPage/>}/>
+        <Route path={"box"} element={<BoxPage/>}/>
+        <Route path={"reference-box"} element={<RefLinePage />}/>
+        <Route path={"tag"} element={<TagFormPage/>}/>
       </Routes>
     </div>
   );

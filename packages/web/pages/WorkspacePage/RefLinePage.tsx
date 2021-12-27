@@ -1,28 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { observer } from "mobx-react-lite";
 import store from "@sivic/web/store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ReferenceForm from "@sivic/web/components/ReferenceForm"
 import Modal from "@sivic/web/components/Modal"
+import Loading from "@sivic/web/components/Loading"
+import useSWR, { useSWRConfig } from 'swr'
+import api from "@sivic/web/api"
 
-const Content = observer(() => {
+const Page = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const workspaceId = searchParams.get("workspaceId")
+  const boxId = searchParams.get("boxId")
+  if(!workspaceId || !boxId){
+    return null
+  }
   const { featureForm, workspaceForm } = store;
   const navigate = useNavigate()
+  const { data:box } = useSWR({key:"box", id: boxId}, api.box.find)
+  if(box instanceof Error) { return null }
+  const { data:tag } = useSWR(box?.tagId && {key:"tag", id: box.tagId}, api.tag.find)
+  if(tag instanceof Error) { return null }
+  const { data:file } = useSWR(box?.fileId && {key:"file", id: box.fileId}, api.file.find)
+  if(file instanceof Error) { return null }
+
+  const { data:points, mutate: mutatePoints } = useSWR(box?.id && {key:"point", boxId: box.id}, api.point.filter)
+  if(points instanceof Error) { return null }
+  const { data:lines, mutate:mutateLines } = useSWR(box?.id && {key:"line", boxId: box.id}, api.line.filter)
+  if(lines instanceof Error) { return null }
+  if(box === undefined || tag === undefined){
+    return <Loading/>
+  }
   return (
     <Modal
       isActive={true}
       onClose={() => navigate(-1)}
     >
       <ReferenceForm 
-        id={store.featureForm.referenceBox?.id}
-        tag={store.featureForm.tag}
-        file={store.featureForm.referenceFile}
-        points={store.featureForm.points}
-        lines={store.featureForm.referenceLines}
-        onSubmit={store.featureForm.save}
+        box={box}
+        tag={tag}
+        file={file}
+        points={points}
+        lines={lines}
+        onSubmit={async (v) => {
+          const pErr = await api.point.load({
+            boxId: box.id,
+            points:v.points,
+          })
+          if(pErr instanceof Error) { return }
+          mutatePoints()
+          const lErr = await api.line.load({
+            boxId: box.id,
+            lines:v.lines,
+          })
+          if(lErr instanceof Error) { return }
+          mutateLines()
+        }}
       />
     </Modal>
   );
-});
+};
 
-export default Content;
+export default Page;

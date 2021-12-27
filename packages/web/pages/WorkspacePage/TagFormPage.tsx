@@ -1,42 +1,63 @@
 import React from "react"
-import { observer } from "mobx-react-lite";
 import TagFormView from '@sivic/web/components/TagForm'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import useSWR, { useSWRConfig } from 'swr'
 import TagForm from '@sivic/web/store/TagForm'
 import store from "@sivic/web/store"
 import Modal from "@sivic/web/components/Modal"
+import Loading from "@sivic/web/components/Loading"
+import api, { batchFetchFiles,} from "@sivic/web/api"
 
-const Content = observer(() => {
+const Page = () => {
   const navigate = useNavigate()
+  const { mutate } = useSWRConfig()
+  const [searchParams, setSearchParams] = useSearchParams();
+  const workspaceId = searchParams.get("workspaceId")
+  const tagId = searchParams.get("tagId")
+  if(!workspaceId){
+    return null
+  }
+  const { data:workspace } = useSWR({key:"workspace", id: workspaceId}, api.workspace.find)
+  if(workspace instanceof Error) { return null }
+  const { data:tag } = useSWR(tagId && {key:"tag", id: tagId}, api.tag.find)
+  if(tag instanceof Error) { return null }
+  const { data:boxes } = useSWR(tagId && {key:"box", tagId}, api.box.filter)
+  if(boxes instanceof Error) { return null }
+  const { data:files } = useSWR({key: 'file', boxes }, batchFetchFiles)
+  if(files instanceof Error) { return null }
+  if(workspace === undefined){
+    return <Loading/>
+  }
+
   return (
     <Modal
       isActive={true}
       onClose={() => navigate(-1)}
     >
       <TagFormView 
-        workspace={store.imageForm.workspace}
-        tag={store.tagForm.tag}
-        id={store.tagForm.id}
-        name={store.tagForm.name}
-        workspaceId={store.tagForm.workspaceId}
-        referenceBoxId={store.tagForm.referenceBoxId}
-        onNameChange={store.tagForm.setName}
-        boxes={store.boxStore.boxes}
-        files={store.fileStore.files}
+        workspace={workspace}
+        tag={tag}
+        boxes={boxes}
+        files={files}
         summaryPairs={store.tagForm.summaryPairs}
-        onReferenceBoxChange={b => store.tagForm.setReferenceBoxId(b.id)}
-        onBoxClick={box => {
-          if(box.tagId === undefined) { return }
-          store.featureForm.init(box)
-          navigate("/workspace/point")
+        // onBoxClick={box => {
+        //   if(box.tagId === undefined) { return }
+        //   store.featureForm.init(box)
+        //   navigate("/workspace/point")
+        // }}
+        onSubmit={async (v) => {
+          const { id } = v
+          if(id !== undefined){
+            await api.tag.update({...v, id, workspaceId})
+          }else{
+            await api.tag.create({...v, workspaceId})
+            navigate(-1)
+          }
+          mutate({key:"tag", workspaceId})
         }}
-        onSave={async () => {
-          await store.tagForm.save()
-        }}
-        onDelete={store.tagForm.delete}
+        // onDelete={store.tagForm.delete}
       />
-
     </Modal>
   );
-});
-export default Content;
+};
+export default Page;

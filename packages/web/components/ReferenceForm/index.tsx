@@ -2,6 +2,7 @@ import React from 'react';
 import Line from '@sivic/core/line'
 import Point from '@sivic/core/point'
 import File from '@sivic/core/file'
+import Box from '@sivic/core/box'
 import Image from '@sivic/core/image'
 import SvgCharPlot from '@sivic/web/components/SvgCharPlot'
 import Tag from '@sivic/core/tag'
@@ -16,7 +17,7 @@ import useLinePlot from "@sivic/web/hooks/useLinePlot"
 const TARGETS = [ "point", "line"] as const
 type Target = typeof TARGETS[number]
 const ReferenceForm = (props: Readonly<{
-  id?:string;
+  box?:Box;
   tag?: Tag;
   file?: File,
   lines?: Line[],
@@ -84,7 +85,7 @@ const ReferenceForm = (props: Readonly<{
         <div className="field">
           <label className="label">ID</label>
           <span>
-            {props.id}
+            {props.box?.id}
           </span>
         </div>
         <div className="field">

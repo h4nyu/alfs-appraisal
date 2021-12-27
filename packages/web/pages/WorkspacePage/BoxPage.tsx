@@ -1,80 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { observer } from "mobx-react-lite";
 import store from "@sivic/web/store";
-import useModal from "@sivic/web/hooks/useModal"
-import BoxForm from "@sivic/web/components/BoxForm"
+import PointForm from "@sivic/web/components/PointForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from 'swr'
-import { useParams } from "react-router-dom";
-import { Image } from "@sivic/core/image"
 import Modal from "@sivic/web/components/Modal"
 import api from "@sivic/web/api"
 import Loading from "@sivic/web/components/Loading"
+import ReferenceForm from "@sivic/web/components/ReferenceForm"
 
 const Page = () => {
+  const { featureForm, workspaceForm } = store;
   const navigate = useNavigate()
   const { mutate } = useSWRConfig()
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("workspaceId")
-  const imageId = searchParams.get("imageId")
-  if(!workspaceId || !imageId){
+  const boxId = searchParams.get("boxId")
+  if(!workspaceId || !boxId){
     return null
   }
-  const { data:images } = useSWR({key:"image", workspaceId}, api.image.filter)
-  if(images instanceof Error) { return null }
-  const { data:image } = useSWR({key:"image", id: imageId}, api.image.find)
-  if(image instanceof Error) { return null }
-  const { data:file } = useSWR(image?.fileId && {key: 'file', id: image.fileId}, api.file.find)
+  const { data:box } = useSWR({key:"box", id: boxId}, api.box.find)
+  if(box instanceof Error) { return null }
+  const { data:tag } = useSWR(box?.tagId && {key:"tag", id: box.tagId}, api.tag.find)
+  if(tag instanceof Error) { return null }
+  const { data:file } = useSWR(box?.fileId && {key:"file", id: box.fileId}, api.file.find)
   if(file instanceof Error) { return null }
-  const { data:boxes } = useSWR(image && {key:"box", imageId: image.id}, api.box.filter)
-  if(boxes instanceof Error) { return null }
-
-  if(image === undefined || file === undefined || boxes === undefined){
+  if(box === undefined || tag === undefined){
     return <Loading/>
   }
+  const isReference = box.id === tag.referenceBoxId
   return (
     <Modal
       isActive={true}
       onClose={() => navigate(-1)}
     >
-      <BoxForm 
-        image={image}
+      <PointForm 
+        box={box}
+        tag={tag}
         file={file}
-        boxes={boxes}
-        onSave={async ({boxes}) => {
-          await api.box.load({
-            imageId,
-            boxes,
-          })
-          mutate({
-            key:"box",
-            imageId,
-          })
-          mutate({
-            key:"box",
-            images,
-          })
-        }}
-        onDelete={async () => {
-          await api.image.delete({id: image.id})
-          mutate({
-            key:"image",
-            workspaceId,
-          })
-          navigate(-1)
-        }}
-        onDetect={async () => {
-          const res = api.detect.box({data: file.data}) 
-          if(res instanceof Error) { return [] }
-          return []
-        }}
-        onSaveImage={async ({name}) => {
-          await api.image.update(Image({...image, name}))
-          mutate({
-            key:"image",
-            workspaceId,
-          })
-        }}
+        points={featureForm.points}
+        referenceFile={featureForm.referenceFile}
+        referencePoints={featureForm.referencePoints}
+        referenceLines={featureForm.referenceLines}
+        lines={featureForm.lines}
+        onSave={featureForm.save}
+        onDelete={featureForm.delete}
+        onReset={featureForm.resetPoints}
       />
     </Modal>
   );
