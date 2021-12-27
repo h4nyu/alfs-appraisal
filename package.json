@@ -1,5 +1,5 @@
 {
-  "name": "sivic",
+  "name": "alfs-appraisal",
   "version": "0.0.1",
   "license": "MIT",
   "private": true,
@@ -9,10 +9,10 @@
   "scripts": {
     "lint": "eslint --fix --ext .tsx,.ts ./packages",
     "build": "gulp",
-    "srv": "yarn workspace @sivic/server",
-    "api": "yarn workspace @sivic/api",
-    "core": "yarn workspace @sivic/core",
-    "web": "yarn workspace @sivic/web"
+    "srv": "yarn workspace @alfs-appraisal/server",
+    "api": "yarn workspace @alfs-appraisal/api",
+    "core": "yarn workspace @alfs-appraisal/core",
+    "web": "yarn workspace @alfs-appraisal/web"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
