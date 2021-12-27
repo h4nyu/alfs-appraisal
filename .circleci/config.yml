@@ -39,7 +39,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}-v1
 
       - run:
           name: Install node modules if needed
@@ -49,9 +49,14 @@ jobs:
             fi
 
       - save_cache:
-          key: yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}-v1
           paths:
             - ./node_modules
+            - ./packages/api/node_modules
+            - ./packages/core/node_modules
+            - ./packages/server/node_modules
+            - ./packages/web/node_modules
+
 
       - run:
           name: Build all packages
