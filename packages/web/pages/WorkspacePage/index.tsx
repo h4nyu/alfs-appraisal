@@ -20,7 +20,7 @@ import WorkspaceForm from "@sivic/web/components/WorkspaceForm"
 import ImagePage from "./ImagePage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
-import RefLinePage from "./RefLinePage"
+import ReferenceBoxPage from "./ReferenceBoxPage"
 import AssignTagFormPage from "./AssignTagFormPage"
 import useSWR, { useSWRConfig } from 'swr'
 import Loading from "@sivic/web/components/Loading"
@@ -185,7 +185,7 @@ const Page = () => {
         <Route path={"image"} element={<ImagePage />}/>
         <Route path={"assign-tag"} element={<AssignTagFormPage/>}/>
         <Route path={"box"} element={<BoxPage/>}/>
-        <Route path={"reference-box"} element={<RefLinePage />}/>
+        <Route path={"reference-box"} element={<ReferenceBoxPage />}/>
         <Route path={"tag"} element={<TagFormPage/>}/>
       </Routes>
     </div>

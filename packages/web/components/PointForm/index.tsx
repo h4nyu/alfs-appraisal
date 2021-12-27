@@ -61,12 +61,6 @@ export const PointForm = (props: {
           onMove={move} 
           size={512}
         /> 
-        {/* <Cursor */} 
-        {/*   onUp={pointEditor.up} */}
-        {/*   onDown={pointEditor.down} */}
-        {/*   onRight={pointEditor.right} */}
-        {/*   onLeft={pointEditor.left} */}
-        {/* /> */}
       </div>
       <div>
         <div className="field">
@@ -89,7 +83,9 @@ export const PointForm = (props: {
           />
           <div/>
           <div>
-            <ResetBtn />
+            <ResetBtn 
+              onClick={() => props.onReset?.()}
+            />
             <SaveBtn 
               onClick={() => props.onSave?.({points})}
             />
