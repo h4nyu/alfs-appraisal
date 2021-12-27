@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { observer } from "mobx-react-lite";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import WorkspaceTable from "@sivic/web/components/WorkspaceTable";
 import Loading from "@sivic/web/components/Loading"

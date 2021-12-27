@@ -1,5 +1,4 @@
 import React, { useState } from "react"; 
-import { observer } from "mobx-react-lite";
 import FileUpload from "@sivic/web/components/FileUpload";
 import DownloadBtn from "@sivic/web/components/DownloadBtn"
 import { Image } from "@sivic/core/image";
