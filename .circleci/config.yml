@@ -54,6 +54,11 @@ jobs:
             - ./node_modules
 
       - run:
+          name: Build all packages
+          command: |
+            docker-compose run --rm app yarn build
+
+      - run:
           name: Test all packages
           command: |
             docker-compose up -d db
