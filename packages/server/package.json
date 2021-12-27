@@ -1,5 +1,5 @@
 {
-  "name": "@sivic/server",
+  "name": "@alfs-appraisal/server",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@oniku/lockfile": "^0.0.0",
-    "@sivic/core": "*",
+    "@alfs-appraisal/core": "*",
     "fastify": "^3.8.0",
     "fastify-http-proxy": "^6.2.0",
     "fastify-static": "^4.0.1",
