@@ -1,6 +1,6 @@
 import React from "react"
 import { keyBy, zip, uniqBy } from "lodash";
-import Image from "@sivic/core/image"
+import Image from "@alfs-appraisal/core/image"
 
 
 export const useImageForm = (props: { image: Image }) => {

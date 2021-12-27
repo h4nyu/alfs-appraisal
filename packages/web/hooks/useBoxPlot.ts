@@ -1,7 +1,7 @@
 import React from "react"
 import { keyBy, zip, uniqBy } from "lodash";
-import Box from "@sivic/core/box"
-import { Position2D } from "@sivic/core/point"
+import Box from "@alfs-appraisal/core/box"
+import { Position2D } from "@alfs-appraisal/core/point"
 
 export enum InputMode {
   Box = "Box",

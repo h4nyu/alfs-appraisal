@@ -1,7 +1,7 @@
 import React from "react"
 import { keyBy, zip, uniqBy } from "lodash";
-import Point from "@sivic/core/point"
-import { Position2D } from "@sivic/core/point"
+import Point from "@alfs-appraisal/core/point"
+import { Position2D } from "@alfs-appraisal/core/point"
 
 export const usePointPlot = (props?: {
   points?: Point[]

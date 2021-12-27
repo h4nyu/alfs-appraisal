@@ -7,7 +7,7 @@ import Box, {
   UpdateFn,
   LoadFn,
   DeleteFn,
-} from "@sivic/core/box";
+} from "@alfs-appraisal/core/box";
 
 export const Api = (arg: {
   http: AxiosInstance;
