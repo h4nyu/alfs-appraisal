@@ -1,17 +1,17 @@
 import React from 'react';
-import Line from '@sivic/core/line'
-import Point from '@sivic/core/point'
-import File from '@sivic/core/file'
-import Box from '@sivic/core/box'
-import Image from '@sivic/core/image'
-import SvgCharPlot from '@sivic/web/components/SvgCharPlot'
-import Tag from '@sivic/core/tag'
+import Line from '@alfs-appraisal/core/line'
+import Point from '@alfs-appraisal/core/point'
+import File from '@alfs-appraisal/core/file'
+import Box from '@alfs-appraisal/core/box'
+import Image from '@alfs-appraisal/core/image'
+import SvgCharPlot from '@alfs-appraisal/web/components/SvgCharPlot'
+import Tag from '@alfs-appraisal/core/tag'
 import { flatMap } from "lodash";
-import ResetBtn from "@sivic/web/components/ResetBtn"
-import SaveBtn from "@sivic/web/components/SaveBtn"
-import { Payload as LoadLinePayload } from '@sivic/core/line/load'
-import usePointPlot from "@sivic/web/hooks/usePointPlot"
-import useLinePlot from "@sivic/web/hooks/useLinePlot"
+import ResetBtn from "@alfs-appraisal/web/components/ResetBtn"
+import SaveBtn from "@alfs-appraisal/web/components/SaveBtn"
+import { Payload as LoadLinePayload } from '@alfs-appraisal/core/line/load'
+import usePointPlot from "@alfs-appraisal/web/hooks/usePointPlot"
+import useLinePlot from "@alfs-appraisal/web/hooks/useLinePlot"
 
 
 const TARGETS = [ "point", "line"] as const

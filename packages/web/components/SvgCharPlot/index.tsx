@@ -1,9 +1,9 @@
 import React, { RefObject, useRef, useEffect, useState } from "react";
-import { Box } from "@sivic/core/box";
-import { Point } from "@sivic/core/point";
-import Line from "@sivic/core/line";
-import Tag from "@sivic/core/tag"
-import { InputMode } from "@sivic/web/hooks/useBoxPlot";
+import { Box } from "@alfs-appraisal/core/box";
+import { Point } from "@alfs-appraisal/core/point";
+import Line from "@alfs-appraisal/core/line";
+import Tag from "@alfs-appraisal/core/tag"
+import { InputMode } from "@alfs-appraisal/web/hooks/useBoxPlot";
 import { schemeCategory10 } from "d3-scale-chromatic"
 
 export type SvgCharPlotProps = {

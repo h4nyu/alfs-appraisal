@@ -1,5 +1,5 @@
 import React, { RefObject, useRef, useEffect, useState } from "react";
-import Box from "@sivic/core/box"
+import Box from "@alfs-appraisal/core/box"
 
 export const SvgCharPlot = (props: {
   data?: string;

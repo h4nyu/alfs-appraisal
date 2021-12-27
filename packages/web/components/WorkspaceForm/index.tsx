@@ -1,7 +1,7 @@
 import React from "react";
-import { Workspace } from "@sivic/core/workspace"
+import { Workspace } from "@alfs-appraisal/core/workspace"
 import { useForm } from "react-hook-form";
-import SaveBtn from "@sivic/web/components/SaveBtn"
+import SaveBtn from "@alfs-appraisal/web/components/SaveBtn"
 
 export const WorkspaceForm = (props: {
   workspace:Workspace

@@ -1,6 +1,6 @@
 import React from "react";
 import Component from "./CharPlot";
-import { Box } from "@sivic/core/box"
+import { Box } from "@alfs-appraisal/core/box"
 import annot from "/app/data/annto.json";
 
 const { imageData } = annot;

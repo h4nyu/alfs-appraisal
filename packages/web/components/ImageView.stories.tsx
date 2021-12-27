@@ -2,10 +2,10 @@ import React from "react";
 import ImageView from "./ImageView";
 import { action } from "@storybook/addon-actions";
 import { boolean } from "@storybook/addon-knobs";
-import { Image } from "@sivic/core/image";
+import { Image } from "@alfs-appraisal/core/image";
 
 // @ts-ignore
-import { data as imageData } from "@sivic/web/data/image.json" 
+import { data as imageData } from "@alfs-appraisal/web/data/image.json" 
 
 export default {
   title: "ImageView",

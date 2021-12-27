@@ -1,12 +1,12 @@
 import React from "react"
-import { Tag } from "@sivic/core/tag"
-import { Image } from "@sivic/core/image"
-import { File } from "@sivic/core/file"
-import Point from "@sivic/core/point"
-import AddBtn from "@sivic/web/components/AddBtn"
-import BoxView from "@sivic/web/components/BoxView"
-import Box from "@sivic/core/box"
-import FileUpload, { ChangeFn } from "@sivic/web/components/FileUpload"
+import { Tag } from "@alfs-appraisal/core/tag"
+import { Image } from "@alfs-appraisal/core/image"
+import { File } from "@alfs-appraisal/core/file"
+import Point from "@alfs-appraisal/core/point"
+import AddBtn from "@alfs-appraisal/web/components/AddBtn"
+import BoxView from "@alfs-appraisal/web/components/BoxView"
+import Box from "@alfs-appraisal/core/box"
+import FileUpload, { ChangeFn } from "@alfs-appraisal/web/components/FileUpload"
 
 const centerStyle = {
   display: "grid",

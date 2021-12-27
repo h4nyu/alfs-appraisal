@@ -1,5 +1,5 @@
 import React, {useRef, useState, RefObject} from 'react';
-import { Box } from "@sivic/core/box"
+import { Box } from "@alfs-appraisal/core/box"
 
 export default function(props:{
   box: Box,

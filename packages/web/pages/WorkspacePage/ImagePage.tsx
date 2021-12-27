@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import useModal from "@sivic/web/hooks/useModal"
-import BoxForm from "@sivic/web/components/BoxForm"
+import useModal from "@alfs-appraisal/web/hooks/useModal"
+import BoxForm from "@alfs-appraisal/web/components/BoxForm"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from 'swr'
-import { Image } from "@sivic/core/image"
-import Modal from "@sivic/web/components/Modal"
-import api from "@sivic/web/api"
-import Loading from "@sivic/web/components/Loading"
+import { Image } from "@alfs-appraisal/core/image"
+import Modal from "@alfs-appraisal/web/components/Modal"
+import api from "@alfs-appraisal/web/api"
+import Loading from "@alfs-appraisal/web/components/Loading"
 
 const Page = () => {
   const navigate = useNavigate()

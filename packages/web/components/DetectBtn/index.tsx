@@ -1,5 +1,5 @@
 import React from "react";
-import LoadingButton from "@sivic/web/components/LoadingButton"
+import LoadingButton from "@alfs-appraisal/web/components/LoadingButton"
 
 const DetectBtn = (props:{
   onClick?:() => Promise<void>

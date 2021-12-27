@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import ReferenceForm from "@sivic/web/components/ReferenceForm"
-import Modal from "@sivic/web/components/Modal"
-import Loading from "@sivic/web/components/Loading"
+import ReferenceForm from "@alfs-appraisal/web/components/ReferenceForm"
+import Modal from "@alfs-appraisal/web/components/Modal"
+import Loading from "@alfs-appraisal/web/components/Loading"
 import useSWR, { useSWRConfig } from 'swr'
-import api from "@sivic/web/api"
+import api from "@alfs-appraisal/web/api"
 
 const Page = () => {
   const [searchParams, setSearchParams] = useSearchParams();

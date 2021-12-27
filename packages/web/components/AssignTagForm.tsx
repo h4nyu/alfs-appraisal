@@ -1,9 +1,9 @@
 import React, {useState} from "react"
-import Box from "@sivic/core/box"
-import Tag from "@sivic/core/tag"
-import File from "@sivic/core/file";
-import TagSelector from "@sivic/web/components/TagSelector"
-import BoxView from "@sivic/web/components/BoxView"
+import Box from "@alfs-appraisal/core/box"
+import Tag from "@alfs-appraisal/core/tag"
+import File from "@alfs-appraisal/core/file";
+import TagSelector from "@alfs-appraisal/web/components/TagSelector"
+import BoxView from "@alfs-appraisal/web/components/BoxView"
 import { sortBy } from "lodash"
 
 const AssignTagForm = (props:{

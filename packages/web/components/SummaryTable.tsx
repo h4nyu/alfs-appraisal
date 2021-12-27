@@ -1,15 +1,15 @@
 import React from "react";
 import DataGrid, { SelectCellFormatter } from 'react-data-grid';
-import { Box } from "@sivic/core/box"
-import { Point } from "@sivic/core/point"
-import { Line } from "@sivic/core/line"
-import Summary from "@sivic/core/summary"
-import { exportToCsv } from "@sivic/web/utils"
+import { Box } from "@alfs-appraisal/core/box"
+import { Point } from "@alfs-appraisal/core/point"
+import { Line } from "@alfs-appraisal/core/line"
+import Summary from "@alfs-appraisal/core/summary"
+import { exportToCsv } from "@alfs-appraisal/web/utils"
 import { first, keyBy, flatMap } from "lodash"
-import { Workspace } from "@sivic/core/workspace"
-import { Tag } from "@sivic/core/tag"
-import { File } from "@sivic/core/file";
-import BoxView from "@sivic/web/components/BoxView"
+import { Workspace } from "@alfs-appraisal/core/workspace"
+import { Tag } from "@alfs-appraisal/core/tag"
+import { File } from "@alfs-appraisal/core/file";
+import BoxView from "@alfs-appraisal/web/components/BoxView"
 
 
 export const SummaryTable = (props: { 

@@ -1,13 +1,13 @@
 import React from "react";
 import AssignTagForm from "./AssignTagForm";
-import Mock from "@sivic/web/components/Mock";
-import Box from "@sivic/core/box"
-import Tag from "@sivic/core/tag"
-import File from "@sivic/core/file";
-import { Workspace } from "@sivic/core/workspace";
+import Mock from "@alfs-appraisal/web/components/Mock";
+import Box from "@alfs-appraisal/core/box"
+import Tag from "@alfs-appraisal/core/tag"
+import File from "@alfs-appraisal/core/file";
+import { Workspace } from "@alfs-appraisal/core/workspace";
 import { range, take } from "lodash"
 
-import { data as imageData } from "@sivic/web/data/image.json" 
+import { data as imageData } from "@alfs-appraisal/web/data/image.json" 
 
 export default {
   title: "AssignTagForm",

@@ -1,19 +1,19 @@
 import React, { useState } from "react"; 
-import FileUpload from "@sivic/web/components/FileUpload";
-import DownloadBtn from "@sivic/web/components/DownloadBtn"
-import { Image } from "@sivic/core/image";
-import { File } from "@sivic/core/file"
-import { Box } from "@sivic/core/box"
-import { Point } from "@sivic/core/point"
-import ImageTable from "@sivic/web/components/ImageTable"
-import ImageTags from "@sivic/web/components/ImageTags";
-import BoxView from "@sivic/web/components/BoxView"
-import TagTable from "@sivic/web/components/TagTable"
-import TagSelector from "@sivic/web/components/TagSelector"
+import FileUpload from "@alfs-appraisal/web/components/FileUpload";
+import DownloadBtn from "@alfs-appraisal/web/components/DownloadBtn"
+import { Image } from "@alfs-appraisal/core/image";
+import { File } from "@alfs-appraisal/core/file"
+import { Box } from "@alfs-appraisal/core/box"
+import { Point } from "@alfs-appraisal/core/point"
+import ImageTable from "@alfs-appraisal/web/components/ImageTable"
+import ImageTags from "@alfs-appraisal/web/components/ImageTags";
+import BoxView from "@alfs-appraisal/web/components/BoxView"
+import TagTable from "@alfs-appraisal/web/components/TagTable"
+import TagSelector from "@alfs-appraisal/web/components/TagSelector"
 import { Router, Routes, Route, NavLink, Link, useNavigate, useSearchParams, createSearchParams } from "react-router-dom";
-import api, { batchFetchFiles, batchFetchBoxes, batchFetchPoints} from "@sivic/web/api"
-import { readAsBase64, b64toBlob } from "@sivic/web/utils";
-import WorkspaceForm from "@sivic/web/components/WorkspaceForm"
+import api, { batchFetchFiles, batchFetchBoxes, batchFetchPoints} from "@alfs-appraisal/web/api"
+import { readAsBase64, b64toBlob } from "@alfs-appraisal/web/utils";
+import WorkspaceForm from "@alfs-appraisal/web/components/WorkspaceForm"
 
 import ImagePage from "./ImagePage"
 import BoxPage from "./BoxPage"
@@ -21,7 +21,7 @@ import TagFormPage from "./TagFormPage"
 import ReferenceBoxPage from "./ReferenceBoxPage"
 import AssignTagFormPage from "./AssignTagFormPage"
 import useSWR, { useSWRConfig } from 'swr'
-import Loading from "@sivic/web/components/Loading"
+import Loading from "@alfs-appraisal/web/components/Loading"
 
 
 const Page = () => {

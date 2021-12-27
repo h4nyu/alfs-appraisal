@@ -1,9 +1,9 @@
 import React from "react"
 import PointForm from ".";
-import Box from "@sivic/core/box"
-import { File } from "@sivic/core/file";
-import { data as imageData } from "@sivic/web/data/image.json" 
-import Point from "@sivic/core/point"
+import Box from "@alfs-appraisal/core/box"
+import { File } from "@alfs-appraisal/core/file";
+import { data as imageData } from "@alfs-appraisal/web/data/image.json" 
+import Point from "@alfs-appraisal/core/point"
 
 export default {
   title: "PointForm",

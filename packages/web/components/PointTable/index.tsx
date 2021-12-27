@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Divider from "@sivic/web/components/Divider"
-import Point from "@sivic/core/point"
+import Divider from "@alfs-appraisal/web/components/Divider"
+import Point from "@alfs-appraisal/core/point"
 
 export const PointTable = (props: {
   points?: Point[],

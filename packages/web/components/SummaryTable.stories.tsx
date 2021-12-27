@@ -1,11 +1,11 @@
 import React from "react";
 import SummaryTable from "./SummaryTable"
-import { Box } from "@sivic/core/box"
-import { Point } from "@sivic/core/point"
-import { Line } from "@sivic/core/line"
-import { Tag } from "@sivic/core/tag"
-import { File } from "@sivic/core/file";
-import { data as imageData } from "@sivic/web/data/image.json" 
+import { Box } from "@alfs-appraisal/core/box"
+import { Point } from "@alfs-appraisal/core/point"
+import { Line } from "@alfs-appraisal/core/line"
+import { Tag } from "@alfs-appraisal/core/tag"
+import { File } from "@alfs-appraisal/core/file";
+import { data as imageData } from "@alfs-appraisal/web/data/image.json" 
 
 export default {
   title: "SummaryTable",

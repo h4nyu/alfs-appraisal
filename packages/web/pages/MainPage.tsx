@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import WorkspaceTable from "@sivic/web/components/WorkspaceTable";
-import Loading from "@sivic/web/components/Loading"
+import WorkspaceTable from "@alfs-appraisal/web/components/WorkspaceTable";
+import Loading from "@alfs-appraisal/web/components/Loading"
 import useSWR, { useSWRConfig } from 'swr'
-import api from "@sivic/web/api"
+import api from "@alfs-appraisal/web/api"
 
 const Page = () => {
   const navigate = useNavigate()

@@ -1,6 +1,6 @@
 import React from "react";
 import Component from "./";
-import { Workspace } from "@sivic/core/workspace"
+import { Workspace } from "@alfs-appraisal/core/workspace"
 
 export default {
   title: "WorkspaceForm",

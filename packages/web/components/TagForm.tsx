@@ -1,16 +1,16 @@
 import React from "react"
-import SaveBtn from "@sivic/web/components/SaveBtn"
-import CancelBtn from "@sivic/web/components/CancelBtn"
-import DeleteBtn from "@sivic/web/components/DeleteBtn"
-import Box from "@sivic/core/box"
-import BoxView from "@sivic/web/components/BoxView"
-import DownloadBtn from "@sivic/web/components/DownloadBtn"
-import { Workspace } from "@sivic/core/workspace"
-import Summary from "@sivic/core/summary"
-import File from "@sivic/core/file"
-import Tag from "@sivic/core/tag"
+import SaveBtn from "@alfs-appraisal/web/components/SaveBtn"
+import CancelBtn from "@alfs-appraisal/web/components/CancelBtn"
+import DeleteBtn from "@alfs-appraisal/web/components/DeleteBtn"
+import Box from "@alfs-appraisal/core/box"
+import BoxView from "@alfs-appraisal/web/components/BoxView"
+import DownloadBtn from "@alfs-appraisal/web/components/DownloadBtn"
+import { Workspace } from "@alfs-appraisal/core/workspace"
+import Summary from "@alfs-appraisal/core/summary"
+import File from "@alfs-appraisal/core/file"
+import Tag from "@alfs-appraisal/core/tag"
 import { useForm } from "react-hook-form";
-import SummaryTable from "@sivic/web/components/SummaryTable"
+import SummaryTable from "@alfs-appraisal/web/components/SummaryTable"
 
 type FormValues = {
   id?: string,

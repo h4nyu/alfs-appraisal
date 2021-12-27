@@ -1,5 +1,5 @@
 import React from 'react';
-import Tag from '@sivic/core/tag'
+import Tag from '@alfs-appraisal/core/tag'
 
 export const TagSelector = (props: {
   tags?: Tag[],

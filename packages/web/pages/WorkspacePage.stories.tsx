@@ -1,9 +1,9 @@
 import React from "react";
 import WorkspacePage from "./WorkspacePage";
 import { MemoryRouter as Router, Route } from "react-router-dom";
-import { Workspace } from "@sivic/core/workspace";
-import Tag from "@sivic/core/tag"
-import Point from "@sivic/core/point"
+import { Workspace } from "@alfs-appraisal/core/workspace";
+import Tag from "@alfs-appraisal/core/tag"
+import Point from "@alfs-appraisal/core/point"
 export default {
   title: "pages/WorkspacePage",
   component: WorkspacePage,

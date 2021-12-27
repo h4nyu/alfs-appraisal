@@ -1,10 +1,10 @@
 import React from "react"
-import AssignTagFormView from '@sivic/web/components/AssignTagForm'
-import Modal from "@sivic/web/components/Modal"
+import AssignTagFormView from '@alfs-appraisal/web/components/AssignTagForm'
+import Modal from "@alfs-appraisal/web/components/Modal"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from 'swr'
-import api, { batchFetchBoxes, batchFetchFiles } from "@sivic/web/api"
-import Loading from "@sivic/web/components/Loading"
+import api, { batchFetchBoxes, batchFetchFiles } from "@alfs-appraisal/web/api"
+import Loading from "@alfs-appraisal/web/components/Loading"
 
 const Page = () => {
   const navigate = useNavigate()

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Point, { ResizeFn } from "@sivic/core/point"
-import PointForm from "@sivic/web/components/PointForm";
+import Point, { ResizeFn } from "@alfs-appraisal/core/point"
+import PointForm from "@alfs-appraisal/web/components/PointForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from 'swr'
-import Modal from "@sivic/web/components/Modal"
-import api from "@sivic/web/api"
-import Loading from "@sivic/web/components/Loading"
-import ReferenceForm from "@sivic/web/components/ReferenceForm"
+import Modal from "@alfs-appraisal/web/components/Modal"
+import api from "@alfs-appraisal/web/api"
+import Loading from "@alfs-appraisal/web/components/Loading"
+import ReferenceForm from "@alfs-appraisal/web/components/ReferenceForm"
 
 const Page = () => {
   const navigate = useNavigate()

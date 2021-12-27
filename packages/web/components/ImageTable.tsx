@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import { Image } from "@sivic/core/image";
-import DateView from "@sivic/web/components/DateView";
-import TableHeader from "@sivic/web/components/TableHeader";
-import DeleteBtn from "@sivic/web/components/DeleteBtn";
-import ImageTags from "@sivic/web/components/ImageTags";
+import { Image } from "@alfs-appraisal/core/image";
+import DateView from "@alfs-appraisal/web/components/DateView";
+import TableHeader from "@alfs-appraisal/web/components/TableHeader";
+import DeleteBtn from "@alfs-appraisal/web/components/DeleteBtn";
+import ImageTags from "@alfs-appraisal/web/components/ImageTags";
 import { sortBy } from "lodash"
 
 const columns = [
