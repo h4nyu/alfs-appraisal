@@ -2,8 +2,6 @@ import React from "react"
 import TagFormView from '@sivic/web/components/TagForm'
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from 'swr'
-import TagForm from '@sivic/web/store/TagForm'
-import store from "@sivic/web/store"
 import Modal from "@sivic/web/components/Modal"
 import Loading from "@sivic/web/components/Loading"
 import api, { batchFetchFiles,} from "@sivic/web/api"
@@ -39,7 +37,7 @@ const Page = () => {
         tag={tag}
         boxes={boxes}
         files={files}
-        summaryPairs={store.tagForm.summaryPairs}
+        // summaryPairs={store.tagForm.summaryPairs}
         // onBoxClick={box => {
         //   if(box.tagId === undefined) { return }
         //   store.featureForm.init(box)

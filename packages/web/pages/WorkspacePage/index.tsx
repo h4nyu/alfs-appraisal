@@ -1,7 +1,6 @@
 import React, { useState } from "react"; 
 import { observer } from "mobx-react-lite";
 import FileUpload from "@sivic/web/components/FileUpload";
-import store from "@sivic/web/store";
 import DownloadBtn from "@sivic/web/components/DownloadBtn"
 import { Image } from "@sivic/core/image";
 import { File } from "@sivic/core/file"
@@ -57,30 +56,6 @@ const Page = () => {
     return <Loading/>
   }
 
-
-  const { 
-    workspaceForm, 
-    imageProcess, 
-    workspaceStore, 
-    imageStore, 
-    boxStore,
-    fileStore,
-    tagForm
-  } = store
-
-  const { save } = store.workspaceForm;
-  const routes = [
-    // {
-    //   path: "/workspace/point",
-    //   name: "Point",
-    //   Component: PointPage,
-    // },
-    // {
-    //   path: "/workspace/line",
-    //   name: "RefLinePage",
-    //   Component: RefLinePage,
-    // },
-  ]
   return (
     <div
       className="box"

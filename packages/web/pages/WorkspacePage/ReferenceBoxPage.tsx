@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import store from "@sivic/web/store";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ReferenceForm from "@sivic/web/components/ReferenceForm"
 import Modal from "@sivic/web/components/Modal"
@@ -14,7 +13,6 @@ const Page = () => {
   if(!workspaceId || !boxId){
     return null
   }
-  const { featureForm, workspaceForm } = store;
   const navigate = useNavigate()
   const { data:box } = useSWR({key:"box", id: boxId}, api.box.find)
   if(box instanceof Error) { return null }

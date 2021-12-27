@@ -4,7 +4,6 @@ import Modal from "@sivic/web/components/Modal"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from 'swr'
 import api, { batchFetchBoxes, batchFetchFiles } from "@sivic/web/api"
-import store from "@sivic/web/store"
 import Loading from "@sivic/web/components/Loading"
 
 const Page = () => {

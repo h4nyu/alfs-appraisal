@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import store from "@sivic/web/store";
 import Point, { ResizeFn } from "@sivic/core/point"
 import PointForm from "@sivic/web/components/PointForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -10,7 +9,6 @@ import Loading from "@sivic/web/components/Loading"
 import ReferenceForm from "@sivic/web/components/ReferenceForm"
 
 const Page = () => {
-  const { featureForm, workspaceForm } = store;
   const navigate = useNavigate()
   const { mutate } = useSWRConfig()
   const [searchParams, setSearchParams] = useSearchParams();

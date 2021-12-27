@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import store from "@sivic/web/store";
 import useModal from "@sivic/web/hooks/useModal"
 import BoxForm from "@sivic/web/components/BoxForm"
 import { useNavigate, useSearchParams } from "react-router-dom";
