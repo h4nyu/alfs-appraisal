@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 export { default as FilterFn } from "./filter"
 export { default as LoadFn } from "./load"
 import { nanoid } from 'nanoid'
-import Line from '@sivic/core/line'
+import Line from '@alfs-appraisal/core/line'
 
 export type Position2D = {
   x: number,

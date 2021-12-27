@@ -1,6 +1,6 @@
 import { Row, Sql } from "postgres";
-import { Box } from "@sivic/core/box";
-import { BoxStore } from "@sivic/core";
+import { Box } from "@alfs-appraisal/core/box";
+import { BoxStore } from "@alfs-appraisal/core";
 import { first } from "lodash"
 
 

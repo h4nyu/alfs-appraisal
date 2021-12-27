@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { CropFn } from '@sivic/core/transform'
+import { CropFn } from '@alfs-appraisal/core/transform'
 import { floor } from "lodash";
 
 export const crop:CropFn = async ({imageData, box}) => {

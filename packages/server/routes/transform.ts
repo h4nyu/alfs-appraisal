@@ -1,11 +1,11 @@
 
 import { Sql } from "postgres";
-import { Store, Lock } from "@sivic/core";
+import { Store, Lock } from "@alfs-appraisal/core";
 import { FastifyPlugin } from "fastify";
 import {
   Service,
   CropPayload,
-} from "@sivic/core/transform";
+} from "@alfs-appraisal/core/transform";
 
 export const TrasnformRoutes = (args: {
   store: Store;

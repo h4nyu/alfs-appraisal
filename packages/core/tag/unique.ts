@@ -1,5 +1,5 @@
-import { Store } from "@sivic/core";
-import { ErrorKind } from "@sivic/core/error"
+import { Store } from "@alfs-appraisal/core";
+import { ErrorKind } from "@alfs-appraisal/core/error"
 import { Tag } from ".";
 
 export type Fn = (tag:Tag) => Promise<void | Error>

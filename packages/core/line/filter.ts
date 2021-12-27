@@ -1,4 +1,4 @@
-import { Lock, ErrorKind, Store } from "@sivic/core";
+import { Lock, ErrorKind, Store } from "@alfs-appraisal/core";
 import Line from ".";
 
 export type Payload = {

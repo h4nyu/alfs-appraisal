@@ -1,4 +1,4 @@
-import { Store } from "@sivic/core"
+import { Store } from "@alfs-appraisal/core"
 
 export type Fn = (payload:{
   id: string;

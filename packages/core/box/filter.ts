@@ -1,5 +1,5 @@
-import { Box } from "@sivic/core/box"
-import { Store } from "@sivic/core"
+import { Box } from "@alfs-appraisal/core/box"
+import { Store } from "@alfs-appraisal/core"
 
 export type Payload = {
   imageId?: string;

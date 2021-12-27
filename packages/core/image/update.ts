@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { Lock, Store, ErrorKind } from "@sivic/core"
-import CreateFileFn from "@sivic/core/file/create"
+import { Lock, Store, ErrorKind } from "@alfs-appraisal/core"
+import CreateFileFn from "@alfs-appraisal/core/file/create"
 import Image from "."
 import FindFn from "./find"
 

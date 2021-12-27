@@ -1,9 +1,9 @@
 import { Row, Sql } from "postgres";
 import { first, keyBy } from "lodash";
 
-import { ErrorKind } from '@sivic/core'
-import { Image } from "@sivic/core/image";
-import { ImageStore } from "@sivic/core";
+import { ErrorKind } from '@alfs-appraisal/core'
+import { Image } from "@alfs-appraisal/core/image";
+import { ImageStore } from "@alfs-appraisal/core";
 
 const TABLE = "images"
 

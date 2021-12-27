@@ -1,5 +1,5 @@
 import { Row, Sql } from "postgres";
-import { Tag } from "@sivic/core/tag";
+import { Tag } from "@alfs-appraisal/core/tag";
 import { first } from "lodash"
 
 const TABLE = "tags"

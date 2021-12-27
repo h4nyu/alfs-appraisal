@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { ErrorKind } from "@sivic/core/error"
+import { ErrorKind } from "@alfs-appraisal/core/error"
 export { default as FilterFn } from "./filter"
 export { default as DeleteFn } from "./delete"
 export { default as FindFn } from "./find"

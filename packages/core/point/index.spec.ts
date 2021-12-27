@@ -2,9 +2,9 @@ import {
   Point,
   rotate,
   normalizePoints,
-} from "@sivic/core/point";
+} from "@alfs-appraisal/core/point";
 import { round } from "lodash"
-import { Line } from "@sivic/core/line";
+import { Line } from "@alfs-appraisal/core/line";
 
 describe("point", () => {
   test("rotate", async () => {

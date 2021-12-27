@@ -1,6 +1,6 @@
-import Box from '@sivic/core/box';
-import { Point } from "@sivic/core/point"
-import { Line } from "@sivic/core/line"
+import Box from '@alfs-appraisal/core/box';
+import { Point } from "@alfs-appraisal/core/point"
+import { Line } from "@alfs-appraisal/core/line"
 
 export type Summary = {
   box:Box,

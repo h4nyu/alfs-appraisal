@@ -1,5 +1,5 @@
 import fastify, { FastifyPlugin } from "fastify";
-import { Lock, Store } from "@sivic/core";
+import { Lock, Store } from "@alfs-appraisal/core";
 import path from "path";
 import WorkspaceRoutes from "./workspace";
 import ImageRoutes from "./image";

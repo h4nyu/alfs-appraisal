@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { zip } from "lodash"
-import { Box } from "@sivic/core/box";
-import { DetectStore } from "@sivic/core";
+import { Box } from "@alfs-appraisal/core/box";
+import { DetectStore } from "@alfs-appraisal/core";
 import { Row, Sql } from "postgres";
 
 export const Store = (url: string): DetectStore => {

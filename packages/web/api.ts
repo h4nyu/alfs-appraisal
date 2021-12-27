@@ -1,8 +1,8 @@
-import { File } from "@sivic/core/file"
-import { Image } from "@sivic/core/image";
-import { Point } from "@sivic/core/point"
-import { Box } from "@sivic/core/box"
-import { RootApi } from "@sivic/api";
+import { File } from "@alfs-appraisal/core/file"
+import { Image } from "@alfs-appraisal/core/image";
+import { Point } from "@alfs-appraisal/core/point"
+import { Box } from "@alfs-appraisal/core/box"
+import { RootApi } from "@alfs-appraisal/api";
 
 const api = RootApi()
 

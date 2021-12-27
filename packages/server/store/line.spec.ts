@@ -1,8 +1,8 @@
-import { Store } from "@sivic/server"; 
+import { Store } from "@alfs-appraisal/server"; 
 import fs from "fs"; 
 import { v4 as uuid } from "uuid";
-import { Line } from "@sivic/core/line";
-import { Point } from "@sivic/core/point";
+import { Line } from "@alfs-appraisal/core/line";
+import { Point } from "@alfs-appraisal/core/point";
 
 const rootStore = Store();
 

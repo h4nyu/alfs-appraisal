@@ -1,6 +1,6 @@
-import { Store } from "@sivic/core"
-import ErrorKind from "@sivic/core/error"
-import { File } from "@sivic/core/file"
+import { Store } from "@alfs-appraisal/core"
+import ErrorKind from "@alfs-appraisal/core/error"
+import { File } from "@alfs-appraisal/core/file"
 import { Image } from "."
 
 export type Fn = (payload:{

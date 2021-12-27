@@ -1,5 +1,5 @@
 import { Sql } from "postgres";
-import { Store, Lock } from "@sivic/core";
+import { Store, Lock } from "@alfs-appraisal/core";
 import { FastifyPlugin } from "fastify";
 import Box, {
   CreateFn,
@@ -8,7 +8,7 @@ import Box, {
   UpdateFn,
   DeleteFn,
   LoadFn,
-} from "@sivic/core/box";
+} from "@alfs-appraisal/core/box";
 
 export const Routes = (props: {
   store: Store;

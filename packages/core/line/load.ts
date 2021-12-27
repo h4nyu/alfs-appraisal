@@ -1,6 +1,6 @@
-import { Lock, ErrorKind, Store } from "@sivic/core";
+import { Lock, ErrorKind, Store } from "@alfs-appraisal/core";
 import Line, { LineProps } from ".";
-import FindBoxFn from "@sivic/core/box/find"
+import FindBoxFn from "@alfs-appraisal/core/box/find"
 import FilterFn from "./filter"
 
 export type Payload = {
