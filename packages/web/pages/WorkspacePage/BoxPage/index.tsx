@@ -14,7 +14,10 @@ const Page = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("workspaceId")
   const boxId = searchParams.get("boxId")
-  if(!workspaceId || !boxId){
+  const referenceBoxId = searchParams.get("referenceBoxId")
+  if(!workspaceId || !boxId || !referenceBoxId){
+    console.log('aaa')
+    navigate(-1)
     return null
   }
   const { data:images } = useSWR({key:"image", workspaceId}, api.image.filter)
@@ -25,15 +28,15 @@ const Page = () => {
   if(tag instanceof Error) { return null }
   const { data:file } = useSWR(box?.fileId && {key:"file", id: box.fileId}, api.file.find)
   if(file instanceof Error) { return null }
-  const { data:referenceBox } = useSWR(tag?.referenceBoxId && {key:"box", id: tag.referenceBoxId}, api.box.find)
+  const { data:referenceBox } = useSWR({key:"box", id: referenceBoxId}, api.box.find)
   if(referenceBox instanceof Error) { return null }
   const { data:referenceFile } = useSWR(referenceBox?.fileId && {key:"file", id: referenceBox.fileId}, api.file.find)
   if(referenceFile instanceof Error) { return null }
   const { data:savedPoints, mutate: mutatePoints } = useSWR(box?.id && {key:"point", boxId: box.id}, api.point.filter)
   if(savedPoints instanceof Error) { return null }
-  const { data:referencePoints } = useSWR(referenceBox?.id && {key:"point", boxId: referenceBox.id}, api.point.filter)
+  const { data:referencePoints } = useSWR({key:"point", boxId: referenceBoxId}, api.point.filter)
   if(referencePoints instanceof Error) { return null }
-  const { data:referenceLines } = useSWR(referenceBox?.id && {key:"line", boxId: referenceBox.id}, api.line.filter)
+  const { data:referenceLines } = useSWR({key:"line", boxId: referenceBoxId}, api.line.filter)
   if(referenceLines instanceof Error) { return null }
   const { data:lines } = useSWR(box?.id && {key:"line", boxId: box.id}, api.line.filter)
   if(lines instanceof Error) { return null }
@@ -42,8 +45,9 @@ const Page = () => {
   if(
     box === undefined || 
     tag === undefined || 
-    referenceBox === undefined || 
-    referencePoints === undefined || 
+    referenceBox === undefined ||
+    referencePoints === undefined ||
+    referenceFile === undefined ||
     savedPoints === undefined
   ){
     return <Loading/>

@@ -12,7 +12,7 @@ export const Loading = () => {
         alignItems: "center",
         justifyContent: "center",
         position: "fixed",
-        zIndex: 100,
+        zIndex: 999,
         opacity: 0.5,
       }}
       className="has-background-black"

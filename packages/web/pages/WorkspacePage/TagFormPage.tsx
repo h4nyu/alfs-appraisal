@@ -17,6 +17,8 @@ const Page = () => {
   }
   const { data:workspace } = useSWR({key:"workspace", id: workspaceId}, api.workspace.find)
   if(workspace instanceof Error) { return null }
+  const { data:images } = useSWR({key:"image", workspaceId}, api.image.filter)
+  if(images instanceof Error) { return null }
   const { data:tag } = useSWR(tagId && {key:"tag", id: tagId}, api.tag.find)
   if(tag instanceof Error) { return null }
   const { data:boxes } = useSWR(tagId && {key:"box", tagId}, api.box.filter)
@@ -49,11 +51,17 @@ const Page = () => {
             await api.tag.update({...v, id, workspaceId})
           }else{
             await api.tag.create({...v, workspaceId})
-            navigate(-1)
           }
           mutate({key:"tag", workspaceId})
+          navigate(-1)
         }}
-        // onDelete={store.tagForm.delete}
+        onDelete={tag && (async () => {
+          const res = await api.tag.delete({id: tag.id})
+          if(res instanceof Error) { return }
+          mutate({key: 'tag', workspaceId})
+          mutate({key: 'box', images})
+          navigate(-1)
+        })}
       />
     </Modal>
   );

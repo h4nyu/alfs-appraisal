@@ -127,7 +127,10 @@ const Page = () => {
           onBoxClick={async (box) => {
             if(box.tagId === undefined) { return }
             const tag = tags.find(x => x.id === box.tagId)
-            if(tag?.referenceBoxId === box.id){
+            const referenceBoxId = tag?.referenceBoxId
+            if(!referenceBoxId) { return }
+
+            if(referenceBoxId === box.id){
               navigate({
                 pathname:"/workspace/reference-box",
                 search: createSearchParams({
@@ -141,6 +144,7 @@ const Page = () => {
                 search: createSearchParams({
                   workspaceId,
                   boxId: box.id,
+                  referenceBoxId: referenceBoxId,
                 }).toString()
               })
             }
