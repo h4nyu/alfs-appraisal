@@ -38,7 +38,6 @@ const Page = () => {
   if(referencePoints instanceof Error) { return null }
   const { data:referenceLines } = useSWR({key:"line", boxId: referenceBoxId}, api.line.filter)
   if(referenceLines instanceof Error) { return null }
-
   if(
     box === undefined || 
     tag === undefined || 

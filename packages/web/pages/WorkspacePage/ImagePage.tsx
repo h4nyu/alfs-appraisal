@@ -23,7 +23,7 @@ const Page = () => {
   if(image instanceof Error) { return null }
   const { data:file } = useSWR(image?.fileId && {key: 'file', id: image.fileId}, api.file.find)
   if(file instanceof Error) { return null }
-  const { data:boxes } = useSWR(image && {key:"box", imageId: image.id}, api.box.filter)
+  const { data:boxes, mutate:mutateBoxes } = useSWR(image && {key:"box", imageId: image.id}, api.box.filter)
   if(boxes instanceof Error) { return null }
 
   if(image === undefined || file === undefined || boxes === undefined){
@@ -39,14 +39,12 @@ const Page = () => {
         file={file}
         boxes={boxes}
         onSave={async ({boxes}) => {
-          await api.box.load({
+          const res = await api.box.load({
             imageId,
             boxes,
           })
-          mutate({
-            key:"box",
-            imageId,
-          })
+          if(res instanceof Error) { return }
+          mutateBoxes(res)
           mutate({
             key:"box",
             images,

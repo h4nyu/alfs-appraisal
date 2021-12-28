@@ -1,10 +1,12 @@
 import React from "react"
 import TagFormView from '@alfs-appraisal/web/components/TagForm'
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, createSearchParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from 'swr'
 import Modal from "@alfs-appraisal/web/components/Modal"
 import Loading from "@alfs-appraisal/web/components/Loading"
-import api, { batchFetchFiles,} from "@alfs-appraisal/web/api"
+import api, { batchFetchFiles, batchFetchPoints, } from "@alfs-appraisal/web/api"
+import { useSummaryPairs } from "@alfs-appraisal/web/hooks/useSummaryPairs"
+import SummaryTable from "@alfs-appraisal/web/components/SummaryTable"
 
 const Page = () => {
   const navigate = useNavigate()
@@ -25,9 +27,20 @@ const Page = () => {
   if(boxes instanceof Error) { return null }
   const { data:files } = useSWR({key: 'file', boxes }, batchFetchFiles)
   if(files instanceof Error) { return null }
+  const { data:referenceLines } = useSWR(tag?.referenceBoxId && {key:"line", boxId: tag?.referenceBoxId}, api.line.filter)
+  if(referenceLines instanceof Error) { return null }
+  const { data:points } = useSWR({ key:'point', boxes }, batchFetchPoints)
+  if(points instanceof Error) { return null }
+
   if(workspace === undefined){
     return <Loading/>
   }
+  const { summaryPairs } = useSummaryPairs({
+    boxes,
+    referenceLines,
+    points,
+  })
+  console.log(summaryPairs)
 
   return (
     <Modal
@@ -39,12 +52,29 @@ const Page = () => {
         tag={tag}
         boxes={boxes}
         files={files}
-        // summaryPairs={store.tagForm.summaryPairs}
-        // onBoxClick={box => {
-        //   if(box.tagId === undefined) { return }
-        //   store.featureForm.init(box)
-        //   navigate("/workspace/point")
-        // }}
+        summaryPairs={summaryPairs}
+        onBoxClick={box => {
+          const referenceBoxId = tag?.referenceBoxId
+          if(!referenceBoxId) { return }
+          if(referenceBoxId === box.id){
+            navigate({
+              pathname:"/workspace/reference-box",
+              search: createSearchParams({
+                workspaceId,
+                boxId: box.id,
+              }).toString()
+            })
+          }else{
+            navigate({
+              pathname:"/workspace/box",
+              search: createSearchParams({
+                workspaceId,
+                boxId: box.id,
+                referenceBoxId: referenceBoxId,
+              }).toString()
+            })
+          }
+        }}
         onSubmit={async (v) => {
           const { id } = v
           if(id !== undefined){
