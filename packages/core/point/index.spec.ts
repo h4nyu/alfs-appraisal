@@ -23,18 +23,66 @@ describe("normalizePoints", () => {
       end: Point({x:2, y: 3}),
     })
     const points = [
+      Point({x:1, y: 1}),
       Point({x:2, y: 3}),
-      Point({x:1, y: 1})
     ]
     const res = normalizePoints({
       line,
       points
     })
-    expect(res[0].x.toFixed(4)).toBe(0.0.toFixed(4))
-    expect(res[0].y.toFixed(4)).toBe(0.0.toFixed(4))
+    expect(round(res[0].x, 4)).toBe(round(0, 4))
+    expect(round(res[0].y, 4)).toBe(round(0, 4))
+    expect(round(res[1].x, 4)).toBe(round(-0, 4))
 
-    expect(res[1].x.toFixed(4)).toBe(0.0.toFixed(4))
+    expect(round(res[1].y, 4)).toBe(round(line.length,4))
+  });
 
-    expect(round(res[1].y, 4)).toBe(round(-line.length,4))
+  test("secondary", async () => {
+    const line = Line({
+      start: Point({x:3, y:1}),
+      end: Point({x:2, y: 3}),
+    })
+    const points = [
+      Point({x:3, y: 1}),
+      Point({x:2, y: 3}),
+    ]
+    const res = normalizePoints({
+      line,
+      points
+    })
+    expect(round(res[0].x, 4)).toBe(round(0, 4))
+    expect(round(res[0].y, 4)).toBe(round(0, 4))
+    expect(round(res[1].x, 4)).toBe(round(0, 4))
+    expect(round(res[1].y, 4)).toBe(round(line.length,4))
+  });
+  test("other", async () => {
+    const line = Line({
+      start: Point({
+        x: 25.459513346354168,
+        y: 5.319010416666667
+      }),
+      end: Point({
+        x: 0.7191162109375,
+        y: 29.786458333333332
+      }),
+    })
+    const points = [
+      Point({
+        x: 25.459513346354168,
+        y: 5.319010416666667
+      }),
+      Point({
+        x: 0.7191162109375,
+        y: 29.786458333333332
+      }),
+    ]
+    const res = normalizePoints({
+      line,
+      points
+    })
+    expect(round(res[0].x, 4)).toBe(round(0, 4))
+    expect(round(res[0].y, 4)).toBe(round(0, 4))
+    expect(round(res[1].x, 4)).toBe(round(0, 4))
+    expect(round(res[1].y, 4)).toBe(round(line.length,4))
   });
 })

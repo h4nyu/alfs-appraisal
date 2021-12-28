@@ -10,24 +10,29 @@ export const useSummaryPairs = (props: {
   points?: Point[],
 }) => {
   const summaryPairs = props.referenceLines?.map(refLine => {
-    return props.boxes?.map(box => {
+    const rows:Summary[] = []
+    for(const box of props.boxes ??[]){
       const points = props.points?.filter(x => x.boxId === box.id) ?? []
       const start = points.find(p => p.positionId === refLine.start.positionId)
       const end = points.find(p => p.positionId === refLine.end.positionId)
+      if(!start || !end){
+        continue
+      }
       const line = Line({
         start,
         end,
       })
-      return Summary({
+      rows.push(Summary({
         box,
         line,
         points: normalizePoints({
           line,
           points,
         })
-      })
-    }) ?? []
-  })
+      }))
+    }
+    return rows
+  }) ?? []
   return {
     summaryPairs
   }

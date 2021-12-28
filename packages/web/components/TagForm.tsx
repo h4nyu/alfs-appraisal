@@ -32,6 +32,7 @@ export const TagForm = (props: {
   onCancel?: () => void
   onDelete?: () => void
   onDownload?: () => void
+  style?: React.CSSProperties,
 }) => {
   const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
     defaultValues: {
@@ -44,7 +45,9 @@ export const TagForm = (props: {
   const onSubmit = data => props.onSubmit?.(data)
   const boxes = props.boxes?.filter(x => x.tagId === props.tag?.id)
   return (
-    <div className="box" >
+    <div className="box" 
+      style={props.style}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="field">
           <label className="label">Name</label>
@@ -90,11 +93,6 @@ export const TagForm = (props: {
             </div>
             <div className="level-right">
               <div className="p-1">
-                {
-                  // props.onDownload && <DownloadBtn onClick={e => props.onDownload?.()} />
-                }
-              </div>
-              <div className="p-1">
                 <SaveBtn onClick={handleSubmit(onSubmit)} />
               </div>
             </div>
@@ -104,11 +102,7 @@ export const TagForm = (props: {
       {
         props.summaryPairs?.map( (summaries, i) => {
           return props.tag && (
-            <div className="field"
-              key={i}
-            >
-              <SummaryTable rows={summaries} tag={props.tag} workspace={props.workspace} onBoxClick={props.onBoxClick}/>
-            </div>
+            <SummaryTable key={i} rows={summaries} tag={props.tag} workspace={props.workspace} onBoxClick={props.onBoxClick}/>
           )
         })
       }

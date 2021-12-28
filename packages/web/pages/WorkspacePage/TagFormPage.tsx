@@ -47,6 +47,9 @@ const Page = () => {
       onClose={() => navigate(-1)}
     >
       <TagFormView 
+        style={{
+          width: "90vw",
+        }}
         workspace={workspace}
         tag={tag}
         boxes={boxes}

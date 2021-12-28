@@ -34,7 +34,7 @@ export const Line  = (props?:Partial<LineProps>):Line => {
     return Math.atan((self.end.y - self.start.y) / (self.end.x - self.start.x));
   }
   const getOrigin = () => {
-    if(self.end.y < self.start.y){
+    if(self.end.y > self.start.y){
       return self.start
     }else{
       return self.end
