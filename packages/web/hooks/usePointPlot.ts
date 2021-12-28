@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { keyBy, zip, uniqBy } from "lodash";
 import Point from "@alfs-appraisal/core/point"
 import { Position2D } from "@alfs-appraisal/core/point"
@@ -17,7 +17,6 @@ export const usePointPlot = (props?: {
       setDraggingId(id)
     }
   };
-
   const add = () => {
     if(draggingId === undefined) {
       const newPoint = Point({ ...position, })
@@ -48,6 +47,11 @@ export const usePointPlot = (props?: {
     setDraggingId(undefined)
   }
 
+  const reset = () => {
+    setPoints(props?.points ?? [])
+    setDraggingId(props?.draggingId)
+  }
+
   return {
     toggleDrag,
     points,
@@ -55,6 +59,7 @@ export const usePointPlot = (props?: {
     add,
     draggingId,
     remove,
+    reset,
   }
 }
 export default usePointPlot

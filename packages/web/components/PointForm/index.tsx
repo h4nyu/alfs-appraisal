@@ -24,7 +24,7 @@ export const PointForm = (props: {
   onDelete?: VoidFunction,
   onReset?: VoidFunction
 }) => {
-  const {draggingId, toggleDrag, move, points} = usePointPlot({ points: props.points })
+  const {draggingId, toggleDrag, move, points, reset} = usePointPlot({ points: props.points })
   const draggingPoint = points.find(p => p.id === draggingId)
   const refDraggingId = props.referencePoints?.find(p => p.positionId === draggingPoint?.positionId)?.id
   const referenceLines = props.referenceLines ?? []
@@ -94,7 +94,7 @@ export const PointForm = (props: {
           <div/>
           <div>
             <ResetBtn 
-              onClick={() => props.onReset?.()}
+              onClick={reset}
             />
             <SaveBtn 
               onClick={() => props.onSave?.({points})}

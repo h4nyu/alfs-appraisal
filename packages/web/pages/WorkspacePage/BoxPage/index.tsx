@@ -82,9 +82,6 @@ const Page = () => {
           mutate({key:"box", images})
           navigate(-1)
         }}
-        onReset={() => {
-          mutatePoints([], false)
-        }}
       />
     </Modal>
   );
