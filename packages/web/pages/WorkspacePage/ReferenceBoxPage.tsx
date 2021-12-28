@@ -25,7 +25,7 @@ const Page = () => {
   if(points instanceof Error) { return null }
   const { data:lines, mutate:mutateLines } = useSWR(box?.id && {key:"line", boxId: box.id}, api.line.filter)
   if(lines instanceof Error) { return null }
-  if(box === undefined || tag === undefined){
+  if(box === undefined || tag === undefined || lines === undefined || points === undefined){
     return <Loading/>
   }
   return (
@@ -52,6 +52,7 @@ const Page = () => {
           })
           if(lErr instanceof Error) { return }
           mutateLines()
+          navigate(-1)
         }}
       />
     </Modal>

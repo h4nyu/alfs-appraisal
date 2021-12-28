@@ -16,7 +16,6 @@ const Page = () => {
   const boxId = searchParams.get("boxId")
   const referenceBoxId = searchParams.get("referenceBoxId")
   if(!workspaceId || !boxId || !referenceBoxId){
-    console.log('aaa')
     navigate(-1)
     return null
   }
@@ -29,7 +28,10 @@ const Page = () => {
   const { data:file } = useSWR(box?.fileId && {key:"file", id: box.fileId}, api.file.find)
   if(file instanceof Error) { return null }
   const { data:referenceBox } = useSWR({key:"box", id: referenceBoxId}, api.box.find)
-  if(referenceBox instanceof Error) { return null }
+  if(referenceBox instanceof Error) { 
+    navigate(-1)
+    return null
+  }
   const { data:referenceFile } = useSWR(referenceBox?.fileId && {key:"file", id: referenceBox.fileId}, api.file.find)
   if(referenceFile instanceof Error) { return null }
   const { data:savedPoints, mutate: mutatePoints } = useSWR(box?.id && {key:"point", boxId: box.id}, api.point.filter)
@@ -75,6 +77,7 @@ const Page = () => {
           const res = await api.point.load({boxId, points:x.points})
           if(res instanceof Error) { return }
           mutatePoints(res, false)
+          navigate(-1)
         }}
         onDelete={async () => {
           await api.box.delete({id:boxId})

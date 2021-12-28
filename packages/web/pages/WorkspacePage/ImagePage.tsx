@@ -49,6 +49,7 @@ const Page = () => {
             key:"box",
             images,
           })
+          navigate(-1)
         }}
         onDelete={async () => {
           await api.image.delete({id: image.id})

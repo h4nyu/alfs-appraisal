@@ -40,7 +40,6 @@ const Page = () => {
     referenceLines,
     points,
   })
-  console.log(summaryPairs)
 
   return (
     <Modal

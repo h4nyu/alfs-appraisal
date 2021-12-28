@@ -29,6 +29,7 @@ export type TagStore = {
     id? :string,
     name?: string,
     workspaceId?:string,
+    referenceBoxId?:string,
   }) => Promise<Tag | undefined | Error>;
   filter: (payload: { 
     ids?: string[],

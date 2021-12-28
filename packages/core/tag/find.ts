@@ -3,7 +3,8 @@ import { Store } from "@alfs-appraisal/core";
 import ErrorKind from "@alfs-appraisal/core/error"
 
 export type Payload = {
-  id: string;
+  id?: string;
+  referenceBoxId?: string;
 };
 export type Fn = (payload: Payload) => Promise<Tag | Error>
 export const Fn = (props: {
