@@ -35,7 +35,7 @@ const ReferenceForm = (props: Readonly<{
     remove:removePoint, 
     add: addPoint, 
     move,
-  } = usePointPlot({ points: props.points })
+  } = usePointPlot({ points: props.points ?? [] })
   const { lines:_lines, selectPoint, startPoint } = useLinePlot({points, lines:props.lines})
   const pointIds = points.map(x => x.id)
   const lines = _lines.filter(x => {

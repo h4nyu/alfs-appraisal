@@ -10,7 +10,6 @@ export const usePointPlot = (props?: {
   const [draggingId, setDraggingId] = React.useState<string|undefined>(props?.draggingId)
   const [points, setPoints] = React.useState<Point[]>(props?.points ?? [])
   const [position, setPosition] = React.useState<Position2D>({x: 0, y: 0})
-
   const toggleDrag = (id: string) => {
     if (draggingId === id) {
       setDraggingId(undefined)

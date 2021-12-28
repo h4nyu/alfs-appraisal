@@ -18,7 +18,6 @@ export const PointForm = (props: {
   file?: File,
   referenceFile?: File,
   referenceLines?: Line[],
-  lines?: Line[],
   referencePoints?:Point[],
   points?: Point[],
   onSave: (payload:{points: Point[]}) => Promise<void>,
@@ -28,6 +27,17 @@ export const PointForm = (props: {
   const {draggingId, toggleDrag, move, points} = usePointPlot({ points: props.points })
   const draggingPoint = points.find(p => p.id === draggingId)
   const refDraggingId = props.referencePoints?.find(p => p.positionId === draggingPoint?.positionId)?.id
+  const referenceLines = props.referenceLines ?? []
+  const lines = referenceLines.map(x => {
+    const start = points.find(p => p.positionId === x.start.positionId)
+    const end = points.find(p => p.positionId === x.end.positionId)
+    return Line({
+      start,
+      end,
+      boxId: props.box?.id,
+    })
+  })
+
   return (
     <div
       className="box"
@@ -47,7 +57,7 @@ export const PointForm = (props: {
       >
         <SvgCharPlot 
           data={props.referenceFile?.data} 
-          lines={props.referenceLines}
+          lines={referenceLines}
           points={props.referencePoints}
           selectedId={refDraggingId}
           width={512}
@@ -55,7 +65,7 @@ export const PointForm = (props: {
         <SvgCharPlot  
           data={props.file?.data} 
           points={points} 
-          lines={props.lines}
+          lines={lines}
           selectedId={draggingId}
           onPointSelect={toggleDrag} 
           onMove={move} 

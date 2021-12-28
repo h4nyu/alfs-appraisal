@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import Point, { ResizeFn } from "@alfs-appraisal/core/point"
 import PointForm from "@alfs-appraisal/web/components/PointForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -38,9 +38,6 @@ const Page = () => {
   if(referencePoints instanceof Error) { return null }
   const { data:referenceLines } = useSWR({key:"line", boxId: referenceBoxId}, api.line.filter)
   if(referenceLines instanceof Error) { return null }
-  const { data:lines } = useSWR(box?.id && {key:"line", boxId: box.id}, api.line.filter)
-  if(lines instanceof Error) { return null }
-
 
   if(
     box === undefined || 
@@ -52,15 +49,16 @@ const Page = () => {
   ){
     return <Loading/>
   }
-  const resize = ResizeFn({source:referenceBox, target:box})
-  const defaultPoints = referencePoints.map(p => Point({
-    x:p.x,
-    y:p.y,
-    boxId,
-    positionId: p.positionId,
-  })).map(resize)
-  const points = savedPoints.length === 0 ? defaultPoints : savedPoints
-  console.log(points, defaultPoints)
+  const getDefaultPoints = () => {
+    const resize = ResizeFn({source:referenceBox, target:box})
+    return referencePoints.map(p => Point({
+      x:p.x,
+      y:p.y,
+      boxId,
+      positionId: p.positionId,
+    })).map(resize)
+  }
+  const points = savedPoints.length === 0 ? getDefaultPoints() : savedPoints
   return (
     <Modal
       isActive={true}
@@ -74,11 +72,10 @@ const Page = () => {
         referenceFile={referenceFile}
         referencePoints={referencePoints}
         referenceLines={referenceLines}
-        lines={lines}
         onSave={async (x) => {
           const res = await api.point.load({boxId, points:x.points})
           if(res instanceof Error) { return }
-          mutatePoints(res)
+          mutatePoints(res, false)
         }}
         onDelete={async () => {
           await api.box.delete({id:boxId})
@@ -86,7 +83,7 @@ const Page = () => {
           navigate(-1)
         }}
         onReset={() => {
-          mutatePoints([...defaultPoints])
+          mutatePoints([], false)
         }}
       />
     </Modal>
