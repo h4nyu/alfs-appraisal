@@ -1,4 +1,4 @@
-FROM node:17-bullseye-slim
+FROM node:16-bullseye-slim
 WORKDIR /app
 COPY . .
 RUN apt-get update \

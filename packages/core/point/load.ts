@@ -1,8 +1,8 @@
 import { includes } from "lodash"
 
-import { Store } from "@sivic/core"
+import { Store } from "@alfs-appraisal/core"
 import Point from "."
-import FindBoxFn from "@sivic/core/box/find"
+import FindBoxFn from "@alfs-appraisal/core/box/find"
 import FilterFn from "./filter"
 import DeleteFn from "./delete"
 

@@ -1,15 +1,15 @@
 import React, { useRef, RefObject, useState, useEffect } from "react";
-import { Image } from "@sivic/core/image";
-import Box from "@sivic/core/box";
-import Tag from "@sivic/core/tag";
-import { Workspace } from "@sivic/core/workspace";
-import { File } from "@sivic/core/file";
-import Point from "@sivic/core/point";
-import DateView from "@sivic/web/components/DateView";
-import ImageView from "@sivic/web/components/ImageView";
-import DeleteBtn from "@sivic/web/components/DeleteBtn";
-import ImageTags from "@sivic/web/components/ImageTags";
-import ReferenceTag from "@sivic/web/components/ReferenceTag";
+import { Image } from "@alfs-appraisal/core/image";
+import Box from "@alfs-appraisal/core/box";
+import Tag from "@alfs-appraisal/core/tag";
+import { Workspace } from "@alfs-appraisal/core/workspace";
+import { File } from "@alfs-appraisal/core/file";
+import Point from "@alfs-appraisal/core/point";
+import DateView from "@alfs-appraisal/web/components/DateView";
+import ImageView from "@alfs-appraisal/web/components/ImageView";
+import DeleteBtn from "@alfs-appraisal/web/components/DeleteBtn";
+import ImageTags from "@alfs-appraisal/web/components/ImageTags";
+import ReferenceTag from "@alfs-appraisal/web/components/ReferenceTag";
 
 export const BoxView = (props: {
   box: Box,

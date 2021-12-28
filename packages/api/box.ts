@@ -1,18 +1,27 @@
 import { AxiosInstance } from "axios";
 import { toError } from ".";
 import Box, {
+  FindFn,
   FilterFn,
   CreateFn,
   UpdateFn,
   LoadFn,
   DeleteFn,
-} from "@sivic/core/box";
+} from "@alfs-appraisal/core/box";
 
 export const Api = (arg: {
   http: AxiosInstance;
   prefix: string;
 }) => {
   const { http, prefix } = arg;
+  const find:FindFn = async (payload) => {
+    try {
+      const res = await http.post(`${prefix}/find`, payload);
+      return Box(res.data);
+    } catch (err) {
+      return toError(err);
+    }
+  };
   const filter:FilterFn = async (payload) => {
     try {
       const res = await http.post(`${prefix}/filter`, payload);
@@ -54,6 +63,7 @@ export const Api = (arg: {
     }
   };
   return {
+    find,
     filter,
     create,
     update,

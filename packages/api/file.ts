@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import { toError } from ".";
 import File, {
   FindFn
-} from "@sivic/core/file";
+} from "@alfs-appraisal/core/file";
 
 export const Api = (arg: {
   http: AxiosInstance;

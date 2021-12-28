@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
-import { Lock, ErrorKind, Store } from "@sivic/core";
-import FindFn from "@sivic/core/workspace/find"
-import DeleteImageFn from "@sivic/core/image/delete"
-import FilterImageFn from "@sivic/core/image/filter"
+import { Lock, ErrorKind, Store } from "@alfs-appraisal/core";
+import FindFn from "@alfs-appraisal/core/workspace/find"
+import DeleteImageFn from "@alfs-appraisal/core/image/delete"
+import FilterImageFn from "@alfs-appraisal/core/image/filter"
 
 export type Payload = {
   id: string;

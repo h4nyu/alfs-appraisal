@@ -1,12 +1,12 @@
 export { ErrorKind } from "./error";
 import { Workspace } from "./workspace";
-import { Image } from "@sivic/core/image"
-import { Box } from "@sivic/core/box"
-import { Point } from "@sivic/core/point"
-import { CropPayload } from "@sivic/core/transform"
-import { Line } from "@sivic/core/line";
-import { Tag } from "@sivic/core/tag"
-import { File } from "@sivic/core/file"
+import { Image } from "@alfs-appraisal/core/image"
+import { Box } from "@alfs-appraisal/core/box"
+import { Point } from "@alfs-appraisal/core/point"
+import { CropPayload } from "@alfs-appraisal/core/transform"
+import { Line } from "@alfs-appraisal/core/line";
+import { Tag } from "@alfs-appraisal/core/tag"
+import { File } from "@alfs-appraisal/core/file"
 
 export type WorkspaceStore = {
   find: (payload: {
@@ -29,6 +29,7 @@ export type TagStore = {
     id? :string,
     name?: string,
     workspaceId?:string,
+    referenceBoxId?:string,
   }) => Promise<Tag | undefined | Error>;
   filter: (payload: { 
     ids?: string[],

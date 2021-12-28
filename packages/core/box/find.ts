@@ -1,6 +1,6 @@
-import { Box } from "@sivic/core/box"
-import { Store } from "@sivic/core"
-import ErrorKind from "@sivic/core/error"
+import { Box } from "@alfs-appraisal/core/box"
+import { Store } from "@alfs-appraisal/core"
+import ErrorKind from "@alfs-appraisal/core/error"
 
 export type Fn = (payload:{
   id?: string;

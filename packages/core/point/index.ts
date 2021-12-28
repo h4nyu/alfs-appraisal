@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 export { default as FilterFn } from "./filter"
 export { default as LoadFn } from "./load"
 import { nanoid } from 'nanoid'
-import Line from '@sivic/core/line'
+import Line from '@alfs-appraisal/core/line'
 
 export type Position2D = {
   x: number,
@@ -63,16 +63,16 @@ export const ResizeFn = (props:{
   }
 }
 
-export const rotate = (props: {point: Point, originPoint:Point, radian:number}):Point => {
-    const { point, originPoint, radian } = props;
-    const x = Math.cos(radian) * (point.x- originPoint.x) - Math.sin(radian) * (point.y - originPoint.x) + originPoint.x
-    const y = Math.sin(radian) * (point.x-originPoint.x) + Math.cos(radian) * (point.y- originPoint.y) + originPoint.y 
-    return Point({ ...point, x, y })
+export const rotate = (props: {point: Point, radian:number}):Point => {
+  const { point, radian } = props;
+  const x = Math.cos(radian) * point.x - Math.sin(radian) * point.y
+  const y = Math.sin(radian) * point.x + Math.cos(radian) * point.y 
+  return Point({ ...point, x, y })
 }
 
 export const shift = (props: {point: Point, diff:{x:number, y:number}}):Point => {
-    const { point, diff } = props;
-    return Point({ ...point, x:point.x + diff.x, y:point.y + diff.y})
+  const { point, diff } = props;
+  return Point({ ...point, x:point.x + diff.x, y:point.y + diff.y})
 }
 
 export const normalizePoints = (props:{
@@ -81,10 +81,11 @@ export const normalizePoints = (props:{
 }) => {
   const originPoint = props.line.origin
   const lineRadian = props.line.radian
-  const radian = (lineRadian > 0) ? Math.PI / 2 - lineRadian : lineRadian + Math.PI / 2
+  const radian = lineRadian > 0 ? Math.PI / 2 - lineRadian : 3 * Math.PI / 2 - lineRadian
   return props.points.map(point => {
     const shifted = shift({point, diff: { x:-originPoint.x, y:-originPoint.y}})
-    return rotate({point:shifted, originPoint:Point({...shifted, x:0, y:0}), radian})
+    const rotated = rotate({point: shifted, radian})
+    return rotated
   })
 }
 

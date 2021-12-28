@@ -1,8 +1,8 @@
 import { Row, Sql } from "postgres";
 import { first } from "lodash";
 
-import { Workspace } from "@sivic/core/workspace";
-import { WorkspaceStore } from "@sivic/core";
+import { Workspace } from "@alfs-appraisal/core/workspace";
+import { WorkspaceStore } from "@alfs-appraisal/core";
 
 const COLUMNS = [
   "id",

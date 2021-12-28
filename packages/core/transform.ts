@@ -1,4 +1,4 @@
-import { Store, ErrorKind, Lock } from "@sivic/core";
+import { Store, ErrorKind, Lock } from "@alfs-appraisal/core";
 export type CropPayload = {
   imageData: string,
   box:{

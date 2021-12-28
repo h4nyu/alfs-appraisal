@@ -1,8 +1,8 @@
-import { Box } from "@sivic/core/box"
-import { Store } from "@sivic/core"
+import { Box } from "@alfs-appraisal/core/box"
+import { Store } from "@alfs-appraisal/core"
 import FindFn from "./find"
-import DeleteFileFn from "@sivic/core/file/delete"
-import FilterPointFn from "@sivic/core/point/filter"
+import DeleteFileFn from "@alfs-appraisal/core/file/delete"
+import FilterPointFn from "@alfs-appraisal/core/point/filter"
 
 export type Fn = (payload:{
   id?: string;

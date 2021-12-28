@@ -1,10 +1,10 @@
 import { Sql } from "postgres";
-import { Store, Lock } from "@sivic/core";
+import { Store, Lock } from "@alfs-appraisal/core";
 import { FastifyPlugin } from "fastify";
 import Line, {
   FilterFn,
   LoadFn,
-} from "@sivic/core/line";
+} from "@alfs-appraisal/core/line";
 
 export const Routes = (props: {
   store: Store;

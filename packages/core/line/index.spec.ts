@@ -1,7 +1,7 @@
 import {
   Line, getRefLine
-} from "@sivic/core/line";
-import { Point } from "@sivic/core/point";
+} from "@alfs-appraisal/core/line";
+import { Point } from "@alfs-appraisal/core/point";
 
 describe("line", () => {
   test("getRefLine", async () => {

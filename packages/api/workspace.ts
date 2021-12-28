@@ -1,13 +1,13 @@
 import { AxiosInstance } from "axios";
 import { toError } from ".";
-import Image from "@sivic/core/image"
+import Image from "@alfs-appraisal/core/image"
 import Workspace, {
   CreateFn,
   UpdateFn,
   DeleteFn,
   FindFn,
   FilterFn,
-} from "@sivic/core/workspace";
+} from "@alfs-appraisal/core/workspace";
 
 export const Api = (arg: {
   http: AxiosInstance;

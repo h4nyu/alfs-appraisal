@@ -1,7 +1,7 @@
 import React from "react"
 import { keyBy, zip, uniqBy } from "lodash";
-import Line from "@sivic/core/line"
-import Point from "@sivic/core/point"
+import Line from "@alfs-appraisal/core/line"
+import Point from "@alfs-appraisal/core/point"
 
 export const useLinePlot = (props?: {
   points?: Point[],

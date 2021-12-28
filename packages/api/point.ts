@@ -3,7 +3,7 @@ import { toError } from ".";
 import point, {
   FilterFn,
   LoadFn,
-} from "@sivic/core/point";
+} from "@alfs-appraisal/core/point";
 
 export const Api = (arg: {
   http: AxiosInstance;

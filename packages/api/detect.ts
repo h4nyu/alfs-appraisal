@@ -3,7 +3,7 @@ import { toError } from ".";
 import {
   Service,
   DetectPayload,
-} from "@sivic/core/detect";
+} from "@alfs-appraisal/core/detect";
 
 export type DetectApi = Service;
 

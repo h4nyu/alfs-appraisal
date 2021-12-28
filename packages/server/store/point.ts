@@ -1,6 +1,6 @@
 import { Row, Sql } from "postgres";
-import { Point } from "@sivic/core/point";
-import { PointStore } from "@sivic/core";
+import { Point } from "@alfs-appraisal/core/point";
+import { PointStore } from "@alfs-appraisal/core";
 
 const TABLE = "points"
 const COLUMNS = [

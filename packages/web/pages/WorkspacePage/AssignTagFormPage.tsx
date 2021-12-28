@@ -1,24 +1,44 @@
 import React from "react"
-import { observer } from "mobx-react-lite";
-import AssignTagFormView from '@sivic/web/components/AssignTagForm'
-import Modal from "@sivic/web/components/Modal"
-import store from "@sivic/web/store"
+import AssignTagFormView from '@alfs-appraisal/web/components/AssignTagForm'
+import Modal from "@alfs-appraisal/web/components/Modal"
+import { useNavigate, useSearchParams } from "react-router-dom";
+import useSWR, { useSWRConfig } from 'swr'
+import api, { batchFetchBoxes, batchFetchFiles } from "@alfs-appraisal/web/api"
+import Loading from "@alfs-appraisal/web/components/Loading"
 
-const Content = observer(() => {
+const Page = () => {
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams();
+  const workspaceId = searchParams.get("workspaceId")
+  if(!workspaceId){
+    return null
+  }
+  const { data:images } = useSWR({key:'image', workspaceId}, api.image.filter)
+  if(images instanceof Error) { return null }
+  const { data:boxes, mutate: mutateBoxes } = useSWR({ key:'box', images }, batchFetchBoxes)
+  if(boxes instanceof Error) { return null }
+  const { data:files } = useSWR({key: 'file', images, boxes }, batchFetchFiles)
+  if(files instanceof Error) { return null }
+  const { data:tags } = useSWR({key:"tag", workspaceId}, api.tag.filter)
+  if(tags instanceof Error) { return null }
+  if( tags === undefined || images === undefined ) {
+    return <Loading/>
+  }
   return (
     <Modal
       isActive={true}
-      onClose={store.history.goBack}
+      onClose={() => navigate(-1)}
     >
       <AssignTagFormView 
-        tagId={store.assignTagForm.tagId}
-        boxes={store.workspaceForm.boxes}
-        tags={store.workspaceForm.tags}
-        files={store.fileStore.files}
-        onBoxClick={store.assignTagForm.assign}
-        onTagChange={t => store.assignTagForm.setTagId(t?.id)}
+        boxes={boxes}
+        tags={tags}
+        files={files}
+        onSubmit={async (box) => {
+          await api.box.update({box})
+          mutateBoxes()
+        }}
       />
     </Modal>
   );
-});
-export default Content;
+};
+export default Page;

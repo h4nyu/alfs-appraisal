@@ -1,7 +1,7 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { keyBy, zip, uniqBy } from "lodash";
-import Point from "@sivic/core/point"
-import { Position2D } from "@sivic/core/point"
+import Point from "@alfs-appraisal/core/point"
+import { Position2D } from "@alfs-appraisal/core/point"
 
 export const usePointPlot = (props?: {
   points?: Point[]
@@ -10,7 +10,6 @@ export const usePointPlot = (props?: {
   const [draggingId, setDraggingId] = React.useState<string|undefined>(props?.draggingId)
   const [points, setPoints] = React.useState<Point[]>(props?.points ?? [])
   const [position, setPosition] = React.useState<Position2D>({x: 0, y: 0})
-
   const toggleDrag = (id: string) => {
     if (draggingId === id) {
       setDraggingId(undefined)
@@ -18,7 +17,6 @@ export const usePointPlot = (props?: {
       setDraggingId(id)
     }
   };
-
   const add = () => {
     if(draggingId === undefined) {
       const newPoint = Point({ ...position, })
@@ -49,6 +47,11 @@ export const usePointPlot = (props?: {
     setDraggingId(undefined)
   }
 
+  const reset = () => {
+    setPoints(props?.points ?? [])
+    setDraggingId(props?.draggingId)
+  }
+
   return {
     toggleDrag,
     points,
@@ -56,6 +59,7 @@ export const usePointPlot = (props?: {
     add,
     draggingId,
     remove,
+    reset,
   }
 }
 export default usePointPlot

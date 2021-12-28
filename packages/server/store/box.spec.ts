@@ -1,8 +1,8 @@
-import { Store } from "@sivic/server"; 
+import { Store } from "@alfs-appraisal/server"; 
 import fs from "fs"; 
 import { v4 as uuid } from "uuid";
-import { Box } from "@sivic/core/box";
-import { Image, ImageTag } from "@sivic/core/image";
+import { Box } from "@alfs-appraisal/core/box";
+import { Image, ImageTag } from "@alfs-appraisal/core/image";
 
 const rootStore = Store();
 

@@ -1,6 +1,6 @@
 import React from "react";
 import ImageTags from "./ImageTags";
-import { Image as ChartImage } from "@sivic/core/image";
+import { Image as ChartImage } from "@alfs-appraisal/core/image";
 
 const charImage = ChartImage();
 const image = {

@@ -1,15 +1,16 @@
 import React from "react";
 import DataGrid, { SelectCellFormatter } from 'react-data-grid';
-import { Box } from "@sivic/core/box"
-import { Point } from "@sivic/core/point"
-import { Line } from "@sivic/core/line"
-import Summary from "@sivic/core/summary"
-import { exportToCsv } from "@sivic/web/utils"
+import { Box } from "@alfs-appraisal/core/box"
+import { Point } from "@alfs-appraisal/core/point"
+import { Line } from "@alfs-appraisal/core/line"
+import Summary from "@alfs-appraisal/core/summary"
+import { exportToCsv } from "@alfs-appraisal/web/utils"
 import { first, keyBy, flatMap } from "lodash"
-import { Workspace } from "@sivic/core/workspace"
-import { Tag } from "@sivic/core/tag"
-import { File } from "@sivic/core/file";
-import BoxView from "@sivic/web/components/BoxView"
+import { Workspace } from "@alfs-appraisal/core/workspace"
+import { Tag } from "@alfs-appraisal/core/tag"
+import { File } from "@alfs-appraisal/core/file";
+import BoxView from "@alfs-appraisal/web/components/BoxView"
+import { round } from "lodash"
 
 
 export const SummaryTable = (props: { 
@@ -25,12 +26,19 @@ export const SummaryTable = (props: {
     ...(props.rows?.map(r => {
       return {
         key: r.box.id,
-        name: <a onClick={() => props.onBoxClick?.(r.box)}>{r.box.id} k=${r.line.length}</a>,
+        name: <a onClick={() => props.onBoxClick?.(r.box)}>{r.box.id} k={r.line.length}</a>,
       }
     }) ?? [])
   ];
   const firstColumn = first(props.rows)
-  const lineName = `${firstColumn?.line.start.positionId}-${firstColumn?.line.end.positionId}`
+  const origin = firstColumn?.line.origin
+  const lineName = (() => {
+    if(origin?.positionId === firstColumn?.line.start.positionId){
+      return `${firstColumn?.line.start.positionId}-${firstColumn?.line.end.positionId}`
+    }else{
+      return `${firstColumn?.line.end.positionId}-${firstColumn?.line.start.positionId}`
+    }
+  })()
   const fileName =`${props.workspace?.name}-${props.tag.name}-${lineName}.csv`
   const rows = flatMap(firstColumn?.points, (p) =>  {
     const rowX = {}
@@ -41,8 +49,9 @@ export const SummaryTable = (props: {
     rowY["axis"] = "Y"
     for(const pr of props.rows) {
       const posPoint = pr.points.find(pp => pp.positionId === p.positionId)
-      rowX[pr.box.id] = posPoint?.x
-      rowY[pr.box.id] = posPoint?.y
+      if(!posPoint){ continue }
+      rowX[pr.box.id] = round(posPoint.x, 3)
+      rowY[pr.box.id] = round(posPoint.y, 3)
     }
     return [rowX, rowY]
   })??[]
@@ -51,7 +60,8 @@ export const SummaryTable = (props: {
      rows={rows} 
    />
   return (
-    <div>
+    <div
+    >
       <div
         style={{
           display: "flex",

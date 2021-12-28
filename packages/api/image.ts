@@ -6,7 +6,7 @@ import Image, {
   FindFn,
   CreateFn,
   UpdateFn,
-} from "@sivic/core/image";
+} from "@alfs-appraisal/core/image";
 
 export const Api = (arg: {
   http: AxiosInstance;

@@ -1,7 +1,7 @@
 import React from "react";
 import PageLayout from "./PageLayout";
-import Mock from "@sivic/web/components/Mock";
-import { Workspace } from "@sivic/core/workspace";
+import Mock from "@alfs-appraisal/web/components/Mock";
+import { Workspace } from "@alfs-appraisal/core/workspace";
 
 export default {
   title: "PageLayout",

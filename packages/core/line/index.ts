@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import Point, { Position2D } from '@sivic/core/point';
+import Point, { Position2D } from '@alfs-appraisal/core/point';
 import { first, sortBy, uniq, range } from 'lodash';
 
 export { default as FilterFn } from "./filter"
@@ -34,7 +34,7 @@ export const Line  = (props?:Partial<LineProps>):Line => {
     return Math.atan((self.end.y - self.start.y) / (self.end.x - self.start.x));
   }
   const getOrigin = () => {
-    if(self.end.y < self.start.y){
+    if(self.end.y > self.start.y){
       return self.start
     }else{
       return self.end

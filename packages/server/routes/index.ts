@@ -1,5 +1,5 @@
 import fastify, { FastifyPlugin } from "fastify";
-import { Lock, Store } from "@sivic/core";
+import { Lock, Store } from "@alfs-appraisal/core";
 import path from "path";
 import WorkspaceRoutes from "./workspace";
 import ImageRoutes from "./image";
@@ -22,7 +22,7 @@ export const App = (args: { store: Store; lock: Lock }) => {
   });
   const prefix = path.join("/", process.env.PREFIX || "", "/api/v1");
   app.register(fastifyStatic, {
-    root: "/srv/packages/web/dist",
+    root: "/app/packages/web/dist",
   });
   app.register(WorkspaceRoutes({ store, lock }), {
     prefix: `${prefix}/workspace`,
@@ -48,18 +48,6 @@ export const App = (args: { store: Store; lock: Lock }) => {
   app.register(DetectRoutes({ store, lock }), {
     prefix: `${prefix}/detect`,
   });
-  // app.register(LineRoutes({ store, lock }), {
-  //   prefix: `${prefix}/line`,
-  // });
-  // app.register(TrasnformRoutes({ store, lock }), {
-  //   prefix: `${prefix}/transform`,
-  // });
-  // app.register(TagRoutes({ store, lock }), {
-  //   prefix: `${prefix}/tag`,
-  // });
-  // app.register(FileRoutes({ store, lock }), {
-  //   prefix: `${prefix}/file`,
-  // });
   app.ready(async () => {
     console.log(app.printRoutes());
   });

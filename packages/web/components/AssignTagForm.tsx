@@ -1,9 +1,9 @@
-import React from "react"
-import Box from "@sivic/core/box"
-import Tag from "@sivic/core/tag"
-import File from "@sivic/core/file";
-import TagSelector from "@sivic/web/components/TagSelector"
-import BoxView from "@sivic/web/components/BoxView"
+import React, {useState} from "react"
+import Box from "@alfs-appraisal/core/box"
+import Tag from "@alfs-appraisal/core/tag"
+import File from "@alfs-appraisal/core/file";
+import TagSelector from "@alfs-appraisal/web/components/TagSelector"
+import BoxView from "@alfs-appraisal/web/components/BoxView"
 import { sortBy } from "lodash"
 
 const AssignTagForm = (props:{
@@ -11,15 +11,16 @@ const AssignTagForm = (props:{
   tags?: Tag[],
   files?: File[],
   tagId?:string,
-  onTagChange?: (tag?:Tag) => void
-  onBoxClick?:(box:Box) => void
+  onSubmit?: (box:Box) => void
 }) => {
+  const [tagId, setTagId] = useState(props.tagId)
+
   return (
     <div className="box">
       <TagSelector 
-        value={props.tagId}
         tags={props.tags}
-        onChange={props.onTagChange}
+        value={tagId}
+        onChange={t => setTagId(t?.id)}
       />
       <div
         style={{
@@ -33,10 +34,14 @@ const AssignTagForm = (props:{
           props.boxes?.map(b => {
             return (
               <BoxView 
+                key={b.id}
                 box={b} 
                 files={props.files}
                 tags={props.tags}
-                onClick={props.onBoxClick && (() => props.onBoxClick?.(b))}
+                onClick={() => props.onSubmit?.(Box({
+                  ...b,
+                  tagId,
+                }))}
               />
             )
           })

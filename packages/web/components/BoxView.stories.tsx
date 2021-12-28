@@ -1,16 +1,16 @@
 import React from "react";
 import BoxView from "./BoxView";
-import Box from "@sivic/core/box";
-import Point from "@sivic/core/point";
-import Tag from "@sivic/core/tag";
+import Box from "@alfs-appraisal/core/box";
+import Point from "@alfs-appraisal/core/point";
+import Tag from "@alfs-appraisal/core/tag";
 import { action } from "@storybook/addon-actions";
 import { boolean } from "@storybook/addon-knobs";
-import { Image } from "@sivic/core/image";
-import { File } from "@sivic/core/file";
-import { Workspace } from "@sivic/core/workspace";
+import { Image } from "@alfs-appraisal/core/image";
+import { File } from "@alfs-appraisal/core/file";
+import { Workspace } from "@alfs-appraisal/core/workspace";
 import { range } from "lodash";
 
-import { data as imageData } from "@sivic/web/data/image.json" 
+import { data as imageData } from "@alfs-appraisal/web/data/image.json" 
 
 const workspace = Workspace({
   name: "WorkspaceName"

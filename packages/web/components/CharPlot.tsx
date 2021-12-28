@@ -1,5 +1,5 @@
 import React, { RefObject, useRef, useEffect, useState } from "react";
-import Box from "@sivic/core/box"
+import Box from "@alfs-appraisal/core/box"
 
 export const SvgCharPlot = (props: {
   data?: string;
@@ -74,7 +74,6 @@ export const SvgCharPlot = (props: {
       if(b.x0 <= x && x <= b.x1 && b.y0 < y && y <= b.y1){
         onBoxClick(b.id)
       }else{
-        console.log("box out")
       }
     }
   }

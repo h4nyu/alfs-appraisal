@@ -1,10 +1,10 @@
 import React from "react";
 import TagForm from "./TagForm";
-import Tag from "@sivic/core/tag"
-import Box from "@sivic/core/box"
+import Tag from "@alfs-appraisal/core/tag"
+import Box from "@alfs-appraisal/core/box"
 import { range } from "lodash"
-import File from "@sivic/core/file";
-import { data as imageData } from "@sivic/web/data/image.json" 
+import File from "@alfs-appraisal/core/file";
+import { data as imageData } from "@alfs-appraisal/web/data/image.json" 
 
 
 export default {

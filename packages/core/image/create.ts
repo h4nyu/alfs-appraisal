@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
-import { Lock, Store, ErrorKind } from "@sivic/core"
-import CreateFileFn from "@sivic/core/file/create"
-import { Image } from "@sivic/core/image"
-import FindWorkspaceFn from "@sivic/core/workspace/find"
+import { Lock, Store, ErrorKind } from "@alfs-appraisal/core"
+import CreateFileFn from "@alfs-appraisal/core/file/create"
+import { Image } from "@alfs-appraisal/core/image"
+import FindWorkspaceFn from "@alfs-appraisal/core/workspace/find"
 
 export type Fn = (payload: {
   name: string;

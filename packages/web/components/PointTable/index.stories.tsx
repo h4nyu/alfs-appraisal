@@ -1,7 +1,7 @@
 import React from "react";
 import Component from "./";
-import Point from "@sivic/core/point"
-import { Workspace } from "@sivic/core/workspace";
+import Point from "@alfs-appraisal/core/point"
+import { Workspace } from "@alfs-appraisal/core/workspace";
 
 export default {
   title: "PointTable",

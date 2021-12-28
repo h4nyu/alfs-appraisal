@@ -1,6 +1,6 @@
 import React from "react";
 import Component from "./";
-import Mock from "@sivic/web/components/Mock";
+import Mock from "@alfs-appraisal/web/components/Mock";
 
 export default {
   title: "Modal",

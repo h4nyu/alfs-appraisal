@@ -1,4 +1,4 @@
-import { Store as _Store } from "@sivic/server/store";
+import { Store as _Store } from "@alfs-appraisal/server/store";
 
 export const Store = () => _Store({
   url: process.env.DATABASE_URL || "",

@@ -3,7 +3,7 @@ import { toError } from ".";
 import line, {
   FilterFn,
   LoadFn,
-} from "@sivic/core/line";
+} from "@alfs-appraisal/core/line";
 
 export const Api = (arg: {
   http: AxiosInstance;

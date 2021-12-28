@@ -1,6 +1,6 @@
-import { Lock, ErrorKind, Store } from "@sivic/core";
-import { Workspace } from "@sivic/core/workspace";
-import { UniqueFn } from "@sivic/core/workspace/unique"
+import { Lock, ErrorKind, Store } from "@alfs-appraisal/core";
+import { Workspace } from "@alfs-appraisal/core/workspace";
+import { UniqueFn } from "@alfs-appraisal/core/workspace/unique"
 
 export type Payload = {
   id?: string;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ImageTag } from "@sivic/core/image";
+import { Image, ImageTag } from "@alfs-appraisal/core/image";
 
 const Tags = (props:{
   image:Image

@@ -1,9 +1,9 @@
 import React, { RefObject, useRef, useEffect, useState } from "react";
-import { Box } from "@sivic/core/box";
-import { Point } from "@sivic/core/point";
-import Line from "@sivic/core/line";
-import Tag from "@sivic/core/tag"
-import { InputMode } from "@sivic/web/hooks/useBoxPlot";
+import { Box } from "@alfs-appraisal/core/box";
+import { Point } from "@alfs-appraisal/core/point";
+import Line from "@alfs-appraisal/core/line";
+import Tag from "@alfs-appraisal/core/tag"
+import { InputMode } from "@alfs-appraisal/web/hooks/useBoxPlot";
 import { schemeCategory10 } from "d3-scale-chromatic"
 
 export type SvgCharPlotProps = {
@@ -55,7 +55,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
   }
   const svgRef: RefObject<SVGSVGElement> = useRef(null);
   const size = props.size || 128;
-  const pointSize = 3;
+  const pointSize = 4;
   const width = props.width === undefined? 512: props.width
   const [aspect, setAspect] = React.useState(1)
   const [scale, setScale] = React.useState(1)
@@ -213,13 +213,13 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
             <text 
               x={p.x * scale }
               y={p.y * scale }
-              fill={selectedId === p.id ? "green" : "red"}
+              fill={"red"}
               fontSize={ 12 }
             >
               {p.positionId} 
             </text>
             <circle
-              style={{cursor: onPointSelect ? "crosshair" : ""}}
+              style={{cursor: selectedId === p.id ? "crosshair" : ""}}
               cx={p.x * scale}
               cy={p.y * scale}
               r={selectedId === p.id ? pointSize * 2 : pointSize}
@@ -242,7 +242,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
                   y1={start.y * scale}
                   x2={end.x * scale}
                   y2={end.y * scale}
-                  stroke={l.id === lineId ? "green" : "red"}
+                  stroke={"red"}
                   strokeOpacity="0.5"
                   strokeWidth={1}
                 />

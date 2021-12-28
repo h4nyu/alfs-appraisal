@@ -1,5 +1,6 @@
-import ErrorKind from "@sivic/core/error"
+import ErrorKind from "@alfs-appraisal/core/error"
 import { nanoid } from 'nanoid'
+export { default as FindFn } from "./find"
 export { default as FilterFn } from "./filter"
 export { default as CreateFn } from "./create"
 export { default as UpdateFn } from "./update"

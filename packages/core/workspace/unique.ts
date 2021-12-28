@@ -1,6 +1,6 @@
-import { Store } from "@sivic/core";
-import { ErrorKind } from "@sivic/core/error"
-import { Workspace } from "@sivic/core/workspace";
+import { Store } from "@alfs-appraisal/core";
+import { ErrorKind } from "@alfs-appraisal/core/error"
+import { Workspace } from "@alfs-appraisal/core/workspace";
 
 export type UniqueFn = (workspace:Workspace) => Promise<void | Error>
 export const UniqueFn = (props: {

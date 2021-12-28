@@ -1,9 +1,9 @@
 import React from "react";
 import RefLineForm from ".";
-import Line from '@sivic/core/line'
-import Image from '@sivic/core/image'
-import File from '@sivic/core/file'
-import Point from '@sivic/core/point'
+import Line from '@alfs-appraisal/core/line'
+import Image from '@alfs-appraisal/core/image'
+import File from '@alfs-appraisal/core/file'
+import Point from '@alfs-appraisal/core/point'
 import annot from "/app/data/annto.json";
 
 const { imageData } = annot;

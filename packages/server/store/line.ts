@@ -1,7 +1,7 @@
 import { Row, Sql } from "postgres";
-import { Line } from "@sivic/core/line";
-import { Point } from "@sivic/core/point";
-import { LineStore } from "@sivic/core";
+import { Line } from "@alfs-appraisal/core/line";
+import { Point } from "@alfs-appraisal/core/point";
+import { LineStore } from "@alfs-appraisal/core";
 import { first } from "lodash"
 
 

@@ -1,5 +1,5 @@
 import { Row, Sql } from "postgres";
-import { File } from "@sivic/core/file";
+import { File } from "@alfs-appraisal/core/file";
 import { first } from "lodash";
 
 const COLUMNS = [

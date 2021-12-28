@@ -1,5 +1,5 @@
 import { App } from "../routes";
-import { Store } from "@sivic/server";
+import { Store } from "@alfs-appraisal/server";
 import { Lock } from "@oniku/lockfile";
 import cluster from "cluster";
 import os from "os";

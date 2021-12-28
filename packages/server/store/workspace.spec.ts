@@ -1,6 +1,6 @@
-import { Store } from "@sivic/server"; 
+import { Store } from "@alfs-appraisal/server"; 
 import fs from "fs"; 
-import { Workspace } from "@sivic/core/workspace";
+import { Workspace } from "@alfs-appraisal/core/workspace";
 
 const rootStore = Store();
 

@@ -1,12 +1,12 @@
 import React from "react";
 import Component from ".";
-import { Box } from "@sivic/core/box";
-import { Point } from "@sivic/core/point";
-import Line from "@sivic/core/line";
-import Tag from "@sivic/core/tag"
+import { Box } from "@alfs-appraisal/core/box";
+import { Point } from "@alfs-appraisal/core/point";
+import Line from "@alfs-appraisal/core/line";
+import Tag from "@alfs-appraisal/core/tag"
 import annot from "/app/data/annto.json";
 import {UncontrolledReactSVGPanZoom} from 'react-svg-pan-zoom';
-import useBoxPlot from "@sivic/web/hooks/useBoxPlot"
+import useBoxPlot from "@alfs-appraisal/web/hooks/useBoxPlot"
 
 const { imageData } = annot;
 

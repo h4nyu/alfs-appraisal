@@ -1,140 +1,173 @@
 import React, { useState } from "react"; 
-import { observer } from "mobx-react-lite";
-import FileUpload from "@sivic/web/components/FileUpload";
-import store from "@sivic/web/store";
-import SaveBtn from "@sivic/web/components/SaveBtn"
-import DownloadBtn from "@sivic/web/components/DownloadBtn"
-import { Image } from "@sivic/core/image";
-import ImageTable from "@sivic/web/components/ImageTable"
-import ImageTags from "@sivic/web/components/ImageTags";
-import BoxView from "@sivic/web/components/BoxView"
-import TagTable from "@sivic/web/components/TagTable"
-import TagSelector from "@sivic/web/components/TagSelector"
-import { Router, Switch, Route, NavLink, Link, useLocation } from "react-router-dom";
-import PointPage from "./PointPage"
+import FileUpload from "@alfs-appraisal/web/components/FileUpload";
+import DownloadBtn from "@alfs-appraisal/web/components/DownloadBtn"
+import { Image } from "@alfs-appraisal/core/image";
+import { File } from "@alfs-appraisal/core/file"
+import { Box } from "@alfs-appraisal/core/box"
+import { Point } from "@alfs-appraisal/core/point"
+import ImageTable from "@alfs-appraisal/web/components/ImageTable"
+import ImageTags from "@alfs-appraisal/web/components/ImageTags";
+import BoxView from "@alfs-appraisal/web/components/BoxView"
+import TagTable from "@alfs-appraisal/web/components/TagTable"
+import TagSelector from "@alfs-appraisal/web/components/TagSelector"
+import { Router, Routes, Route, NavLink, Link, useNavigate, useSearchParams, createSearchParams } from "react-router-dom";
+import api, { batchFetchFiles, batchFetchBoxes, batchFetchPoints} from "@alfs-appraisal/web/api"
+import { readAsBase64, b64toBlob } from "@alfs-appraisal/web/utils";
+import WorkspaceForm from "@alfs-appraisal/web/components/WorkspaceForm"
+
+import ImagePage from "./ImagePage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
-import RefLinePage from "./RefLinePage"
+import ReferenceBoxPage from "./ReferenceBoxPage"
 import AssignTagFormPage from "./AssignTagFormPage"
+import useSWR, { useSWRConfig } from 'swr'
+import Loading from "@alfs-appraisal/web/components/Loading"
 
-const Content = observer(() => {
-  const location = useLocation();
-  const { 
-    workspaceForm, 
-    imageProcess, 
-    workspaceStore, 
-    imageStore, 
-    boxStore,
-    fileStore,
-    tagForm
-  } = store
 
-  const { save } = store.workspaceForm;
-  const routes = [
-    {
-      path: "/workspace/box",
-      name: "Box",
-      Component: BoxPage,
-    },
-    {
-      path: "/workspace/assign-tag",
-      name: "Assign Tag",
-      Component: AssignTagFormPage,
-    },
-    {
-      path: "/workspace/tag",
-      name: "Tag",
-      Component: TagFormPage,
-    },
-    {
-      path: "/workspace/point",
-      name: "Point",
-      Component: PointPage,
-    },
-    {
-      path: "/workspace/line",
-      name: "RefLinePage",
-      Component: RefLinePage,
-    },
-  ]
+const Page = () => {
+  const navigate = useNavigate();
+  const { mutate } = useSWRConfig()
+  const [searchParams, setSearchParams] = useSearchParams();
+  const workspaceId = searchParams.get("workspaceId")
+  if(!workspaceId){
+    return null
+  }
+  const { data:workspace } = useSWR({
+    key:"workspace",
+    id: workspaceId
+  }, api.workspace.find)
+  if(workspace instanceof Error) { return null }
+  const { data:images } = useSWR({key:"image", workspaceId}, api.image.filter)
+  if(images instanceof Error) { return null }
+  const { data:tags } = useSWR({key:"tag", workspaceId}, api.tag.filter)
+  if(tags instanceof Error) { return null }
+  const { data:boxes } = useSWR({ key:'box', images }, batchFetchBoxes)
+  if(boxes instanceof Error) { return null }
+  const { data:points } = useSWR({ key:'point', boxes }, batchFetchPoints)
+  if(points instanceof Error) { return null }
+  const { data:files } = useSWR({key: 'file', images, boxes }, batchFetchFiles)
+  if(files instanceof Error) { return null }
+  if(
+    workspace === undefined  ||
+    images === undefined ||
+    tags === undefined
+  ) {
+    return <Loading/>
+  }
+
   return (
     <div
       className="box"
     >
-      <div className="field">
-        <label className="label">Name</label>
-        <div className="field has-addons">
-          <div className="control is-expanded" >
-            <input 
-              className="input" 
-              type="text" 
-              value={store.workspaceForm.name} 
-              onChange={e => store.workspaceForm.setName(e.target.value)}
-            />
-          </div>
-          <div className="control">
-            <SaveBtn onClick={store.workspaceForm.save} />
-          </div>
-        </div>
-      </div>
-      {
-        workspaceForm.id && <>
-          <div
-            style={{
-              overflow: "auto"
-            }}
-          >
-            <TagTable  
-              onAddImage={store.imageForm.uploadFiles}
-              onAddTag={() => {
-                store.tagForm.init({workspaceId: workspaceForm.id})
-                store.history.push("/workspace/tag")
-              }}
-              images={workspaceForm.images}
-              tags={workspaceForm.tags}
-              files={fileStore.files}
-              boxes={store.boxStore.boxes}
-              points={store.pointStore.points}
-              onImageClick={image => {
-                store.imageProcess.init(image.id)
-                store.history.push("/workspace/box")
-              }}
-              onTagClick={tag => {
-                store.tagForm.init({id: tag.id, workspaceId: workspaceForm.id})
-                store.history.push("/workspace/tag")
-              }}
-              onBoxClick={async (box) => {
-                if(box.tagId === undefined) { return }
-                await store.featureForm.init(box)
-                if(store.featureForm.isReference){
-                  store.history.push("/workspace/line")
-                }else{
-                  store.history.push("/workspace/point")
-                }
-              }}
-              onAssignClick={() => {
-                store.history.push("/workspace/assign-tag")
-              }}
-            />
-          </div>
-          <Switch>
-            {
-              routes.map(r => {
-                return (
-                  <Route 
-                    key={r.path}
-                    path={r.path} 
-                  >
-                    <r.Component />
-                  </Route>
-                )
+      <WorkspaceForm 
+        workspace={workspace} 
+        onSubmit={async (w) => {
+          await api.workspace.update(w)
+          mutate({
+            key: "workspace",
+            id: workspaceId,
+          })
+        }} 
+      />
+      <div
+        style={{
+          overflow: "auto"
+        }}
+      >
+        <TagTable  
+          onAddImage={async (files) => {
+            for (const f of files) {
+              if (!f.type.includes("image")) {
+                continue;
+              }
+              const data = await readAsBase64(f);
+              if (data instanceof Error) {
+                continue;
+              }
+              await api.image.create({ 
+                data, name:f.name, workspaceId
+              });
+            }
+            mutate({
+              key: "image",
+              workspaceId,
+            })
+          }}
+          onAddTag={() => {
+            navigate({
+              pathname:"/workspace/tag",
+              search: createSearchParams({
+                workspaceId,
+              }).toString()
+            })
+          }}
+          images={images}
+          tags={tags}
+          files={files}
+          boxes={boxes}
+          points={points}
+          onImageClick={image => {
+            navigate({
+              pathname: `/workspace/image`,
+              search: createSearchParams({
+                workspaceId,
+                imageId: image.id,
+              }).toString()
+            })
+          }}
+          onTagClick={tag => {
+            navigate({
+              pathname:"/workspace/tag",
+              search: createSearchParams({
+                workspaceId,
+                tagId: tag.id,
+              }).toString()
+            })
+          }}
+          onBoxClick={async (box) => {
+            if(box.tagId === undefined) { return }
+            const tag = tags.find(x => x.id === box.tagId)
+            const referenceBoxId = tag?.referenceBoxId
+            if(!referenceBoxId) { return }
+
+            if(referenceBoxId === box.id){
+              navigate({
+                pathname:"/workspace/reference-box",
+                search: createSearchParams({
+                  workspaceId,
+                  boxId: box.id,
+                }).toString()
+              })
+            }else{
+              navigate({
+                pathname:"/workspace/box",
+                search: createSearchParams({
+                  workspaceId,
+                  boxId: box.id,
+                  referenceBoxId: referenceBoxId,
+                }).toString()
               })
             }
-          </Switch>
-        </>
-      }
+          }}
+          onAssignClick={() => {
+            navigate({
+              pathname: "/workspace/assign-tag",
+              search: createSearchParams({
+                workspaceId,
+              }).toString()
+            })
+          }}
+        />
+      </div>
+      <Routes>
+        <Route path={"image"} element={<ImagePage />}/>
+        <Route path={"assign-tag"} element={<AssignTagFormPage/>}/>
+        <Route path={"box"} element={<BoxPage/>}/>
+        <Route path={"reference-box"} element={<ReferenceBoxPage />}/>
+        <Route path={"tag"} element={<TagFormPage/>}/>
+      </Routes>
     </div>
   );
-});
+};
 
-export default Content;
+export default Page;

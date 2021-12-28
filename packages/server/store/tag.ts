@@ -1,5 +1,5 @@
 import { Row, Sql } from "postgres";
-import { Tag } from "@sivic/core/tag";
+import { Tag } from "@alfs-appraisal/core/tag";
 import { first } from "lodash"
 
 const TABLE = "tags"
@@ -53,15 +53,19 @@ export const Store = (
     id?: string;
     name?: string;
     workspaceId?: string;
+    referenceBoxId?:string;
   }) => {
     try{
-      const { id, name, workspaceId } = payload
+      const { id, name, workspaceId, referenceBoxId } = payload
       const rows =  await (async () =>{
         if(id !== undefined) {
           return await sql`SELECT * FROM tags WHERE id = ${id} LIMIT 1`
         }
         if(name !== undefined && workspaceId !== undefined){
           return await sql`SELECT * FROM tags WHERE workspace_id = ${workspaceId} AND name=${name} LIMIT 1`
+        }
+        if(referenceBoxId !== undefined) {
+          return await sql`SELECT * FROM tags WHERE reference_box_id = ${referenceBoxId} LIMIT 1`
         }
         return []
       })()

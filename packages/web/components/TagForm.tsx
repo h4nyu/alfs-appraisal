@@ -1,21 +1,25 @@
 import React from "react"
-import SaveBtn from "@sivic/web/components/SaveBtn"
-import CancelBtn from "@sivic/web/components/CancelBtn"
-import DeleteBtn from "@sivic/web/components/DeleteBtn"
-import Box from "@sivic/core/box"
-import BoxView from "@sivic/web/components/BoxView"
-import DownloadBtn from "@sivic/web/components/DownloadBtn"
-import { Workspace } from "@sivic/core/workspace"
-import Summary from "@sivic/core/summary"
-import File from "@sivic/core/file"
-import Tag from "@sivic/core/tag"
-import SummaryTable from "@sivic/web/components/SummaryTable"
+import SaveBtn from "@alfs-appraisal/web/components/SaveBtn"
+import CancelBtn from "@alfs-appraisal/web/components/CancelBtn"
+import DeleteBtn from "@alfs-appraisal/web/components/DeleteBtn"
+import Box from "@alfs-appraisal/core/box"
+import BoxView from "@alfs-appraisal/web/components/BoxView"
+import DownloadBtn from "@alfs-appraisal/web/components/DownloadBtn"
+import { Workspace } from "@alfs-appraisal/core/workspace"
+import Summary from "@alfs-appraisal/core/summary"
+import File from "@alfs-appraisal/core/file"
+import Tag from "@alfs-appraisal/core/tag"
+import { useForm } from "react-hook-form";
+import SummaryTable from "@alfs-appraisal/web/components/SummaryTable"
 
+type FormValues = {
+  id?: string,
+  name: string,
+  referenceBoxId? :string,
+}
 export const TagForm = (props: {
   tag?:Tag,
   id?: string,
-  name?: string,
-  workspaceId?: string,
   referenceBoxId?:string,
   onNameChange?: (value:string) => void,
   boxes?: Box[],
@@ -24,78 +28,81 @@ export const TagForm = (props: {
   summaryPairs?: Summary[][],
   onReferenceBoxChange?: (box:Box) => void,
   onBoxClick?: (box:Box) => void,
-  onSave?:() => Promise<void>
+  onSubmit?:(v:FormValues) => Promise<void>
   onCancel?: () => void
   onDelete?: () => void
   onDownload?: () => void
+  style?: React.CSSProperties,
 }) => {
-  const boxes = props.boxes?.filter(x => x.tagId === props.id)
+  const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
+    defaultValues: {
+      id: props.tag?.id,
+      name: props.tag?.name ?? "",
+      referenceBoxId: props.tag?.referenceBoxId, 
+    }
+  });
+
+  const onSubmit = data => props.onSubmit?.(data)
+  const boxes = props.boxes?.filter(x => x.tagId === props.tag?.id)
   return (
-    <div className="box"> 
-      <div className="field">
-        <label className="label">Name</label>
-        <div className="control">
-          <input 
-            className="input" 
-            type="text" 
-            placeholder="Tag name"
-            value={props.name}
-            onChange={e => props.onNameChange?.(e.target.value)}
-          />
+    <div className="box" 
+      style={props.style}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="field">
+          <label className="label">Name</label>
+          <div className="control">
+            <input 
+              className="input" 
+              type="text" 
+              placeholder="Tag name"
+              {...register("name")} 
+            />
+          </div>
         </div>
-      </div>
-      <div className="field">
-        <label className="label">Reference</label>
-        <div className="control"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-          }}
-        >
-          {
-            boxes?.map(x => {
-              return ( 
-                <BoxView 
-                  box={x} 
-                  files={props.files}
-                  isSelected={x.id === props.referenceBoxId}
-                  onClick={props.onReferenceBoxChange && (() => props.onReferenceBoxChange?.(x))}
-                />
-               )
-            })
-          }
-        </div>
-      </div>
-      <div className="field">
-        <div className="level">
-          <div className="level-left">
+        <div className="field">
+          <label className="label">Reference</label>
+          <div className="control"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
             {
-              props.onDelete && 
-                <DeleteBtn onClick={e => props.onDelete?.()} />
+              boxes?.map(x => {
+                return ( 
+                  <BoxView 
+                    key={x.id}
+                    box={x} 
+                    files={props.files}
+                    isSelected={x.id === watch('referenceBoxId')}
+                    onClick={() => setValue("referenceBoxId", x.id)}
+                  />
+               )
+              })
             }
           </div>
-          <div className="level-right">
-            <div className="p-1">
+        </div>
+        <div className="field">
+          <div className="level">
+            <div className="level-left">
               {
-                props.onDownload && <DownloadBtn onClick={e => props.onDownload?.()} />
+                props.onDelete && 
+                  <DeleteBtn onClick={e => props.onDelete?.()} />
               }
             </div>
-            <div className="p-1">
-            {
-              props.onSave && props.workspaceId && <SaveBtn onClick={props.onSave} />
-            }
+            <div className="level-right">
+              <div className="p-1">
+                <SaveBtn onClick={handleSubmit(onSubmit)} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
       {
         props.summaryPairs?.map( (summaries, i) => {
           return props.tag && (
-            <div className="field"
-              key={i}
-            >
-              <SummaryTable rows={summaries} tag={props.tag} workspace={props.workspace} onBoxClick={props.onBoxClick}/>
-            </div>
+            <SummaryTable key={i} rows={summaries} tag={props.tag} workspace={props.workspace} onBoxClick={props.onBoxClick}/>
           )
         })
       }
