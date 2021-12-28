@@ -11,7 +11,6 @@ export const Store = (url: string): DetectStore => {
     data: string;
   }): Promise<Box[] | Error> => {
     try{
-      // TODO: check box format
       const res = await http.post("/detect", {data:payload.data})
       const {image, boxes, confidences} = res.data
       return zip(boxes, confidences)
@@ -24,10 +23,10 @@ export const Store = (url: string): DetectStore => {
         })
       }).map(b => Box({
         ...b,
-        x0: b.x0 + b.width / 2,
-        x1: b.x1 + b.width / 2,
-        y0: b.y0 + b.height / 2,
-        y1: b.y1 + b.height / 2,
+        x0: b.x0,
+        x1: b.x1,
+        y0: b.y0,
+        y1: b.y1,
       }))
     }catch(e) {
       return e
