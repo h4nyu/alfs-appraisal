@@ -8,8 +8,8 @@
 COMPOSE_FILE=docker-compose.yaml:docker-compose.local.yaml
 ```
 
-| Packages                                   | Description  |
-| :-                                         | :-           |
+| Packages                                            | Description  |
+| :-                                                  | :-           |
 | **[@alfs-appraisal/core](./app/packages/core)**     | domain       |
 | **[@alfs-appraisal/server](./app/packages/server)** | backend      |
 | **[@alfs-appraisal/web](./app/packages/web)**       | web frontend |

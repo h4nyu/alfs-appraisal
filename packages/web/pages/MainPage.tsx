@@ -29,7 +29,7 @@ const Page = () => {
           })
         }} 
         onCreate={() => {
-          navigate("/workspace")
+          navigate("/create/workspace")
         }} 
         onDelete={async (id) => {
           mutate({key:"workspace"})

@@ -60,9 +60,9 @@ const Page = () => {
           navigate(-1)
         }}
         onDetect={async () => {
-          const res = api.detect.box({data: file.data}) 
+          const res = await api.detect.box({data: file.data}) 
           if(res instanceof Error) { return [] }
-          return []
+          return res
         }}
         onSaveImage={async ({name}) => {
           await api.image.update(Image({...image, name}))
