@@ -133,8 +133,7 @@ const Page = () => {
             if(referenceBoxId === box.id){
               navigate({
                 pathname:"/workspace/reference-box",
-                search: createSearchParams({
-                  workspaceId,
+                search: createSearchParams({ workspaceId,
                   boxId: box.id,
                 }).toString()
               })
