@@ -27,13 +27,13 @@ const Page = () => {
         onSubmit={async (w) => {
           const res = await api.workspace.create(w)
           if(res instanceof Error){ return }
+          toast.info('aaa')
           navigate({
             pathname:"/workspace",
             search:createSearchParams({workspaceId:w.id}).toString(),
           })
         }} 
       />
-      <Toast id={toast.id} level={toast.level} message={toast.message}/>
     </div>
   );
 };

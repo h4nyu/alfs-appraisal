@@ -28,11 +28,6 @@ export const Toast = (props: {
   } else if (level === Level.Error) {
     color = "is-danger";
   }
-  toast(message, {
-    className: `message ${color} p-0`,
-    bodyClassName: `message-body`,
-    toastId: id,
-  });
 
   return <ToastContainer position="bottom-right" />;
 };
