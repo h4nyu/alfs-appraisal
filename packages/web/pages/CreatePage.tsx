@@ -7,6 +7,7 @@ import { readAsBase64, b64toBlob } from "@alfs-appraisal/web/utils";
 import WorkspaceForm from "@alfs-appraisal/web/components/WorkspaceForm"
 import useSWR, { useSWRConfig } from 'swr'
 import Loading from "@alfs-appraisal/web/components/Loading"
+import useToast from "@alfs-appraisal/web/hooks/useToast"
 
 
 const Page = () => {
@@ -14,6 +15,7 @@ const Page = () => {
   const { mutate } = useSWRConfig()
   const [searchParams, setSearchParams] = useSearchParams();
   const workspace = Workspace()
+  const toast = useToast();
 
   return (
     <div
@@ -23,7 +25,10 @@ const Page = () => {
         workspace={workspace} 
         onSubmit={async (w) => {
           const res = await api.workspace.create(w)
-          if(res instanceof Error){ return }
+          if(res instanceof Error){ 
+            return toast.error(res.message)
+          }
+          toast.info('Success')
           navigate({
             pathname:"/workspace",
             search:createSearchParams({workspaceId:w.id}).toString(),

@@ -4,9 +4,11 @@ import WorkspaceTable from "@alfs-appraisal/web/components/WorkspaceTable";
 import Loading from "@alfs-appraisal/web/components/Loading"
 import useSWR, { useSWRConfig } from 'swr'
 import api from "@alfs-appraisal/web/api"
+import useToast from "@alfs-appraisal/web/hooks/useToast"
 
 const Page = () => {
   const navigate = useNavigate()
+  const toast = useToast();
   const { data:workspaces, error } = useSWR({key:"workspace"}, api.workspace.filter)
   const { mutate } = useSWRConfig()
   if(workspaces === undefined || workspaces instanceof Error){
@@ -32,6 +34,11 @@ const Page = () => {
           navigate("/create/workspace")
         }} 
         onDelete={async (id) => {
+          const res = await api.workspace.delete({id})
+          if(res instanceof Error){ 
+            return toast.error(res.message)
+          }
+          toast.info('Success')
           mutate({key:"workspace"})
         }} 
       />

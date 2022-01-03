@@ -7,9 +7,11 @@ import Modal from "@alfs-appraisal/web/components/Modal"
 import api from "@alfs-appraisal/web/api"
 import Loading from "@alfs-appraisal/web/components/Loading"
 import ReferenceForm from "@alfs-appraisal/web/components/ReferenceForm"
+import useToast from "@alfs-appraisal/web/hooks/useToast"
 
 const Page = () => {
   const navigate = useNavigate()
+  const toast = useToast();
   const { mutate } = useSWRConfig()
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("workspaceId")
@@ -75,8 +77,11 @@ const Page = () => {
         referenceLines={referenceLines}
         onSave={async (x) => {
           const res = await api.point.load({boxId, points:x.points})
-          if(res instanceof Error) { return }
+          if(res instanceof Error) { 
+            return toast.error(res.message)
+          }
           mutatePoints(res, false)
+          toast.info('Success')
           navigate(-1)
         }}
         onDelete={async () => {

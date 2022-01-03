@@ -3,6 +3,8 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import PageLayout from "@alfs-appraisal/web/components/PageLayout";
 import Header from "@alfs-appraisal/web/components/Header";
 import Loading_ from "@alfs-appraisal/web/components/Loading"
+import { ToastContainer } from 'react-toastify';
+
 
 const MainPage = lazy(() => import("@alfs-appraisal/web/pages/MainPage"));
 const WorkspacePage = lazy(() => import("@alfs-appraisal/web/pages/WorkspacePage"));
@@ -23,6 +25,7 @@ export default function App() {
               <Route path={"/workspace/*"} element={<WorkspacePage/>} />
               <Route path={"*"} element={<NotFoundPage/>} />
             </Routes>
+            <ToastContainer position="bottom-right" />
           </Suspense>
         }
       />

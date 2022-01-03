@@ -6,10 +6,12 @@ import Modal from "@alfs-appraisal/web/components/Modal"
 import Loading from "@alfs-appraisal/web/components/Loading"
 import api, { batchFetchFiles, batchFetchPoints, } from "@alfs-appraisal/web/api"
 import { useSummaryPairs } from "@alfs-appraisal/web/hooks/useSummaryPairs"
+import useToast from "@alfs-appraisal/web/hooks/useToast"
 import SummaryTable from "@alfs-appraisal/web/components/SummaryTable"
 
 const Page = () => {
   const navigate = useNavigate()
+  const toast = useToast();
   const { mutate } = useSWRConfig()
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("workspaceId")
@@ -80,18 +82,22 @@ const Page = () => {
         onSubmit={async (v) => {
           const { id } = v
           if(id !== undefined){
-            await api.tag.update({...v, id, workspaceId})
+            const uErr = await api.tag.update({...v, id, workspaceId})
+            if(uErr instanceof Error) {return toast.error(uErr.message)}
           }else{
-            await api.tag.create({...v, workspaceId})
+            const cErr = await api.tag.create({...v, workspaceId})
+            if(cErr instanceof Error) {return toast.error(cErr.message)}
           }
           mutate({key:"tag", workspaceId})
+          toast.info('Success')
           navigate(-1)
         }}
         onDelete={tag && (async () => {
           const res = await api.tag.delete({id: tag.id})
-          if(res instanceof Error) { return }
+          if(res instanceof Error) { return toast.error(res.message) }
           mutate({key: 'tag', workspaceId})
           mutate({key: 'box', images})
+          toast.info('Success')
           navigate(-1)
         })}
       />
