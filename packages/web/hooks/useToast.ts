@@ -1,10 +1,6 @@
 import React from "react"
 import { v4 as uuid } from "uuid";
-import { Level } from "@alfs-appraisal/web/components/Toast"
 import { toast } from 'react-toastify';
-
-
-
 
 export const useToast = () => {
   const info = (message: string) => {

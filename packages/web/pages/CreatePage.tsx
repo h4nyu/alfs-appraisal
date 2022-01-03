@@ -7,7 +7,6 @@ import { readAsBase64, b64toBlob } from "@alfs-appraisal/web/utils";
 import WorkspaceForm from "@alfs-appraisal/web/components/WorkspaceForm"
 import useSWR, { useSWRConfig } from 'swr'
 import Loading from "@alfs-appraisal/web/components/Loading"
-import Toast from "@alfs-appraisal/web/components/Toast"
 import useToast from "@alfs-appraisal/web/hooks/useToast"
 
 
