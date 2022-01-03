@@ -5,9 +5,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR, { useSWRConfig } from 'swr'
 import api, { batchFetchBoxes, batchFetchFiles } from "@alfs-appraisal/web/api"
 import Loading from "@alfs-appraisal/web/components/Loading"
+import useToast from "@alfs-appraisal/web/hooks/useToast"
 
 const Page = () => {
   const navigate = useNavigate()
+  const toast = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("workspaceId")
   if(!workspaceId){
@@ -34,7 +36,10 @@ const Page = () => {
         tags={tags}
         files={files}
         onSubmit={async (box) => {
-          await api.box.update({box})
+          const res = await api.box.update({box})
+          if(res instanceof Error){
+            return toast.error(res.message)
+          }
           mutateBoxes()
         }}
       />

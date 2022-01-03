@@ -4,16 +4,18 @@ import ReferenceForm from "@alfs-appraisal/web/components/ReferenceForm"
 import Modal from "@alfs-appraisal/web/components/Modal"
 import Loading from "@alfs-appraisal/web/components/Loading"
 import useSWR, { useSWRConfig } from 'swr'
+import useToast from "@alfs-appraisal/web/hooks/useToast"
 import api from "@alfs-appraisal/web/api"
 
 const Page = () => {
+  const navigate = useNavigate()
+  const toast = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("workspaceId")
   const boxId = searchParams.get("boxId")
   if(!workspaceId || !boxId){
     return null
   }
-  const navigate = useNavigate()
   const { data:box } = useSWR({key:"box", id: boxId}, api.box.find)
   if(box instanceof Error) { return null }
   const { data:tag } = useSWR(box?.tagId && {key:"tag", id: box.tagId}, api.tag.find)
@@ -44,14 +46,15 @@ const Page = () => {
             boxId: box.id,
             points:v.points,
           })
-          if(pErr instanceof Error) { return }
+          if(pErr instanceof Error) { return toast.error(pErr.message) }
           mutatePoints()
           const lErr = await api.line.load({
             boxId: box.id,
             lines:v.lines,
           })
-          if(lErr instanceof Error) { return }
+          if(lErr instanceof Error) { return toast.error(lErr.message)}
           mutateLines()
+          toast.info('Success')
           navigate(-1)
         }}
       />

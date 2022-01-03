@@ -22,10 +22,12 @@ import ReferenceBoxPage from "./ReferenceBoxPage"
 import AssignTagFormPage from "./AssignTagFormPage"
 import useSWR, { useSWRConfig } from 'swr'
 import Loading from "@alfs-appraisal/web/components/Loading"
+import useToast from "@alfs-appraisal/web/hooks/useToast"
 
 
 const Page = () => {
   const navigate = useNavigate();
+  const toast = useToast();
   const { mutate } = useSWRConfig()
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("workspaceId")
@@ -62,11 +64,13 @@ const Page = () => {
       <WorkspaceForm 
         workspace={workspace} 
         onSubmit={async (w) => {
-          await api.workspace.update(w)
+          const res = await api.workspace.update(w)
+          if(res instanceof Error) { return toast.error(res.message) }
           mutate({
             key: "workspace",
             id: workspaceId,
           })
+          toast.info('Success')
         }} 
       />
       <div
@@ -84,9 +88,14 @@ const Page = () => {
               if (data instanceof Error) {
                 continue;
               }
-              await api.image.create({ 
+              const res = await api.image.create({ 
                 data, name:f.name, workspaceId
               });
+              if(res instanceof Error) {
+                toast.error(res.message)
+                continue;
+              }
+              toast.info('Success')
             }
             mutate({
               key: "image",

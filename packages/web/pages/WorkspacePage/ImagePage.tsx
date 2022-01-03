@@ -7,9 +7,11 @@ import { Image } from "@alfs-appraisal/core/image"
 import Modal from "@alfs-appraisal/web/components/Modal"
 import api from "@alfs-appraisal/web/api"
 import Loading from "@alfs-appraisal/web/components/Loading"
+import useToast from "@alfs-appraisal/web/hooks/useToast"
 
 const Page = () => {
   const navigate = useNavigate()
+  const toast = useToast();
   const { mutate } = useSWRConfig()
   const [searchParams, setSearchParams] = useSearchParams();
   const workspaceId = searchParams.get("workspaceId")
@@ -43,33 +45,42 @@ const Page = () => {
             imageId,
             boxes,
           })
-          if(res instanceof Error) { return }
+          if(res instanceof Error) { return toast.error(res.message) }
           mutateBoxes(res)
           mutate({
             key:"box",
             images,
           })
+          toast.info('Success')
           navigate(-1)
         }}
         onDelete={async () => {
-          await api.image.delete({id: image.id})
+          const res = await api.image.delete({id: image.id})
+          if(res instanceof Error) { return toast.error(res.message) }
           mutate({
             key:"image",
             workspaceId,
           })
+          toast.info('Success')
           navigate(-1)
         }}
         onDetect={async () => {
           const res = await api.detect.box({data: file.data}) 
-          if(res instanceof Error) { return [] }
+          if(res instanceof Error) { 
+            toast.error(res.message)
+            return [] 
+          }
+          toast.info('Success')
           return res
         }}
         onSaveImage={async ({name}) => {
-          await api.image.update(Image({...image, name}))
+          const res = await api.image.update(Image({...image, name}))
+          if(res instanceof Error) { return toast.error(res.message) }
           mutate({
             key:"image",
             workspaceId,
           })
+          toast.info('Success')
         }}
       />
     </Modal>
