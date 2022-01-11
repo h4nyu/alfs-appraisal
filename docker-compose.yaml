@@ -1,5 +1,4 @@
 x-app: &app
-  image: "alfs"
   build:
     context: .
   environment:
