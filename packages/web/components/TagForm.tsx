@@ -11,6 +11,7 @@ import File from "@alfs-appraisal/core/file"
 import Tag from "@alfs-appraisal/core/tag"
 import { useForm } from "react-hook-form";
 import SummaryTable from "@alfs-appraisal/web/components/SummaryTable"
+import Loading from "@alfs-appraisal/web/components/Loading"
 
 type FormValues = {
   id?: string,
@@ -41,9 +42,9 @@ export const TagForm = (props: {
       referenceBoxId: props.tag?.referenceBoxId, 
     }
   });
-
   const onSubmit = data => props.onSubmit?.(data)
   const boxes = props.boxes?.filter(x => x.tagId === props.tag?.id)
+
   return (
     <div className="box" 
       style={props.style}

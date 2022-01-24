@@ -52,16 +52,6 @@ const Page = () => {
   ){
     return <Loading/>
   }
-  const getDefaultPoints = () => {
-    const resize = ResizeFn({source:referenceBox, target:box})
-    return referencePoints.map(p => Point({
-      x:p.x,
-      y:p.y,
-      boxId,
-      positionId: p.positionId,
-    })).map(resize)
-  }
-  const points = savedPoints.length === 0 ? getDefaultPoints() : savedPoints
   return (
     <Modal
       isActive={true}
@@ -71,9 +61,10 @@ const Page = () => {
         box={box}
         tag={tag}
         file={file}
-        points={points}
-        referenceFile={referenceFile}
+        points={savedPoints}
         referencePoints={referencePoints}
+        referenceBox={referenceBox}
+        referenceFile={referenceFile}
         referenceLines={referenceLines}
         onSave={async (x) => {
           const res = await api.point.load({boxId, points:x.points})
