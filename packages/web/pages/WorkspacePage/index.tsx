@@ -18,6 +18,7 @@ import WorkspaceForm from "@alfs-appraisal/web/components/WorkspaceForm"
 import ImagePage from "./ImagePage"
 import BoxPage from "./BoxPage"
 import TagFormPage from "./TagFormPage"
+import TagCreatePage from "./TagCreatePage"
 import ReferenceBoxPage from "./ReferenceBoxPage"
 import AssignTagFormPage from "./AssignTagFormPage"
 import useSWR, { useSWRConfig } from 'swr'
@@ -104,7 +105,7 @@ const Page = () => {
           }}
           onAddTag={() => {
             navigate({
-              pathname:"/workspace/tag",
+              pathname:"/workspace/tag/create",
               search: createSearchParams({
                 workspaceId,
               }).toString()
@@ -126,7 +127,7 @@ const Page = () => {
           }}
           onTagClick={tag => {
             navigate({
-              pathname:"/workspace/tag",
+              pathname:"/workspace/tag/update",
               search: createSearchParams({
                 workspaceId,
                 tagId: tag.id,
@@ -172,7 +173,8 @@ const Page = () => {
         <Route path={"assign-tag"} element={<AssignTagFormPage/>}/>
         <Route path={"box"} element={<BoxPage/>}/>
         <Route path={"reference-box"} element={<ReferenceBoxPage />}/>
-        <Route path={"tag"} element={<TagFormPage/>}/>
+        <Route path={"tag/update"} element={<TagFormPage/>}/>
+        <Route path={"tag/create"} element={<TagCreatePage/>}/>
       </Routes>
     </div>
   );

@@ -34,7 +34,9 @@ const Page = () => {
   const { data:points } = useSWR({ key:'point', boxes }, batchFetchPoints)
   if(points instanceof Error) { return null }
 
-  if(workspace === undefined){
+  if(workspace === undefined ||
+     tag === undefined
+    ){
     return <Loading/>
   }
   const { summaryPairs } = useSummaryPairs({
@@ -84,9 +86,6 @@ const Page = () => {
           if(id !== undefined){
             const uErr = await api.tag.update({...v, id, workspaceId})
             if(uErr instanceof Error) {return toast.error(uErr.message)}
-          }else{
-            const cErr = await api.tag.create({...v, workspaceId})
-            if(cErr instanceof Error) {return toast.error(cErr.message)}
           }
           mutate({key:"tag", workspaceId})
           toast.info('Success')
