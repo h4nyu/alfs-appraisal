@@ -47,8 +47,8 @@ export const usePointPlot = (props?: {
     setDraggingId(undefined)
   }
 
-  const reset = () => {
-    setPoints(props?.points ?? [])
+  const reset = (points?:Point[]) => {
+    setPoints(points ?? props?.points ?? [])
     setDraggingId(props?.draggingId)
   }
 
