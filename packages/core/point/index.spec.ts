@@ -26,6 +26,7 @@ describe("normalizePoints", () => {
       Point({x:1, y: 1}),
       Point({x:2, y: 3}),
     ]
+    expect(line.origin).toMatchObject({x:1, y: 1})
     const res = normalizePoints({
       line,
       points
