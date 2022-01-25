@@ -34,9 +34,16 @@ const Page = () => {
   const { data:boxes } = useSWR({ key:'box', images }, batchFetchBoxes)
   if(boxes instanceof Error) { return null }
 
-  if(box === undefined || tag === undefined || lines === undefined || points === undefined){
+
+  if(box === undefined || 
+     tag === undefined || 
+     lines === undefined || 
+     points === undefined || 
+     boxes === undefined
+    ){
     return <Loading/>
   }
+  console.log(boxes)
   return (
     <Modal
       isActive={true}
@@ -62,7 +69,10 @@ const Page = () => {
           if(lErr instanceof Error) { return toast.error(lErr.message)}
           mutateLines(lErr)
           toast.info('Success')
-
+          boxes.forEach( x => {
+            mutate({key:"point", boxId: x.id})
+            console.log(x.id)
+          })
           mutate({key:"point", boxes})
           navigate(-1)
         }}
