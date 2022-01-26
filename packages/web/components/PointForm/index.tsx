@@ -37,6 +37,7 @@ export const PointForm = (props: {
   }
 
   const {draggingId, toggleDrag, move, points, reset } = usePointPlot({ points: (props.points?.length ?? 0) > 0  ? props.points : getDefaultPoints() })
+
   const draggingPoint = points.find(p => p.id === draggingId)
   const refDraggingId = props.referencePoints?.find(p => p.positionId === draggingPoint?.positionId)?.id
   const referenceLines = props.referenceLines ?? []
