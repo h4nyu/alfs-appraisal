@@ -56,7 +56,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
   const points = sortBy(props.points, x => x.positionId)
   const svgRef: RefObject<SVGSVGElement> = useRef(null);
   const size = props.size || 128;
-  const pointSize = 4;
+  const pointSize = 6;
   const width = props.width === undefined? 512: props.width
   const [aspect, setAspect] = React.useState(1)
   const [scale, setScale] = React.useState(1)

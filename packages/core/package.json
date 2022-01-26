@@ -9,7 +9,7 @@
     "build": "tsc --noEmit false",
     "prepack": "yarn build",
     "postpack": "yarn clean",
-    "test": "yarn clean && jest"
+    "test": "jest"
   },
   "dependencies": {
     "colormap": "^2.3.2",

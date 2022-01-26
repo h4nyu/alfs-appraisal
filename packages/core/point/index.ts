@@ -3,6 +3,7 @@ export { default as FilterFn } from "./filter"
 export { default as LoadFn } from "./load"
 import { nanoid } from 'nanoid'
 import Line from '@alfs-appraisal/core/line'
+import { max } from "lodash"
 
 export type Position2D = {
   x: number,
@@ -88,5 +89,4 @@ export const normalizePoints = (props:{
     return rotated
   })
 }
-
 export default Point;
