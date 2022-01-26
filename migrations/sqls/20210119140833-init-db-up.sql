@@ -1,11 +1,11 @@
 CREATE TABLE workspaces ( 
-    id text NOT NULL PRIMARY KEY,
+    id text PRIMARY KEY,
     name text NOT NULL,
     created_at timestamp NOT NULL
 );
 
 CREATE TABLE images ( 
-    id text NOT NULL,
+    id text PRIMARY KEY,
     name text NOT NULL,
     workspace_id text,
     parent_id text,
@@ -14,7 +14,7 @@ CREATE TABLE images (
 );
 
 CREATE TABLE boxes ( 
-    id text NOT NULL,
+    id text PRIMARY KEY,
     x0 double precision NOT NULL,
     y0 double precision NOT NULL,
     x1 double precision NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE boxes (
 );
 
 CREATE TABLE points ( 
-    id text NOT NULL,
+    id text PRIMARY KEY,
     x double precision NOT NULL,
     y double precision NOT NULL,
     position_id text, 
@@ -34,20 +34,20 @@ CREATE TABLE points (
 );
 
 CREATE TABLE tags ( 
-    id text NOT NULL PRIMARY KEY,
+    id text PRIMARY KEY,
     name text NOT NULL,
     workspace_id text,
     reference_box_id text
 );
 
 CREATE TABLE files ( 
-    id text NOT NULL PRIMARY KEY,
+    id text PRIMARY KEY,
     data bytea,
     created_at timestamp NOT NULL
 );
 
 CREATE TABLE lines ( 
-    id text NOT NULL PRIMARY KEY,
+    id text PRIMARY KEY,
     box_id  text,
     start_id  text NOT NULL,
     start_x double precision NOT NULL,
