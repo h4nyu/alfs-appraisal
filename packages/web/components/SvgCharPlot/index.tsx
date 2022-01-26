@@ -1,10 +1,11 @@
-import React, { RefObject, useRef, useEffect, useState } from "react";
+import React, { RefObject, useRef, useEffect, useState, useMemo } from "react";
 import { Box } from "@alfs-appraisal/core/box";
 import { Point } from "@alfs-appraisal/core/point";
 import Line from "@alfs-appraisal/core/line";
 import Tag from "@alfs-appraisal/core/tag"
 import { InputMode } from "@alfs-appraisal/web/hooks/useBoxPlot";
 import { schemeCategory10 } from "d3-scale-chromatic"
+import { sortBy } from "lodash"
 
 export type SvgCharPlotProps = {
   data?: string;
@@ -43,7 +44,6 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
     selectedId,
     lineId,
     boxes,
-    points,
     lines,
     onSelect,
     onPointSelect,
@@ -53,6 +53,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
   if (data === undefined) {
     return null;
   }
+  const points = sortBy(props.points, x => x.positionId)
   const svgRef: RefObject<SVGSVGElement> = useRef(null);
   const size = props.size || 128;
   const pointSize = 6;
@@ -83,6 +84,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
     const y = (clientY - top) / scale;
     onMove({ x, y });
   };
+
 
   return (
     <div
