@@ -7,6 +7,7 @@ import AddBtn from "@alfs-appraisal/web/components/AddBtn"
 import BoxView from "@alfs-appraisal/web/components/BoxView"
 import Box from "@alfs-appraisal/core/box"
 import FileUpload, { ChangeFn } from "@alfs-appraisal/web/components/FileUpload"
+import { sortBy } from "lodash"
 
 const centerStyle = {
   display: "grid",
@@ -27,6 +28,7 @@ export const TagTable = (props: {
   onBoxClick?:(box: Box) => Promise<void>;
   onAssignClick?: VoidFunction;
 }) => {
+  const tags = sortBy(props.tags || [], x => x.name)
   return (
     <div
       style={{
@@ -73,7 +75,7 @@ export const TagTable = (props: {
         </a>
       </div>
       {
-        props.tags?.map((tag, i) => {
+        tags.map((tag, i) => {
           return (
             <div
               className="card p-1 has-text-weight-semibold"
@@ -114,7 +116,7 @@ export const TagTable = (props: {
       }
       {
         props.images?.map((p, colIdx) => {
-          return [undefined, ...(props.tags ?? [])].map((tag, rowIdx) => {
+          return [undefined, ...(tags ?? [])].map((tag, rowIdx) => {
             const boxes = props.boxes?.filter(b => b.tagId === tag?.id && b.imageId === p.id)
             return (
               <div
@@ -136,7 +138,7 @@ export const TagTable = (props: {
                         box={box}
                         files={props.files}
                         points={props.points}
-                        tags={props.tags}
+                        tags={tags}
                         onClick={props.onBoxClick && (() => props.onBoxClick?.(box))}
                       />
                     )
