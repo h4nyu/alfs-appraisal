@@ -162,7 +162,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
                 style={{cursor: "crosshair"}}
                 cx={b.x0 * scale}
                 cy={b.y0 * scale}
-                r={pointSize}
+                r={pointSize / 2}
                 stroke="none"
                 fill={selectedId === b.id ? "green" : "red"}
                 onClick={(e) => {
@@ -174,7 +174,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
                 style={{cursor: "crosshair"}}
                 cx={b.x1 * scale}
                 cy={b.y0 * scale}
-                r={pointSize}
+                r={pointSize / 2}
                 fill={selectedId === b.id ? "green" : "red"}
                 stroke="none"
                 onClick={(e) => {
@@ -186,7 +186,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
                 style={{cursor: "crosshair"}}
                 cx={b.x0 * scale}
                 cy={b.y1 * scale}
-                r={pointSize}
+                r={pointSize / 2}
                 fill={selectedId === b.id ? "green" : "red"}
                 stroke="none"
                 onClick={(e) => {
@@ -198,7 +198,7 @@ export const SvgCharPlot = (props: SvgCharPlotProps) => {
                 style={{cursor: "crosshair"}}
                 cx={b.x1 * scale}
                 cy={b.y1 * scale}
-                r={pointSize}
+                r={pointSize / 2}
                 stroke="none"
                 fill={selectedId === b.id ? "green" : "red"}
                 onClick={(e) => {
