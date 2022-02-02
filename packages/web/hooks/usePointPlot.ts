@@ -65,6 +65,7 @@ export const usePointPlot = (props?: {
     draggingId,
     remove,
     reset,
+    setPoints
   }
 }
 export default usePointPlot
