@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Box from "@alfs-appraisal/core/box"
 import Tag from "@alfs-appraisal/core/tag"
 import SaveBtn from "@alfs-appraisal/web/components/SaveBtn"
@@ -25,9 +25,12 @@ export const PointForm = (props: {
   onDelete?: VoidFunction,
   onReset?: VoidFunction
 }) => {
+  const {draggingId, toggleDrag, move, points, reset, setPoints } = usePointPlot({points:props.points})
+
   const getDefaultPoints = () => {
     if(props.box === undefined || props.referenceBox === undefined) {return []}
     const resize = ResizeFn({source:props.referenceBox, target:props.box})
+    let defaultPoints:Point[] = []
     return props.referencePoints?.map(p => Point({
       x:p.x,
       y:p.y,
@@ -36,7 +39,12 @@ export const PointForm = (props: {
     })).map(resize) ?? []
   }
 
-  const {draggingId, toggleDrag, move, points, reset } = usePointPlot({ points: (props.points?.length ?? 0) > 0  ? props.points : getDefaultPoints() })
+  useEffect(() => {
+    if(props.points && props.points?.length === 0){
+      setPoints(getDefaultPoints())
+    }
+  }, [props.referencePoints]);
+
 
   const draggingPoint = points.find(p => p.id === draggingId)
   const refDraggingId = props.referencePoints?.find(p => p.positionId === draggingPoint?.positionId)?.id
@@ -50,8 +58,6 @@ export const PointForm = (props: {
       boxId: props.box?.id,
     })
   })
-
-
 
   return (
     <div
@@ -109,7 +115,7 @@ export const PointForm = (props: {
           <div/>
           <div>
             <ResetBtn 
-              onClick={() => reset(getDefaultPoints())}
+              onClick={() => setPoints(getDefaultPoints())}
             />
             <SaveBtn 
               onClick={() => props.onSave?.({points})}
