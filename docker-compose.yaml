@@ -15,10 +15,8 @@ services:
   db:
     image: "postgres:13"
     volumes:
-      ./db-data:/var/lib/postgresql/data
+      - ./db-data:/var/lib/postgresql/data
     restart: on-failure
     environment:
       POSTGRES_PASSWORD: app
       POSTGRES_USER: app
-volumes:
-  db-data:
